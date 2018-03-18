@@ -1,19 +1,57 @@
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
 %!TEX ROOT=../diploma-thesis.tex
 
 \chapter{Implementace}\label{ch:implementace}
 
-\section{Schéma pro síťovou komunikaci}
+V této kapitole si popíšeme jakým způsobem byl implementován
+navržený framework pro platformy Java, Python a Node.js.
 
-GRPC
+\section{Sdílení byznys kontextů mezi službami}
+
+% Přenášení business contextů
+Pro sdílení byznys kontextů mezi jednotlivými službami
+je potřeba je přenášet po síti ve formátu, který bude
+nezávislý na platformách jednotlivých služeb.
+
+\subsection{Schéma síťové komunikace}
+
+\subsection{Použité technologie}
+
+\subsubsection{Protocol Buffers}
+
+Pro přenos pravidel byl zvolen open-source formát
+\textit{Protocol Buffers}\footnote{
+https://developers.google.com/protocol-buffers/
+}
+vyvinutý společností Google\footnote{
+https://www.google.com/
+}. Umožňuje explicitně definovat a vynucovat schéma dat,
+která jsou přenášena po síti, bez vazby na konkrétní programovací
+jazyk. Zároveň je díky binární reprezentaci v přenosu velmi efektivní,
+oproti formátům jako je JSON nebo XML~\cite{varda2008protocol}.
+
+% TODO: snippet z protobufferu
+
+\subsubsection{gRPC}
+
+Pro komunikaci byznys kontextů nám nestačí pouze přenosový formát,
+je potřeba také popsat schéma samotné komunikace. K tomu byl zvolen
+open-source framework gRPC\footnote{
+https://grpc.io/
+}, který staví na technologii Protocol Buffers a poskytuje vývojáři
+možnost definovat komunikaci pomocí protokolu RPC.
 
 \section{Knihovna pro platformu Java}
 
 \subsection{Použité technologie}
 
-\subsection{}
+\subsubsection{Apache Maven}
+
+\subsubsection{AspectJ}
 
 \section{Knihovna pro platformu Python}
-
 
 \subsection{Použité technologie}
 
@@ -24,10 +62,22 @@ GRPC
 
 \subsection{Použité technologie}
 
-\subsection{}
+\subsection{NPM}
+
+Node.js package manager
 
 \section{Systém pro centrální správu byznys pravidel}
 
 \subsection{Použité technologie}
 
 \subsection{Detekce cyklů}
+
+\section{Shrnutí}
+
+Veškerý kód je hostován v centrálním repozitáři
+ve službě GitHub\footnote{
+https://github.com/klimesf/diploma-thesis
+} a je zpřístupněn pod open-source licencí MIT\footnote{
+http://www.linfo.org/mitlicense.html
+}. Knihovny pro jednotlivé platformy tedy lze libovolně
+využívat, modifikovat a šířit.
