@@ -1,0 +1,17 @@
+*.aux
+*.log
+*.out
+*.toc
+*.idx
+*.lot
+*.lof
+*.lol
+*.synctex.gz
+*.bbl
+*.blg
+*-blx.bib
+*.run.xml
+
+# IDE
+*.iml
+.idea/
