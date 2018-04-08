@@ -1,0 +1,39 @@
+\ProvidesPackage{custom}
+% provides shortcuts for:
+
+%   itemization
+\RequirePackage{enumitem}
+\newcommand\bitem[1][]{\begin{itemize}[noitemsep,nolistsep,#1]}
+\newcommand{\eitem}{\end{itemize}}
+\newcommand\benum[1][]{\begin{enumerate}[noitemsep,nolistsep,#1]}
+\newcommand{\eenum}{\end{enumerate}}
+%   emphasize
+\newcommand{\e}{\emph}
+\renewcommand{\b}{\textbf}
+%   TM
+\newcommand\TM{\texttrademark}
+\newcommand\tm{\texttrademark}
+
+% ToDo Notes:
+\RequirePackage{colors}
+\newcommand{\todo}[1]{{\leavevmode\color{red}[TODO #1]}}
+\newcommand{\grammar}[1]{\footnote{\textcolor{OliveGreen}{Grammar: '#1'}}}
+%\newcommand{\note}[1]{\footnote{\textcolor{red}{Note: #1}}}
+\newcommand{\goal}[1]{\footnote{\textcolor{blue}{[Intended Delivery: #1]}}}
+\renewcommand{\nocite}{\cite{?}\note{Add a reference}}
+\newcommand{\changed}[1]{{\leavevmode\color{OliveGreen}#1}}
+
+
+% (1), (2) atd. pomoci tikz knihovny
+% pro vytvoreni zakrouzkovaneho pismena \circled{A} -> (A)
+\RequirePackage{tikz}
+\newcommand*\circled[1]{%
+\begin{tikzpicture}[baseline=(C.base)]
+\node[draw,circle,inner sep=.5pt,minimum size=2ex](C) {#1};
+\end{tikzpicture}}
+% cislovany seznam (1)
+\newcommand\circledarabic{\protect\circled{\arabic*}}
+% pismenny seznam (A)
+\newcommand\circledAlph{\protect\circled{\Alph*}}
+% pismenny seznam (a)
+\newcommand\circledalph{\protect\circled{\alph*}}

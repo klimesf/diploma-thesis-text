@@ -5,23 +5,32 @@
 
 \chapter{Verifikace a validace}\label{ch:verifikace}
 
-\section{Testování naprogramovaných knihoven}
+V této kapitole %TODO: co tady?
+
+\section{Testování prototypů knihoven}
+
+Prototypy knihoven, jejichž implementaci jsme popsali
+v kapitole~\ref{ch:implementace}, byly také důkladně
+otestovány pomocí sady jednotkových a integračních testů.
+
+V rámci konceptu \textit{continous integration}~\cite{fowler2006continuous}
+byl kód po celou dobu vývoje zasílán do centrálního repozitáře
+a s pomocí nástroje Travis CI\footnote{https://travis-ci.org/}
+byl automaticky spouštěno jeho sestavení a otestování. Systém
+zároveň okamžitě informoval vývojáře o jejich výsledcích. To
+umožnilo v krátkém časovém horizontu identifikovat konkrétní změny
+v kódu, které do programu vnesly chybu. Tím byla snížena
+pravděpodobnost regrese a dlouhodobě se zvýšila celková kvalita kódu.
 
 \subsection{Platforma Java}
+
+Prototyp knihovny pro platformu byl testován pomocí
+nástroje JUnit\footnote{https://junit.org/junit4/},
+který poskytuje všechny potřebné funkce.
 
 \subsection{Platforma Python}
 
 \subsection{Platforma Node.js}
-
-\subsection{Continuous Integration}
-
-Po celou dobu vývoje jednotlivých knihoven byl využíván nástroj
-Travis CI\footnote{
-https://travis-ci.org/
-}, který po každém přidáním kódu do repozitáře spouštěl automatizované
-testy a informoval vývojáře o jejich výsledcích. To umožnilo okamžitě
-identifikovat změny, které do kódu vnesly chybu.
-% TODO: co jsem tim vlastně chtěl říct?
 
 \section{Případová studie: e-commerce systém}
 

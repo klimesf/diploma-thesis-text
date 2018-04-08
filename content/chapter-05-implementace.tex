@@ -3,25 +3,66 @@
 
 %!TEX ROOT=../diploma-thesis.tex
 
-\chapter{Implementace}\label{ch:implementace}
+\chapter{Implementace prototypů knihoven}\label{ch:implementace}
 
-V této kapitole si popíšeme jakým způsobem byl implementován
-navržený framework pro platformy Java, Python a Node.js.
+Součástí zadání této práce je implementace prototypů
+knihoven pro framework navržený v kapitole~\ref{ch:navrh}
+pro tři rozdílné platformy, z nichž jedna musí být \textit{Java}.
+V této kapitole si popíšeme jaké plaformy jsme vybraly a jakým
+způsobem byly prototypy knihoven implementovány. Součástí
+kapitoly je i stručná rešerše technologií, které byly použity
+pro dosažení vytyčených cílů.
+
+% Technické implementační problémy
+Pro splnění cílů bylo potřeba vyřešit také několik technických otázek.
+Těmi je přenos byznys kontextů mezi jednotlivými službami, podpora
+aspektově orientovaného programování v daném programovacím jazyce
+a využití principu \textit{runtime weavingu} a integrace knihoven
+do služeb, které je budou využívat.
+
+\section{Výběr použitých platforem}
+
+Mimo jazyk Java, který byl určen zadání, byl pro
+implementaci vybrán jazyk \textit{Python}
+a ekosystém \textit{Node.js}, který slouží jako
+běhové prostředí pro jazyk \textit{JavaScript}.
+Výběr byl proveden na základě aktuálních trendů
+ve světě softwarového inženýrství. Projekt GitHut\footnote{http://githut.info/}
+z roku 2014, který shrnuje statistiky repozitářů
+populární služby pro hosting a sdílení kódu
+GitHub\footnote{https://github.com/}, určil
+jazyky JavaScript, Java a Python jako tři nejaktivnější.
+Služba GitHub následně sama zveřejnila statistiky za rok 2017
+v rámci projektu Octoverse\footnote{https://octoverse.github.com/}
+a dospěla ke stejnému závěru, ačkoliv Python se umístil na druhé
+pozici na úkor jazyka Java. Podle průzkumu oblíbeného
+programátorského webového portálu Stack
+Overflow\footnote{https://insights.stackoverflow.com/survey/2017\#technology}
+se umístily tyto jazyky v první čtveřici nejpopulárnějších jazyků pro obecné použití.
 
 \section{Sdílení byznys kontextů mezi službami}
 
 % Přenášení business contextů
+
 Pro sdílení byznys kontextů mezi jednotlivými službami
 je potřeba je přenášet po síti ve formátu, který bude
 nezávislý na platformách jednotlivých služeb.
 
-\subsection{Schéma síťové komunikace}
+\subsection{Síťová komunikace}
+
+% Formát pro přenos pravidel po síti a jeho výhody
+Abychom mohli přenášet byznysové kontexty a jejich pravidla
+po síti, musíme zvolit protokol a jednotný formát, ve kterém
+spolu budou jednotlivé služby komunikovat.
+Tento formát tedy musí být nezávislý na platformě a ideálně
+by měl být co nejefektivnější v rychlosti přenosu.
 
 \subsection{Použité technologie}
 
 \subsubsection{Protocol Buffers}
 
-Pro přenos pravidel byl zvolen open-source formát
+
+Pro přenos byznysových kontextů byl zvolen open-source formát
 \textit{Protocol Buffers}\footnote{
 https://developers.google.com/protocol-buffers/
 }
@@ -31,8 +72,11 @@ https://www.google.com/
 která jsou přenášena po síti, bez vazby na konkrétní programovací
 jazyk. Zároveň je díky binární reprezentaci v přenosu velmi efektivní,
 oproti formátům jako je JSON nebo XML~\cite{varda2008protocol}.
+Zrojový kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
+zasílaných zpráv ve formátu Protobuffer.
 
-% TODO: snippet z protobufferu
+\lstinputlisting[caption={Příklad definice schématu zpráv v jazyce Protobuffer},label={lst:protobuf-example}language=Proto]{code/protobuffer_example.proto}
+
 
 \subsubsection{gRPC}
 
@@ -42,6 +86,8 @@ open-source framework gRPC\footnote{
 https://grpc.io/
 }, který staví na technologii Protocol Buffers a poskytuje vývojáři
 možnost definovat komunikaci pomocí protokolu RPC.
+
+\lstinputlisting[caption={gRPC},label={lst:grpc-example}language=Protobuf]{code/grpc_example.proto}
 
 \section{Knihovna pro platformu Java}
 
@@ -74,6 +120,7 @@ Node.js package manager
 
 \section{Shrnutí}
 
+% Hostování na GitHubu + licence
 Veškerý kód je hostován v centrálním repozitáři
 ve službě GitHub\footnote{
 https://github.com/klimesf/diploma-thesis
