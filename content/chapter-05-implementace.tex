@@ -226,11 +226,10 @@ Při úpravě nebo vytváření nového byznysového kontextu je
 potřeba detekovat případné chyby, abychom změnou neuvedli
 systém do nekonzistentního stavu. Kromě syntaktických chyb,
 které jsou detekovány automaticky pomocí definovaného schematu,
-je potřeba věnovat pozornost závažným sémantickým chybám,
-které může způsobit rozšiřování kontextů.
-Těmi jsou
+je potřeba věnovat pozornost také sémantickým chybám.
+Závažné chyby, které mohou být způsobeny rozšiřováním kontextů, jsou
 \begin{enumerate}[label=\alph*)]
-    \item Závislost na neexistujících kontextech
+    \item Závislosti na neexistujících kontextech
     \item Cyklus v grafu závislostí kontextů
 \end{enumerate}
 
@@ -249,13 +248,19 @@ Při zvolení vhodných datových struktur lze dosáhnout
 lineární složitosti v závislosti na počtu hran grafu.
 
 \goal{Detekce cyklů v grafu závislostí}
-Pokud by závislosti v orientovaném grafu vytvořili cyklus, tedy
-silně souvislou komponentu, docházelo by při inicializaci služeb
+Pokud by závislosti v orientovaném grafu vytvořily cyklus,
+docházelo by při inicializaci služeb
 obsahující daná pravidla k zacyklení. Tomu můžeme předejít
 detekcí cyklů v grafu. Pro tuto detekci byl zvolen
 Tarjanův algoritmus~\cite{tarjan1971depth} pro detekci souvislých
 komponent, který disponuje velmi dobrou lineární složitostí,
 závislou na součtu počtu hran a počtu uzlů grafu.
+
+\goal{Reakce na chyby}
+V případě, že zápis nového či praveného kontextu obsahuje syntaktické
+chyby a nebo způsobuje některou z detekovaných chyb v závislostech,
+administrace nedovolí uživateli změnu provést a vypíše informativní
+chybovou hlášku.
 
 \section{Shrnutí}
 
