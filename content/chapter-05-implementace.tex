@@ -63,8 +63,6 @@ spolu budou jednotlivé služby komunikovat.
 Tento formát tedy musí být nezávislý na platformě a ideálně
 by měl být co nejefektivnější v rychlosti přenosu.
 
-\subsection{Použité technologie}
-
 \subsubsection{Protocol Buffers}
 
 \goal{Proč jsme použili Protobuf}
@@ -81,8 +79,7 @@ oproti formátům jako je JSON nebo XML~\cite{varda2008protocol}.
 Zdrojový kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
 zasílaných zpráv ve formátu Protobuffer.
 
-\lstinputlisting[caption={Příklad definice schématu zpráv v jazyce Protobuffer},label={lst:protobuf-example},language=Protobuf, frame=single]{code/protobuffer_example.proto}
-
+\lstinputlisting[caption={Příklad definice schématu zpráv v jazyce Protobuffer},label={lst:protobuf-example},language=Protobuf, frame=single, float, floatplacement=H]{code/protobuffer_example.proto}
 
 \subsubsection{gRPC}
 
@@ -94,14 +91,37 @@ https://grpc.io/
 }, který staví na technologii Protocol Buffers a poskytuje vývojáři
 možnost definovat komunikaci pomocí protokolu \textit{RPC}~\cite{nelson1981remote}.
 
-\lstinputlisting[caption={gRPC},label={lst:grpc-example},language=Protobuf, frame=single]{code/grpc_example.proto}
+\lstinputlisting[caption={Příklad definice služeb v gRPC},label={lst:grpc-example},language=Protobuf, frame=single, float, floatplacement=H]{code/grpc_example.proto}
+
+\todo{
+\begin{itemize}
+    \item Popis schématu pro komunikaci
+    \item Diagram komunikace
+\end{itemize}
+}
 
 \section{Knihovna pro platformu Java}
+
+\todo{
+\begin{itemize}
+    \item Popis business context registry
+    \item Popis expression AST
+    \item Popis tříd kolem business kontextu
+    \item Popis XML parseru a generátoru
+    \item Popis server a klient tříd pro obsluhu GRPC
+    \item Popis weaveru
+    \item Popis anotací pro AOP
+    \item Návrhové vzory - builder pro kontexty a pravidla
+    \item Návrhové vzory - visitor pro převod expression do xml
+    \item Návrhové vzory - interpreter pro interpretaci pravidel
+\end{itemize}
+}
 
 \subsection{Použité technologie}
 
 \subsubsection{Apache Maven}
 
+\goal{Správa závislostí a buildu projektu}
 Pro správu závislostí a automatickou kompilaci a sestavování
 knihovny napsané v jazyce java byl zvolen projekt \textit{Maven}. %TODO: footnote
 Tento nástroj umožňuje vývojáři komfortně a centrálně
@@ -111,26 +131,46 @@ způsobem bude projekt kompilován.
 
 \subsubsection{AspectJ}
 
+\goal{Proč AspectJ a co to umí}
 Knihovna AspectJ přináší pro jazyk Java sadu nástrojů,
 díky kterým lze snadno implementovat koncepty aspektově orientovaného
-programování.
+programování. % TODO: dopsat odstavec
 
-% TOOO: ukázka AspectJ v akci
+\todo{
+\begin{itemize}
+    \item Ukázka kódu knihovny
+\end{itemize}
+}
 
 \section{Knihovna pro platformu Python}
 
-\subsection{Použité technologie}
-
-\subsection{}
+\todo{
+\begin{itemize}
+    \item Srovnání řešení s knihovnou Java
+    \item Problémy pythonu a jak byly vyřešeny
+    \item Ukázka kódu knihovny
+    \item Použité technologie
+    \item Ukázka AOP v pythonu pomocí vestavěných dekorátorů
+    \item Knihovna pro GRPC
+    \item Popis weaveru
+\end{itemize}
+}
 
 \section{Knihovna pro platformu Node.js}
 
-
-\subsection{Použité technologie}
-
-\subsection{NPM a Yarn}
+\todo{
+\begin{itemize}
+    \item Srovnání řešení s knihovnou Java
+    \item Problémy JS a jak byly vyřešeny
+    \item Ukázka kódu knihovny
+    \item Ukázka AOP v JS pomocí vlastního dekorátoru
+    \item Knihovna pro GRPC
+    \item Popis weaveru
+\end{itemize}
+}
 
 % TODO: fuj, opravit
+\goal{Použité technologie pro vývoj knihovny}
 Podobně jako byl použit nástroj Maven pro knihovnu v jazyce Java byl
 využit balíčkovací nástroj \textit{NPM}, který je předinstalován
 v běhovém prostředí \textit{Node.js}. Dále byl využit nástroj
@@ -195,7 +235,7 @@ služby, která je bude využívat. Zároveň tomuto formátu mohou
 snáze porozumět doménoví experti a mohou se tak zapojit do
 vývojového procesu.
 
-\lstinputlisting[caption={Příklad zápisu byznys kontextu v jazyce XML},label={lst:business-context-xml},language=XML, frame=single, float, floatplacement=H]{code/business_context.xml}
+\lstinputlisting[caption={Příklad zápisu byznys kontextu v jazyce XML},label={lst:business-context-xml}, language=XML, frame=single, float, floatplacement=H]{code/business_context.xml}
 
 \section{Systém pro centrální správu byznys pravidel}
 
