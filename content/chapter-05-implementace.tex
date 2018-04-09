@@ -132,24 +132,27 @@ v běhovém prostředí \textit{Node.js}. Dále byl využit nástroj
 \section{Doménově specifický jazyk pro popis byznys kontextů}
 
 \goal{Popsat proč a jak jsme tvořili DSL}
-Ačkoliv není specifikace a vytvoření doménově specifického jazyka (DSL) % TODO: zkratka
+Ačkoliv není specifikace a vytvoření doménově specifického jazyka (DSL)
 hlavním úkolem této práce, pro ověření konceptu bylo nutné nadefinovat
 alespoň jeho zjednodušenou verzi a implementovat část knihovny, která
-bude umět jazyk zpracovat a sestavit z něj AST. % TODO: co je ast? popsat?
+bude umět jazyk zpracovat a sestavit z něj byznysový kontext v paměti programu.
 
 \goal{Důvody pro výběr XML}
-Pro popis kontextů byl zvolen univerzální formát Extensible
-Markup Language~\cite{bray1997extensible} (XML). Tento
-jazyk slouží pro serializaci libovolných dat, přímočarý a formální
+Pro popis kontextů byl jako kompromis mezi jednoduchostí implementace
+a přívětivostí pro koncového uživatele zvolen univerzální formát Extensible
+Markup Language (XML)~\cite{bray1997extensible}. Tento
+jazyk umožňuje serializaci libovolných dat, přímočarý a formální
 zápis jejich struktury a také jejich snadné aplikační zpracování.
 Zároveň poskytuje relativně dobrou čitelnost pro člověka, ačkoliv
-speciálně vytvořené DSL by bylo jistě mnohem čitelnější.
+speciálně vytvořené DSL by bylo jistě čitelnější.
 
 \goal{Popis jak XML funguje}
 Dokumenty XML se skládají z tzv. \textit{entit}, které obsahují
-buď parsovaná nebo neparsovaná data. Parsovaná data se mohou skládat
-z jednoduchého textu a nebo speciálních značek,
-neboli \textit{markup}, které popisují strukturu dat.
+buď parsovaná nebo neparsovaná data. Parsovaná data se skládají
+z jednoduchých znaků reprezentujících jednoduchý text a nebo
+speciálních značek, neboli \textit{markup}, které slouží k popisu
+struktury dat. Naopak neparsovaná data mohou obsahovat libovolné
+znaky, které nenesou žádnou informaci o struktuře dat.
 
 \goal{Popis jaký formát jsme zvolili pro formální zápis schématu XML dokumentu}
 Vzhledem k tomu, že XML je volně rozšiřitelný jazyk a neklade
@@ -157,8 +160,8 @@ meze v možnostech struktury dat, bylo potřeba jasně definovat
 a dokumentovat očekávanou strukturu dokumentu popisujícího
 byznys kontext. Pro jazyk XML existuje vícero možností jak schéma
 definovat~\cite{lee2000comparative}, od jednoduchého formátu
-\textit{DTD} až po komplexní jako \textit{Schematron}, či
-\textit{XML Schema Definition} (XSD), které bylo nakonec zvoleno.
+\textit{DTD} až po komplexní formáty jako je \textit{Schematron}, či
+\textit{XML Schema Definition} (XSD), který byl nakonec zvolen.
 Díky formálně definovanému schématu můžeme popis byznys kontextu
 automaticky validovat a vyvarovat se tak případných chyb.
 
@@ -171,7 +174,7 @@ Samotný zápis byznys kontextu je obsažen v kořenovém elementu
 v entitě \code{<includedContexts>}. Preconditions jsou
 definovány uvnitř entity \code{<preconditions>} a podobně
 jsou definovány \code{<postconditions>}. Obsažená data odpovídají
-navrženému metamodelu byznysového kontextu z kapitoly~\red{ch:navrh}.
+navrženému metamodelu byznysového kontextu z kapitoly~\ref{ch:navrh}.
 Pro zápis podmínek jednotlivých preconditions a post-conditions byl zvolen
 opis Expression AST. Toto rozhodnutí vychází z předpokladu,
 že lze vzhledem k povaze prototypu relaxovat podmínku
