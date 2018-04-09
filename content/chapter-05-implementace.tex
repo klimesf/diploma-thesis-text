@@ -5,23 +5,30 @@
 
 \chapter{Implementace prototypů knihoven}\label{ch:implementace}
 
+\goal{Uvedení kapitoly a nastínění obsahu}
 Součástí zadání této práce je implementace prototypů
 knihoven pro framework navržený v kapitole~\ref{ch:navrh}
 pro tři rozdílné platformy, z nichž jedna musí být \textit{Java}.
-V této kapitole si popíšeme jaké plaformy jsme vybraly a jakým
+V této kapitole si popíšeme, jaké plaformy jsme vybraly, a jakým
 způsobem byly prototypy knihoven implementovány. Součástí
 kapitoly je i stručná rešerše technologií, které byly použity
 pro dosažení vytyčených cílů.
 
-% Technické implementační problémy
-Pro splnění cílů bylo potřeba vyřešit také několik technických otázek.
-Těmi je přenos byznys kontextů mezi jednotlivými službami, podpora
-aspektově orientovaného programování v daném programovacím jazyce
-a využití principu \textit{runtime weavingu} a integrace knihoven
-do služeb, které je budou využívat.
+\goal{Nástin formátu kapitoly}
+Jelikož vycházejí implementace knihoven pro všechny platformy
+ze stejného návrhu, popíšeme si kompletní implementaci pro jazyk
+Java a ostatní implementace shrneme komparativní metodou.
+
+\goal{Technické implementační problémy}
+Pro splnění cílů bylo potřeba vyřešit také několik technických otázek,
+jako je přenos byznys kontextů mezi jednotlivými službami, výběr formátu
+pro zápis byznys kontextu, podpora aspektově orientovaného programování
+v daném programovacím jazyce a využití principu \textit{runtime weavingu}
+a integrace knihoven do služeb, které je budou využívat.
 
 \section{Výběr použitých platforem}
 
+\goal{Jaké jsme vybrali další platformy a proč}
 Mimo jazyk Java, který byl určen zadáním, byla pro
 implementaci vybrána platforma jazyka \textit{Python}
 a platforma \textit{Node.js}, který slouží jako
@@ -42,8 +49,7 @@ se umístily tyto jazyky v první čtveřici nejpopulárnějších jazyků pro o
 
 \section{Sdílení byznys kontextů mezi službami}
 
-% Přenášení business contextů
-
+\goal{Jak na přenášení business contextů}
 Pro sdílení byznys kontextů mezi jednotlivými službami
 je potřeba je přenášet po síti ve formátu, který bude
 nezávislý na platformách jednotlivých služeb.
@@ -61,7 +67,7 @@ by měl být co nejefektivnější v rychlosti přenosu.
 
 \subsubsection{Protocol Buffers}
 
-
+\goal{Proč jsme použili Protobuf}
 Pro přenos byznysových kontextů byl zvolen open-source formát
 \textit{Protocol Buffers}\footnote{
 https://developers.google.com/protocol-buffers/
@@ -80,12 +86,13 @@ zasílaných zpráv ve formátu Protobuffer.
 
 \subsubsection{gRPC}
 
+\goal{Proč jsme použili gRPC}
 Pro komunikaci byznys kontextů nám nestačí pouze přenosový formát,
 je potřeba také popsat schéma samotné komunikace. K tomu byl zvolen
 open-source framework gRPC\footnote{
 https://grpc.io/
 }, který staví na technologii Protocol Buffers a poskytuje vývojáři
-možnost definovat komunikaci pomocí protokolu \textit{RPC}. % TODO: citovat článek o RPC?
+možnost definovat komunikaci pomocí protokolu \textit{RPC}~\cite{nelson1981remote}.
 
 \lstinputlisting[caption={gRPC},label={lst:grpc-example},language=Protobuf, frame=single]{code/grpc_example.proto}
 
@@ -174,7 +181,7 @@ Samotný zápis byznys kontextu je obsažen v kořenovém elementu
 v entitě \code{<includedContexts>}. Preconditions jsou
 definovány uvnitř entity \code{<preconditions>} a podobně
 jsou definovány \code{<postconditions>}. Obsažená data odpovídají
-navrženému metamodelu byznysového kontextu z kapitoly~\ref{ch:navrh}.
+navrženému metamodelu byznysového kontextu z kapitoly~\ref{ch:navrh}. % TODO: ověřit že to v tý kapitole fakt mám, možná i odkaz na konkrétní odstavec
 Pro zápis podmínek jednotlivých preconditions a post-conditions byl zvolen
 opis Expression AST. Toto rozhodnutí vychází z předpokladu,
 že lze vzhledem k povaze prototypu relaxovat podmínku
@@ -192,19 +199,74 @@ vývojového procesu.
 
 \section{Systém pro centrální správu byznys pravidel}
 
+\todo{
+\begin{itemize}
+    \item Jak funguje systém
+    \item Přehled, detail a úprava pravidla
+    \item \code{BusinessContextEditor}
+    \item Uložení pravidla
+\end{itemize}
+}
+
 \subsection{Použité technologie}
 
-\subsubsection{Spring Boot}
+\todo{
+\begin{itemize}
+    \item Uživatelské rozhraní v HTML + CSS
+    \item Jak jsme použili Spring Boot a jeho MVC k nastavení základní webové aplikace
+    \item Dependency Injection Container
+    \item Využití knihovny pro platformu Java
+\end{itemize}
+}
 
-\subsection{Detekce cyklů}
+\subsection{Detekce a prevence potenciálních problémů}
 
+\goal{Problémy zpsůbené rozšiřováním kontextů}
 Při úpravě nebo vytváření nového byznysového kontextu je
 potřeba detekovat případné chyby, abychom změnou neuvedli
 systém do nekonzistentního stavu. Kromě syntaktických chyb,
-které jsou detekovány automaticky pomocí definovaných pravidel
-a schemat ... % TODO: dopsat
+které jsou detekovány automaticky pomocí definovaného schematu,
+je potřeba věnovat pozornost závažným sémantickým chybám,
+které může způsobit rozšiřování kontextů.
+Těmi jsou
+\begin{enumerate}[label=\alph*)]
+    \item Závislost na neexistujících kontextech
+    \item Cyklus v grafu závislostí kontextů
+\end{enumerate}
+
+\goal{Chápání kontextů jako grafu}
+Kontexty a jejich vzájemné závislosti lze vnímat jako
+orientovaný graf, kde uzel grafu reprezentuje kontext
+a orientovaná hrana reprezentuje závislost mezi kontexty.
+Směr závislosti můžeme pro naše účely zvolit libovolně.
+
+\goal{Detekce závislostí na neexistujících kontextech}
+Detekce závislosti na neexistujících kontextech je relativně
+jednoduchým úkolem. Nejprve setavíme seznam existujících kontextů
+a následně procházíme jednotlivé hrany grafu kontextů a ověřujeme,
+zda existují oba kontexty náležící dané hraně.
+Při zvolení vhodných datových struktur lze dosáhnout
+lineární složitosti v závislosti na počtu hran grafu.
+
+\goal{Detekce cyklů v grafu závislostí}
+Pokud by závislosti v orientovaném grafu vytvořili cyklus, tedy
+silně souvislou komponentu, docházelo by při inicializaci služeb
+obsahující daná pravidla k zacyklení. Tomu můžeme předejít
+detekcí cyklů v grafu. Pro tuto detekci byl zvolen
+Tarjanův algoritmus~\cite{tarjan1971depth} pro detekci souvislých
+komponent, který disponuje velmi dobrou lineární složitostí,
+závislou na součtu počtu hran a počtu uzlů grafu.
 
 \section{Shrnutí}
+
+\goal{Dosáhli jsme vytyčených cílů implementace}
+Na základě navrženého frameworku jsme implementovali prototypy
+knihoven pro platformy jazyka Java, jazyka Python a ekosystému
+Node.js. Knihovny umožňují centrální správu a automatickou distribuci
+byznysových kontextů, včetně vyhodnocování jejich pravidel, za
+použití aspektově orientovaného přístupu.
+Dále jsme specifikovali DSL, kterým lze popsat byznys kontext
+nezávisle na platformě.
 
 \goal{Hostování na GitHubu + licence}
 Veškerý kód je hostován v centrálním repozitáři
@@ -214,3 +276,8 @@ https://github.com/klimesf/diploma-thesis
 http://www.linfo.org/mitlicense.html
 }. Knihovny pro jednotlivé platformy tedy lze libovolně
 využívat, modifikovat a šířit.
+
+\goal{Validaci a verifikaci si ještě ukážeme}
+Protoypy knihoven lze využít k implementaci služeb,
+potažmo k sestavení funkčního systému, jak si ukážeme
+v následující kapitole.
