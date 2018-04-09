@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<businessContext prefix="user" name="createEmployee">
+  <includedContexts/>
+  <preconditions>
+    <precondition name="Cannot use hidden product">
+      <condition>
+        <logicalEquals>
+          <left>
+            <variableReference
+                objectName="product"
+                propertyName="hidden"
+                type="bool"/>
+          </left>
+          <right>
+            <constant type="bool" value="false"/>
+          </right>
+        </logicalEquals>
+      </condition>
+    </precondition>
+  </preconditions>
+  <postConditions/>
+</businessContext>

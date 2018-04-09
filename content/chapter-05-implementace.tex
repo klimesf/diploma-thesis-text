@@ -22,9 +22,9 @@ do služeb, které je budou využívat.
 
 \section{Výběr použitých platforem}
 
-Mimo jazyk Java, který byl určen zadání, byl pro
-implementaci vybrán jazyk \textit{Python}
-a ekosystém \textit{Node.js}, který slouží jako
+Mimo jazyk Java, který byl určen zadáním, byla pro
+implementaci vybrána platforma jazyka \textit{Python}
+a platforma \textit{Node.js}, který slouží jako
 běhové prostředí pro jazyk \textit{JavaScript}.
 Výběr byl proveden na základě aktuálních trendů
 ve světě softwarového inženýrství. Projekt GitHut\footnote{http://githut.info/}
@@ -72,10 +72,10 @@ https://www.google.com/
 která jsou přenášena po síti, bez vazby na konkrétní programovací
 jazyk. Zároveň je díky binární reprezentaci v přenosu velmi efektivní,
 oproti formátům jako je JSON nebo XML~\cite{varda2008protocol}.
-Zrojový kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
+Zdrojový kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
 zasílaných zpráv ve formátu Protobuffer.
 
-\lstinputlisting[caption={Příklad definice schématu zpráv v jazyce Protobuffer},label={lst:protobuf-example}language=Proto]{code/protobuffer_example.proto}
+\lstinputlisting[caption={Příklad definice schématu zpráv v jazyce Protobuffer},label={lst:protobuf-example},language=Protobuf, frame=single]{code/protobuffer_example.proto}
 
 
 \subsubsection{gRPC}
@@ -85,9 +85,9 @@ je potřeba také popsat schéma samotné komunikace. K tomu byl zvolen
 open-source framework gRPC\footnote{
 https://grpc.io/
 }, který staví na technologii Protocol Buffers a poskytuje vývojáři
-možnost definovat komunikaci pomocí protokolu RPC.
+možnost definovat komunikaci pomocí protokolu \textit{RPC}. % TODO: citovat článek o RPC?
 
-\lstinputlisting[caption={gRPC},label={lst:grpc-example}language=Protobuf]{code/grpc_example.proto}
+\lstinputlisting[caption={gRPC},label={lst:grpc-example},language=Protobuf, frame=single]{code/grpc_example.proto}
 
 \section{Knihovna pro platformu Java}
 
@@ -95,7 +95,20 @@ možnost definovat komunikaci pomocí protokolu RPC.
 
 \subsubsection{Apache Maven}
 
+Pro správu závislostí a automatickou kompilaci a sestavování
+knihovny napsané v jazyce java byl zvolen projekt \textit{Maven}. %TODO: footnote
+Tento nástroj umožňuje vývojáři komfortně a centrálně
+spravovat závislosti jeho projektu včetně detailního
+popisu jejich verze. Dále také umožňuje definovat jakým
+způsobem bude projekt kompilován.
+
 \subsubsection{AspectJ}
+
+Knihovna AspectJ přináší pro jazyk Java sadu nástrojů,
+díky kterým lze snadno implementovat koncepty aspektově orientovaného
+programování.
+
+% TOOO: ukázka AspectJ v akci
 
 \section{Knihovna pro platformu Python}
 
@@ -108,19 +121,89 @@ možnost definovat komunikaci pomocí protokolu RPC.
 
 \subsection{Použité technologie}
 
-\subsection{NPM}
+\subsection{NPM a Yarn}
 
-Node.js package manager
+% TODO: fuj, opravit
+Podobně jako byl použit nástroj Maven pro knihovnu v jazyce Java byl
+využit balíčkovací nástroj \textit{NPM}, který je předinstalován
+v běhovém prostředí \textit{Node.js}. Dále byl využit nástroj
+\textit{Yarn}\footnote{http://yarnpkg.com} % TODO: opravit footnote
+
+\section{Doménově specifický jazyk pro popis byznys kontextů}
+
+\goal{Popsat proč a jak jsme tvořili DSL}
+Ačkoliv není specifikace a vytvoření doménově specifického jazyka (DSL) % TODO: zkratka
+hlavním úkolem této práce, pro ověření konceptu bylo nutné nadefinovat
+alespoň jeho zjednodušenou verzi a implementovat část knihovny, která
+bude umět jazyk zpracovat a sestavit z něj AST. % TODO: co je ast? popsat?
+
+\goal{Důvody pro výběr XML}
+Pro popis kontextů byl zvolen univerzální formát Extensible
+Markup Language~\cite{bray1997extensible} (XML). Tento
+jazyk slouží pro serializaci libovolných dat, přímočarý a formální
+zápis jejich struktury a také jejich snadné aplikační zpracování.
+Zároveň poskytuje relativně dobrou čitelnost pro člověka, ačkoliv
+speciálně vytvořené DSL by bylo jistě mnohem čitelnější.
+
+\goal{Popis jak XML funguje}
+Dokumenty XML se skládají z tzv. \textit{entit}, které obsahují
+buď parsovaná nebo neparsovaná data. Parsovaná data se mohou skládat
+z jednoduchého textu a nebo speciálních značek,
+neboli \textit{markup}, které popisují strukturu dat.
+
+\goal{Popis jaký formát jsme zvolili pro formální zápis schématu XML dokumentu}
+Vzhledem k tomu, že XML je volně rozšiřitelný jazyk a neklade
+meze v možnostech struktury dat, bylo potřeba jasně definovat
+a dokumentovat očekávanou strukturu dokumentu popisujícího
+byznys kontext. Pro jazyk XML existuje vícero možností jak schéma
+definovat~\cite{lee2000comparative}, od jednoduchého formátu
+\textit{DTD} až po komplexní jako \textit{Schematron}, či
+\textit{XML Schema Definition} (XSD), které bylo nakonec zvoleno.
+Díky formálně definovanému schématu můžeme popis byznys kontextu
+automaticky validovat a vyvarovat se tak případných chyb.
+
+\goal{Popis formátu}
+Ve zdrojovém kódu~\ref{lst:business-context-xml} můžeme vidět
+příklad zápisu jednoduchého byznys kontextu s jednou precondition.
+Samotný zápis byznys kontextu je obsažen v kořenovém elementu
+\code{<businessContext>} a jeho název je popsán atributy
+\code{prefix} a \code{name}. Rozšířené kontexty jsou vyčteny
+v entitě \code{<includedContexts>}. Preconditions jsou
+definovány uvnitř entity \code{<preconditions>} a podobně
+jsou definovány \code{<postconditions>}. Obsažená data odpovídají
+navrženému metamodelu byznysového kontextu z kapitoly~\red{ch:navrh}.
+Pro zápis podmínek jednotlivých preconditions a post-conditions byl zvolen
+opis Expression AST. Toto rozhodnutí vychází z předpokladu,
+že lze vzhledem k povaze prototypu relaxovat podmínku
+na čitelnost zápisu pravidel ve prospěch jednoduššího zpracování.
+
+\goal{Shrnutí DSL}
+Podařilo se nám navrhnout přijatelný formát zápisu byznys kontextu
+a implementovat části knihoven, které umějí formát číst a zároveň vytvářet.
+Tím jsme dosáhli možnosti zapisovat kontexty bez ohledu na platformu
+služby, která je bude využívat. Zároveň tomuto formátu mohou
+snáze porozumět doménoví experti a mohou se tak zapojit do
+vývojového procesu.
+
+\lstinputlisting[caption={Příklad zápisu byznys kontextu v jazyce XML},label={lst:business-context-xml},language=XML, frame=single, float, floatplacement=H]{code/business_context.xml}
 
 \section{Systém pro centrální správu byznys pravidel}
 
 \subsection{Použité technologie}
 
+\subsubsection{Spring Boot}
+
 \subsection{Detekce cyklů}
+
+Při úpravě nebo vytváření nového byznysového kontextu je
+potřeba detekovat případné chyby, abychom změnou neuvedli
+systém do nekonzistentního stavu. Kromě syntaktických chyb,
+které jsou detekovány automaticky pomocí definovaných pravidel
+a schemat ... % TODO: dopsat
 
 \section{Shrnutí}
 
-% Hostování na GitHubu + licence
+\goal{Hostování na GitHubu + licence}
 Veškerý kód je hostován v centrálním repozitáři
 ve službě GitHub\footnote{
 https://github.com/klimesf/diploma-thesis
