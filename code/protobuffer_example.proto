@@ -1,18 +1,19 @@
-message Person {
+message PreconditionMessage {
     required string name = 1;
-    required int32 id = 2;
-    optional string email = 3;
+    required ExpressionMessage condition = 2;
+}
 
-    enum PhoneType {
-        MOBILE = 0;
-        HOME = 1;
-        WORK = 2;
-    }
+message PostConditionMessage {
+    required string name = 1;
+    required PostConditionTypeMessage type = 2;
+    required string referenceName = 3;
+    required ExpressionMessage condition = 4;
+}
 
-    message PhoneNumber {
-        required string number = 1;
-        optional PhoneType type = 2 [default = HOME];
-    }
-
-    repeated PhoneNumber phone = 4;
+message BusinessContextMessage {
+    required string prefix = 1;
+    required string name = 2;
+    repeated string includedContexts = 3;
+    repeated PreconditionMessage preconditions = 4;
+    repeated PostConditionMessage postConditions = 5;
 }

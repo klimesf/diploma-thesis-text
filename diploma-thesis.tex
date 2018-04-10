@@ -135,7 +135,14 @@ Očekávají se cca 1 -- 2 odstavce, maximálně půl stránky.
 
 % pokud v práci nejsou obrázky nebo tabulky - odstraňte jejich seznam
 \listoffigures            % Obsah / Table of Contents
-\listoftables            % Seznam tabulek / List of Tables
+%\listoftables            % Seznam tabulek / List of Tables
+
+\renewcommand{\lstlistingname}{Zdrojový kód}
+\renewcommand{\lstlistlistingname}{Seznam zdrojových kódů}
+\lstset{
+basicstyle=\fontsize{10}{12}\selectfont\ttfamily
+}
+\lstlistoflistings
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % začátek textu
@@ -162,7 +169,8 @@ Očekávají se cca 1 -- 2 odstavce, maximálně půl stránky.
 \appendix
 
 \input{content/appendix-A-snimky}
-\input{content/appendix-B-zkratky}
-\input{content/appendix-C-cd}
+%\input{content/appendix-B-zdrojove-kody}
+\input{content/appendix-C-zkratky}
+\input{content/appendix-D-cd}
 
 \end{document}

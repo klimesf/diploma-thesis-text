@@ -46,6 +46,22 @@ který poskytuje všechny potřebné funkce.
 
 \subsection{Product service}
 
+\paragraph{Použité technologie} Pro vytvoření REST API služby
+byl využit populární light-weight framework \textit{Flask}.
+Ve zdrojovém kódu~\ref{lst:product-service-flask} můžeme
+vidět použití tohoto frameworku pro obsluhu požadavku na
+výpis všech produktů.
+
+\lstinputlisting[
+caption={Ukázka využití frameworku Flask pro účely product service},
+label={lst:product-service-flask},
+language=Python,
+frame=single,
+float,
+floatplacement=H
+]
+{code/product_service.py}
+
 \subsection{User service}
 
 \subsection{Nasazení systému pro centrální správu byznys kontextů}

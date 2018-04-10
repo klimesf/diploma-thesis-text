@@ -49,56 +49,75 @@ se umístily tyto jazyky v první čtveřici nejpopulárnějších jazyků pro o
 
 \section{Sdílení byznys kontextů mezi službami}
 
-\goal{Jak na přenášení business contextů}
-Pro sdílení byznys kontextů mezi jednotlivými službami
-je potřeba je přenášet po síti ve formátu, který bude
-nezávislý na platformách jednotlivých služeb.
-
-\subsection{Síťová komunikace}
-
-% Formát pro přenos pravidel po síti a jeho výhody
-Abychom mohli přenášet byznysové kontexty a jejich pravidla
-po síti, musíme zvolit protokol a jednotný formát, ve kterém
-spolu budou jednotlivé služby komunikovat.
-Tento formát tedy musí být nezávislý na platformě a ideálně
+\goal{Formát pro přenos pravidel po síti a jeho výhody}
+Abychom mohli sdílet byznysové kontexty a jejich pravidla
+mezi jednotlivými službami, musíme mezi nimi vybudovat
+síťové komunikační kanály. Je tedy nutné zvolit protokol
+a jednotný formát, ve kterém spolu budou služby komunikovat.
+Tento formát musí být nezávislý na platformě a ideálně
 by měl být co nejefektivnější v rychlosti přenosu.
 
-\subsubsection{Protocol Buffers}
+\goal{Architektura klient-server pro komunikaci kontextů mezi službami}
+Pro síťovou komunikaci se nabízí využít architekturu
+\textit{klient-server}, kterou jsme detailněji popsali
+v sekci~\ref{sec:client-server}. Při sdílení kontextů
+lze chápat \textit{klienta} jako službu, která pro svou funkci
+vyžaduje získání kontextu definovaného v jiné službě.
+Jako \textit{server} lze naopak chápat službu, která poskytne
+své kontexty jiné službě, která na nich závisí. Jinými slovy,
+klient si vyžádá potřebné kontexty od serveru a ten mu je v
+odpovědi zašle. Může se také stát, že některá služba bude zároveň
+serverem jedné služby, a zároveň klientem druhé služby.
+
+\subsection{Protocol Buffers}
 
 \goal{Proč jsme použili Protobuf}
 Pro přenos byznysových kontextů byl zvolen open-source formát
-\textit{Protocol Buffers}\footnote{
-https://developers.google.com/protocol-buffers/
-}
-vyvinutý společností Google\footnote{
-https://www.google.com/
-}. Umožňuje explicitně definovat a vynucovat schéma dat,
+\textit{Protocol Buffers}\footnote{https://developers.google.com/protocol-buffers/}
+vyvinutý společností Google\footnote{https://www.google.com/}.
+Umožňuje explicitně definovat a vynucovat schéma dat,
 která jsou přenášena po síti, bez vazby na konkrétní programovací
-jazyk. Zároveň je díky binární reprezentaci v přenosu velmi efektivní,
+jazyk. Zároveň poskytuje obslužné knihovny pro naše vybrané platformy.
+Navíc je díky binární reprezentaci dat v přenosu velmi efektivní,
 oproti formátům jako je JSON nebo XML~\cite{varda2008protocol}.
-Zdrojový kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
-zasílaných zpráv ve formátu Protobuffer.
+Zdrojový kód~\ref{lst:protobuf-example} znázorňuje část zápisu schématu
+zasílaných zpráv obsahující byznys kontexty ve formátu Protobuffer.
 
 \lstinputlisting[
-caption={Příklad definice schématu zpráv v jazyce Protobuffer},
+caption={Část definice schématu zpráv byznys kontextů v jazyce Protobuffer},
 label={lst:protobuf-example},language=Protobuf,
 frame=single,
 float,
 floatplacement=H
 ]{code/protobuffer_example.proto}
 
-\subsubsection{gRPC}
+Schéma zpráv pro výměnu kontextů opisuje strukturu metamodelu navrženého
+v sekci~\ref{sec:metamodel}.
+
+\begin{description}
+    \item [ExpressionMessage] obsahuje jméno, atributy a argumenty \code{Expression}
+    \item [ExpressionPropertyMessage] je enumerace obsahující typy atributu \code{Expression}
+    \item [PreconditionMessage] obsahuje název a podmínku precondition pravidla
+    \item [PostConditionMessage] obsahuje název, typ, název odkazovaného pole a podmínku post-condition pravidla
+    \item [PostConditionTypeMessage] je enumerace obsahující typy post-condition pravidla
+    \item [BusinessContextMessage] obsahuje identifikátor, seznam rožšířených kontextů, seznam preconditions a post-conditions byznys kontextu
+    \item [BusinessContextsMessage] obaluje více byznys kontextů
+\end{description}
+
+\subsection{gRPC}
 
 \goal{Proč jsme použili gRPC}
-Pro komunikaci byznys kontextů nám nestačí pouze přenosový formát,
-je potřeba také popsat schéma samotné komunikace. K tomu byl zvolen
-open-source framework gRPC\footnote{
-https://grpc.io/
-}, který staví na technologii Protocol Buffers a poskytuje vývojáři
-možnost definovat komunikaci pomocí protokolu \textit{RPC}~\cite{nelson1981remote}.
+Pro realizaci architektury klient-server byl zvolen
+open-source framework gRPC\footnote{https://grpc.io/}, který staví
+na technologii Protocol Buffers a poskytuje vývojáři
+možnost definovat detailní schéma komunikace pomocí
+protokolu \textit{RPC}~\cite{nelson1981remote}.
+Zdrojový kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
+který umožňuje svému klientovi volat metody \code{FetchContexts()},
+\code{FetchAllContexts()} a \code{UpdateOrSaveContext()}.
 
 \lstinputlisting[
-caption={Příklad definice služeb v gRPC},
+caption={Definice služby pro komunikaci byznys kontextů pro gRPC},
 label={lst:grpc-example},
 language=Protobuf,
 frame=single,
@@ -107,90 +126,22 @@ floatplacement=H
 ]
 {code/grpc_example.proto}
 
-\todo{
-\begin{itemize}
-    \item Popis schématu pro komunikaci
-    \item Diagram komunikace
-\end{itemize}
-}
+\paragraph{FetchContexts()} je metoda, která umožňuje klientovi
+získat kontexty, jejichž identifikátory zašle jako argument
+typu \code{BusinessContextRequestMessage}.
+V odpovědi pak obdrží dotazované kontexty a nebo chybovou hlášku,
+pokud kontexty s danými identifikátory nemá server k dispozici.
 
-\section{Knihovna pro platformu Java}
+\paragraph{FetchAllContexts()} dovoluje klientovi získat všechny
+dostupné kontexty serveru. Tato metoda je využívána pro administraci
+kontextů, kdy je potřeba získat všechny kontexty všech služeb, aby
+nad nimi mohly probíhat úpravy a analýzy.
 
-\todo{
-\begin{itemize}
-    \item Popis business context registry
-    \item Popis expression AST
-    \item Popis tříd kolem business kontextu
-    \item Popis XML parseru a generátoru
-    \item Popis server a klient tříd pro obsluhu GRPC
-    \item Popis weaveru
-    \item Popis anotací pro AOP
-    \item Návrhové vzory - builder pro kontexty a pravidla
-    \item Návrhové vzory - visitor pro převod expression do xml
-    \item Návrhové vzory - interpreter pro interpretaci pravidel
-\end{itemize}
-}
+\paragraph{UpdateOrSaveContext()} slouží pro uložení nového či
+editovaného pravidla, které je zasláno v serializované podobě
+jako jediný argument typu \code{BusinessContextUpdateRequestMessage}.
 
-\subsection{Použité technologie}
-
-\subsubsection{Apache Maven}
-
-\goal{Správa závislostí a buildu projektu}
-Pro správu závislostí a automatickou kompilaci a sestavování
-knihovny napsané v jazyce java byl zvolen projekt \textit{Maven}. %TODO: footnote
-Tento nástroj umožňuje vývojáři komfortně a centrálně
-spravovat závislosti jeho projektu včetně detailního
-popisu jejich verze. Dále také umožňuje definovat jakým
-způsobem bude projekt kompilován.
-
-\subsubsection{AspectJ}
-
-\goal{Proč AspectJ a co to umí}
-Knihovna AspectJ přináší pro jazyk Java sadu nástrojů,
-díky kterým lze snadno implementovat koncepty aspektově orientovaného
-programování. % TODO: dopsat odstavec
-
-\todo{
-\begin{itemize}
-    \item Ukázka kódu knihovny
-\end{itemize}
-}
-
-\section{Knihovna pro platformu Python}
-
-\todo{
-\begin{itemize}
-    \item Srovnání řešení s knihovnou Java
-    \item Problémy pythonu a jak byly vyřešeny
-    \item Ukázka kódu knihovny
-    \item Použité technologie
-    \item Ukázka AOP v pythonu pomocí vestavěných dekorátorů
-    \item Knihovna pro GRPC
-    \item Popis weaveru
-\end{itemize}
-}
-
-\section{Knihovna pro platformu Node.js}
-
-\todo{
-\begin{itemize}
-    \item Srovnání řešení s knihovnou Java
-    \item Problémy JS a jak byly vyřešeny
-    \item Ukázka kódu knihovny
-    \item Ukázka AOP v JS pomocí vlastního dekorátoru
-    \item Knihovna pro GRPC
-    \item Popis weaveru
-\end{itemize}
-}
-
-% TODO: fuj, opravit
-\goal{Použité technologie pro vývoj knihovny}
-Podobně jako byl použit nástroj Maven pro knihovnu v jazyce Java byl
-využit balíčkovací nástroj \textit{NPM}, který je předinstalován
-v běhovém prostředí \textit{Node.js}. Dále byl využit nástroj
-\textit{Yarn}\footnote{http://yarnpkg.com} % TODO: opravit footnote
-
-\section{Doménově specifický jazyk pro popis byznys kontextů}
+\section{Doménově specifický jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
 
 \goal{Popsat proč a jak jsme tvořili DSL}
 Ačkoliv není specifikace a vytvoření doménově specifického jazyka (DSL)
@@ -260,6 +211,182 @@ floatplacement=H
 ]
 {code/business_context.xml}
 
+\section{Knihovna pro platformu Java}
+
+\todo{
+\begin{itemize}
+    \item Popis business context registry
+    \item Popis expression AST
+    \item Popis tříd kolem business kontextu
+    \item Popis XML parseru a generátoru
+    \item Popis server a klient tříd pro obsluhu GRPC
+    \item Popis weaveru
+    \item Popis anotací pro AOP
+    \item Návrhové vzory - builder pro kontexty a pravidla
+    \item Návrhové vzory - visitor pro převod expression do xml
+    \item Návrhové vzory - interpreter pro interpretaci pravidel
+\end{itemize}
+}
+
+\subsection{Popis implementace}
+
+\paragraph{BusinessContextRegistry}
+
+\lstinputlisting[
+caption={Označení operačního kontextu a jeho parametrů pomocí anotací Java knihovny},
+label={lst:business-operation-aspectj},
+language=Java,
+frame=single,
+float,
+floatplacement=H
+]
+{code/business_operation_aspectj.java}
+
+\subsection{Použité technologie}
+
+\paragraph{Apache Maven}
+
+\goal{Správa závislostí a buildu projektu}
+Pro správu závislostí a automatickou kompilaci a sestavování
+knihovny napsané v jazyce java byl zvolen projekt \textit{Maven}. %TODO: footnote
+Tento nástroj umožňuje vývojáři komfortně a centrálně
+spravovat závislosti jeho projektu včetně detailního
+popisu jejich verze. Dále také umožňuje definovat jakým
+způsobem bude projekt kompilován.
+
+\paragraph{AspectJ}
+
+\goal{Proč AspectJ a co to umí}
+Knihovna AspectJ přináší pro jazyk Java sadu nástrojů,
+díky kterým lze snadno implementovat koncepty aspektově orientovaného
+programování, zejména pak snadný zápis pointcuts a kompletní
+engine pro weaving aspektů.
+
+\todo{
+\begin{itemize}
+    \item Ukázka kódu knihovny
+\end{itemize}
+}
+
+\paragraph{JDOM 2}
+
+\goal{Proč jdom2 a co to umí}
+Knihovna JDOM 2\footnote{http://www.jdom.org/} poskytuje
+kompletní sadu nástroju pro čtení a zápis XML dokumentů.
+Implementuje specifikaci \textit{Document Object Model} (DOM)~\cite{wood2004document},
+pomocí které lze programaticky sestavovat a číst XML dokumenty.
+Tuto knihovnu jsme využili pro serializaci a deserializaci
+DSL byznys kontextů popsaných v sekci~\ref{sec:dsl-impl}.
+
+\section{Knihovna pro platformu Python}
+
+Knihovna pro platformu jazyka Python využívá jeho
+verzi 3.6. Pomocí nástroje \textit{pip}\footnote{https://pip.pypa.io/en/stable/}
+lze knihovnu nainstalovat a využívat jako python modul.
+Implementace odpovídá navržené specifikaci.
+
+\todo{
+\begin{itemize}
+    \item Srovnání řešení s knihovnou Java
+    \item Problémy pythonu a jak byly vyřešeny
+    \item Ukázka kódu knihovny
+    \item Použité technologie
+    \item Ukázka AOP v pythonu pomocí vestavěných dekorátorů
+    \item Knihovna pro GRPC
+    \item Popis weaveru
+\end{itemize}
+}
+
+\subsection{Srovnání s knihovnou pro platformu Java}
+
+\paragraph{Weaving} Největším rozdílem oproti knihovně pro
+jazyk Java je implementace weavingu byznys kontextů.
+Jazyk Python totiž díky své dynamické povaze a vestavěnému
+systému dekorátorů umožňuje aplikovat principy aspektově orientovaného
+programování bez potřeby dodatečných knihoven či technologií.
+Zdrojový kód~\ref{lst:python-weaving-example} znázorňuje
+definici a použití dekorátoru \code{business\textunderscore operation}.
+Jak můžeme vidět, je potřeba dekorátoru předat samotný weaver, narozdíl
+od implementace v Javě, kdy se o předání weaveru postará dependency
+injection container.
+
+\lstinputlisting[
+caption={Příklad použití dekorátorů pro weaving v jazyce Python},
+label={lst:python-weaving-example},
+language=Python,
+frame=single,
+float,
+floatplacement=H
+]
+{code/python_weaving.py}
+
+\paragraph{}
+
+\subsection{Použité technologie}
+
+\section{Knihovna pro platformu Node.js}
+
+Knihovna pro platformu \textit{Node.js} byla implementována
+v jazyce JavaScript, konkrétně jeho verzi
+ECMAScript 6.0\footnote{http://www.ecma-international.org/ecma-262/6.0/}.
+Implementace odpovídá specifikaci návrhu, umožňuje
+instalaci pomocí balíčkovacího nástroje a snadnou
+integraci do kódu výsledné služby.
+
+\subsection{Srovnání s knihovnou pro platformu Java}
+
+\paragraph{Weaving} Podobně jako v knihovně pro jazyk Python,
+i v knihovně pro Node.js byl oproti knihovně pro jazyk Java
+největší rozdíl v implementaci weavingu. Platforma Node.js
+totiž nedisponuje žádnou kvalitní knihovnou, která by ulehčila
+využití konceptů aspektově orientovaného programování.
+Jazyk JavaScript je ale velmi flexibilní a lze
+tedy pro dosažení požadované funkcionality využít
+podobně jako pro jazyk Python princip dekorátoru jako funkce.
+Ačkoliv zápis dekorátoru není příliš elegantní a kvůli
+použití konceptu \textit{Promise}~\cite{kambona2013evaluation}
+poněkud složitější, podařilo se weaving implementovat spolehlivě.
+Ukázku můžeme vidět ve zdrojovém kódu~\ref{lst:nodejs-weaving}.
+Funkce \code{register()} obsahuje logiku pro registraci uživatele,
+která může obsahovat například uložení entity do databáze a odeslání
+registračního e-mailu. Při exportování funkce z Node.js modulu
+využijeme \code{wrapCall()}, která má za úkol dekorovat
+předanou funkci \code{func}, před jejím zavolání vyhodnotit
+preconditions a po zavolání aplikovat post-conditions.
+Díky tomu bude každý kód, který využije modul definující funkci
+pro registraci uživatele, pracovat s dekorovanou funkcí.
+
+\paragraph{Využití gRPC} Narozdíl od implementací knihovny
+v jazycích Java a Python umí knihovna obsluhující gRPC
+fungovat i bez předgenerovaného kódu. To poněkud usnadnilo
+práci při serializaci byznys kontextů do přenosového formátu
+i při deserializaci a ukládání kontextů do paměti. Úspora
+kódu je ale na úkor typové kontroly a tak může být kód náchylnější
+na lidskou chybu.
+
+\lstinputlisting[
+caption={Příklad dekorace funkce v JavaScriptu pro aplikaci weavingu},
+label={lst:nodejs-weaving},
+language=JavaScript,
+frame=single,
+float,
+floatplacement=H
+]
+{code/nodejs_weaving.js}
+
+\subsection{Použité technologie}
+
+\goal{Použité technologie pro vývoj knihovny}
+Podobně jako byl použit nástroj Maven pro knihovnu v jazyce Java byl
+využit balíčkovací nástroj \textit{NPM}, který je předinstalován
+v běhovém prostředí \textit{Node.js}. Tento nástroj ale nedisponuje
+příliš silnou podporou pro správu automatických sestavení knihovny
+a v základním nastavení není ani příliš efektivní pro správu závislostí.
+Proto bylo nutné využít dodatečné knihovny, jmenovitě
+\textit{Yarn}\footnote{https://yarnpkg.com/en/},
+\textit{Babel}\footnote{https://babeljs.io/} a
+\textit{Rimraf}\footnote{https://github.com/isaacs/rimraf}.
+
 \section{Systém pro centrální správu byznys pravidel}
 
 \todo{
@@ -271,20 +398,15 @@ floatplacement=H
 \end{itemize}
 }
 
-\subsection{Použité technologie}
 
-\todo{
-\begin{itemize}
-    \item Uživatelské rozhraní v HTML + CSS
-    \item Jak jsme použili Spring Boot a jeho MVC k nastavení základní webové aplikace
-    \item Dependency Injection Container
-    \item Využití knihovny pro platformu Java
-\end{itemize}
-}
+
+\subsection{Popis implementace}
+
+\paragraph{BusinessContextEditor} % TODO: dopsat co dělá?
 
 \subsection{Detekce a prevence potenciálních problémů}
 
-\goal{Problémy zpsůbené rozšiřováním kontextů}
+\goal{Problémy způsobené rozšiřováním kontextů}
 Při úpravě nebo vytváření nového byznysového kontextu je
 potřeba detekovat případné chyby, abychom změnou neuvedli
 systém do nekonzistentního stavu. Kromě syntaktických chyb,
@@ -324,6 +446,17 @@ V případě, že zápis nového či praveného kontextu obsahuje syntaktické
 chyby a nebo způsobuje některou z detekovaných chyb v závislostech,
 administrace nedovolí uživateli změnu provést a vypíše informativní
 chybovou hlášku.
+
+\subsection{Použité technologie}
+
+\todo{
+\begin{itemize}
+    \item Uživatelské rozhraní v HTML + CSS
+    \item Jak jsme použili Spring Boot a jeho MVC k nastavení základní webové aplikace
+    \item Dependency Injection Container
+    \item Využití knihovny pro platformu Java
+\end{itemize}
+}
 
 \section{Shrnutí}
 
