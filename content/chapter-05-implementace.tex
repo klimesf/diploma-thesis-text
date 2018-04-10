@@ -79,7 +79,13 @@ oproti formátům jako je JSON nebo XML~\cite{varda2008protocol}.
 Zdrojový kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
 zasílaných zpráv ve formátu Protobuffer.
 
-\lstinputlisting[caption={Příklad definice schématu zpráv v jazyce Protobuffer},label={lst:protobuf-example},language=Protobuf, frame=single, float, floatplacement=H]{code/protobuffer_example.proto}
+\lstinputlisting[
+caption={Příklad definice schématu zpráv v jazyce Protobuffer},
+label={lst:protobuf-example},language=Protobuf,
+frame=single,
+float,
+floatplacement=H
+]{code/protobuffer_example.proto}
 
 \subsubsection{gRPC}
 
@@ -91,7 +97,15 @@ https://grpc.io/
 }, který staví na technologii Protocol Buffers a poskytuje vývojáři
 možnost definovat komunikaci pomocí protokolu \textit{RPC}~\cite{nelson1981remote}.
 
-\lstinputlisting[caption={Příklad definice služeb v gRPC},label={lst:grpc-example},language=Protobuf, frame=single, float, floatplacement=H]{code/grpc_example.proto}
+\lstinputlisting[
+caption={Příklad definice služeb v gRPC},
+label={lst:grpc-example},
+language=Protobuf,
+frame=single,
+float,
+floatplacement=H
+]
+{code/grpc_example.proto}
 
 \todo{
 \begin{itemize}
@@ -221,7 +235,8 @@ Samotný zápis byznys kontextu je obsažen v kořenovém elementu
 v entitě \code{<includedContexts>}. Preconditions jsou
 definovány uvnitř entity \code{<preconditions>} a podobně
 jsou definovány \code{<postconditions>}. Obsažená data odpovídají
-navrženému metamodelu byznysového kontextu z kapitoly~\ref{ch:navrh}. % TODO: ověřit že to v tý kapitole fakt mám, možná i odkaz na konkrétní odstavec
+navrženému metamodelu byznysového kontextu z kapitoly~\ref{ch:navrh}.
+% TODO: ověřit že to v tý kapitole fakt mám, možná i odkaz na konkrétní odstavec
 Pro zápis podmínek jednotlivých preconditions a post-conditions byl zvolen
 opis Expression AST. Toto rozhodnutí vychází z předpokladu,
 že lze vzhledem k povaze prototypu relaxovat podmínku
@@ -235,7 +250,15 @@ služby, která je bude využívat. Zároveň tomuto formátu mohou
 snáze porozumět doménoví experti a mohou se tak zapojit do
 vývojového procesu.
 
-\lstinputlisting[caption={Příklad zápisu byznys kontextu v jazyce XML},label={lst:business-context-xml}, language=XML, frame=single, float, floatplacement=H]{code/business_context.xml}
+\lstinputlisting[
+caption={Příklad zápisu byznys kontextu v jazyce XML},
+label={lst:business-context-xml},
+language=XML,
+frame=single,
+float,
+floatplacement=H
+]
+{code/business_context.xml}
 
 \section{Systém pro centrální správu byznys pravidel}
 
