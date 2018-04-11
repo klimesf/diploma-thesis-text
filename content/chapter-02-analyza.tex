@@ -1,5 +1,6 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
 
 %!TEX ROOT=../diploma-thesis.tex
 
@@ -21,24 +22,88 @@ vývojáře těchto systémů přizpůsobovat architekturu systému tak,
 aby uměla splnit všechny očekávané funkční i nefunkční požadavky,
 zejména pak škálovatelnost systému a jeho schopnost zvládat vysoký
 objem dat a uživatelů. \textit{Architektura orientovaná na služby} (SOA) je
-důsledkem této evoluce. Podle známého pravidla \uv{rozděl a panuj}
-dělí systém na samostatné celky, zvané \textit{služby}, které jsou zodpovědné
-za dílčí část funkcionality.
+důsledkem této evoluce. Na rozdíl od dřívě běžné \textit{monolitické architektury}
+SOA podle známého pravidla \uv{rozděl a panuj}
+dělí systém na samostatné celky, zvané \textit{služby}, které jsou
+zodpovědné za dílčí část požadované funkcionality.
+
+% TODO: nějaký diagramy kolem SOA
 
 \goal{Výhody SOA}
 To přináší výhody v podobě ... % TODO: dopišmě
+
+\goal{Web services}
+SOAP~\cite{curbera2002unraveling}, REST~\cite{fielding2000rest}
+
+\goal{Komunikace služeb, Enterprise service bus}
 
 \goal{Ambiguita termínu SOA v historii}
 Historicky byl termín SOA vykládán různými způsoby a vývojáři si
 pod nám představovali několik rozdílných, nekompatibilních
 konceptů~\cite{fowler2005serviceorientedambiguity}.
-To vedlo k vzájemnému nedorozumění a ... této architektury %TODO: dopišmě
+Zejména pak absence kvalitních definicí toho, co vlastně
+služba je, vedla k vzájemnému nedorozumění, zmatení a postupném
+zanevření nad touto architekturou.
 
-\goal{Web services}
-SOAP~\cite{curbera2002unraveling}, REST~\cite{fielding2000rest}
+\subsection{Microservices}
+
+\goal{Microservices a budoucnost SOA}
+Novým trendem posledních let jsou takzvané \textit{Microservices}.
+Přináší několik zajmavých konceptů, které specializují a konkretizují
+principy SOA. Microservices se tedy dají chápat jako podmnožina
+SOA. Základní myšlenkou je vývoj informačního systému jako množiny
+malých oddělených služeb, které jsou spouštěny v samostatných procesech
+a komunikují spolu pomocí jednoduchých protokolů~\cite{lewis2014microservices}.
+
+\goal{Stavba služeb kolem byznysových schopností}
+Důležitou myšlenkou microservices je organizace služeb kolem
+byznysových schopností systému. Namísto horizontálního dělení monolitu
+podle jeho vrstev\footnote{
+Zde předpokládáme klasickou třívrstvou architekturu~\cite{fowler2002patterns},
+která rozděluje systém do vrstev s odlišnou zodpovědností,
+přičemž sousední vrstvy spolu komunikují pomocí jasně definovaných společných rozhraní.
+Těmito vrstvami jsou: \textit{datová vrstva}, \textit{aplikační vrstva} a \textit{prezentační vrstva}.
+} diktuje rozdělit monolit vertikálně podle jeho byznysových schopností.
+Na obrázku~\ref{fig:monolith-vs-microservices} je toto rozdělení demonstrováno.
+Příkladem může být dělení e-commerce systému na jednu službu obsahující byznysovou
+logiku pro registraci a správu uživatelů, druhou službu obsahující byznysovou logiku
+pro práci s produkty a třetí službu obsahující byznysovou logiku pro práci
+s objednávkami.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/monolith-vs-microservices.pdf}
+    \caption{Porovnání struktury monolitické architektury a microservices}
+    \label{fig:monolith-vs-microservices}
+\end{figure}
+
+\goal{Myšlenka nahraditelnosti komponenty}
+Koncept microservices přemýšlí o službě jako o samostatné komponentě,
+kterou lze individuálně vyměnit či vylepšit, bez nutnosti zásahu do
+ostatních služeb~\cite{lewis2014microservices}. Monolitická architektura
+vyžaduje i při malé změně jedné části celý systém znovu zkompilovat, sestavit
+a nasadit. Malé služby sloužící ideálně jedinému byznysovému účelu lze naopak
+při změně byznysových požadavků snadno vyměnit samostatně bez zásahu do zbytku
+systému. Tím se usnaďnuje cyklus nasazení a spuštění nové verze služby.
+
+\goal{Myšlenka smart endpoints, dumb pipes}
+Microservices také přinášejí koncept \uv{smart endpoint, dumb pipes},
+který opouští koncept ESB ve prospěch přesunutí veškeré byznys logiky
+na stranu služeb.
+
+\goal{Škálovatelnost}
+% TODO: napišmě
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/microservices-deployment.pdf}
+    \caption{Porovnání nasazení monolitické architektury a microservices}
+    \label{fig:microservices-deployment}
+\end{figure}
 
 ~\cite{perrey2003service}
 ~\cite{cerny2017disambiguation}
+~\cite{sprott2004understanding}
 
 \goal{Definice služby}
 \paragraph{Služba} je ucelenou systémovou komponentou,
@@ -58,3 +123,10 @@ komunikuje s ostatními službami pomocí zpráv.
 \end{itemize}
 
 \section{Shrnutí}
+
+V této kapitole jsme nastínili problematiku vysoké komplexity moderních informačních systémů
+a z toho vyplívající požadavky na jejich architekturu. Analyzovali jsme koncept byznysových
+pravidel a byznysových kontextů. Dále jsme zkomali architekturu orientovanou na služby, její
+výhody a nevýhody, její moderní evoluci v podobě Microservices a identifikovali jsme problémy
+v souvislosti s byznysovými pravidly, která zasahují do jednotlivých služeb. Nakonec jsme
+vyjmenovali požadavky, které by měl splňovat framework, který bude výstupem této práce.
