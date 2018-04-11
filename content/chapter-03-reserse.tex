@@ -5,15 +5,15 @@
 
 \chapter{Rešerše}\label{ch:reserse}
 
-\section{Architektura orientovaná na služby}
-
 \section{Modelem řízená architektura}
 
 \section{Architektura klient-server}\label{sec:client-server}
 
+~\cite{berson1992client}
+
 \section{Aspektově orientované programování}
 
-% Co je paradigma
+\goal{Co je paradigma}
 Programování je komplexní disciplína s teoreticky
 neomezeným počtem možností, jakým programátor může
 řešit zadaný problém. Ačkoliv každá úloha má své specifické
@@ -25,7 +25,7 @@ Díky znalosti paradigmatu může programátor nejen zlepšit
 svou produktivitu, ale zároveň může snáze pochopit myšlenky
 jiného programátora a tím zlepšit kvalitu týmové spolupráce.
 
-% OOP a jeho popis
+\goal{OOP a jeho popis}
 Jedním z nejpopulárnějších paradigmat používaných k
 vývoji moderních enterprise systémů je nepochybně
 objektově orientované programování (OOP). To vnímá daný problém
@@ -41,7 +41,7 @@ Tento přístup je velmi snadný pro pochopení,
 vede k lepšímu návrhu a organizaci programu a snižuje
 tak náklady na jeho vývoj a údržbu.
 
-% Nedostatky OOP
+\goal{Nedostatky OOP}
 Ačkoliv je OOP velmi silným a všestraným nástrojem,
 existují problémy, které nelze jeho pomocí efektivně řešit.
 Jedním takovým problémem jsou obecné požadavky na systém,
@@ -55,7 +55,7 @@ kód, který zodpovídá za jejich realizaci. Duplikace kódu
 vede k větší náchylnosti na lidskou chybu a k vyšším nárokům na vývoj
 a údržbu daného softwarového systému~\cite{fowler1999refactoring}.
 
-% AOP jako odpověď na nedostatky OOP
+\goal{AOP jako odpověď na nedostatky OOP}
 Aspektově orientované programování (AOP) přináší řešení na
 výše zmiňované problémy. Extrahuje obecné požadavky,
 tzv. \textit{aspekty} do jednoho místa a pomocí procesu zvaného
@@ -95,3 +95,23 @@ jeví jako vhodný přístup, který nám pomůže dosáhnout cíle.
 \section{Stávající řešení reprezentace byznys pravidel}
 
 \subsection{Drools DSL}
+
+\goal{Drools se nám nehodí, protože je jen pro platformu Java}
+% TODO: dopiš mě
+
+\subsection{JetBrains MPS}
+
+\goal{MPS je super, ale nevyhovuje nám kvůli dynamickým změnám}
+% TODO: dopiš mě
+
+\section{Shrnutí}
+
+V této kapitole jsme provedli rešerši \textit{architektury orientované
+na služby}, jejích výhod, nevýhod a známých nedostatků. Dále jsme
+prozkoumali, jaký způsobem funguje síťová \textit{architektura klient-server},
+jaké jsou výhody a nevýhody \textit{modelem řízeného vývoje} pro náš případ
+a shrnuli jsme paradigma \textit{aspektově orientovaného programování} a
+z něch vycházející přístup k návrhu softwarových systémů \textit{ADDA}.
+Nakonec jsme provedli rešerši stávajících řešení reprezentace byznys pravidel
+včetně komplexního frameworku \textit{Drools} a zhodnotili jsme jeho vhodnost
+k řešení našeho problému.

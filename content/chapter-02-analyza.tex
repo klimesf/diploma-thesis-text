@@ -1,13 +1,60 @@
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
 %!TEX ROOT=../diploma-thesis.tex
 
-\chapter{Anal\'yza}\label{ch:analyza}
+\chapter{Analýza}\label{ch:analyza}
 
-\section{Byznys pravidla}
+\section{Byznysový kontext}
+
+\paragraph{Precondition} % TODO: popiš mě
+
+\paragraph{Post-condition} % TODO: popiš mě
 
 \section{Architektura orientovaná na služby}
+
+\goal{Úvod do SOA, proč je potřeba}
+V posledních dekádách můžeme sledovat trend nárůstu komplexity
+moderních informačních systémů, který je způsoben stále náročnějšími
+požadavky na jejich funkcionalitu, výkon a spolehlivost. To nutí
+vývojáře těchto systémů přizpůsobovat architekturu systému tak,
+aby uměla splnit všechny očekávané funkční i nefunkční požadavky,
+zejména pak škálovatelnost systému a jeho schopnost zvládat vysoký
+objem dat a uživatelů. \textit{Architektura orientovaná na služby} (SOA) je
+důsledkem této evoluce. Podle známého pravidla \uv{rozděl a panuj}
+dělí systém na samostatné celky, zvané \textit{služby}, které jsou zodpovědné
+za dílčí část funkcionality.
+
+\goal{Výhody SOA}
+To přináší výhody v podobě ... % TODO: dopišmě
+
+\goal{Ambiguita termínu SOA v historii}
+Historicky byl termín SOA vykládán různými způsoby a vývojáři si
+pod nám představovali několik rozdílných, nekompatibilních
+konceptů~\cite{fowler2005serviceorientedambiguity}.
+To vedlo k vzájemnému nedorozumění a ... této architektury %TODO: dopišmě
+
+\goal{Web services}
+SOAP~\cite{curbera2002unraveling}, REST~\cite{fielding2000rest}
+
+~\cite{perrey2003service}
+~\cite{cerny2017disambiguation}
+
+\goal{Definice služby}
+\paragraph{Služba} je ucelenou systémovou komponentou,
+kterou lze nasadit a spustit jako samostatný proces, a
+komunikuje s ostatními službami pomocí zpráv.
 
 \section{Problémy}
 
 \section{Identifikace požadavků na implementaci frameworku}
+
+\begin{itemize}
+    \item{Definice byznys kontextů pomocí doménově specifického jazyka srozumitelného pro doménové experty}
+    \item{Zápis preconditions a post-conditions pravidla jednotlivých byznys kontextů}
+    \item{Automatická distribuce kontextů, vyhodnocování jejich preconditions a aplikace post-conditions}
+    \item{Možnost jednoho kontextu rozšiřovat jiné kontexty}
+    \item{Možnost centrálně spravovat byznysové kontexty, včetně úpravy stávajících a vytváření nových kontextů}
+\end{itemize}
 
 \section{Shrnutí}
