@@ -31,11 +31,74 @@ zodpovědné za dílčí část požadované funkcionality.
 
 \goal{Výhody SOA}
 To přináší výhody v podobě ... % TODO: dopišmě
+% TODO: můžeme použít rozlišné technologie pro realizaci jednotlivých služeb
 
-\goal{Web services}
-SOAP~\cite{curbera2002unraveling}, REST~\cite{fielding2000rest}
+\subsection{Historický vývoj SOA}
 
-\goal{Komunikace služeb, Enterprise service bus}
+\goal{CORBA a její historie}
+Prvním historickým předchůdcem architektury orientované na služby
+byla tzv. \textit{Common Object Request Broker Architecture}
+(CORBA)~\cite{siegel2000corba}, která vzikala v osmdesátých a devadesátých letech
+dvacátého století. Ta umožňuje komunikaci mezi aplikacemi implementovanými v
+různých technologiích a běžícími na vlastních strojích s rozdílnými
+operačními systémy. Základním stavebním kamenem této architektury
+je \textit{Object Request Broker} (ORB), který emuluje objekty,
+na kterých může klient volat jejich metody. Při zavolání metody
+na objektu, který se fyzicky nachází v aplikaci na vzdáleném stroji,
+zprostředkovává ORB veškerou komunikaci a svému uživateli poskytuje
+kompletní rozhraní, které vzdálený objekt emuluje. Uživatel tedy de
+facto nerozezná, kdy volá metodu na objektu, který je lokálně dostupný,
+a kdy volá metodu, kterou obsouží vzdálená služba. To je ale zároveň
+hlavní nevýhodou této architektury, protože komunikace se vzdáleným
+objektem s sebou nese celou řadu problémů, například mnohem vyšší latenci
+při komunikaci nebo výjimečné stavy, které je potřeba ošetřit. Ve chvíli,
+kdy klient není schopen rozeznat mezi metodou volanou lokálně či vzdáleně,
+se těžko přizpůsobuje těmto okolnostem, což vnáší do kódu zbytečnou
+komplexitu a zhoršuje jeho kvalitu kvůli obtížnější optimalizaci.
+
+\goal{Web services, SOAP, WSDL}
+Nedostatky architektury CORBA vedly k volbě jednoduššího
+formátu pro popis komunikace služeb, spolehlivějšího a méně
+komplikovaného kanálu pro komunikaci a celkovou redukci
+objemu komunikovaných dat. Preferovanou cestou komunikace
+se na přelomu tisíciletí stal protokol HTTP, zatímco preferovaným formátem
+pro serializaci přenášených dat se stal jazyk XML.
+Postupně se upustilo od volání metod na vzdálených objektech a přijal
+se koncept explicitního posílání zpráv mezi službami.
+Pro popis schématu zpráv vznikl formát \textit{Simple Object Access
+Protocol} (SOAP)~\cite{box2000simple}, který v kombinaci s
+\textit{Web Service Description Language} (WSDL)~\cite{christensen2001web}
+umožňuje kompletní definici rozhraní pro komunikaci služeb systému.
+V průběhu dalších let vznikla také architektura \textit{Representational
+State Transfer} (REST)~\cite{fielding2000rest}, která značně zjednodušila
+popis webových služeb čistě pomocí protokolu HTTP. Nejnovějším formátem
+pro popis služby, čerpající z nedostatku REST, je \textit{GraphQL}
+se kterým v roce 2015 přišla společnost Google.
+
+\goal{Enterprise service bus}
+Ačkoliv zmíněné modely usnaďnují komunikaci služeb a zvyšují jejich
+spolehlivost, integrace služeb může být obtížnější kvůli různým
+komunikačním protokolům a formátům. Již v devadesátých letech
+byl představen koncept \textit{Enterprise Service Bus} (ESB)~\cite{chappell2004enterprise},
+který měl za úkol propojit heterogenní služby a zajistit jejich
+komunikační kanály. Tím na sebe přebíral zodpovědnost za překlad
+jednotlivých zpráv a centralizoval veškerou komunikaci v systému.
+Na obrázku~\ref{fig:enterprise-service-bus}
+ESB se zároveň staví do role experta na lokalizaci jednotlivých služeb.
+Službě pro komunikaci s okolním světem tak stačí znát adresu ESB, kterému
+zašle zprávu, a ten ji sám doručí na místo určení. Tento model ale
+znamená, že ESB je velmi komplexní komponentou, jejíž výpadek
+znamená zastavení funkce celého systému a stává se úzkým hrdlem.
+Tento problém může být částečně vyřešen tzv. \textit{federovaným designem},
+kdy je systém rozdělen na byznysově příbuzné části, z nichž každá má
+svůj ESB.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/enterprise-service-bus.pdf}
+    \caption{Komunikace služeb skrz Enterprise Service Bus}
+    \label{fig:enterprise-service-bus}
+\end{figure}
 
 \goal{Ambiguita termínu SOA v historii}
 Historicky byl termín SOA vykládán různými způsoby a vývojáři si
@@ -105,12 +168,22 @@ na stranu služeb.
 ~\cite{cerny2017disambiguation}
 ~\cite{sprott2004understanding}
 
+\subsection{Service discovery}
+
+\goal{Service discovery}
+
 \goal{Definice služby}
 \paragraph{Služba} je ucelenou systémovou komponentou,
 kterou lze nasadit a spustit jako samostatný proces, a
 komunikuje s ostatními službami pomocí zpráv.
 
 \section{Problémy}
+
+\goal{Problémy microservices}
+Jelikož jedním z cílů microservices je co nejvíce izolovat
+jednotlivé služby, mají tendenci duplikovat znalosti, které
+zasahují do více služeb najednou~\cite{cerny2017disambiguation}.
+Zároveň tím ztrácíme
 
 \section{Identifikace požadavků na implementaci frameworku}
 
