@@ -22,20 +22,24 @@ vývojáře těchto systémů přizpůsobovat architekturu systému tak,
 aby uměla splnit všechny očekávané funkční i nefunkční požadavky,
 zejména pak škálovatelnost systému a jeho schopnost zvládat vysoký
 objem dat a uživatelů. \textit{Architektura orientovaná na služby} (SOA) je
-důsledkem této evoluce. Na rozdíl od dřívě běžné \textit{monolitické architektury}
+důsledkem této evoluce. Na rozdíl od dřívě běžné a dnes
+stále používané \textit{monolitické architektury}
 SOA podle známého pravidla \uv{rozděl a panuj}
 dělí systém na samostatné celky, zvané \textit{služby}, které jsou
 zodpovědné za dílčí část požadované funkcionality.
 
-% TODO: nějaký diagramy kolem SOA
+\goal{Proč tu vlastně píšu o nějaké historii}
+Historicky byl termín SOA vykládán různými způsoby a vývojáři si
+pod nám představovali několik rozdílných, nekompatibilních
+konceptů~\cite{fowler2005serviceorientedambiguity}.
+Zejména pak absence kvalitních definic toho, co vlastně
+služba je, vedla k vzájemnému nedorozumění, zmatení a v poslední
+době i ke snahám o opuštění tohoto konceptu. Abychom lépe prozuměli tomu,
+co vlastně SOA je, popíšeme si její historický vývoj a shrneme
+výhody a nevýhody jednotlivých přístupů.
 
-\goal{Výhody SOA}
-To přináší výhody v podobě ... % TODO: dopišmě
-% TODO: můžeme použít rozlišné technologie pro realizaci jednotlivých služeb
+\subsection{Common Object Request Broker Architecture}
 
-\subsection{Historický vývoj SOA}
-
-\goal{CORBA a její historie}
 Prvním historickým předchůdcem architektury orientované na služby
 byla tzv. \textit{Common Object Request Broker Architecture}
 (CORBA)~\cite{siegel2000corba}, která vzikala v osmdesátých a devadesátých letech
@@ -56,7 +60,8 @@ kdy klient není schopen rozeznat mezi metodou volanou lokálně či vzdáleně,
 se těžko přizpůsobuje těmto okolnostem, což vnáší do kódu zbytečnou
 komplexitu a zhoršuje jeho kvalitu kvůli obtížnější optimalizaci.
 
-\goal{Web services, SOAP, WSDL}
+\subsection{Web Services}
+
 Nedostatky architektury CORBA vedly k volbě jednoduššího
 formátu pro popis komunikace služeb, spolehlivějšího a méně
 komplikovaného kanálu pro komunikaci a celkovou redukci
@@ -75,7 +80,8 @@ popis webových služeb čistě pomocí protokolu HTTP. Nejnovějším formátem
 pro popis služby, čerpající z nedostatku REST, je \textit{GraphQL}
 se kterým v roce 2015 přišla společnost Google.
 
-\goal{Enterprise service bus}
+\subsection{Enterprise Service Bus}
+
 Ačkoliv zmíněné modely usnaďnují komunikaci služeb a zvyšují jejich
 spolehlivost, integrace služeb může být obtížnější kvůli různým
 komunikačním protokolům a formátům. Již v devadesátých letech
@@ -100,14 +106,6 @@ svůj ESB.
     \label{fig:enterprise-service-bus}
 \end{figure}
 
-\goal{Ambiguita termínu SOA v historii}
-Historicky byl termín SOA vykládán různými způsoby a vývojáři si
-pod nám představovali několik rozdílných, nekompatibilních
-konceptů~\cite{fowler2005serviceorientedambiguity}.
-Zejména pak absence kvalitních definicí toho, co vlastně
-služba je, vedla k vzájemnému nedorozumění, zmatení a postupném
-zanevření nad touto architekturou.
-
 \subsection{Microservices}
 
 \goal{Microservices a budoucnost SOA}
@@ -123,9 +121,10 @@ Důležitou myšlenkou microservices je organizace služeb kolem
 byznysových schopností systému. Namísto horizontálního dělení monolitu
 podle jeho vrstev\footnote{
 Zde předpokládáme klasickou třívrstvou architekturu~\cite{fowler2002patterns},
-která rozděluje systém do vrstev s odlišnou zodpovědností,
-přičemž sousední vrstvy spolu komunikují pomocí jasně definovaných společných rozhraní.
-Těmito vrstvami jsou: \textit{datová vrstva}, \textit{aplikační vrstva} a \textit{prezentační vrstva}.
+rozdělující systém na \textit{datovou vrstvu}, \textit{aplikační vrstvu}
+a \textit{prezentační vrstvu}. Tyto vrstvy mají oddělené zodpovědnosti a komunikují
+spolu pomocí jasně definovaných společných rozhraní.
+
 } diktuje rozdělit monolit vertikálně podle jeho byznysových schopností.
 Na obrázku~\ref{fig:monolith-vs-microservices} je toto rozdělení demonstrováno.
 Příkladem může být dělení e-commerce systému na jednu službu obsahující byznysovou
@@ -168,7 +167,11 @@ na stranu služeb.
 ~\cite{cerny2017disambiguation}
 ~\cite{sprott2004understanding}
 
-\subsection{Service discovery}
+\goal{Distribuce }
+
+
+\goal{Four tier architecture}
+~\cite{nginx2015fourtier}
 
 \goal{Service discovery}
 
@@ -177,13 +180,53 @@ na stranu služeb.
 kterou lze nasadit a spustit jako samostatný proces, a
 komunikuje s ostatními službami pomocí zpráv.
 
-\section{Problémy}
+\section{Nedostatky současného přístupu}
 
-\goal{Problémy microservices}
-Jelikož jedním z cílů microservices je co nejvíce izolovat
-jednotlivé služby, mají tendenci duplikovat znalosti, které
-zasahují do více služeb najednou~\cite{cerny2017disambiguation}.
-Zároveň tím ztrácíme
+\goal{Problémy SOA s cross-cutting concerns}
+Jelikož jedním z cílů SOA, potažmo microservices, je izolovat
+jednotlivé služby, mají tyto architektury tendenci duplikovat části kódu
+zajišťující funkcionalitu, která vyžaduje konzistentní zpracování ve více
+službách~\cite{cerny2017disambiguation}, tzv. \textit{cross-cutting concerns}.
+Příkladem mohou být právě byznysová pravidla, která je potřeba
+zohlednit v rámci různých byznysových kontextů realizovaných ve více službách.
+Mezi další příklady se řadí logování, monitoring či sběr dat
+o telemetrii procesů.
+
+\goal{Nastínění konkrétního příkladu}
+Abychom si modli lépe představit diskutovaný problém, znázorněmě
+si ho na konkrétním příkladu. Představme si e-commerce systém
+skládající se z několika služeb naprogramovaných v různých technologiích,
+organizovaných kolem jeho byznysových funkcí.
+Jedna služba obsluhuje byznysové operace vázající
+se na uživatele systému, jejich registraci a administraci. Druhá
+služba realizuje operace s produkty, jejich vytváření, úpravu,
+správu skladových zásob a informace o dostupnosti. Třetí služba je
+zodpovědná za vytváření a správu objednávek, informování uživatelů
+o změnách jejich stavů a vytváření statistik a reportů pro management.
+Poslední, čtvrtá služba, poskytuje uživatelské rozhraní pro uživatele
+systému a umožňuje jeho komfortní obsluhu.
+
+\goal{Konkrétní problémy zpracování cross-cutting concerns na příkladu}
+Nyní si představme, že každá byznysová operace prováděná v těchto
+službách má své preconditions, které musejí být splněny aby mohla
+být operace vykonána, a také své post-conditions, které musejí být
+aplikovány po skončení operace.
+% TODO: prosakování byznys pravidel do UI
+
+\goal{Microservices neříká nic o tom, jak velké je mikro}
+Pozorný čtenář může namítnout, že výše zmiňované problémy by
+bylo možné vyřešit vyčleněním dané funkcionality
+do samostatné služby a vystavit její rozhraní pro ostatní služby,
+v souladu s nosnou myšlenkou microservices. Je pravda, že microservices
+v názvu nese slovo \uv{micro} a evokuje tak, že služby by měly být co nejmenší.
+Pokud ale služby ponesou příliš málo odpovědnosti, přináší to s sebou
+několik problémů, které je nutné zvážit. Musíme mít na paměti, že
+nasazení a provoz každé služby s sebou přináší náklady navíc
+a zvyšuje časové nároky na jejich vývojáře a administrátory.
+Komunikace služeb po síti je navíc podstatně pomalejší a náchylnější na
+chybu než komunikace jednotlivých komponent v rámci jednoho procesu.
+S rostoucím počtem \textit{cross-cutting concerns} by tak i rychle rostl
+počet služeb v systému a celkové náklady na jeho vývoj a údržbu.
 
 \section{Identifikace požadavků na implementaci frameworku}
 

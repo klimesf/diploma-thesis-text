@@ -34,18 +34,18 @@ implementaci vybrána platforma jazyka \textit{Python}
 a platforma \textit{Node.js}, který slouží jako
 běhové prostředí pro jazyk \textit{JavaScript}.
 Výběr byl proveden na základě aktuálních trendů
-ve světě softwarového inženýrství. Projekt GitHut\footnote{http://githut.info/}
+ve světě softwarového inženýrství. Projekt GitHut~\cite{githut}
 z roku 2014, který shrnuje statistiky repozitářů
 populární služby pro hosting a sdílení kódu
 GitHub\footnote{https://github.com/}, určil
 jazyky JavaScript, Java a Python jako tři nejaktivnější.
 Služba GitHub následně sama zveřejnila statistiky za rok 2017
-v rámci projektu Octoverse\footnote{https://octoverse.github.com/}
+v rámci projektu Octoverse~\cite{octoverse}
 a dospěla ke stejnému závěru, ačkoliv Python se umístil na druhé
 pozici na úkor jazyka Java. Podle průzkumu oblíbeného
 programátorského webového portálu Stack
-Overflow\footnote{https://insights.stackoverflow.com/survey/2017\#technology}
-se umístily tyto jazyky v první čtveřici nejpopulárnějších jazyků pro obecné použití.
+Overflow~\cite{stackoverflowsurvey} se umístily tyto jazyky
+v první čtveřici nejpopulárnějších jazyků pro obecné použití.
 
 \section{Sdílení byznys kontextů mezi službami}
 
@@ -73,16 +73,16 @@ serverem jedné služby, a zároveň klientem druhé služby.
 
 \goal{Proč jsme použili Protobuf}
 Pro přenos byznysových kontextů byl zvolen open-source formát
-\textit{Protocol Buffers}\footnote{https://developers.google.com/protocol-buffers/}
+\textit{Protocol Buffers}~\cite{protobuf}\cite{varda2008protocol}
 vyvinutý společností Google\footnote{https://www.google.com/}.
 Umožňuje explicitně definovat a vynucovat schéma dat,
 která jsou přenášena po síti, bez vazby na konkrétní programovací
 jazyk. Zároveň poskytuje obslužné knihovny pro naše vybrané platformy.
 Navíc je díky binární reprezentaci dat v přenosu velmi efektivní,
-oproti formátům jako je JSON nebo XML~\cite{varda2008protocol}.
-Oproti protokolům Apache Thrift\footnote{https://thrift.apache.org/}
-a Apache Avro\footnote{https://avro.apache.org/}, které nabízejí
-velmi srovnatelné vlastnosti, mají Protocol Buffers
+oproti formátům jako je JSON nebo XML~\cite{maeda2012performance}.
+Oproti protokolům \textit{Apache Thrift}~\cite{thrift}
+a \textit{Apache Avro}~\cite{avro}, které poskytují
+velmi srovnatelnou funkcionalitu, mají Protocol Buffers
 kvalitnější a lépe srozumitelnou dokumentaci.
 
 \lstinputlisting[
@@ -112,7 +112,7 @@ v sekci~\ref{sec:metamodel}.
 
 \goal{Proč jsme použili gRPC}
 Pro realizaci architektury klient-server byl zvolen
-open-source framework gRPC\footnote{https://grpc.io/}, který staví
+open-source framework gRPC~\cite{grpcio}, který staví
 na technologii Protocol Buffers a poskytuje vývojáři
 možnost definovat detailní schéma komunikace pomocí
 protokolu \textit{RPC}~\cite{nelson1981remote}.
@@ -275,7 +275,7 @@ engine pro weaving aspektů.
 \paragraph{JDOM 2}
 
 \goal{Proč jdom2 a co to umí}
-Knihovna JDOM 2\footnote{http://www.jdom.org/} poskytuje
+Knihovna JDOM 2~\cite{jdom2} poskytuje
 kompletní sadu nástroju pro čtení a zápis XML dokumentů.
 Implementuje specifikaci \textit{Document Object Model} (DOM)~\cite{wood2004document},
 pomocí které lze programaticky sestavovat a číst XML dokumenty.
@@ -285,7 +285,7 @@ DSL byznys kontextů popsaných v sekci~\ref{sec:dsl-impl}.
 \section{Knihovna pro platformu Python}
 
 Knihovna pro platformu jazyka Python využívá jeho
-verzi 3.6. Pomocí nástroje \textit{pip}\footnote{https://pip.pypa.io/en/stable/}
+verzi 3.6. Pomocí nástroje \textit{pip}~\cite{pip}
 lze knihovnu nainstalovat a využívat jako python modul.
 Implementace odpovídá navržené specifikaci.
 
@@ -332,7 +332,7 @@ floatplacement=H
 
 Knihovna pro platformu \textit{Node.js} byla implementována
 v jazyce JavaScript, konkrétně jeho verzi
-ECMAScript 6.0\footnote{http://www.ecma-international.org/ecma-262/6.0/}.
+ECMAScript 6.0~\cite{ecma60}.
 Implementace odpovídá specifikaci návrhu, umožňuje
 instalaci pomocí balíčkovacího nástroje a snadnou
 integraci do kódu výsledné služby.
@@ -387,9 +387,8 @@ v běhovém prostředí \textit{Node.js}. Tento nástroj ale nedisponuje
 příliš silnou podporou pro správu automatických sestavení knihovny
 a v základním nastavení není ani příliš efektivní pro správu závislostí.
 Proto bylo nutné využít dodatečné knihovny, jmenovitě
-\textit{Yarn}\footnote{https://yarnpkg.com/en/},
-\textit{Babel}\footnote{https://babeljs.io/} a
-\textit{Rimraf}\footnote{https://github.com/isaacs/rimraf}.
+\textit{Yarn}~\cite{yarnpkg}, \textit{Babel}~\cite{babel} a
+\textit{Rimraf}~\cite{rimraf}.
 
 \section{Systém pro centrální správu byznys pravidel}
 
@@ -477,9 +476,8 @@ nezávisle na platformě.
 Veškerý kód je hostován v centrálním repozitáři
 ve službě GitHub\footnote{
 https://github.com/klimesf/diploma-thesis
-} a je zpřístupněn pod open-source licencí MIT\footnote{
-http://www.linfo.org/mitlicense.html
-}. Knihovny pro jednotlivé platformy tedy lze libovolně
+} a je zpřístupněn pod open-source licencí MIT~\cite{mitlicense}.
+Knihovny pro jednotlivé platformy tedy lze libovolně
 využívat, modifikovat a šířit.
 
 \goal{Validaci a verifikaci si ještě ukážeme}
