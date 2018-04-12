@@ -80,8 +80,10 @@ která jsou přenášena po síti, bez vazby na konkrétní programovací
 jazyk. Zároveň poskytuje obslužné knihovny pro naše vybrané platformy.
 Navíc je díky binární reprezentaci dat v přenosu velmi efektivní,
 oproti formátům jako je JSON nebo XML~\cite{varda2008protocol}.
-Zdrojový kód~\ref{lst:protobuf-example} znázorňuje část zápisu schématu
-zasílaných zpráv obsahující byznys kontexty ve formátu Protobuffer.
+Oproti protokolům Apache Thrift\footnote{https://thrift.apache.org/}
+a Apache Avro\footnote{https://avro.apache.org/}, které nabízejí
+velmi srovnatelné vlastnosti, mají Protocol Buffers
+kvalitnější a lépe srozumitelnou dokumentaci.
 
 \lstinputlisting[
 caption={Část definice schématu zpráv byznys kontextů v jazyce Protobuffer},
@@ -91,6 +93,8 @@ float,
 floatplacement=H
 ]{code/protobuffer_example.proto}
 
+Zdrojový kód~\ref{lst:protobuf-example} znázorňuje část zápisu schématu
+zasílaných zpráv obsahující byznys kontexty ve formátu Protobuffer.
 Schéma zpráv pro výměnu kontextů opisuje strukturu metamodelu navrženého
 v sekci~\ref{sec:metamodel}.
 
