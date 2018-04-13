@@ -5,7 +5,7 @@
 Tato kapitola analyzuje problematiku byznysových pravidel v informačních systémech.
 Dále detailně popisuje architekturu orientovanou na služby, včetně jejího historického
 vývoje a moderního trendu v podobě microservices. Na základě toho kapitola popisuje nedostatky
-při řešení průřezových problémů v těchto architekturách, s důrazem na byznysová pravidla.
+současných přístupů při řešení průřezových problémů v těchto architekturách, s důrazem na byznysová pravidla.
 V závěru kapitoly jsou identifikovány požadavky, které by měl splňovat framework,
 jež bude výstupem této diplomové práce.
 
@@ -28,8 +28,8 @@ Byznysová pravidla dělíme do tří skupin~\cite{cemus2014aspect}:
     byznysové operace, například \uv{\textit{Při přidání produktu do košíku nesmí součet položek
     v košíku přesahovat částku milion korun}}
     \item [Průřezová pravidla] jsou parametrizována stavem systému nebo uživatelského účtu a mají
-    dopad na velkou část systému. Uvažme pravidlo \uv{\textit{V systému nesmí probíhat žádné změny po
-    dobu učetní uzávěrky}}.
+    dopad na velkou část byznysových operací. Uvažme pravidlo \uv{\textit{V systému nesmí probíhat
+    žádné změny po dobu účetní uzávěrky}}.
 \end{description}
 
 Dále také rozlišujeme dva typy byznysových pravidel, a těmi jsou \textit{preconditions}
@@ -44,7 +44,7 @@ není splněna, byznysová operace nemůže proběhnout.
 
 Pro lepší ilustraci uveďme příklad: aby mohla být provedena
 registrace uživatele s danou emailovou adresu, musí být splněna
-podmínka, že uživatel vyplnil svojí emailovou adresu a zároveň
+podmínka, že uživatel vyplnil svojí emailovou adresu, a zároveň
 dosud v systému neexistuje žádný uživatel se stejnou emailovou adresou.
 
 \subsection{Post-condition}
@@ -62,9 +62,9 @@ všechny vypsané objednávky patří danému zákazníkovi.
 
 Existuje několik možností, jak zachytit a reprezentovat byznysová pravidla~\cite{cemus2015automated}.
 Nejběžnější a nejpoužívanější metodou je jejich zachycení v programovacím
-jazyce. Tato metoda je snadná, protože se programátor může použít stejný jazyk
+jazyce. Tato metoda je snadná, protože programátor může použít stejný jazyk
 pro popis pravidel stejně jako pro popis celého systému. Bohužel, tato metoda
-nám nedává příliš možností, kterými můžeme provést inspekci a extrakci pravidel.
+nám nedává příliš možností jak provést inspekci a extrakci pravidel.
 Další, pokročilejší metodou, je zápis pravidel pomocí meta-instrukcí, například anotací,
 nebo tzv.\textit{Expression Language} (EL). Tato metoda poskytuje dobrou možnost inspekce,
 ale zpravidla není typově bezpečná a může snáze způsobovat chyby v programu.
@@ -92,9 +92,9 @@ přihlášeném uživateli. \textit{Kontext požadavku} (z anglického \textit{R
 informace o aktuálním požadavku, jako IP adresa uživatele či jeho geolokace,
 a vztahuje se zejména k webovým službám. Posledním je \textit{byznysový kontext}. Ten
 chápeme jako množinu preconditions a post-conditions s byznysovou hodnotou, která se
-váže na konkrétní byzynsovou operaci~\cite{cemus2015automated}. Při vyhodnocování byznysových pravidel jsou proměnné
-z exekučního kontextu dostupné. Díky tomu můžeme definovat širokou škálu specializovaných
-byznysových pravidel.
+váže na konkrétní byzynsovou operaci~\cite{cemus2015automated}.
+Abychom mohli efektivně definovat co nejširší škálu byzynsových pravidel,
+musejí při jejich vyhodnocování být dostupné proměnné exekučního kontextu,
 
 \section{Architektura orientovaná na služby}
 
@@ -107,7 +107,7 @@ aby uměla splnit všechny očekávané funkční i nefunkční požadavky,
 zejména pak škálovatelnost systému a jeho schopnost zvládat vysoký
 objem dat a uživatelů. \textit{Architektura orientovaná na služby} (SOA) je
 důsledkem této evoluce. Na rozdíl od dřívě běžné a dnes
-stále používané \textit{monolitické architektury}
+stále používané \textit{monolitické architektury},
 SOA podle známého pravidla \uv{rozděl a panuj}
 dělí systém na samostatné celky, zvané \textit{služby}, které jsou
 zodpovědné za dílčí část požadované funkcionality.
@@ -134,8 +134,8 @@ je \textit{Object Request Broker} (ORB), který emuluje objekty,
 na kterých může klient volat jejich metody. Při zavolání metody
 na objektu, který se fyzicky nachází v aplikaci na vzdáleném stroji,
 zprostředkovává ORB veškerou komunikaci a svému uživateli poskytuje
-kompletní rozhraní, které vzdálený objekt emuluje. Uživatel tedy de
-facto nerozezná, kdy volá metodu na objektu, který je lokálně dostupný,
+jeho kompletní rozhraní. Uživatel tedy de facto nerozezná, kdy volá
+metodu na objektu, který je lokálně dostupný,
 a kdy volá metodu, kterou obsouží vzdálená služba. To je ale zároveň
 hlavní nevýhodou této architektury, protože komunikace se vzdáleným
 objektem s sebou nese celou řadu problémů, například mnohem vyšší latenci
@@ -162,8 +162,10 @@ V průběhu dalších let vznikla také velmi populární architektura
 \textit{Representational State Transfer} (REST)~\cite{fielding2000rest},
 která pro popis webových služeb využívá čistě protokol HTTP a jeho slovesa.
 To službám přináší společný slovník a umožňuje snažší dokumentaci
-a rychlejší orientaci vývojářů, kteří takovou službu implementují. Nejnovějším
-formátem pro popis služeb, čerpající z nedostatků architektury REST, je
+a rychlejší orientaci vývojářů, kteří takovou službu implementují či konzumují.
+Kvůli těžkopádnosti XML se pro služby implementující REST architekturu stal
+preferovaným formátem přenosu \textit{JavaScript Object Notation} (JSON).
+Nejnovějším formátem pro popis služeb, čerpající z nedostatků architektury REST, je
 \textit{GraphQL}, se kterým v roce 2015 přišla společnost Google.
 
 \subsection{Message Queue}
@@ -175,7 +177,7 @@ formátem pro popis služeb, čerpající z nedostatků architektury REST, je
     \label{fig:message-queue}
 \end{figure}
 
-Dalším z konceptů, který v rámci SOA vznikl, jsou tzv. \textit{Message Queue} (MQ).
+Dalším z konceptů, který v rámci SOA vznikl, je tzv. \textit{Message Queue} (MQ).
 Základní myšlenkou MQ, znázorněnou na obrázku~\ref{fig:message-queue},
 je asynchronní komunikace služeb pomocí zpráv nezávislých
 na platformě. Komunikaci zprostředkovává fronta, která přijímá a rozesílá
@@ -192,9 +194,9 @@ do těchto front přispívat relevantními zprávami nebo je konzumovat jako odb
 
 \subsection{Enterprise Service Bus}
 
-Ačkoliv zmíněné modely usnaďnují komunikaci služeb a zvyšují jejich
-spolehlivost, integrace služeb může být obtížná kvůli různým
-komunikačním protokolům a formátům. Již v devadesátých letech
+Ačkoliv zmíněné modely usnadňují komunikaci služeb a zvyšují jejich
+spolehlivost, integrace služeb může být obtížná, pokud služby používají navzájem různé
+komunikační protokoly a formáty. Již v devadesátých letech minulého století
 byl představen koncept \textit{Enterprise Service
 Bus} (ESB)~\cite{chappell2004enterprise},
 znázorněný na obrázku~\ref{fig:enterprise-service-bus},
@@ -232,13 +234,13 @@ a komunikují spolu pomocí jednoduchých protokolů~\cite{lewis2014microservice
 
 \goal{Stavba služeb kolem byznysových schopností}
 Důležitou myšlenkou microservices je organizace služeb kolem
-byznysových schopností systému. Namísto horizontálního dělení monolitu
+byznysových schopností systému. Namísto horizontálního dělení systému
 podle jeho vrstev\footnote{
 Zde předpokládáme klasickou třívrstvou architekturu~\cite{fowler2002patterns},
 rozdělující systém na \textit{datovou vrstvu}, \textit{aplikační vrstvu}
 a \textit{prezentační vrstvu}. Tyto vrstvy mají oddělené zodpovědnosti a komunikují
 spolu pomocí jasně definovaných společných rozhraní.
-} navrhuje rozdělit monolit vertikálně podle jeho byznysových schopností.
+} navrhuje rozdělit systém vertikálně podle jeho byznysových schopností.
 Na obrázku~\ref{fig:monolith-vs-microservices} je toto rozdělení demonstrováno.
 Příkladem může být dělení e-commerce systému na jednu službu obsahující byznysovou
 logiku pro registraci a správu uživatelů, druhou službu obsahující byznysovou logiku
@@ -259,7 +261,7 @@ ostatních služeb~\cite{lewis2014microservices}. Monolitická architektura
 vyžaduje i při malé změně jedné části celý systém znovu zkompilovat, sestavit
 a nasadit. Malé služby sloužící ideálně jedinému byznysovému účelu lze naopak
 při změně byznysových požadavků snadno nahradit samostatně bez zásahu do zbytku
-systému. Tím se usnaďnuje cyklus nasazení a spuštění nové verze služby.
+systému. Tím se usnadňuje cyklus nasazení a spuštění nové verze služby.
 
 \goal{Myšlenka smart endpoints, dumb pipes}
 Microservices také přinášejí koncept \uv{smart endpoint, dumb pipes},
@@ -277,10 +279,10 @@ Srovnání přístupů je znázorněno na obrázku~\ref{fig:microservices-deploy
 Díky této vlastnosti je možné snížit nároky na systémové zdroje při zachování
 stejného výkonu.
 
-\goal{Využití rozlišných technologií}
+\paragraph{Využití rozlišných technologií}
 Monolitické aplikace jsou často implementovány v jednom programovacím jazyce
 a využívají omezenou množinu technologií. Ne pro každý úkol je ale vhodný
-jeden programovací jazyk a s rostoucí velikostí informačního systému roste
+jeden programovací jazyk a s rostoucí velikostí informačního systému často roste
 i rozmanitost jeho funkcionality. Rozdělením systému na více služeb, které
 komunikují protokolem nezávislým na platformě, je vývojářům umožněno využít
 širší spektrum technologií a implementovat požadovanou funkcionalitu
@@ -297,14 +299,14 @@ efektivněji.
 Dalším z principů, které microservices přináší, je oddělení a decentralizace
 databázového úložiště. Každá služba, či cluster instancí jedné služby, zapisují
 a čtou data ze své oddělené databáze. Pokud potřebujou načíst data jiné služby,
-musejí k tomu využít její API. Tím se ještě více snižuje provázanost služeb.
+musejí k tomu využít její API. Tím se ještě výrazněji odděluje zodpovědnost služeb.
 Typickou praktikou v rámci SOA je naopak sdílení jedné databáze mezi více službami,
 což je často dáno komerčním modelem externího dodatavele databáze. Jediná databáze
 má navíc obrovskou výhodu v transakčním zpracování, které je centralizované.
 V případě microservices je nutno transakce řešit distribuovaně, což je velmi náročný
 úkol a společnosti často volí koncept tzv. \textit{eventual consistency}, kdy je
 preferována občasná nekonzistence v datech, která je následně manuálně opravena.
-Tento \textit{trade-off} je způsoben tím, že občasná manuální oprava může být
+Tento přístup je opodstatněn tím, že občasná manuální oprava může být
 často levnější než investice do kvalitního řešení distribuovaných transakcí –
 zejména pokud by jeho řešení znamenalo zpoždění vývoje produktu a způsobilo
 by ztrátu obchodní příležitosti~\cite{lewis2014microservices}.
@@ -324,7 +326,7 @@ Abychom si mohli tento koncept lépe představit, uvažme následující příkl
 pomocí UI vytvoří a odešle objednávku. V tuto chvíli
 je spuštěn byznysový proces, který musí zajistit, že objednávka bude založena v databázi,
 budou o ní informováni skladníci, bude zažádáno o vytvoření faktury a nakonec bude odeslán
-potvrzovací mail zákazníkovi. Po úspěšném dokončení operace je navíc potřeba uživateli
+potvrzovací e-mail zákazníkovi. Po úspěšném dokončení operace je navíc potřeba uživateli
 zobrazit v UI informaci, že vše proběhlo v pořádku. V případě orchestrace služba
 poskytující UI požádá dirigenta o vytvoření objednávky a ten se již postará o
 komunikaci tohoto požadavku všem službám zapojeným do procesu.
@@ -380,8 +382,7 @@ zodpovědná za vytváření a správu objednávek, informování uživatelů
 o změnách jejich stavů a vytváření statistik a reportů pro management.
 Čtvrtá služba má na starosti účetnictví, tedy vystavování a přijímání
 faktur a komunikaci s bankovními službami o potvrzení přijatých plateb.
-Poslední, pátá služba, poskytuje uživatelské rozhraní pro uživatele
-systému a umožňuje jeho komfortní obsluhu.
+Poslední, pátá služba, poskytuje uživatelské a umožňuje komfortní obsluhu systému.
 
 \goal{Konkrétní problémy zpracování průřezových problémů na příkladu}
 Jak již víme, každá byznysová operace má své preconditions, které musejí být splněny,
@@ -390,17 +391,20 @@ aplikovány po skončení operace. Například při vytváření faktury za
 objednávku musí být zvalidována fakturační adresa, bez níž nemůže
 být faktura vystavena. Pokud chceme ušetřit práci účetníkům, kteří by
 v případě nevalidní adresy musely kontaktovat zákazníka – pokud vůbec
-takovou možnost mají – musíme tento fakt je zohlednit již při vytváření objednávky.
-Proces vytváření objednávky ale realizuje jiná služba než vystavování faktur.
+takovou možnost mají – musíme tento fakt zohlednit již při vytváření objednávky.
+Proces vytváření objednávky ale realizuje jiná služba, než vystavování faktur.
 V ideálním případě bychom chtěli zákazníka upozornit na nevalidní fakturační
 adresu dynamicky ještě před odesláním objednávkového formuláře přímo v uživatelském
 rozhraní~\cite{cemus2017separation}. Pro lepší představu je problém znázorněn na
 obrázku~\ref{fig:service-cutting},
 
-\goal{Náročná reakce na změnu požadavku}
+\goal{Náročná údržba a reakce na změnu požadavku}
 Z tohoto příkladu je jasně vidět, že stejná funkcionalita se promítá
-do tří služeb, z nichž každá má zodpovědnost za jiné byznysové operace. Ve chvíli,
-kdy vzejde požadavek na změnu validace fakturační adresy – řekněme, že chceme zobecnit
+do tří služeb, z nichž každá má zodpovědnost za jiné byznysové operace.
+To znamená, že stejný kód, který realizuje validaci fakturační adresy,
+musí být implementován v každé ze služeb – v našem případě navíc ve třech
+různých programovacích jazycích. Ve chvíli, kdy vzejde požadavek na změnu
+validace fakturační adresy – řekněme, že chceme zobecnit
 validaci PSČ a umožníme přijímat i jeho tvar s mezerou – musíme stejnou změnu
 provést konzistentně na třech různých místech, všechny tři služby znovu
 sestavit a nasadit ve správném pořadí tak, aby nedošlo ke stavu,
@@ -414,14 +418,12 @@ do samostatné služby a vystavit její rozhraní pro ostatní služby,
 v souladu s nosnou myšlenkou microservices. Je pravda, že microservices
 v názvu nese slovo \uv{micro} a evokuje tak, že služby by měly být co nejmenší
 a nést co nejméně zodpovědnosti. Může ale nastat stav, kdy je služba příliš malá?
-
-\goal{Nevýhody příliš malé služby}
 Pokud služby ponesou příliš málo odpovědnosti,
 přináší to s sebou několik problémů, které je nutné zvážit. Musíme mít na paměti, že
 nasazení a provoz každé služby s sebou přináší náklady navíc
 a zvyšuje časové nároky na jejich vývojáře a administrátory.
 Komunikace služeb po síti je navíc podstatně pomalejší a náchylnější na
-chybu než komunikace jednotlivých komponent v rámci jednoho procesu.
+chybu, než komunikace jednotlivých komponent v rámci jednoho procesu.
 S rostoucím počtem \textit{průřezových problémů} by tak i rychle rostl
 počet služeb v systému a celkové náklady na jeho vývoj a údržbu.
 
@@ -449,7 +451,7 @@ v architektuře orientované na služby.
 Framework, resp. jeho knihovny, by měly umožňovat:
 
 \begin{itemize}
-    \item{Definice byznys kontextů pomocí platformově nezávislého doménově specifického jazyka srozumitelného pro doménové experty}
+    \item{Definice byznys kontextů pomocí platformně nezávislého doménově specifického jazyka srozumitelného pro doménové experty}
     \item{Zápis preconditions a post-conditions pravidla jednotlivých byznys kontextů}
     \item{Možnost jednoho kontextu rozšiřovat jiné kontexty}
     \item{Možnost centrálně spravovat byznysové kontexty, včetně úpravy stávajících a vytváření nových kontextů}
@@ -460,8 +462,8 @@ Framework, resp. jeho knihovny, by měly umožňovat:
 \section{Shrnutí}
 
 V této kapitole jsme nastínili problematiku vysoké komplexity moderních informačních systémů
-a z toho vyplívající požadavky na jejich architekturu. Analyzovali jsme koncept byznysových
-pravidel a byznysových kontextů. Dále jsme zkomali architekturu orientovanou na služby, její
-výhody a nevýhody, její moderní evoluci v podobě microservices a identifikovali jsme problémy
-v souvislosti s průřezovými problémy, které zasahují do více služeb najednou. Nakonec jsme
-vyjmenovali požadavky, které by měl splňovat framework, který bude výstupem této práce.
+a z toho vyplývající požadavky na jejich architekturu. Analyzovali jsme koncept byznysových
+pravidel a byznysových kontextů. Dále jsme prozkoumali architekturu orientovanou na služby, její
+výhody a nevýhody, její moderní evoluci v podobě microservices a identifikovali jsme nedostatky
+současných přístupů v řešení průřezových problémů, které zasahují do více služeb najednou. Nakonec
+jsme vyjmenovali požadavky, které by měl splňovat framework, jež bude výstupem této práce.
