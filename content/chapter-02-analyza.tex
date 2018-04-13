@@ -1,7 +1,3 @@
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-
 %!TEX ROOT=../diploma-thesis.tex
 
 \chapter{Analýza}\label{ch:analyza}
@@ -269,42 +265,86 @@ systému. Tím se usnaďnuje cyklus nasazení a spuštění nové verze služby.
 Microservices také přinášejí koncept \uv{smart endpoint, dumb pipes},
 který opouští koncept ESB ve prospěch přesunutí veškeré byznys logiky
 na stranu služeb. Tím se zvyšuje zapouzdřenost služeb a snižuje se
-jejich vzájemné provázání.
+jejich vzájemné provázání. Nutno podotknout, že microservices často
+využívají ke své funkci Message Queues.
 
-\goal{Škálovatelnost}
-Další nespornou výhodou je vysoká škálovatelnost systému. Pokud je na
+\paragraph{Škálovatelnost}
+Další nespornou výhodou microservices je vysoká škálovatelnost systému. Pokud je na
 některou ze služeb kladen vyšší nárok na výkon než na ostatní, mají
 vývojáři možnost konkrétní službu horizontálně škálovat aniž by
-museli škálovat celý systém, na rozdíl od monolitické architektury.
+museli škálovat kompletně celý systém, na rozdíl od monolitické architektury.
 Srovnání přístupů je znázorněno na obrázku~\ref{fig:microservices-deployment}.
-Tím se snižují nároky na systémové zdroje.
+Díky této vlastnosti je možné snížit nároky na systémové zdroje při zachování
+stejného výkonu.
 
-~\cite{perrey2003service}
-~\cite{sprott2004understanding}
-
-\goal{Distribuce }
-% TODO: dopsat
-
-\goal{Four tier architecture}
-~\cite{nginx2015fourtier}
-% TODO: dopsat nebo zahodit
-
-\goal{Service discovery}
-% TODO: dopsat
-
-\goal{Service orchestration & choreography}
-% TODO: dopsat
-
-\goal{Definice služby}
-\paragraph{Definice: Služba} je ucelenou systémovou komponentou
-s jasně definovanou zodpovědností, kterou lze nasadit a spustit jako
-samostatný proces, a která komunikuje s ostatními službami pomocí zpráv.
+\goal{Využití rozlišných technologií}
+Monolitické aplikace jsou často implementovány v jednom programovacím jazyce
+a využívají omezenou množinu technologií. Ne pro každý úkol je ale vhodný
+jeden programovací jazyk a s rostoucí velikostí informačního systému roste
+i rozmanitost jeho funkcionality. Rozdělením systému na více služeb, které
+komunikují protokolem nezávislým na platformě, je vývojářům umožněno využít
+širší spektrum technologií a implementovat požadovanou funkcionalitu
+efektivněji.
 
 \begin{figure}
     \centering
     \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/microservices-deployment.pdf}
     \caption{Porovnání nasazení monolitické architektury a microservices}
     \label{fig:microservices-deployment}
+\end{figure}
+
+\paragraph{Decentralizace úložiště}
+Dalším z principů, které microservices přináší, je oddělení a decentralizace
+databázového úložiště. Každá služba, či cluster instancí jedné služby, zapisují
+a čtou data ze své oddělené databáze. Pokud potřebujou načíst data jiné služby,
+musejí k tomu využít její API. Tím se ještě více snižuje provázanost služeb.
+Typickou praktikou v rámci SOA je naopak sdílení jedné databáze mezi více službami,
+což je často dáno komerčním modelem externího dodatavele databáze. Jediná databáze
+má navíc obrovskou výhodu v transakčním zpracování, které je centralizované.
+V případě microservices je nutno transakce řešit distribuovaně, což je velmi náročný
+úkol a společnosti často volí koncept tzv. \textit{eventual consistency}, kdy je
+preferována občasná nekonzistence v datech, která je následně manuálně opravena.
+Tento \textit{trade-off} je způsoben tím, že občasná manuální oprava může být
+často levnější než investice do kvalitního řešení distribuovaných transakcí –
+zejména pokud by jeho řešení znamenalo zpoždění vývoje produktu a způsobilo
+by ztrátu obchodní příležitosti~\cite{lewis2014microservices}.
+
+\subsection{Orchestrace a choreografie služeb}
+
+Jak již bylo zmíněno, aby informační systém skládající se ze služeb mohl vykonávat
+své funkce, musejí spolu služby komunikovat. Aby tato komunikace opravdu vedla
+ke správné funkci systému, musí podléhat jasně danému řádu.
+
+\paragraph{Orchestrace služeb}
+Pro vykonání byznysové operace je v rámci SOA často potřeba součinnost více služeb
+najednou. \textit{Orchestrace služeb} má za úkol zajistit, že komunikace mezi službami
+proběhne úspěšně a ve správném časovém sledu~\cite{orchestration},
+pomocí centrální komponenty – tzv. \textit{dirigenta}.
+Abychom si mohli tento koncept lépe představit, uvažme následující příklad. Uživatel
+pomocí UI vytvoří a odešle objednávku. V tuto chvíli
+je spuštěn byznysový proces, který musí zajistit, že objednávka bude založena v databázi,
+budou o ní informováni skladníci, bude zažádáno o vytvoření faktury a nakonec bude odeslán
+potvrzovací mail zákazníkovi. Po úspěšném dokončení operace je navíc potřeba uživateli
+zobrazit v UI informaci, že vše proběhlo v pořádku. V případě orchestrace služba
+poskytující UI požádá dirigenta o vytvoření objednávky a ten se již postará o
+komunikaci tohoto požadavku všem službám zapojeným do procesu.
+Typicky je jako dirigent využíván ESB, který je pro tuto roli vhodný,
+protože má informace o lokaci jednotlivých služeb a zprostředkovává mezi nimi
+komunikační kanály.
+
+\paragraph{Choreografie služeb}
+Přímým opakem orchestrace je tzv. \textit{choreografie služeb} a znamená
+vykonávání byznysových operací autonomně a asynchronně, bez centrální
+autority. V případě microservices je preferován tento přístup~\cite{dragoni2017microservices},
+protože orchestrace vede k vyššímu provázání služeb a nerovnoměrnému rozložení
+zodpovědností v systémů. Porovnání obou přístupů je pro lepší pochopení graficky
+znázorněno na obrázku~\ref{fig:choreography-orchestration}~\cite{orchestrationvschoreography}.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/choreography-orchestration.pdf}
+    \caption{Porovnání orchestrace a choreografie služeb}
+    \label{fig:choreography-orchestration}
 \end{figure}
 
 \section{Nedostatky současného přístupu}
@@ -409,11 +449,12 @@ v architektuře orientované na služby.
 Framework, resp. jeho knihovny, by měly umožňovat:
 
 \begin{itemize}
-    \item{Definice byznys kontextů pomocí doménově specifického jazyka srozumitelného pro doménové experty}
+    \item{Definice byznys kontextů pomocí platformově nezávislého doménově specifického jazyka srozumitelného pro doménové experty}
     \item{Zápis preconditions a post-conditions pravidla jednotlivých byznys kontextů}
     \item{Možnost jednoho kontextu rozšiřovat jiné kontexty}
     \item{Možnost centrálně spravovat byznysové kontexty, včetně úpravy stávajících a vytváření nových kontextů}
-    \item{Automatická distribuce kontextů, vyhodnocování jejich preconditions a aplikace post-conditions}
+    \item{Automatickou distribuci kontextů, vyhodnocování jejich preconditions a aplikaci post-conditions}
+    \item{Možnost využívat framework na více plaformách}
 \end{itemize}
 
 \section{Shrnutí}
