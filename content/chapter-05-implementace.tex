@@ -165,7 +165,7 @@ speciálně vytvořené DSL by bylo jistě čitelnější.
 \goal{Popis jak XML funguje}
 Dokumenty XML se skládají z tzv. \textit{entit}, které obsahují
 buď parsovaná nebo neparsovaná data. Parsovaná data se skládají
-z jednoduchých znaků reprezentujících jednoduchý text a nebo
+z jednoduchých znaků reprezentujících prostý text a nebo
 speciálních značek, neboli \textit{markup}, které slouží k popisu
 struktury dat. Naopak neparsovaná data mohou obsahovat libovolné
 znaky, které nenesou žádnou informaci o struktuře dat.
@@ -252,7 +252,7 @@ floatplacement=H
 
 \goal{Správa závislostí a buildu projektu}
 Pro správu závislostí a automatickou kompilaci a sestavování
-knihovny napsané v jazyce java byl zvolen projekt \textit{Maven}. %TODO: footnote
+knihovny napsané v jazyce java byl zvolen projekt \textit{Maven}~\cite{maven}.
 Tento nástroj umožňuje vývojáři komfortně a centrálně
 spravovat závislosti jeho projektu včetně detailního
 popisu jejich verze. Dále také umožňuje definovat jakým
@@ -451,6 +451,14 @@ administrace nedovolí uživateli změnu provést a vypíše informativní
 chybovou hlášku.
 
 \subsection{Použité technologie}
+
+\paragraph{Uživatelské rozhraní}
+Pro komfortní obsluhu centrální administrace bylo naprogramováno
+uživatelské rozhraní pomocí technologií Hypertext Markup Language~\cite{berners1995hypertext}
+(HTML) a Cascading Style Sheets~\cite{bos1998cascading} (CSS), které jsou již několik
+desetiletí standarderm pro tvorbu webových uživatelských rozhraní.
+Detail byznysového kontextu v uživatelském rozhraní můžeme vidět na snímku~\ref{fig:screenshot-context-detail}
+a formulář pro úpravu na snímku~\ref{fig:screenshot-context-edit}.
 
 \todo{
 \begin{itemize}

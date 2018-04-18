@@ -1,0 +1,17 @@
+version: '3'
+services:
+  order:
+    image: filipklimes-diploma/example-order-service
+    ports:
+      - "5501:5501"
+      - "5551:5551"
+    depends_on:
+      - "product"
+      - "billing"
+      - "shipping"
+      - "user"
+    links:
+      - product
+      - user
+      - billing
+      - shipping
