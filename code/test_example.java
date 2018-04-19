@@ -5,10 +5,12 @@ public class BusinessContextWeaverTest {
 
     /* ... */
 
-    @Test
+    $$@Test
     public void test() {
-        BusinessContextWeaver evaluator = new BusinessContextWeaver(createRegistry());
-        BusinessOperationContext context = new BusinessOperationContext("user.create");
+        BusinessContextWeaver evaluator =
+            new BusinessContextWeaver(createRegistry());
+        BusinessOperationContext context =
+            new BusinessOperationContext("user.create");
 
         context.setOutput(new User(
             "John Doe",

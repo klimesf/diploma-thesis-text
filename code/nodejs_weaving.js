@@ -1,4 +1,4 @@
-weaver = new BusinessContextWeaver(registry)
+const weaver = new BusinessContextWeaver(registry)
 
 function register(name, email) {
   return new Promise((resolve, reject) => {

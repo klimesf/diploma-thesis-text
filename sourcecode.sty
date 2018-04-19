@@ -1,6 +1,7 @@
 \ProvidesPackage{sourcecode}
 \RequirePackage{listings}
 \RequirePackage{colors}
+\usepackage[many]{tcolorbox}
 
 \definecolor{super-gray}{gray}{0.4}
 \definecolor{my-green}{HTML}{06A606}
@@ -18,11 +19,27 @@
 \definecolor{jsdarkgray}{rgb}{.4,.4,.4}
 \definecolor{jspurple}{rgb}{0.65, 0.12, 0.82}
 
+\definecolor{bglightgray}{rgb}{.97,.97,.97}
+\definecolor{numberlightgray}{rgb}{.92,.92,.92}
+
 \lstset{
 basicstyle=\ttfamily,
 showspaces=false,
 showstringspaces=false,
 tabsize=4,
+numbers=left,
+numberstyle=\tiny,
+columns=fullflexible,
+belowcaptionskip=1em,
+belowskip=2em,
+xleftmargin=2em,
+framexleftmargin=1.5em,
+backgroundcolor=\color{bglightgray},
+frame=l,
+framesep=4.5mm,
+framexleftmargin=2.5mm,
+fillcolor=\color{numberlightgray},
+rulecolor=\color{blue},
 }
 
 \lstdefinelanguage{Java}
@@ -50,7 +67,7 @@ morekeywords={xmlns,version,prefix,name,objectName,propertyName,type,value}% lis
 }
 
 \lstdefinelanguage{JavaScript}{
-keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, const, let, try},
 keywordstyle=\color{blue}\bfseries,
 ndkeywords={class, export, boolean, throw, implements, import, this},
 ndkeywordstyle=\color{jsdarkgray}\bfseries,
