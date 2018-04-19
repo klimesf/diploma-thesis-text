@@ -97,13 +97,13 @@ jeho myšlenku, bylo nutné ho nasadit při vývoji aplikace.
 Pro tento účel vznikla v rámci této práce případová studie na fiktivním
 ukázkovém e-commerce systému využívající architekturu orientovanou na služby.
 Na tomto příkladě demonstrujeme schopnost frameworku poradit si s průřezovými
-problémy v rámci SOA a také jeho schopnost plnit požadavky identifikované v
+problémy v rámci \gls{SOA} a také jeho schopnost plnit požadavky identifikované v
 sekci~\ref{sec:implementation-requirements}.
 
 \subsection{Use-cases}
 
 Pro ukázkový systém bylo vymodelováno následujících třináct případů užití
-(z anglického \textit{Use case} (UC)~\cite{bittner2002use}), jejich
+(z anglického \textit{Use case} (\gls{UC})~\cite{bittner2002use}), jejich
 přehled je v tabulce~\ref{tbl:use-cases}.
 
 \begin{table}
@@ -196,7 +196,7 @@ vidíme, na které užitné případy se pravidlo aplikuje, a jaký je typ pravi
 % TODO: seznam business contexts
 
 Na obrázku~\ref{fig:example-system-context-hirearchy} můžeme vidět vizualizaci
-hirearchie byznysových kontextů v ukázkovém systému, jejich vazbu na UC a také byznysová
+hirearchie byznysových kontextů v ukázkovém systému, jejich vazbu na \gls{UC} a také byznysová
 pravidla, která se v kontextech aplikují.
 
 \subsection{Služby}
@@ -229,7 +229,7 @@ byla implementována v jazyce Java za použití framework Spring Boot~\cite{spri
 
 Tato služba realizuje užitné scénáře spjaté s prohlížením a administrací nabízených
 produktů a jejich skladových zásob. Služba byla implementována v jazyce Python.
-Pro vytvoření REST API služby byl využit populární light-weight framework \textit{Flask}~\cite{flask}.
+Pro vytvoření \gls{REST} \gls{API} služby byl využit populární light-weight framework \textit{Flask}~\cite{flask}.
 Ve zdrojovém kódu~\ref{lst:product-service-flask} můžeme vidět použití tohoto frameworku pro obsluhu
 požadavku na výpis všech produktů.
 
@@ -274,11 +274,11 @@ Pro samotné spuštění byla využita funkce \textit{Compose}, která umožňuj
 definovat a spouštět více-kontejnerové aplikace. Ve zdrojovém kódu~\ref{lst:docker-compose}
 můžeme vidět zápis Order service. Pro její image je použit \code{filipklimes-diploma/example-order-service}.
 V sekci \code{ports} deklarujeme, že služba má mít z vnějšku přístupný port \code{5501}, na kterém poskytuje své
-REST API, a port \code{5551}, nak terém poskytuje své gRPC API pro sdílené byzynsových kontextů. Order service je závislá
+\gls{REST} \gls{API}, a port \code{5551}, nak terém poskytuje své gRPC \gls{API} pro sdílené byzynsových kontextů. Order service je závislá
 na Product, Billing, Shipping a User service, což explicitně specifikujeme v sekci \code{depends\_on},
 aby Docker Compose mohl spustit služby ve správném pořadí. Nakonec pomocí \code{links} deklarujeme,
 že pro kontejner, ve kterém Order Service poběží, mají být na síti přístupné služby \code{product}, \code{user},
-\code{billing} a \code{shipping}. Vše je popsáno ve formátu YAML~\cite{ben2005yaml}, který je běžně využíván
+\code{billing} a \code{shipping}. Vše je popsáno ve formátu \gls{YAML}~\cite{ben2005yaml}, který je běžně využíván
 pro konfigurační soubory, díky jeho snadné čitelnosti pro člověka a jednoduchému používání.
 
 \lstinputlisting[

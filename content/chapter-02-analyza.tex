@@ -11,9 +11,9 @@ jež bude výstupem této diplomové práce.
 
 \section{Byznysová pravidla}
 
-Informační systémy (IS) mají za úkol ulehčit, automatizovat či poskytovat podporu pro
+Informační systémy (\gls{IS}) mají za úkol ulehčit, automatizovat či poskytovat podporu pro
 byznysové procesy společností, které je využívají. Tyto procesy jsou tedy stěžejním
-prvkem IS. Systém má také za úkol uchovávat a spravovat data společnosti
+prvkem \gls{IS}. Systém má také za úkol uchovávat a spravovat data společnosti
 a měl by zaručit, že nedojde k jejich poškození či narušení jejich integrity.
 Byznysové procesy, potažmo byznysové operace, proto musejí
 podléhat jasně definovaným byznysovým pravidlům, která zajišťují konzistenci dat informačního
@@ -66,7 +66,7 @@ jazyce. Tato metoda je snadná, protože programátor může použít stejný ja
 pro popis pravidel stejně jako pro popis celého systému. Bohužel, tato metoda
 nám nedává příliš možností jak provést inspekci a extrakci pravidel.
 Další, pokročilejší metodou, je zápis pravidel pomocí meta-instrukcí, například anotací,
-nebo tzv.\textit{Expression Language} (EL). Tato metoda poskytuje dobrou možnost inspekce,
+nebo tzv.\textit{Expression Language} (\gls{EL}). Tato metoda poskytuje dobrou možnost inspekce,
 ale zpravidla není typově bezpečná a může snáze způsobovat chyby v programu.
 Poslední, nejpokročilejší metodou, je zápis pomocí doménově specifických jazyků.
 Ty jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
@@ -105,35 +105,35 @@ požadavky na jejich funkcionalitu, výkon a spolehlivost. To nutí
 vývojáře těchto systémů přizpůsobovat architekturu systému tak,
 aby uměla splnit všechny očekávané funkční i nefunkční požadavky,
 zejména pak škálovatelnost systému a jeho schopnost zvládat vysoký
-objem dat a uživatelů. \textit{Architektura orientovaná na služby} (SOA) je
+objem dat a uživatelů. \textit{Architektura orientovaná na služby} (\gls{SOA}) je
 důsledkem této evoluce. Na rozdíl od dřívě běžné a dnes
 stále používané \textit{monolitické architektury},
-SOA podle známého pravidla \uv{rozděl a panuj}
+\gls{SOA} podle známého pravidla \uv{rozděl a panuj}
 dělí systém na samostatné celky, zvané \textit{služby}, které jsou
 zodpovědné za dílčí část požadované funkcionality.
 
 \goal{Proč tu vlastně píšu o nějaké historii}
-Historicky byl termín SOA vykládán různými způsoby a vývojáři si
+Historicky byl termín \gls{SOA} vykládán různými způsoby a vývojáři si
 pod ním představovali několik rozdílných, nekompatibilních
 konceptů~\cite{fowler2005serviceorientedambiguity}.
 Zejména pak absence kvalitních definic toho, co vlastně
 služba je, vedla k vzájemnému nedorozumění, zmatení a v poslední
 době i ke snahám o opuštění tohoto konceptu~\cite{cerny2017disambiguation}.
-Abychom lépe prozuměli tomu, co vlastně SOA je, popíšeme si její historický
+Abychom lépe prozuměli tomu, co vlastně \gls{SOA} je, popíšeme si její historický
 vývoj a shrneme výhody a nevýhody jednotlivých přístupů.
 
 \subsection{Common Object Request Broker Architecture}
 
 Prvním historickým předchůdcem architektury orientované na služby
 byla tzv. \textit{Common Object Request Broker Architecture}
-(CORBA)~\cite{siegel2000corba}, která vzikala v osmdesátých a devadesátých letech
+(\gls{CORBA})~\cite{siegel2000corba}, která vzikala v osmdesátých a devadesátých letech
 dvacátého století. Ta umožňuje komunikaci mezi aplikacemi implementovanými v
 různých technologiích a běžícími na vlastních strojích s rozdílnými
 operačními systémy. Základním stavebním kamenem této architektury
-je \textit{Object Request Broker} (ORB), který emuluje objekty,
+je \textit{Object Request Broker} (\gls{ORB}), který emuluje objekty,
 na kterých může klient volat jejich metody. Při zavolání metody
 na objektu, který se fyzicky nachází v aplikaci na vzdáleném stroji,
-zprostředkovává ORB veškerou komunikaci a svému uživateli poskytuje
+zprostředkovává \gls{ORB} veškerou komunikaci a svému uživateli poskytuje
 jeho kompletní rozhraní. Uživatel tedy de facto nerozezná, kdy volá
 metodu na objektu, který je lokálně dostupný,
 a kdy volá metodu, kterou obsouží vzdálená služba. To je ale zároveň
@@ -146,26 +146,26 @@ komplexitu a zhoršuje jeho kvalitu kvůli obtížnější optimalizaci.
 
 \subsection{Web Services}
 
-Nedostatky architektury CORBA vedly k volbě jednoduššího
+Nedostatky architektury \gls{CORBA} vedly k volbě jednoduššího
 formátu pro popis komunikace služeb, spolehlivějšího a méně
 komplikovaného kanálu pro komunikaci a celkové redukci
 objemu komunikovaných dat. Preferovanou cestou komunikace
-se na přelomu tisíciletí stal protokol HTTP, zatímco preferovaným formátem
-pro serializaci přenášených dat se stal jazyk XML.
+se na přelomu tisíciletí stal protokol \gls{HTTP}, zatímco preferovaným formátem
+pro serializaci přenášených dat se stal jazyk \gls{XML}.
 Postupně se upustilo od volání metod na vzdálených objektech a přijal
 se koncept explicitního posílání zpráv mezi službami.
 Pro popis schématu zpráv vznikl formát \textit{Simple Object Access
-Protocol} (SOAP)~\cite{box2000simple}, který v kombinaci s
-\textit{Web Service Description Language} (WSDL)~\cite{christensen2001web}
+Protocol} (\gls{SOAP})~\cite{box2000simple}, který v kombinaci s
+\textit{Web Service Description Language} (\gls{WSDL})~\cite{christensen2001web}
 umožňuje kompletní definici rozhraní pro komunikaci mezi službami.
 V průběhu dalších let vznikla také velmi populární architektura
-\textit{Representational State Transfer} (REST)~\cite{fielding2000rest},
-která pro popis webových služeb využívá čistě protokol HTTP a jeho slovesa.
+\textit{Representational State Transfer} (\gls{REST})~\cite{fielding2000rest},
+která pro popis webových služeb využívá čistě protokol \gls{HTTP} a jeho slovesa.
 To službám přináší společný slovník a umožňuje snažší dokumentaci
 a rychlejší orientaci vývojářů, kteří takovou službu implementují či konzumují.
-Kvůli těžkopádnosti XML se pro služby implementující REST architekturu stal
-preferovaným formátem přenosu \textit{JavaScript Object Notation} (JSON).
-Nejnovějším formátem pro popis služeb, čerpající z nedostatků architektury REST, je
+Kvůli těžkopádnosti \gls{XML} se pro služby implementující \gls{REST} architekturu stal
+preferovaným formátem přenosu \textit{JavaScript Object Notation} (\gls{JSON}).
+Nejnovějším formátem pro popis služeb, čerpající z nedostatků architektury \gls{REST}, je
 \textit{GraphQL}, se kterým v roce 2015 přišla společnost Google.
 
 \subsection{Message Queue}
@@ -177,14 +177,14 @@ Nejnovějším formátem pro popis služeb, čerpající z nedostatků architekt
     \label{fig:message-queue}
 \end{figure}
 
-Dalším z konceptů, který v rámci SOA vznikl, je tzv. \textit{Message Queue} (MQ).
-Základní myšlenkou MQ, znázorněnou na obrázku~\ref{fig:message-queue},
+Dalším z konceptů, který v rámci \gls{SOA} vznikl, je tzv. \textit{Message Queue} (\gls{MQ}).
+Základní myšlenkou \gls{MQ}, znázorněnou na obrázku~\ref{fig:message-queue},
 je asynchronní komunikace služeb pomocí zpráv nezávislých
 na platformě. Komunikaci zprostředkovává fronta, která přijímá a rozesílá
 zprávy mezi službami. To přináší vyšší škálovatelnost a menší provázanost
 mezi službami. Všechny služby ale musí používat jednotný formát zpráv.
 
-MQ přináší dva způsoby, kterými mohou služby komunikovat. Prvním je
+\gls{MQ} přináší dva způsoby, kterými mohou služby komunikovat. Prvním je
 \textit{Request/Reply}, připomínající konverzaci dvou lidí. Jedna
 služba zašle zprávu obsahující identifikátor konverzace. Druhá služba
 na obdrženou zprávu zašle odpověď a pomocí identifikátoru označí,
@@ -198,22 +198,22 @@ Ačkoliv zmíněné modely usnadňují komunikaci služeb a zvyšují jejich
 spolehlivost, integrace služeb může být obtížná, pokud služby používají navzájem různé
 komunikační protokoly a formáty. Již v devadesátých letech minulého století
 byl představen koncept \textit{Enterprise Service
-Bus} (ESB)~\cite{chappell2004enterprise},
+Bus} (\gls{ESB})~\cite{chappell2004enterprise},
 znázorněný na obrázku~\ref{fig:enterprise-service-bus},
 který má za úkol propojit heterogenní služby a zajistit mezi nimi
-komunikační kanály. Tím na sebe ESB přebírá zodpovědnost za překlad
+komunikační kanály. Tím na sebe \gls{ESB} přebírá zodpovědnost za překlad
 jednotlivých zpráv a centralizuje veškerou komunikaci v systému.
 
-ESB se zároveň staví do role experta na lokalizaci jednotlivých služeb.
-Službě tak pro komunikaci s okolním světem stačí znát adresu ESB, kterému
+\gls{ESB} se zároveň staví do role experta na lokalizaci jednotlivých služeb.
+Službě tak pro komunikaci s okolním světem stačí znát adresu \gls{ESB}, kterému
 zašle zprávu, a ten ji sám doručí na místo určení. Tento model ale
-znamená, že ESB je velmi komplexní komponentou. Výpadek ESB navíc
-v způsobí zastavení funkce celého systému a ESB se tak stává
+znamená, že \gls{ESB} je velmi komplexní komponentou. Výpadek \gls{ESB} navíc
+v způsobí zastavení funkce celého systému a \gls{ESB} se tak stává
 tzv. \textit{single point of failure}, což v praxi snižuje škálovatelnost systému.
-V případě vlastního nízkého výkonu se ESB může snadno stát úzkým hrdlem.
+V případě vlastního nízkého výkonu se \gls{ESB} může snadno stát úzkým hrdlem.
 Tyto problémy mohou být částečně vyřešeny tzv. \textit{federovaným designem},
 kdy je systém rozdělen na byznysově příbuzné části, z nichž každá má
-svůj ESB.
+svůj \gls{ESB}.
 
 \begin{figure}
     \centering
@@ -227,8 +227,8 @@ svůj ESB.
 \goal{Microservices a budoucnost SOA}
 Novým trendem posledních let jsou takzvané \textit{Microservices}.
 Přináší několik zajmavých konceptů, které specializují a konkretizují
-principy SOA. Microservices se tedy dají chápat jako podmnožina
-SOA. Základní myšlenkou je vývoj informačního systému jako množiny
+principy \gls{SOA}. Microservices se tedy dají chápat jako podmnožina
+\gls{SOA}. Základní myšlenkou je vývoj informačního systému jako množiny
 malých oddělených služeb, které jsou spouštěny v samostatných procesech
 a komunikují spolu pomocí jednoduchých protokolů~\cite{lewis2014microservices}.
 
@@ -265,7 +265,7 @@ systému. Tím se usnadňuje cyklus nasazení a spuštění nové verze služby.
 
 \goal{Myšlenka smart endpoints, dumb pipes}
 Microservices také přinášejí koncept \uv{smart endpoint, dumb pipes},
-který opouští koncept ESB ve prospěch přesunutí veškeré byznys logiky
+který opouští koncept \gls{ESB} ve prospěch přesunutí veškeré byznys logiky
 na stranu služeb. Tím se zvyšuje zapouzdřenost služeb a snižuje se
 jejich vzájemné provázání. Nutno podotknout, že microservices často
 využívají ke své funkci Message Queues.
@@ -299,8 +299,8 @@ efektivněji.
 Dalším z principů, které microservices přináší, je oddělení a decentralizace
 databázového úložiště. Každá služba, či cluster instancí jedné služby, zapisují
 a čtou data ze své oddělené databáze. Pokud potřebujou načíst data jiné služby,
-musejí k tomu využít její API. Tím se ještě výrazněji odděluje zodpovědnost služeb.
-Typickou praktikou v rámci SOA je naopak sdílení jedné databáze mezi více službami,
+musejí k tomu využít její \gls{API}. Tím se ještě výrazněji odděluje zodpovědnost služeb.
+Typickou praktikou v rámci \gls{SOA} je naopak sdílení jedné databáze mezi více službami,
 což je často dáno komerčním modelem externího dodatavele databáze. Jediná databáze
 má navíc obrovskou výhodu v transakčním zpracování, které je centralizované.
 V případě microservices je nutno transakce řešit distribuovaně, což je velmi náročný
@@ -318,19 +318,19 @@ své funkce, musejí spolu služby komunikovat. Aby tato komunikace opravdu vedl
 ke správné funkci systému, musí podléhat jasně danému řádu.
 
 \paragraph{Orchestrace služeb}
-Pro vykonání byznysové operace je v rámci SOA často potřeba součinnost více služeb
+Pro vykonání byznysové operace je v rámci \gls{SOA} často potřeba součinnost více služeb
 najednou. \textit{Orchestrace služeb} má za úkol zajistit, že komunikace mezi službami
 proběhne úspěšně a ve správném časovém sledu~\cite{orchestration},
 pomocí centrální komponenty – tzv. \textit{dirigenta}.
 Abychom si mohli tento koncept lépe představit, uvažme následující příklad. Uživatel
-pomocí UI vytvoří a odešle objednávku. V tuto chvíli
+pomocí \gls{UI} vytvoří a odešle objednávku. V tuto chvíli
 je spuštěn byznysový proces, který musí zajistit, že objednávka bude založena v databázi,
 budou o ní informováni skladníci, bude zažádáno o vytvoření faktury a nakonec bude odeslán
 potvrzovací e-mail zákazníkovi. Po úspěšném dokončení operace je navíc potřeba uživateli
-zobrazit v UI informaci, že vše proběhlo v pořádku. V případě orchestrace služba
-poskytující UI požádá dirigenta o vytvoření objednávky a ten se již postará o
+zobrazit v \gls{UI} informaci, že vše proběhlo v pořádku. V případě orchestrace služba
+poskytující \gls{UI} požádá dirigenta o vytvoření objednávky a ten se již postará o
 komunikaci tohoto požadavku všem službám zapojeným do procesu.
-Typicky je jako dirigent využíván ESB, který je pro tuto roli vhodný,
+Typicky je jako dirigent využíván \gls{ESB}, který je pro tuto roli vhodný,
 protože má informace o lokaci jednotlivých služeb a zprostředkovává mezi nimi
 komunikační kanály.
 
@@ -352,14 +352,14 @@ znázorněno na obrázku~\ref{fig:choreography-orchestration}~\cite{orchestratio
 \section{Nedostatky současného přístupu}
 
 \goal{Navázání na předchozí sekci}
-Jak jsme zjistili v předchozích odstavcích, SOA se zaměřuje zejména na
+Jak jsme zjistili v předchozích odstavcích, \gls{SOA} se zaměřuje zejména na
 dělení systému na služby a detailně rozebírá formu jejich vzájemné komunikace.
 Neodpovídá ale na několik závažných otázek, se kterými se v praxi musejí
 architekti informačních systémů vypořádat, aby architektura byla schopná uspokojivě
 plnit požadavky, které jsou na ní kladené.
 
 \goal{Problémy SOA a průřezových problémů}
-Jelikož jedním z cílů SOA, potažmo microservices, je co nejvíce izolovat
+Jelikož jedním z cílů \gls{SOA}, potažmo microservices, je co nejvíce izolovat
 jednotlivé služby, mají tyto architektury tendenci duplikovat části kódu
 zajišťující funkcionalitu, která vyžaduje konzistentní zpracování ve více
 službách~\cite{cerny2017disambiguation}, tzv. \textit{průřezových
@@ -404,7 +404,7 @@ do tří služeb, z nichž každá má zodpovědnost za jiné byznysové operace
 To znamená, že stejný kód, který realizuje validaci fakturační adresy,
 musí být implementován v každé ze služeb – v našem případě navíc ve třech
 různých programovacích jazycích. Ve chvíli, kdy vzejde požadavek na změnu
-validace fakturační adresy – řekněme, že chceme zobecnit
+validace fakturační adresy \textendash řekněme, že chceme zobecnit
 validaci PSČ a umožníme přijímat i jeho tvar s mezerou – musíme stejnou změnu
 provést konzistentně na třech různých místech, všechny tři služby znovu
 sestavit a nasadit ve správném pořadí tak, aby nedošlo ke stavu,

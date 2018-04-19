@@ -2,14 +2,15 @@ DVIPS = dvips
 LATEX = latex
 PDFLATEX = pdflatex
 BIBTEX = bibtex
-PROJECT = Hron-thesis-2009
-EDITOR = emacs # nebo jiny oblibeny editor
+PROJECT = diploma-thesis
+EDITOR = vim # nebo jiny oblibeny editor
 GV = gv # nebo ghostview
 
 all: $(PROJECT).tex
-	$(PDFLATEX) $(PROJECT).tex
+	$(PDFLATEX) $(PROJECT).tex || true
 	makeindex $(PROJECT).nlo -s nomencl.ist -o $(PROJECT).nls
-	$(PDFLATEX) $(PROJECT).tex
+	makeglossaries ${PROJECT}
+	$(PDFLATEX) $(PROJECT).tex || true
 	
 edit:
 	$(EDITOR) $(PROJECT).tex &

@@ -42,7 +42,7 @@ jiného programátora a tím zlepšit kvalitu týmové spolupráce.
 \goal{OOP a jeho popis}
 Jedním z nejpopulárnějších paradigmat používaných k
 vývoji moderních enterprise systémů je nepochybně
-objektově orientované programování (OOP). To vnímá daný problém
+objektově orientované programování (\gls{OOP}). To vnímá daný problém
 jako množinu objektu, které spolu intereagují. Program
 člení na malé funkční celky odpovídající struktuře
 reálného světa~\cite{rentsch1982object}. Je vhodné zmínit,
@@ -56,7 +56,7 @@ vede k lepšímu návrhu a organizaci programu a snižuje
 tak náklady na jeho vývoj a údržbu.
 
 \goal{Nedostatky OOP}
-Ačkoliv je OOP velmi silným a všestraným nástrojem,
+Ačkoliv je \gls{OOP} velmi silným a všestraným nástrojem,
 existují problémy, které nelze jeho pomocí efektivně řešit.
 Jedním takovým problémem jsou obecné požadavky na systém,
 které musejí být konzistentně dodržovány na více místech,
@@ -65,24 +65,24 @@ může být logování systémových akcí, optimalizace správy paměti
 nebo uniformní zpracování výjimek~\cite{kiczales1997aspect}.
 Takové požadavky nazýváme \textit{průřezové problémy}
 (z anglického \textit{cross-cutting concerns}).
-V rámci OOP je programátor nucen v ojektech manuálně opakovat
+V rámci \gls{OOP} je programátor nucen v ojektech manuálně opakovat
 kód, který zodpovídá za jejich realizaci. Duplikace kódu
 vede k větší náchylnosti na lidskou chybu a k vyšším nárokům na vývoj
 a údržbu daného softwarového systému~\cite{fowler1999refactoring}.
 
 \goal{AOP jako odpověď na nedostatky OOP}
-Aspektově orientované programování (AOP) přináší řešení na
+Aspektově orientované programování (\gls{AOP}) přináší řešení na
 výše zmiňované problémy. Extrahuje obecné požadavky,
 tzv. \textit{aspekty} do jednoho místa a pomocí procesu zvaného
 \textit{weaving} je poté automaticky distribuuje do systému.
 Weaving může proběhnout staticky při kompilaci programu nebo dynamicky
 při jeho běhu. V obou případech ale programátorovi ulehčuje práci,
 protože k definici i změně aspektu dochází centrálně a tím je eliminována
-potřeba manuální duplikace kódu. Je nutno poznamenat, že AOP není
+potřeba manuální duplikace kódu. Je nutno poznamenat, že \gls{AOP} není
 paradigmatem poskytujícím kompletní framework pro návrh programu.
 V ideálním případě je tedy k návrhu systému využita kombinace
-AOP s jiným paradigmatem. Pro účely této práce se zaměříme na
-kombinaci AOP a OOP.
+\gls{AOP} s jiným paradigmatem. Pro účely této práce se zaměříme na
+kombinaci \gls{AOP} a \gls{OOP}.
 
 \todo{
 \begin{itemize}
@@ -112,11 +112,11 @@ kombinaci AOP a OOP.
 \end{itemize}
 }
 
-Aspect-driven Design Approach (ADDA)
+Aspect-driven Design Approach (\gls{ADDA})
 
 \goal{Vhodnost AOP pro náš úkol}
 Vzhledem k požadavkům na implementaci našeho frameworku stanoveným
-v předchozí kapitole~\ref{ch:analyza} se AOP a na něm stavějící ADDA
+v předchozí kapitole~\ref{ch:analyza} se \gls{AOP} a na něm stavějící \gls{ADDA}
 jeví jako vhodný přístup, který nám pomůže dosáhnout cíle.
 
 \section{Stávající řešení reprezentace business pravidel}

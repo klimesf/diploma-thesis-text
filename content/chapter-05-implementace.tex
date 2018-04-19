@@ -79,7 +79,7 @@ Umožňuje explicitně definovat a vynucovat schéma dat,
 která jsou přenášena po síti, bez vazby na konkrétní programovací
 jazyk. Zároveň poskytuje obslužné knihovny pro naše vybrané platformy.
 Navíc je díky binární reprezentaci dat v přenosu velmi efektivní,
-oproti formátům jako je JSON nebo XML~\cite{maeda2012performance}.
+oproti formátům jako je \gls{JSON} nebo \gls{XML}~\cite{maeda2012performance}.
 Oproti protokolům \textit{Apache Thrift}~\cite{thrift}
 a \textit{Apache Avro}~\cite{avro}, které poskytují
 velmi srovnatelnou funkcionalitu, mají Protocol Buffers
@@ -117,7 +117,7 @@ Pro realizaci architektury klient-server byl zvolen
 open-source framework gRPC~\cite{grpcio}, který staví
 na technologii Protocol Buffers a poskytuje vývojáři
 možnost definovat detailní schéma komunikace pomocí
-protokolu \textit{RPC}~\cite{nelson1981remote}.
+protokolu \textit{\gls{RPC}}~\cite{nelson1981remote}.
 Zdrojový kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
 který umožňuje svému klientovi volat metody \code{FetchContexts()},
 \code{FetchAllContexts()} a \code{UpdateOrSaveContext()}.
@@ -151,7 +151,7 @@ jako jediný argument typu \code{BusinessContextUpdateRequestMessage}.
 \section{Doménově specifický jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
 
 \goal{Popsat proč a jak jsme tvořili DSL}
-Ačkoliv není specifikace a vytvoření doménově specifického jazyka (DSL)
+Ačkoliv není specifikace a vytvoření doménově specifického jazyka (\gls{DSL})
 hlavním úkolem této práce, pro ověření konceptu bylo nutné nadefinovat
 alespoň jeho zjednodušenou verzi a implementovat část knihovny, která
 bude umět jazyk zpracovat a sestavit z něj byznysový kontext v paměti programu.
@@ -159,14 +159,14 @@ bude umět jazyk zpracovat a sestavit z něj byznysový kontext v paměti progra
 \goal{Důvody pro výběr XML}
 Pro popis kontextů byl jako kompromis mezi jednoduchostí implementace
 a přívětivostí pro koncového uživatele zvolen univerzální formát Extensible
-Markup Language (XML)~\cite{bray1997extensible}. Tento
+Markup Language (\gls{XML})~\cite{bray1997extensible}. Tento
 jazyk umožňuje serializaci libovolných dat, přímočarý a formální
 zápis jejich struktury a také jejich snadné aplikační zpracování.
 Zároveň poskytuje relativně dobrou čitelnost pro člověka, ačkoliv
-speciálně vytvořené DSL by bylo jistě čitelnější.
+speciálně vytvořené \gls{DSL} by bylo jistě čitelnější.
 
 \goal{Popis jak XML funguje}
-Dokumenty XML se skládají z tzv. \textit{entit}, které obsahují
+Dokumenty \gls{XML} se skládají z tzv. \textit{entit}, které obsahují
 buď parsovaná nebo neparsovaná data. Parsovaná data se skládají
 z jednoduchých znaků reprezentujících prostý text a nebo
 speciálních značek, neboli \textit{markup}, které slouží k popisu
@@ -174,13 +174,13 @@ struktury dat. Naopak neparsovaná data mohou obsahovat libovolné
 znaky, které nenesou žádnou informaci o struktuře dat.
 
 \goal{Popis jaký formát jsme zvolili pro formální zápis schématu XML dokumentu}
-Vzhledem k tomu, že XML je volně rozšiřitelný jazyk a neklade
+Vzhledem k tomu, že \gls{XML} je volně rozšiřitelný jazyk a neklade
 meze v možnostech struktury dat, bylo potřeba jasně definovat
 a dokumentovat očekávanou strukturu dokumentu popisujícího
-byznys kontext. Pro jazyk XML existuje vícero možností jak schéma
+byznys kontext. Pro jazyk \gls{XML} existuje vícero možností jak schéma
 definovat~\cite{lee2000comparative}, od jednoduchého formátu
 \textit{DTD} až po komplexní formáty jako je \textit{Schematron}, či
-\textit{XML Schema Definition} (XSD), který byl nakonec zvolen.
+\textit{XML Schema Definition} (\gls{XSD}), který byl nakonec zvolen.
 Díky formálně definovanému schématu můžeme popis byznys kontextu
 automaticky validovat a vyvarovat se tak případných chyb.
 
@@ -196,7 +196,7 @@ jsou definovány \code{<postconditions>}. Obsažená data odpovídají
 navrženému metamodelu byznysového kontextu z kapitoly~\ref{ch:navrh}.
 % TODO: ověřit že to v tý kapitole fakt mám, možná i odkaz na konkrétní odstavec
 Pro zápis podmínek jednotlivých preconditions a post-conditions byl zvolen
-opis Expression AST. Toto rozhodnutí vychází z předpokladu,
+opis Expression \gls{AST}. Toto rozhodnutí vychází z předpokladu,
 že lze vzhledem k povaze prototypu relaxovat podmínku
 na čitelnost zápisu pravidel ve prospěch jednoduššího zpracování.
 
@@ -209,7 +209,7 @@ snáze porozumět doménoví experti a mohou se tak zapojit do
 vývojového procesu.
 
 \lstinputlisting[
-caption={Příklad zápisu byznys kontextu v jazyce XML},
+caption={Příklad zápisu byznys kontextu v jazyce \gls{XML}},
 label={lst:business-context-xml},
 language=XML,
 %frame=single,
@@ -279,11 +279,11 @@ engine pro weaving aspektů.
 
 \goal{Proč jdom2 a co to umí}
 Knihovna JDOM 2~\cite{jdom2} poskytuje
-kompletní sadu nástroju pro čtení a zápis XML dokumentů.
-Implementuje specifikaci \textit{Document Object Model} (DOM)~\cite{wood2004document},
-pomocí které lze programaticky sestavovat a číst XML dokumenty.
+kompletní sadu nástroju pro čtení a zápis \gls{XML} dokumentů.
+Implementuje specifikaci \textit{Document Object Model} (\gls{DOM})~\cite{wood2004document},
+pomocí které lze programaticky sestavovat a číst \gls{XML} dokumenty.
 Tuto knihovnu jsme využili pro serializaci a deserializaci
-DSL byznys kontextů popsaných v sekci~\ref{sec:dsl-impl}.
+\gls{DSL} byznys kontextů popsaných v sekci~\ref{sec:dsl-impl}.
 
 \section{Knihovna pro platformu Python}
 
@@ -458,7 +458,7 @@ chybovou hlášku.
 \paragraph{Uživatelské rozhraní}
 Pro komfortní obsluhu centrální administrace bylo naprogramováno
 uživatelské rozhraní pomocí technologií Hypertext Markup Language~\cite{berners1995hypertext}
-(HTML) a Cascading Style Sheets~\cite{bos1998cascading} (CSS), které jsou již několik
+(HTML) a Cascading Style Sheets~\cite{bos1998cascading} (\gls{CSS}), které jsou již několik
 desetiletí standarderm pro tvorbu webových uživatelských rozhraní.
 Detail byznysového kontextu v uživatelském rozhraní můžeme vidět na snímku~\ref{fig:screenshot-context-detail}
 a formulář pro úpravu na snímku~\ref{fig:screenshot-context-edit}.
@@ -480,7 +480,7 @@ knihoven pro platformy jazyka Java, jazyka Python a frameworku
 Node.js. Knihovny umožňují centrální správu a automatickou distribuci
 byznysových kontextů, včetně vyhodnocování jejich pravidel, za
 použití aspektově orientovaného přístupu.
-Dále jsme specifikovali DSL, kterým lze popsat byznys kontext
+Dále jsme specifikovali \gls{DSL}, kterým lze popsat byznys kontext
 nezávisle na platformě.
 
 \goal{Hostování na GitHubu + licence}

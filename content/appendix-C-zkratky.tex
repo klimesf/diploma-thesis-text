@@ -1,38 +1,5 @@
 %!TEX ROOT=../diploma-thesis.tex
 
-\chapter{Seznam použitých zkratek}\label{ch:shortcuts}
-
-\printglossary[type=\acronymtype]
-
-\begin{description}[align=left]
-    \item [ADDA] Aspect-Driven Design Approach
-    \item [API] Application Programming Interface
-    \item [AST] Abstract Syntax Tree
-    \item [CORBA] Common Object Request Broker Architecture
-    \item [CSS] Cascading Style Sheets
-    \item [DOM] Document Object Model
-    \item [DSL] Domain-Specific Language
-    \item [EIS] Enterprise Information System
-    \item [EL] Expression Language
-    \item [ESB] Enterprise Service Bus
-    \item [HTML] Hypertext Markup Language
-    \item [HTTP] Hypertext Transfer Protocol
-    \item [IDL] Interface Description Language
-    \item [IS] Informační systém
-    \item [JSON] JavaScript Object Notation
-    \item [MDA] Model-Driver Architecture
-    \item [MQ] Message Queue
-    \item [ORB] Object Request Broker
-    \item [OOP] Object Oriented Programming (Objektově orientované programování)
-    \item [REST] Representational State Transfer
-    \item [RPC] Remote Procedure Call
-    \item [SLOC] Source Lines of Code
-    \item [SOA] Service Oriented Architecture
-    \item [SOAP] Simple Object Access Protocol
-    \item [UC] Use Case
-    \item [UI] User Interface
-    \item [WSDL] Web Service Description Language
-    \item [XML] Extensible Markup Language
-    \item [XSD] XML Schema Definition
-    \item [YAML] YAML Ain't Markup Language
-\end{description}
+\renewcommand*{\glsnamefont}[1]{\textbf{#1}}
+\setlength{\glsdescwidth}{0.95\linewidth}
+\printglossary[type=\acronymtype,title={Seznam použitých zkratek}]\label{ch:shortcuts}

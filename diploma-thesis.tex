@@ -53,6 +53,11 @@ unicode=true,
 \usepackage{protobuf/lang}  % include language definition for protobuf
 \usepackage{protobuf/style} % include custom style for proto declarations.
 
+\usepackage[style=long,acronym,nomain,numberedsection]{glossaries}
+\makeglossaries
+
+\include{content/acronyms}
+
 % custom macros
 \usepackage{custom}
 
@@ -78,7 +83,7 @@ unicode=true,
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % nastavení jazyka, kterým je práce psána
 \selectlanguage{czech}    % podle jazyka práce nastavte na [czech | english]
-\translate                % nastaví české nebo anglické popisy (např. katedra -> department); viz k336_thesis_macros
+\dptranslate                % nastaví české nebo anglické popisy (např. katedra -> department); viz k336_thesis_macros
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % Poznamky ke kompletaci prace
@@ -156,19 +161,12 @@ basicstyle=\fontsize{10}{12}\selectfont\ttfamily
 % začátek textu
 \mainbodystarts
 
-\inputencoding{utf8}
 \input{content/chapter-01-uvod}
-\inputencoding{utf8}
 \input{content/chapter-02-analyza}
-\inputencoding{utf8}
 \input{content/chapter-03-reserse}
-\inputencoding{utf8}
 \input{content/chapter-04-navrh}
-\inputencoding{utf8}
 \input{content/chapter-05-implementace}
-\inputencoding{utf8}
 \input{content/chapter-06-verifikace}
-\inputencoding{utf8}
 \input{content/chapter-07-zaver}
 
 \bibliographystyle{csplainnat}
