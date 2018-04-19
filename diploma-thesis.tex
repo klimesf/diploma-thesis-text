@@ -49,6 +49,9 @@ unicode=true,
 \usepackage{lscape}
 \usepackage{rotating}
 \usepackage{epstopdf}
+\usepackage{sourcecode}
+\usepackage{protobuf/lang}  % include language definition for protobuf
+\usepackage{protobuf/style} % include custom style for proto declarations.
 
 % custom macros
 \usepackage{custom}
@@ -153,12 +156,19 @@ basicstyle=\fontsize{10}{12}\selectfont\ttfamily
 % začátek textu
 \mainbodystarts
 
+\inputencoding{utf8}
 \input{content/chapter-01-uvod}
+\inputencoding{utf8}
 \input{content/chapter-02-analyza}
+\inputencoding{utf8}
 \input{content/chapter-03-reserse}
+\inputencoding{utf8}
 \input{content/chapter-04-navrh}
+\inputencoding{utf8}
 \input{content/chapter-05-implementace}
+\inputencoding{utf8}
 \input{content/chapter-06-verifikace}
+\inputencoding{utf8}
 \input{content/chapter-07-zaver}
 
 \bibliographystyle{csplainnat}

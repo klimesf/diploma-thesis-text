@@ -1,0 +1,97 @@
+\ProvidesPackage{sourcecode}
+\RequirePackage{listings}
+\RequirePackage{colors}
+
+\definecolor{super-gray}{gray}{0.4}
+\definecolor{my-green}{HTML}{06A606}
+
+\definecolor{javared}{rgb}{0.6,0,0} % for strings
+\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
+\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
+
+\definecolor{xmlgray}{rgb}{0.4,0.4,0.4}
+\definecolor{xmldarkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{xmlcyan}{rgb}{0.0,0.6,0.6}
+
+\definecolor{jslightgray}{rgb}{.9,.9,.9}
+\definecolor{jsdarkgray}{rgb}{.4,.4,.4}
+\definecolor{jspurple}{rgb}{0.65, 0.12, 0.82}
+
+\lstset{
+basicstyle=\ttfamily,
+showspaces=false,
+showstringspaces=false,
+tabsize=4,
+}
+
+\lstdefinelanguage{Java}
+{
+keywords={instanceof, new, true, false, catch, return, null, catch, switch, if, while, do, else, case, break, class, implements, extends, import, public, private, static, protected, void, int, float, double},
+keywordstyle=\color{blue},
+stringstyle=\color{darkgreen},
+commentstyle=\color{xmlcyan},
+morecomment=[s][\color{javadocblue}]{/**}{*/},
+moredelim=[il][\textcolor{javared}]{$$},
+moredelim=[is][\textcolor{javared}]{\%\%}{\%\%},
+morestring=[b]',
+morestring=[b]",
+}
+
+\lstdefinelanguage{XML}
+{
+morestring=[b]",
+morestring=[s]{>}{<},
+morecomment=[s]{<?}{?>},
+stringstyle=\color{black},
+identifierstyle=\color{blue},
+keywordstyle=\color{javared},
+morekeywords={xmlns,version,prefix,name,objectName,propertyName,type,value}% list your attributes here
+}
+
+\lstdefinelanguage{JavaScript}{
+keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+keywordstyle=\color{blue}\bfseries,
+ndkeywords={class, export, boolean, throw, implements, import, this},
+ndkeywordstyle=\color{jsdarkgray}\bfseries,
+identifierstyle=\color{black},
+sensitive=false,
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{jspurple}\ttfamily,
+stringstyle=\color{jsred}\ttfamily,
+morestring=[b]',
+morestring=[b]",
+stringstyle=\color{darkgreen}
+}
+
+\lstdefinelanguage{Yaml}{
+keywords={true,false,null,y,n},
+keywordstyle=\color{darkgray},
+sensitive=false,
+stringstyle=\color{darkgreen},
+comment=[l]{\#},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{purple}\ttfamily,
+moredelim=[l][\color{orange}]{\&},
+moredelim=[l][\color{magenta}]{*},
+moredelim=**[is][\color{blue}]{\%\%}{\%\%},
+morestring=[b]',
+morestring=[b]",
+}
+
+\lstdefinelanguage{Dockerfile}{
+keywords={FROM,RUN,WORKDIR,COPY},
+keywordstyle=\color{blue},
+sensitive=true,
+}
+
+\lstdefinelanguage{Python}{
+keywords={def,class,for,in,import,from,pass,return},
+keywordstyle=\color{blue},
+sensitive=true,
+moredelim=[is][\textcolor{javapurple}]{\%\%}{\%\%},
+morestring=[b]',
+morestring=[b]",
+stringstyle=\color{darkgreen},
+}

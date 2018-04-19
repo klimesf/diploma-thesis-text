@@ -1,15 +1,14 @@
 public class OrderService {
 
-    @BusinessOperation("order.create")
+    $$@BusinessOperation("order.create")
     public Order create(
-        @BusinessOperationParameter("user")
+        $$@BusinessOperationParameter("user")
         User user,
-        @BusinessOperationParameter("email")
+        $$@BusinessOperationParameter("email")
         String email,
-        @BusinessOperationParameter("shippingAddress")
+        $$@BusinessOperationParameter("shippingAddress")
         Address shippingAddress,
-        @BusinessOperationParameter("billingAddress")
+        $$@BusinessOperationParameter("billingAddress")
         Address billingAddress
     ) { /* ... */ }
-
 }

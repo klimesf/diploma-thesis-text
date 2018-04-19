@@ -1,8 +1,10 @@
 service BusinessContextServer {
     rpc FetchContexts (BusinessContextRequestMessage)
         returns (BusinessContextsResponseMessage) {}
+
     rpc FetchAllContexts (Empty)
         returns (BusinessContextsResponseMessage) {}
+
     rpc UpdateOrSaveContext (BusinessContextUpdateRequestMessage)
         returns (Empty) {}
 }
