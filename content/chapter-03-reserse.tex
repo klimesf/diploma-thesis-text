@@ -2,14 +2,14 @@
 
 \chapter{Rešerše}\label{ch:reserse}
 
-\section{Modelem řízená architektura}
+\section{Modelem ř\'{\i}zená architektura}
 
 \todo{
 \begin{itemize}
     \item Co to je MDA
-    \item Výhody
-    \item Nevýhody
-    \item Shrnutí a proč se nám nehodí
+    \item V\'yhody
+    \item Nev\'yhody
+    \item Shrnut\'{\i} a proč se nám nehod\'{\i}
 \end{itemize}
 }
 
@@ -18,76 +18,76 @@
 \todo{
 \begin{itemize}
     \item Co to je
-    \item Výhody
-    \item Nevýhody
-    \item Shrnutí a proč se nám hodí
+    \item V\'yhody
+    \item Nev\'yhody
+    \item Shrnut\'{\i} a proč se nám hod\'{\i}
     \item Citovat ~\cite{berson1992client}
 \end{itemize}
 }
 
-\section{Aspektově orientované programování}
+\section{Aspektově orientované programován\'{\i}}
 
 \goal{Co je paradigma}
-Programování je komplexní disciplína s teoreticky
-neomezeným počtem možností, jakým programátor může
-řešit zadaný problém. Ačkoliv každá úloha má své specifické
-požadavky, za relativně krátkou historii programování se
-stihlo ustálit několik ideologií, tzv. programovacích
-paradigmat, které programátorovi poskytují sadu abstrakcí
-a základních principů~\cite{van2009programming}.
-Díky znalosti paradigmatu může programátor nejen zlepšit
+Programován\'{\i} je komplexn\'{\i} discipl\'{\i}na s teoreticky
+neomezen\'ym počtem možnost\'{\i}, jak\'ym programátor může
+řešit zadan\'y problém. Ačkoliv každá úloha má své specifické
+požadavky, za relativně krátkou historii programován\'{\i} se
+stihlo ustálit několik ideologi\'{\i}, tzv. programovac\'{\i}ch
+paradigmat, které programátorovi poskytuj\'{\i} sadu abstrakc\'{\i}
+a základn\'{\i}ch principů~\cite{van2009programming}.
+D\'{\i}ky znalosti paradigmatu může programátor nejen zlepšit
 svou produktivitu, ale zároveň může snáze pochopit myšlenky
-jiného programátora a tím zlepšit kvalitu týmové spolupráce.
+jiného programátora a t\'{\i}m zlepšit kvalitu t\'ymové spolupráce.
 
 \goal{OOP a jeho popis}
-Jedním z nejpopulárnějších paradigmat používaných k
-vývoji moderních enterprise systémů je nepochybně
-objektově orientované programování (\gls{OOP}). To vnímá daný problém
-jako množinu objektu, které spolu intereagují. Program
-člení na malé funkční celky odpovídající struktuře
-reálného světa~\cite{rentsch1982object}. Je vhodné zmínit,
-že objekty se rozumí jak konkrétní koncepty, například
-auto nebo člověk, tak i abstraktní koncepty,
-namátkou bankovní transakce nebo objednávka v obchodě.
-Objekty se pak promítají do kódu programu i do
-reprezentace struktur v paměti počítače.
-Tento přístup je velmi snadný pro pochopení,
-vede k lepšímu návrhu a organizaci programu a snižuje
-tak náklady na jeho vývoj a údržbu.
+Jedn\'{\i}m z nejpopulárnějš\'{\i}ch paradigmat použ\'{\i}van\'ych k
+v\'yvoji modern\'{\i}ch enterprise systémů je nepochybně
+objektově orientované programován\'{\i} (\gls{OOP}). To vn\'{\i}má dan\'y problém
+jako množinu objektu, které spolu intereaguj\'{\i}. Program
+člen\'{\i} na malé funkčn\'{\i} celky odpov\'{\i}daj\'{\i}c\'{\i} struktuře
+reálného světa~\cite{rentsch1982object}. Je vhodné zm\'{\i}nit,
+že objekty se rozum\'{\i} jak konkrétn\'{\i} koncepty, např\'{\i}klad
+auto nebo člověk, tak i abstraktn\'{\i} koncepty,
+namátkou bankovn\'{\i} transakce nebo objednávka v obchodě.
+Objekty se pak prom\'{\i}taj\'{\i} do kódu programu i do
+reprezentace struktur v paměti poč\'{\i}tače.
+Tento př\'{\i}stup je velmi snadn\'y pro pochopen\'{\i},
+vede k lepš\'{\i}mu návrhu a organizaci programu a snižuje
+tak náklady na jeho v\'yvoj a údržbu.
 
 \goal{Nedostatky OOP}
-Ačkoliv je \gls{OOP} velmi silným a všestraným nástrojem,
-existují problémy, které nelze jeho pomocí efektivně řešit.
-Jedním takovým problémem jsou obecné požadavky na systém,
-které musejí být konzistentně dodržovány na více místech,
-které spolu zdánlivě nesouvisí. Příkladem
-může být logování systémových akcí, optimalizace správy paměti
-nebo uniformní zpracování výjimek~\cite{kiczales1997aspect}.
-Takové požadavky nazýváme \textit{průřezové problémy}
+Ačkoliv je \gls{OOP} velmi siln\'ym a všestran\'ym nástrojem,
+existuj\'{\i} problémy, které nelze jeho pomoc\'{\i} efektivně řešit.
+Jedn\'{\i}m takov\'ym problémem jsou obecné požadavky na systém,
+které musej\'{\i} b\'yt konzistentně dodržovány na v\'{\i}ce m\'{\i}stech,
+které spolu zdánlivě nesouvis\'{\i}. Př\'{\i}kladem
+může b\'yt logován\'{\i} systémov\'ych akc\'{\i}, optimalizace správy paměti
+nebo uniformn\'{\i} zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect}.
+Takové požadavky naz\'yváme \textit{průřezové problémy}
 (z anglického \textit{cross-cutting concerns}).
 V rámci \gls{OOP} je programátor nucen v ojektech manuálně opakovat
-kód, který zodpovídá za jejich realizaci. Duplikace kódu
-vede k větší náchylnosti na lidskou chybu a k vyšším nárokům na vývoj
+kód, kter\'y zodpov\'{\i}dá za jejich realizaci. Duplikace kódu
+vede k větš\'{\i} náchylnosti na lidskou chybu a k vyšš\'{\i}m nárokům na v\'yvoj
 a údržbu daného softwarového systému~\cite{fowler1999refactoring}.
 
 \goal{AOP jako odpověď na nedostatky OOP}
-Aspektově orientované programování (\gls{AOP}) přináší řešení na
-výše zmiňované problémy. Extrahuje obecné požadavky,
-tzv. \textit{aspekty} do jednoho místa a pomocí procesu zvaného
+Aspektově orientované programován\'{\i} (\gls{AOP}) přináš\'{\i} řešen\'{\i} na
+v\'yše zmiňované problémy. Extrahuje obecné požadavky,
+tzv. \textit{aspekty} do jednoho m\'{\i}sta a pomoc\'{\i} procesu zvaného
 \textit{weaving} je poté automaticky distribuuje do systému.
 Weaving může proběhnout staticky při kompilaci programu nebo dynamicky
-při jeho běhu. V obou případech ale programátorovi ulehčuje práci,
-protože k definici i změně aspektu dochází centrálně a tím je eliminována
-potřeba manuální duplikace kódu. Je nutno poznamenat, že \gls{AOP} není
-paradigmatem poskytujícím kompletní framework pro návrh programu.
-V ideálním případě je tedy k návrhu systému využita kombinace
-\gls{AOP} s jiným paradigmatem. Pro účely této práce se zaměříme na
+při jeho běhu. V obou př\'{\i}padech ale programátorovi ulehčuje práci,
+protože k definici i změně aspektu docház\'{\i} centrálně a t\'{\i}m je eliminována
+potřeba manuáln\'{\i} duplikace kódu. Je nutno poznamenat, že \gls{AOP} nen\'{\i}
+paradigmatem poskytuj\'{\i}c\'{\i}m kompletn\'{\i} framework pro návrh programu.
+V ideáln\'{\i}m př\'{\i}padě je tedy k návrhu systému využita kombinace
+\gls{AOP} s jin\'ym paradigmatem. Pro účely této práce se zaměř\'{\i}me na
 kombinaci \gls{AOP} a \gls{OOP}.
 
 \todo{
 \begin{itemize}
     \item diagram cross cutting concerns
-    \item roztáhnout do více odstavců
+    \item roztáhnout do v\'{\i}ce odstavců
     \item diagram weaveru
     \item section BPEL
 \end{itemize}
@@ -107,19 +107,19 @@ kombinaci \gls{AOP} a \gls{OOP}.
 \begin{itemize}
     \item co to je
     \item jak nám to pomůže
-    \item využítí jeho konceptů
-    \item shrnutí
+    \item využ\'{\i}t\'{\i} jeho konceptů
+    \item shrnut\'{\i}
 \end{itemize}
 }
 
 Aspect-driven Design Approach (\gls{ADDA})
 
 \goal{Vhodnost AOP pro náš úkol}
-Vzhledem k požadavkům na implementaci našeho frameworku stanoveným
-v předchozí kapitole~\ref{ch:analyza} se \gls{AOP} a na něm stavějící \gls{ADDA}
-jeví jako vhodný přístup, který nám pomůže dosáhnout cíle.
+Vzhledem k požadavkům na implementaci našeho frameworku stanoven\'ym
+v předchoz\'{\i} kapitole~\ref{ch:analyza} se \gls{AOP} a na něm stavěj\'{\i}c\'{\i} \gls{ADDA}
+jev\'{\i} jako vhodn\'y př\'{\i}stup, kter\'y nám pomůže dosáhnout c\'{\i}le.
 
-\section{Stávající řešení reprezentace business pravidel}
+\section{Stávaj\'{\i}c\'{\i} řešen\'{\i} reprezentace business pravidel}
 
 \subsection{Drools DSL}
 
@@ -128,13 +128,13 @@ jeví jako vhodný přístup, který nám pomůže dosáhnout cíle.
     \item co to je
     \item jak to funguje
     \item RETE algoritmus
-    \item výhody
-    \item nevýhody
-    \item shrnutí a proč se nám nehodí
+    \item v\'yhody
+    \item nev\'yhody
+    \item shrnut\'{\i} a proč se nám nehod\'{\i}
 \end{itemize}
 }
 
-\goal{Drools se nám nehodí, protože je jen pro platformu Java}
+\goal{Drools se nám nehod\'{\i}, protože je jen pro platformu Java}
 ...
 
 \subsection{JetBrains MPS}
@@ -143,23 +143,23 @@ jeví jako vhodný přístup, který nám pomůže dosáhnout cíle.
 \begin{itemize}
     \item co to je
     \item jak to funguje
-    \item výhody
-    \item nevýhody
-    \item shrnutí a proč se nám nehodí
+    \item v\'yhody
+    \item nev\'yhody
+    \item shrnut\'{\i} a proč se nám nehod\'{\i}
 \end{itemize}
 }
 
-\goal{MPS je super, ale nevyhovuje nám kvůli dynamickým změnám}
+\goal{MPS je super, ale nevyhovuje nám kvůli dynamick\'ym změnám}
 ...
 
-\section{Shrnutí}
+\section{Shrnut\'{\i}}
 
 V této kapitole jsme provedli rešerši \textit{architektury orientované
-na služby}, jejích výhod, nevýhod a známých nedostatků. Dále jsme
-prozkoumali, jaký způsobem funguje síťová \textit{architektura klient-server},
-jaké jsou výhody a nevýhody \textit{modelem řízeného vývoje} pro náš případ
-a shrnuli jsme paradigma \textit{aspektově orientovaného programování} a
-z něch vycházející přístup k návrhu softwarových systémů \textit{ADDA}.
-Nakonec jsme provedli rešerši stávajících řešení reprezentace byznys pravidel
-včetně komplexního frameworku \textit{Drools} a zhodnotili jsme jeho vhodnost
-k řešení našeho problému.
+na služby}, jej\'{\i}ch v\'yhod, nev\'yhod a znám\'ych nedostatků. Dále jsme
+prozkoumali, jak\'y způsobem funguje s\'{\i}ťová \textit{architektura klient-server},
+jaké jsou v\'yhody a nev\'yhody \textit{modelem ř\'{\i}zeného v\'yvoje} pro náš př\'{\i}pad
+a shrnuli jsme paradigma \textit{aspektově orientovaného programován\'{\i}} a
+z něch vycházej\'{\i}c\'{\i} př\'{\i}stup k návrhu softwarov\'ych systémů \textit{ADDA}.
+Nakonec jsme provedli rešerši stávaj\'{\i}c\'{\i}ch řešen\'{\i} reprezentace byznys pravidel
+včetně komplexn\'{\i}ho frameworku \textit{Drools} a zhodnotili jsme jeho vhodnost
+k řešen\'{\i} našeho problému.

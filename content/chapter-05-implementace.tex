@@ -5,66 +5,66 @@
 
 \chapter{Implementace prototypů knihoven}\label{ch:implementace}
 
-\goal{Uvedení kapitoly a nastínění obsahu}
-Součástí zadání této práce je implementace prototypů
-knihoven pro framework navržený v kapitole~\ref{ch:navrh}
-pro tři rozdílné platformy, z nichž jedna musí být \textit{Java}.
-V této kapitole si popíšeme, jaké plaformy jsme vybraly, a jakým
-způsobem byly prototypy knihoven implementovány. Součástí
-kapitoly je i stručná rešerše technologií, které byly použity
-pro dosažení vytyčených cílů.
+\goal{Uveden\'{\i} kapitoly a nast\'{\i}něn\'{\i} obsahu}
+Součást\'{\i} zadán\'{\i} této práce je implementace prototypů
+knihoven pro framework navržen\'y v kapitole~\ref{ch:navrh}
+pro tři rozd\'{\i}lné platformy, z nichž jedna mus\'{\i} b\'yt \textit{Java}.
+V této kapitole si pop\'{\i}šeme, jaké plaformy jsme vybraly, a jak\'ym
+způsobem byly prototypy knihoven implementovány. Součást\'{\i}
+kapitoly je i stručná rešerše technologi\'{\i}, které byly použity
+pro dosažen\'{\i} vytyčen\'ych c\'{\i}lů.
 
 \goal{Nástin formátu kapitoly}
-Jelikož vycházejí implementace knihoven pro všechny platformy
-ze stejného návrhu, popíšeme si kompletní implementaci pro jazyk
-Java a ostatní implementace shrneme komparativní metodou.
+Jelikož vycházej\'{\i} implementace knihoven pro všechny platformy
+ze stejného návrhu, pop\'{\i}šeme si kompletn\'{\i} implementaci pro jazyk
+Java a ostatn\'{\i} implementace shrneme komparativn\'{\i} metodou.
 
-\goal{Technické implementační problémy}
-Pro splnění cílů bylo potřeba vyřešit také několik technických otázek,
-jako je přenos byznys kontextů mezi jednotlivými službami, výběr formátu
-pro zápis byznys kontextu, podpora aspektově orientovaného programování
-v daném programovacím jazyce a využití principu \textit{runtime weavingu}
-a integrace knihoven do služeb, které je budou využívat.
+\goal{Technické implementačn\'{\i} problémy}
+Pro splněn\'{\i} c\'{\i}lů bylo potřeba vyřešit také několik technick\'ych otázek,
+jako je přenos byznys kontextů mezi jednotliv\'ymi službami, v\'yběr formátu
+pro zápis byznys kontextu, podpora aspektově orientovaného programován\'{\i}
+v daném programovac\'{\i}m jazyce a využit\'{\i} principu \textit{runtime weavingu}
+a integrace knihoven do služeb, které je budou využ\'{\i}vat.
 
-\section{Výběr použitých platforem}
+\section{V\'yběr použit\'ych platforem}
 
-\goal{Jaké jsme vybrali další platformy a proč}
-Mimo jazyk Java, který byl určen zadáním, byla pro
+\goal{Jaké jsme vybrali dalš\'{\i} platformy a proč}
+Mimo jazyk Java, kter\'y byl určen zadán\'{\i}m, byla pro
 implementaci vybrána platforma jazyka \textit{Python}
-a platforma \textit{Node.js}, který slouží jako
-běhové prostředí pro jazyk \textit{JavaScript}.
-Výběr byl proveden na základě aktuálních trendů
-ve světě softwarového inženýrství. Projekt GitHut~\cite{githut}
-z roku 2014, který shrnuje statistiky repozitářů
-populární služby pro hosting a sdílení kódu
+a platforma \textit{Node.js}, kter\'y slouž\'{\i} jako
+běhové prostřed\'{\i} pro jazyk \textit{JavaScript}.
+V\'yběr byl proveden na základě aktuáln\'{\i}ch trendů
+ve světě softwarového inžen\'yrstv\'{\i}. Projekt GitHut~\cite{githut}
+z roku 2014, kter\'y shrnuje statistiky repozitářů
+populárn\'{\i} služby pro hosting a sd\'{\i}len\'{\i} kódu
 GitHub\footnote{https://github.com/}, určil
-jazyky JavaScript, Java a Python jako tři nejaktivnější.
+jazyky JavaScript, Java a Python jako tři nejaktivnějš\'{\i}.
 Služba GitHub následně sama zveřejnila statistiky za rok 2017
 v rámci projektu Octoverse~\cite{octoverse}
-a dospěla ke stejnému závěru, ačkoliv Python se umístil na druhé
-pozici na úkor jazyka Java. Podle průzkumu oblíbeného
+a dospěla ke stejnému závěru, ačkoliv Python se um\'{\i}stil na druhé
+pozici na úkor jazyka Java. Podle průzkumu obl\'{\i}beného
 programátorského webového portálu Stack
-Overflow~\cite{stackoverflowsurvey} se umístily tyto jazyky
-v první čtveřici nejpopulárnějších jazyků pro obecné použití.
+Overflow~\cite{stackoverflowsurvey} se um\'{\i}stily tyto jazyky
+v prvn\'{\i} čtveřici nejpopulárnějš\'{\i}ch jazyků pro obecné použit\'{\i}.
 
-\section{Sdílení byznys kontextů mezi službami}
+\section{Sd\'{\i}len\'{\i} byznys kontextů mezi službami}
 
-\goal{Formát pro přenos pravidel po síti a jeho výhody}
-Abychom mohli sdílet byznysové kontexty a jejich pravidla
-mezi jednotlivými službami, musíme mezi nimi vybudovat
-síťové komunikační kanály. Je tedy nutné zvolit protokol
-a jednotný formát, ve kterém spolu budou služby komunikovat.
-Tento formát musí být nezávislý na platformě a ideálně
-by měl být co nejefektivnější v rychlosti přenosu.
+\goal{Formát pro přenos pravidel po s\'{\i}ti a jeho v\'yhody}
+Abychom mohli sd\'{\i}let byznysové kontexty a jejich pravidla
+mezi jednotliv\'ymi službami, mus\'{\i}me mezi nimi vybudovat
+s\'{\i}ťové komunikačn\'{\i} kanály. Je tedy nutné zvolit protokol
+a jednotn\'y formát, ve kterém spolu budou služby komunikovat.
+Tento formát mus\'{\i} b\'yt nezávisl\'y na platformě a ideálně
+by měl b\'yt co nejefektivnějš\'{\i} v rychlosti přenosu.
 
 \goal{Architektura klient-server pro komunikaci kontextů mezi službami}
-Pro síťovou komunikaci se nabízí využít architekturu
+Pro s\'{\i}ťovou komunikaci se nab\'{\i}z\'{\i} využ\'{\i}t architekturu
 \textit{klient-server}, kterou jsme detailněji popsali
-v sekci~\ref{sec:client-server}. Při sdílení kontextů
+v sekci~\ref{sec:client-server}. Při sd\'{\i}len\'{\i} kontextů
 lze chápat \textit{klienta} jako službu, která pro svou funkci
-vyžaduje získání kontextu definovaného v jiné službě.
+vyžaduje z\'{\i}skán\'{\i} kontextu definovaného v jiné službě.
 Jako \textit{server} lze naopak chápat službu, která poskytne
-své kontexty jiné službě, která na nich závisí. Jinými slovy,
+své kontexty jiné službě, která na nich závis\'{\i}. Jin\'ymi slovy,
 klient si vyžádá potřebné kontexty od serveru a ten mu je v
 odpovědi zašle. Může se také stát, že některá služba bude zároveň
 serverem jedné služby, a zároveň klientem druhé služby.
@@ -72,18 +72,18 @@ serverem jedné služby, a zároveň klientem druhé služby.
 \subsection{Protocol Buffers}
 
 \goal{Proč jsme použili Protobuf}
-Pro přenos byznysových kontextů byl zvolen open-source formát
+Pro přenos byznysov\'ych kontextů byl zvolen open-source formát
 \textit{Protocol Buffers}~\cite{protobuf}\cite{varda2008protocol}
-vyvinutý společností Google\footnote{https://www.google.com/}.
+vyvinut\'y společnost\'{\i} Google\footnote{https://www.google.com/}.
 Umožňuje explicitně definovat a vynucovat schéma dat,
-která jsou přenášena po síti, bez vazby na konkrétní programovací
+která jsou přenášena po s\'{\i}ti, bez vazby na konkrétn\'{\i} programovac\'{\i}
 jazyk. Zároveň poskytuje obslužné knihovny pro naše vybrané platformy.
-Navíc je díky binární reprezentaci dat v přenosu velmi efektivní,
+Nav\'{\i}c je d\'{\i}ky binárn\'{\i} reprezentaci dat v přenosu velmi efektivn\'{\i},
 oproti formátům jako je \gls{JSON} nebo \gls{XML}~\cite{maeda2012performance}.
 Oproti protokolům \textit{Apache Thrift}~\cite{thrift}
-a \textit{Apache Avro}~\cite{avro}, které poskytují
-velmi srovnatelnou funkcionalitu, mají Protocol Buffers
-kvalitnější a lépe srozumitelnou dokumentaci.
+a \textit{Apache Avro}~\cite{avro}, které poskytuj\'{\i}
+velmi srovnatelnou funkcionalitu, maj\'{\i} Protocol Buffers
+kvalitnějš\'{\i} a lépe srozumitelnou dokumentaci.
 
 \lstinputlisting[
 caption={Část definice schématu zpráv byznys kontextů v jazyce Protobuffer},
@@ -95,31 +95,31 @@ style=protobuf,
 %floatplacement=H
 ]{code/protobuffer_example.proto}
 
-Zdrojový kód~\ref{lst:protobuf-example} znázorňuje část zápisu schématu
-zasílaných zpráv obsahující byznys kontexty ve formátu Protobuffer.
-Schéma zpráv pro výměnu kontextů opisuje strukturu metamodelu navrženého
+Zdrojov\'y kód~\ref{lst:protobuf-example} znázorňuje část zápisu schématu
+zas\'{\i}lan\'ych zpráv obsahuj\'{\i}c\'{\i} byznys kontexty ve formátu Protobuffer.
+Schéma zpráv pro v\'yměnu kontextů opisuje strukturu metamodelu navrženého
 v sekci~\ref{sec:metamodel}.
 
 \begin{description}
     \item [ExpressionMessage] obsahuje jméno, atributy a argumenty \code{Expression}
-    \item [ExpressionPropertyMessage] je enumerace obsahující typy atributu \code{Expression}
-    \item [PreconditionMessage] obsahuje název a podmínku precondition pravidla
-    \item [PostConditionMessage] obsahuje název, typ, název odkazovaného pole a podmínku post-condition pravidla
-    \item [PostConditionTypeMessage] je enumerace obsahující typy post-condition pravidla
-    \item [BusinessContextMessage] obsahuje identifikátor, seznam rožšířených kontextů, seznam preconditions a post-conditions byznys kontextu
-    \item [BusinessContextsMessage] obaluje více byznys kontextů
+    \item [ExpressionPropertyMessage] je enumerace obsahuj\'{\i}c\'{\i} typy atributu \code{Expression}
+    \item [PreconditionMessage] obsahuje název a podm\'{\i}nku precondition pravidla
+    \item [PostConditionMessage] obsahuje název, typ, název odkazovaného pole a podm\'{\i}nku post-condition pravidla
+    \item [PostConditionTypeMessage] je enumerace obsahuj\'{\i}c\'{\i} typy post-condition pravidla
+    \item [BusinessContextMessage] obsahuje identifikátor, seznam rožš\'{\i}řen\'ych kontextů, seznam preconditions a post-conditions byznys kontextu
+    \item [BusinessContextsMessage] obaluje v\'{\i}ce byznys kontextů
 \end{description}
 
 \subsection{gRPC}
 
 \goal{Proč jsme použili gRPC}
 Pro realizaci architektury klient-server byl zvolen
-open-source framework gRPC~\cite{grpcio}, který staví
-na technologii Protocol Buffers a poskytuje vývojáři
-možnost definovat detailní schéma komunikace pomocí
+open-source framework gRPC~\cite{grpcio}, kter\'y stav\'{\i}
+na technologii Protocol Buffers a poskytuje v\'yvojáři
+možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i}
 protokolu \textit{\gls{RPC}}~\cite{nelson1981remote}.
-Zdrojový kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
-který umožňuje svému klientovi volat metody \code{FetchContexts()},
+Zdrojov\'y kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
+kter\'y umožňuje svému klientovi volat metody \code{FetchContexts()},
 \code{FetchAllContexts()} a \code{UpdateOrSaveContext()}.
 
 \lstinputlisting[
@@ -134,82 +134,82 @@ style=protobuf,
 {code/grpc_example.proto}
 
 \paragraph{FetchContexts()} je metoda, která umožňuje klientovi
-získat kontexty, jejichž identifikátory zašle jako argument
+z\'{\i}skat kontexty, jejichž identifikátory zašle jako argument
 typu \code{BusinessContextRequestMessage}.
-V odpovědi pak obdrží dotazované kontexty a nebo chybovou hlášku,
-pokud kontexty s danými identifikátory nemá server k dispozici.
+V odpovědi pak obdrž\'{\i} dotazované kontexty a nebo chybovou hlášku,
+pokud kontexty s dan\'ymi identifikátory nemá server k dispozici.
 
-\paragraph{FetchAllContexts()} dovoluje klientovi získat všechny
-dostupné kontexty serveru. Tato metoda je využívána pro administraci
-kontextů, kdy je potřeba získat všechny kontexty všech služeb, aby
-nad nimi mohly probíhat úpravy a analýzy.
+\paragraph{FetchAllContexts()} dovoluje klientovi z\'{\i}skat všechny
+dostupné kontexty serveru. Tato metoda je využ\'{\i}vána pro administraci
+kontextů, kdy je potřeba z\'{\i}skat všechny kontexty všech služeb, aby
+nad nimi mohly prob\'{\i}hat úpravy a anal\'yzy.
 
-\paragraph{UpdateOrSaveContext()} slouží pro uložení nového či
+\paragraph{UpdateOrSaveContext()} slouž\'{\i} pro uložen\'{\i} nového či
 editovaného pravidla, které je zasláno v serializované podobě
-jako jediný argument typu \code{BusinessContextUpdateRequestMessage}.
+jako jedin\'y argument typu \code{BusinessContextUpdateRequestMessage}.
 
-\section{Doménově specifický jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
+\section{Doménově specifick\'y jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
 
 \goal{Popsat proč a jak jsme tvořili DSL}
-Ačkoliv není specifikace a vytvoření doménově specifického jazyka (\gls{DSL})
-hlavním úkolem této práce, pro ověření konceptu bylo nutné nadefinovat
+Ačkoliv nen\'{\i} specifikace a vytvořen\'{\i} doménově specifického jazyka (\gls{DSL})
+hlavn\'{\i}m úkolem této práce, pro ověřen\'{\i} konceptu bylo nutné nadefinovat
 alespoň jeho zjednodušenou verzi a implementovat část knihovny, která
-bude umět jazyk zpracovat a sestavit z něj byznysový kontext v paměti programu.
+bude umět jazyk zpracovat a sestavit z něj byznysov\'y kontext v paměti programu.
 
-\goal{Důvody pro výběr XML}
-Pro popis kontextů byl jako kompromis mezi jednoduchostí implementace
-a přívětivostí pro koncového uživatele zvolen univerzální formát Extensible
+\goal{Důvody pro v\'yběr XML}
+Pro popis kontextů byl jako kompromis mezi jednoduchost\'{\i} implementace
+a př\'{\i}větivost\'{\i} pro koncového uživatele zvolen univerzáln\'{\i} formát Extensible
 Markup Language (\gls{XML})~\cite{bray1997extensible}. Tento
-jazyk umožňuje serializaci libovolných dat, přímočarý a formální
-zápis jejich struktury a také jejich snadné aplikační zpracování.
+jazyk umožňuje serializaci libovoln\'ych dat, př\'{\i}močar\'y a formáln\'{\i}
+zápis jejich struktury a také jejich snadné aplikačn\'{\i} zpracován\'{\i}.
 Zároveň poskytuje relativně dobrou čitelnost pro člověka, ačkoliv
-speciálně vytvořené \gls{DSL} by bylo jistě čitelnější.
+speciálně vytvořené \gls{DSL} by bylo jistě čitelnějš\'{\i}.
 
 \goal{Popis jak XML funguje}
-Dokumenty \gls{XML} se skládají z tzv. \textit{entit}, které obsahují
-buď parsovaná nebo neparsovaná data. Parsovaná data se skládají
-z jednoduchých znaků reprezentujících prostý text a nebo
-speciálních značek, neboli \textit{markup}, které slouží k popisu
+Dokumenty \gls{XML} se skládaj\'{\i} z tzv. \textit{entit}, které obsahuj\'{\i}
+buď parsovaná nebo neparsovaná data. Parsovaná data se skládaj\'{\i}
+z jednoduch\'ych znaků reprezentuj\'{\i}c\'{\i}ch prost\'y text a nebo
+speciáln\'{\i}ch značek, neboli \textit{markup}, které slouž\'{\i} k popisu
 struktury dat. Naopak neparsovaná data mohou obsahovat libovolné
 znaky, které nenesou žádnou informaci o struktuře dat.
 
-\goal{Popis jaký formát jsme zvolili pro formální zápis schématu XML dokumentu}
-Vzhledem k tomu, že \gls{XML} je volně rozšiřitelný jazyk a neklade
+\goal{Popis jak\'y formát jsme zvolili pro formáln\'{\i} zápis schématu XML dokumentu}
+Vzhledem k tomu, že \gls{XML} je volně rozšiřiteln\'y jazyk a neklade
 meze v možnostech struktury dat, bylo potřeba jasně definovat
-a dokumentovat očekávanou strukturu dokumentu popisujícího
-byznys kontext. Pro jazyk \gls{XML} existuje vícero možností jak schéma
+a dokumentovat očekávanou strukturu dokumentu popisuj\'{\i}c\'{\i}ho
+byznys kontext. Pro jazyk \gls{XML} existuje v\'{\i}cero možnost\'{\i} jak schéma
 definovat~\cite{lee2000comparative}, od jednoduchého formátu
-\textit{DTD} až po komplexní formáty jako je \textit{Schematron}, či
-\textit{XML Schema Definition} (\gls{XSD}), který byl nakonec zvolen.
-Díky formálně definovanému schématu můžeme popis byznys kontextu
-automaticky validovat a vyvarovat se tak případných chyb.
+\textit{DTD} až po komplexn\'{\i} formáty jako je \textit{Schematron}, či
+\textit{XML Schema Definition} (\gls{XSD}), kter\'y byl nakonec zvolen.
+D\'{\i}ky formálně definovanému schématu můžeme popis byznys kontextu
+automaticky validovat a vyvarovat se tak př\'{\i}padn\'ych chyb.
 
 \goal{Popis formátu}
 Ve zdrojovém kódu~\ref{lst:business-context-xml} můžeme vidět
-příklad zápisu jednoduchého byznys kontextu s jednou precondition.
-Samotný zápis byznys kontextu je obsažen v kořenovém elementu
+př\'{\i}klad zápisu jednoduchého byznys kontextu s jednou precondition.
+Samotn\'y zápis byznys kontextu je obsažen v kořenovém elementu
 \code{<businessContext>} a jeho název je popsán atributy
-\code{prefix} a \code{name}. Rozšířené kontexty jsou vyčteny
+\code{prefix} a \code{name}. Rozš\'{\i}řené kontexty jsou vyčteny
 v entitě \code{<includedContexts>}. Preconditions jsou
 definovány uvnitř entity \code{<preconditions>} a podobně
-jsou definovány \code{<postconditions>}. Obsažená data odpovídají
+jsou definovány \code{<postconditions>}. Obsažená data odpov\'{\i}daj\'{\i}
 navrženému metamodelu byznysového kontextu z kapitoly~\ref{ch:navrh}.
-% TODO: ověřit že to v tý kapitole fakt mám, možná i odkaz na konkrétní odstavec
-Pro zápis podmínek jednotlivých preconditions a post-conditions byl zvolen
-opis Expression \gls{AST}. Toto rozhodnutí vychází z předpokladu,
-že lze vzhledem k povaze prototypu relaxovat podmínku
-na čitelnost zápisu pravidel ve prospěch jednoduššího zpracování.
+% TODO: ověřit že to v t\'y kapitole fakt mám, možná i odkaz na konkrétn\'{\i} odstavec
+Pro zápis podm\'{\i}nek jednotliv\'ych preconditions a post-conditions byl zvolen
+opis Expression \gls{AST}. Toto rozhodnut\'{\i} vycház\'{\i} z předpokladu,
+že lze vzhledem k povaze prototypu relaxovat podm\'{\i}nku
+na čitelnost zápisu pravidel ve prospěch jednodušš\'{\i}ho zpracován\'{\i}.
 
-\goal{Shrnutí DSL}
-Podařilo se nám navrhnout přijatelný formát zápisu byznys kontextu
-a implementovat části knihoven, které umějí formát číst a zároveň vytvářet.
-Tím jsme dosáhli možnosti zapisovat kontexty bez ohledu na platformu
-služby, která je bude využívat. Zároveň tomuto formátu mohou
-snáze porozumět doménoví experti a mohou se tak zapojit do
-vývojového procesu.
+\goal{Shrnut\'{\i} DSL}
+Podařilo se nám navrhnout přijateln\'y formát zápisu byznys kontextu
+a implementovat části knihoven, které uměj\'{\i} formát č\'{\i}st a zároveň vytvářet.
+T\'{\i}m jsme dosáhli možnosti zapisovat kontexty bez ohledu na platformu
+služby, která je bude využ\'{\i}vat. Zároveň tomuto formátu mohou
+snáze porozumět doménov\'{\i} experti a mohou se tak zapojit do
+v\'yvojového procesu.
 
 \lstinputlisting[
-caption={Příklad zápisu byznys kontextu v jazyce \gls{XML}},
+caption={Př\'{\i}klad zápisu byznys kontextu v jazyce \gls{XML}},
 label={lst:business-context-xml},
 language=XML,
 %frame=single,
@@ -224,11 +224,11 @@ language=XML,
 \begin{itemize}
     \item Popis business context registry
     \item Popis expression AST
-    \item Popis tříd kolem business kontextu
+    \item Popis tř\'{\i}d kolem business kontextu
     \item Popis XML parseru a generátoru
-    \item Popis server a klient tříd pro obsluhu GRPC
+    \item Popis server a klient tř\'{\i}d pro obsluhu GRPC
     \item Popis weaveru
-    \item Popis anotací pro AOP
+    \item Popis anotac\'{\i} pro AOP
     \item Návrhové vzory - builder pro kontexty a pravidla
     \item Návrhové vzory - visitor pro převod expression do xml
     \item Návrhové vzory - interpreter pro interpretaci pravidel
@@ -240,7 +240,7 @@ language=XML,
 \paragraph{BusinessContextRegistry}
 
 \lstinputlisting[
-caption={Označení operačního kontextu a jeho parametrů pomocí anotací Java knihovny},
+caption={Označen\'{\i} operačn\'{\i}ho kontextu a jeho parametrů pomoc\'{\i} anotac\'{\i} Java knihovny},
 label={lst:business-operation-aspectj},
 language=Java,
 %frame=single,
@@ -253,20 +253,20 @@ language=Java,
 
 \paragraph{Apache Maven}
 
-\goal{Správa závislostí a buildu projektu}
-Pro správu závislostí a automatickou kompilaci a sestavování
+\goal{Správa závislost\'{\i} a buildu projektu}
+Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i}
 knihovny napsané v jazyce java byl zvolen projekt \textit{Maven}~\cite{maven}.
-Tento nástroj umožňuje vývojáři komfortně a centrálně
-spravovat závislosti jeho projektu včetně detailního
-popisu jejich verze. Dále také umožňuje definovat jakým
+Tento nástroj umožňuje v\'yvojáři komfortně a centrálně
+spravovat závislosti jeho projektu včetně detailn\'{\i}ho
+popisu jejich verze. Dále také umožňuje definovat jak\'ym
 způsobem bude projekt kompilován.
 
 \paragraph{AspectJ}
 
-\goal{Proč AspectJ a co to umí}
-Knihovna AspectJ přináší pro jazyk Java sadu nástrojů,
-díky kterým lze snadno implementovat koncepty aspektově orientovaného
-programování, zejména pak snadný zápis pointcuts a kompletní
+\goal{Proč AspectJ a co to um\'{\i}}
+Knihovna AspectJ přináš\'{\i} pro jazyk Java sadu nástrojů,
+d\'{\i}ky kter\'ym lze snadno implementovat koncepty aspektově orientovaného
+programován\'{\i}, zejména pak snadn\'y zápis pointcuts a kompletn\'{\i}
 engine pro weaving aspektů.
 
 \todo{
@@ -277,48 +277,48 @@ engine pro weaving aspektů.
 
 \paragraph{JDOM 2}
 
-\goal{Proč jdom2 a co to umí}
+\goal{Proč jdom2 a co to um\'{\i}}
 Knihovna JDOM 2~\cite{jdom2} poskytuje
-kompletní sadu nástroju pro čtení a zápis \gls{XML} dokumentů.
+kompletn\'{\i} sadu nástroju pro čten\'{\i} a zápis \gls{XML} dokumentů.
 Implementuje specifikaci \textit{Document Object Model} (\gls{DOM})~\cite{wood2004document},
-pomocí které lze programaticky sestavovat a číst \gls{XML} dokumenty.
+pomoc\'{\i} které lze programaticky sestavovat a č\'{\i}st \gls{XML} dokumenty.
 Tuto knihovnu jsme využili pro serializaci a deserializaci
-\gls{DSL} byznys kontextů popsaných v sekci~\ref{sec:dsl-impl}.
+\gls{DSL} byznys kontextů popsan\'ych v sekci~\ref{sec:dsl-impl}.
 
 \section{Knihovna pro platformu Python}
 
-Knihovna pro platformu jazyka Python využívá jeho
-verzi 3.6. Pomocí nástroje \textit{pip}~\cite{pip}
-lze knihovnu nainstalovat a využívat jako python modul.
-Implementace odpovídá navržené specifikaci.
+Knihovna pro platformu jazyka Python využ\'{\i}vá jeho
+verzi 3.6. Pomoc\'{\i} nástroje \textit{pip}~\cite{pip}
+lze knihovnu nainstalovat a využ\'{\i}vat jako python modul.
+Implementace odpov\'{\i}dá navržené specifikaci.
 
 \todo{
 \begin{itemize}
-    \item Srovnání řešení s knihovnou Java
+    \item Srovnán\'{\i} řešen\'{\i} s knihovnou Java
     \item Problémy pythonu a jak byly vyřešeny
     \item Ukázka kódu knihovny
     \item Použité technologie
-    \item Ukázka AOP v pythonu pomocí vestavěných dekorátorů
+    \item Ukázka AOP v pythonu pomoc\'{\i} vestavěn\'ych dekorátorů
     \item Knihovna pro GRPC
     \item Popis weaveru
 \end{itemize}
 }
 
-\subsection{Srovnání s knihovnou pro platformu Java}
+\subsection{Srovnán\'{\i} s knihovnou pro platformu Java}
 
-\paragraph{Weaving} Největším rozdílem oproti knihovně pro
+\paragraph{Weaving} Největš\'{\i}m rozd\'{\i}lem oproti knihovně pro
 jazyk Java je implementace weavingu byznys kontextů.
-Jazyk Python totiž díky své dynamické povaze a vestavěnému
+Jazyk Python totiž d\'{\i}ky své dynamické povaze a vestavěnému
 systému dekorátorů umožňuje aplikovat principy aspektově orientovaného
-programování bez potřeby dodatečných knihoven či technologií.
-Zdrojový kód~\ref{lst:python-weaving-example} znázorňuje
-definici a použití dekorátoru \code{business\textunderscore operation}.
-Jak můžeme vidět, je potřeba dekorátoru předat samotný weaver, narozdíl
-od implementace v Javě, kdy se o předání weaveru postará dependency
+programován\'{\i} bez potřeby dodatečn\'ych knihoven či technologi\'{\i}.
+Zdrojov\'y kód~\ref{lst:python-weaving-example} znázorňuje
+definici a použit\'{\i} dekorátoru \code{business\textunderscore operation}.
+Jak můžeme vidět, je potřeba dekorátoru předat samotn\'y weaver, narozd\'{\i}l
+od implementace v Javě, kdy se o předán\'{\i} weaveru postará dependency
 injection container.
 
 \lstinputlisting[
-caption={Příklad použití dekorátorů pro weaving v jazyce Python},
+caption={Př\'{\i}klad použit\'{\i} dekorátorů pro weaving v jazyce Python},
 label={lst:python-weaving-example},
 language=Python,
 %frame=single,
@@ -336,43 +336,43 @@ language=Python,
 Knihovna pro platformu \textit{Node.js} byla implementována
 v jazyce JavaScript, konkrétně jeho verzi
 ECMAScript 6.0~\cite{ecma60}.
-Implementace odpovídá specifikaci návrhu, umožňuje
-instalaci pomocí balíčkovacího nástroje a snadnou
-integraci do kódu výsledné služby.
+Implementace odpov\'{\i}dá specifikaci návrhu, umožňuje
+instalaci pomoc\'{\i} bal\'{\i}čkovac\'{\i}ho nástroje a snadnou
+integraci do kódu v\'ysledné služby.
 
-\subsection{Srovnání s knihovnou pro platformu Java}
+\subsection{Srovnán\'{\i} s knihovnou pro platformu Java}
 
 \paragraph{Weaving} Podobně jako v knihovně pro jazyk Python,
 i v knihovně pro Node.js byl oproti knihovně pro jazyk Java
-největší rozdíl v implementaci weavingu. Platforma Node.js
-totiž nedisponuje žádnou kvalitní knihovnou, která by ulehčila
-využití konceptů aspektově orientovaného programování.
-Jazyk JavaScript je ale velmi flexibilní a lze
-tedy pro dosažení požadované funkcionality využít
+největš\'{\i} rozd\'{\i}l v implementaci weavingu. Platforma Node.js
+totiž nedisponuje žádnou kvalitn\'{\i} knihovnou, která by ulehčila
+využit\'{\i} konceptů aspektově orientovaného programován\'{\i}.
+Jazyk JavaScript je ale velmi flexibiln\'{\i} a lze
+tedy pro dosažen\'{\i} požadované funkcionality využ\'{\i}t
 podobně jako pro jazyk Python princip dekorátoru jako funkce.
-Ačkoliv zápis dekorátoru není příliš elegantní a kvůli
-použití konceptu \textit{Promise}~\cite{kambona2013evaluation}
-poněkud složitější, podařilo se weaving implementovat spolehlivě.
+Ačkoliv zápis dekorátoru nen\'{\i} př\'{\i}liš elegantn\'{\i} a kvůli
+použit\'{\i} konceptu \textit{Promise}~\cite{kambona2013evaluation}
+poněkud složitějš\'{\i}, podařilo se weaving implementovat spolehlivě.
 Ukázku můžeme vidět ve zdrojovém kódu~\ref{lst:nodejs-weaving}.
 Funkce \code{register()} obsahuje logiku pro registraci uživatele,
-která může obsahovat například uložení entity do databáze a odeslání
-registračního e-mailu. Při exportování funkce z Node.js modulu
+která může obsahovat např\'{\i}klad uložen\'{\i} entity do databáze a odeslán\'{\i}
+registračn\'{\i}ho e-mailu. Při exportován\'{\i} funkce z Node.js modulu
 využijeme \code{wrapCall()}, která má za úkol dekorovat
-předanou funkci \code{func}, před jejím zavolání vyhodnotit
-preconditions a po zavolání aplikovat post-conditions.
-Díky tomu bude každý kód, který využije modul definující funkci
-pro registraci uživatele, pracovat s dekorovanou funkcí.
+předanou funkci \code{func}, před jej\'{\i}m zavolán\'{\i} vyhodnotit
+preconditions a po zavolán\'{\i} aplikovat post-conditions.
+D\'{\i}ky tomu bude každ\'y kód, kter\'y využije modul definuj\'{\i}c\'{\i} funkci
+pro registraci uživatele, pracovat s dekorovanou funkc\'{\i}.
 
-\paragraph{Využití gRPC} Narozdíl od implementací knihovny
-v jazycích Java a Python umí knihovna obsluhující gRPC
+\paragraph{Využit\'{\i} gRPC} Narozd\'{\i}l od implementac\'{\i} knihovny
+v jazyc\'{\i}ch Java a Python um\'{\i} knihovna obsluhuj\'{\i}c\'{\i} gRPC
 fungovat i bez předgenerovaného kódu. To poněkud usnadnilo
 práci při serializaci byznys kontextů do přenosového formátu
-i při deserializaci a ukládání kontextů do paměti. Úspora
-kódu je ale na úkor typové kontroly a tak může být kód náchylnější
+i při deserializaci a ukládán\'{\i} kontextů do paměti. Úspora
+kódu je ale na úkor typové kontroly a tak může b\'yt kód náchylnějš\'{\i}
 na lidskou chybu.
 
 \lstinputlisting[
-caption={Příklad dekorace funkce v JavaScriptu pro aplikaci weavingu},
+caption={Př\'{\i}klad dekorace funkce v JavaScriptu pro aplikaci weavingu},
 label={lst:nodejs-weaving},
 language=JavaScript,
 %frame=single,
@@ -383,24 +383,24 @@ language=JavaScript,
 
 \subsection{Použité technologie}
 
-\goal{Použité technologie pro vývoj knihovny}
+\goal{Použité technologie pro v\'yvoj knihovny}
 Podobně jako byl použit nástroj Maven pro knihovnu v jazyce Java byl
-využit balíčkovací nástroj \textit{NPM}, který je předinstalován
-v běhovém prostředí \textit{Node.js}. Tento nástroj ale nedisponuje
-příliš silnou podporou pro správu automatických sestavení knihovny
-a v základním nastavení není ani příliš efektivní pro správu závislostí.
-Proto bylo nutné využít dodatečné knihovny, jmenovitě
+využit bal\'{\i}čkovac\'{\i} nástroj \textit{NPM}, kter\'y je předinstalován
+v běhovém prostřed\'{\i} \textit{Node.js}. Tento nástroj ale nedisponuje
+př\'{\i}liš silnou podporou pro správu automatick\'ych sestaven\'{\i} knihovny
+a v základn\'{\i}m nastaven\'{\i} nen\'{\i} ani př\'{\i}liš efektivn\'{\i} pro správu závislost\'{\i}.
+Proto bylo nutné využ\'{\i}t dodatečné knihovny, jmenovitě
 \textit{Yarn}~\cite{yarnpkg}, \textit{Babel}~\cite{babel} a
 \textit{Rimraf}~\cite{rimraf}.
 
-\section{Systém pro centrální správu byznys pravidel}
+\section{Systém pro centráln\'{\i} správu byznys pravidel}\label{sec:central-administration}
 
 \todo{
 \begin{itemize}
     \item Jak funguje systém
     \item Přehled, detail a úprava pravidla
     \item \code{BusinessContextEditor}
-    \item Uložení pravidla
+    \item Uložen\'{\i} pravidla
 \end{itemize}
 }
 
@@ -410,88 +410,88 @@ Proto bylo nutné využít dodatečné knihovny, jmenovitě
 
 \paragraph{BusinessContextEditor} % TODO: dopsat co dělá?
 
-\subsection{Detekce a prevence potenciálních problémů}
+\subsection{Detekce a prevence potenciáln\'{\i}ch problémů}
 
-\goal{Problémy způsobené rozšiřováním kontextů}
-Při úpravě nebo vytváření nového byznysového kontextu je
-potřeba detekovat případné chyby, abychom změnou neuvedli
-systém do nekonzistentního stavu. Kromě syntaktických chyb,
-které jsou detekovány automaticky pomocí definovaného schematu,
-je potřeba věnovat pozornost také sémantickým chybám.
-Závažné chyby, které mohou být způsobeny rozšiřováním kontextů, jsou
+\goal{Problémy způsobené rozšiřován\'{\i}m kontextů}
+Při úpravě nebo vytvářen\'{\i} nového byznysového kontextu je
+potřeba detekovat př\'{\i}padné chyby, abychom změnou neuvedli
+systém do nekonzistentn\'{\i}ho stavu. Kromě syntaktick\'ych chyb,
+které jsou detekovány automaticky pomoc\'{\i} definovaného schematu,
+je potřeba věnovat pozornost také sémantick\'ym chybám.
+Závažné chyby, které mohou b\'yt způsobeny rozšiřován\'{\i}m kontextů, jsou
 \begin{enumerate}[label=\alph*)]
-    \item Závislosti na neexistujících kontextech
-    \item Cyklus v grafu závislostí kontextů
+    \item Závislosti na neexistuj\'{\i}c\'{\i}ch kontextech
+    \item Cyklus v grafu závislost\'{\i} kontextů
 \end{enumerate}
 
-\goal{Chápání kontextů jako grafu}
-Kontexty a jejich vzájemné závislosti lze vnímat jako
-orientovaný graf, kde uzel grafu reprezentuje kontext
+\goal{Chápán\'{\i} kontextů jako grafu}
+Kontexty a jejich vzájemné závislosti lze vn\'{\i}mat jako
+orientovan\'y graf, kde uzel grafu reprezentuje kontext
 a orientovaná hrana reprezentuje závislost mezi kontexty.
 Směr závislosti můžeme pro naše účely zvolit libovolně.
 
-\goal{Detekce závislostí na neexistujících kontextech}
-Detekce závislosti na neexistujících kontextech je relativně
-jednoduchým úkolem. Nejprve setavíme seznam existujících kontextů
-a následně procházíme jednotlivé hrany grafu kontextů a ověřujeme,
-zda existují oba kontexty náležící dané hraně.
-Při zvolení vhodných datových struktur lze dosáhnout
-lineární složitosti v závislosti na počtu hran grafu.
+\goal{Detekce závislost\'{\i} na neexistuj\'{\i}c\'{\i}ch kontextech}
+Detekce závislosti na neexistuj\'{\i}c\'{\i}ch kontextech je relativně
+jednoduch\'ym úkolem. Nejprve setav\'{\i}me seznam existuj\'{\i}c\'{\i}ch kontextů
+a následně procház\'{\i}me jednotlivé hrany grafu kontextů a ověřujeme,
+zda existuj\'{\i} oba kontexty nálež\'{\i}c\'{\i} dané hraně.
+Při zvolen\'{\i} vhodn\'ych datov\'ych struktur lze dosáhnout
+lineárn\'{\i} složitosti v závislosti na počtu hran grafu.
 
-\goal{Detekce cyklů v grafu závislostí}
+\goal{Detekce cyklů v grafu závislost\'{\i}}
 Pokud by závislosti v orientovaném grafu vytvořily cyklus,
 docházelo by při inicializaci služeb
-obsahující daná pravidla k zacyklení. Tomu můžeme předejít
-detekcí cyklů v grafu. Pro tuto detekci byl zvolen
-Tarjanův algoritmus~\cite{tarjan1971depth} pro detekci souvislých
-komponent, který disponuje velmi dobrou lineární složitostí,
+obsahuj\'{\i}c\'{\i} daná pravidla k zacyklen\'{\i}. Tomu můžeme předej\'{\i}t
+detekc\'{\i} cyklů v grafu. Pro tuto detekci byl zvolen
+Tarjanův algoritmus~\cite{tarjan1971depth} pro detekci souvisl\'ych
+komponent, kter\'y disponuje velmi dobrou lineárn\'{\i} složitost\'{\i},
 závislou na součtu počtu hran a počtu uzlů grafu.
 
 \goal{Reakce na chyby}
-V případě, že zápis nového či praveného kontextu obsahuje syntaktické
-chyby a nebo způsobuje některou z detekovaných chyb v závislostech,
-administrace nedovolí uživateli změnu provést a vypíše informativní
+V př\'{\i}padě, že zápis nového či praveného kontextu obsahuje syntaktické
+chyby a nebo způsobuje některou z detekovan\'ych chyb v závislostech,
+administrace nedovol\'{\i} uživateli změnu provést a vyp\'{\i}še informativn\'{\i}
 chybovou hlášku.
 
 \subsection{Použité technologie}
 
-\paragraph{Uživatelské rozhraní}
-Pro komfortní obsluhu centrální administrace bylo naprogramováno
-uživatelské rozhraní pomocí technologií Hypertext Markup Language~\cite{berners1995hypertext}
+\paragraph{Uživatelské rozhran\'{\i}}
+Pro komfortn\'{\i} obsluhu centráln\'{\i} administrace bylo naprogramováno
+uživatelské rozhran\'{\i} pomoc\'{\i} technologi\'{\i} Hypertext Markup Language~\cite{berners1995hypertext}
 (HTML) a Cascading Style Sheets~\cite{bos1998cascading} (\gls{CSS}), které jsou již několik
-desetiletí standarderm pro tvorbu webových uživatelských rozhraní.
-Detail byznysového kontextu v uživatelském rozhraní můžeme vidět na snímku~\ref{fig:screenshot-context-detail}
-a formulář pro úpravu na snímku~\ref{fig:screenshot-context-edit}.
+desetilet\'{\i} standarderm pro tvorbu webov\'ych uživatelsk\'ych rozhran\'{\i}.
+Detail byznysového kontextu v uživatelském rozhran\'{\i} můžeme vidět na sn\'{\i}mku~\ref{fig:screenshot-context-detail}
+a formulář pro úpravu na sn\'{\i}mku~\ref{fig:screenshot-context-edit}.
 
 \todo{
 \begin{itemize}
-    \item Uživatelské rozhraní v HTML + CSS
-    \item Jak jsme použili Spring Boot a jeho MVC k nastavení základní webové aplikace
+    \item Uživatelské rozhran\'{\i} v HTML + CSS
+    \item Jak jsme použili Spring Boot a jeho MVC k nastaven\'{\i} základn\'{\i} webové aplikace
     \item Dependency Injection Container
-    \item Využití knihovny pro platformu Java
+    \item Využit\'{\i} knihovny pro platformu Java
 \end{itemize}
 }
 
-\section{Shrnutí}
+\section{Shrnut\'{\i}}
 
-\goal{Dosáhli jsme vytyčených cílů implementace}
+\goal{Dosáhli jsme vytyčen\'ych c\'{\i}lů implementace}
 Na základě navrženého frameworku jsme implementovali prototypy
 knihoven pro platformy jazyka Java, jazyka Python a frameworku
-Node.js. Knihovny umožňují centrální správu a automatickou distribuci
-byznysových kontextů, včetně vyhodnocování jejich pravidel, za
-použití aspektově orientovaného přístupu.
-Dále jsme specifikovali \gls{DSL}, kterým lze popsat byznys kontext
+Node.js. Knihovny umožňuj\'{\i} centráln\'{\i} správu a automatickou distribuci
+byznysov\'ych kontextů, včetně vyhodnocován\'{\i} jejich pravidel, za
+použit\'{\i} aspektově orientovaného př\'{\i}stupu.
+Dále jsme specifikovali \gls{DSL}, kter\'ym lze popsat byznys kontext
 nezávisle na platformě.
 
-\goal{Hostování na GitHubu + licence}
-Veškerý kód je hostován v centrálním repozitáři
+\goal{Hostován\'{\i} na GitHubu + licence}
+Vešker\'y kód je hostován v centráln\'{\i}m repozitáři
 ve službě GitHub\footnote{
 https://github.com/klimesf/diploma-thesis
-} a je zpřístupněn pod open-source licencí MIT~\cite{mitlicense}.
+} a je zpř\'{\i}stupněn pod open-source licenc\'{\i} MIT~\cite{mitlicense}.
 Knihovny pro jednotlivé platformy tedy lze libovolně
-využívat, modifikovat a šířit.
+využ\'{\i}vat, modifikovat a š\'{\i}řit.
 
 \goal{Validaci a verifikaci si ještě ukážeme}
-Protoypy knihoven lze využít k implementaci služeb,
-potažmo k sestavení funkčního systému, jak si ukážeme
-v následující kapitole.
+Protoypy knihoven lze využ\'{\i}t k implementaci služeb,
+potažmo k sestaven\'{\i} funkčn\'{\i}ho systému, jak si ukážeme
+v následuj\'{\i}c\'{\i} kapitole.
