@@ -1,6 +1,6 @@
 const chai = require('chai');
 
-// Import other packages ...
+// Imports ...
 
 chai.should();
 

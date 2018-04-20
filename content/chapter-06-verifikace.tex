@@ -8,21 +8,24 @@
 V této kapitole si pop\'{\i}šeme, jak\'y způsobem byla provedena
 verifikace naprogramovan\'ych knihoven pomoc\'{\i}
 jednotkov\'ych a integračn\'{\i}ch testů~\cite{luo2001software}
-a také jejich nasazen\'{\i} při v\'yvoji ukázkového systému.
+a také jak byly knihovny nasazeny při v\'yvoji ukázkového systému.
 T\'{\i}m zároveň zvalidujeme koncept frameworku a shrneme v\'yhody
 a nev\'yhody jeho použit\'{\i}.
 
 \section{Testován\'{\i} prototypů knihoven}
 
 Prototypy knihoven, jejichž implementaci jsme popsali
-v kapitole~\ref{ch:implementace}, byly také důkladně
-otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch testů.
+v kapitole~\ref{ch:implementace}, byly důkladně
+otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch testů
+a tím byla verifikována jejich správná funkcionalita. Způsob
+testování knihoven si popíšeme zvlášť pro každou platformu.
 
 V rámci konceptu \textit{continous integration} (\gls{CI})~\cite{fowler2006continuous}
-byl kód po celou dobu v\'yvoje zas\'{\i}lán do centráln\'{\i}ho repozitáře
-a s pomoc\'{\i} nástroje Travis \gls{CI}\footnote{https://travis-ci.org/}
+byl kód po celou dobu v\'yvoje verzován systémem Git~\cite{git},
+zas\'{\i}lán do centráln\'{\i}ho repozitáře a s pomoc\'{\i}
+nástroje Travis \gls{CI}\footnote{https://travis-ci.org/}
 bylo automaticky spouštěno jeho sestaven\'{\i} a otestován\'{\i}. Systém
-zároveň okamžitě informoval v\'yvojáře o jejich v\'ysledc\'{\i}ch. To
+zároveň okamžitě informoval v\'yvojáře o v\'ysledc\'{\i}ch. To
 umožnilo v krátkém časovém horizontu identifikovat konkrétn\'{\i} změny
 v kódu, které do programu vnesly chybu. T\'{\i}m byla sn\'{\i}žena
 pravděpodobnost regrese a dlouhodobě se zv\'yšila celková kvalita kódu.
@@ -93,14 +96,14 @@ language=JavaScript,
 
 Zdrojov\'y kód~\ref{lst:nodejs-testing} znázorňuje použit\'{\i} knihoven k ověřen\'{\i} správné funkcionality v\'yrazu
 \code{IsNotNull}. Konkrétně je nejprve zkonstruován s konstantn\'{\i}m argumentem typu \code{boolean}
-s hodnotou \code{true} a je ověřeno, že v\'yraz se vyhodnot\'{\i} jako \code{true}. Následně je zkontruhován
+s hodnotou \code{true} a je ověřeno, že v\'yraz se vyhodnot\'{\i} jako \code{true}. Následně je zkonstruován
 v\'yraz, kterému je předán argument \code{null} a je ověřeno, že v\'yraz se vyhodnot\'{\i} jako \code{false}.
 
 \section{Př\'{\i}padová studie: e-commerce systém}
 
 Abychom mohli navržen\'y a implementovan\'y framework pro centráln\'{\i} správu
 a automatickou distribuci byznys pravidel verifikovat v praxi a validovat
-jeho myšlenku, bylo nutné ho nasadit při v\'yvoji aplikace.
+jeho myšlenku, bylo nutné vyzkoušet jeho nasazen\'{\i} při v\'yvoji aplikace.
 Pro tento účel vznikla v rámci této práce př\'{\i}padová studie na fiktivn\'{\i}m
 ukázkovém e-commerce systému využ\'{\i}vaj\'{\i}c\'{\i} architekturu orientovanou na služby.
 Na tomto př\'{\i}kladě demonstrujeme schopnost frameworku poradit si s průřezov\'ymi
@@ -109,11 +112,11 @@ sekci~\ref{sec:implementation-requirements}.
 
 \subsection{Use-cases}
 
-Pro ukázkov\'y systém bylo vymodelováno následuj\'{\i}c\'{\i}ch třináct př\'{\i}padů užit\'{\i}
+Pro ukázkov\'y systém bylo vymodelováno třináct př\'{\i}padů užit\'{\i}
 (z anglického \textit{Use case} (\gls{UC})~\cite{bittner2002use}), jejich
 přehled je v tabulce~\ref{tbl:use-cases}.
 
-\begin{table}
+\begin{table}[h]
     \centering
     \begin{tabular*}{\textwidth}{ l l }
         \hline
@@ -152,7 +155,7 @@ kompletn\'{\i} doménov\'y model ukázkového systému.
     \item \textbf{\code{Address}} je entita popisuj\'{\i}c\'{\i} dodac\'{\i} či fakturačn\'{\i} adresu.
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \includegraphics[keepaspectratio=true, width=0.9\linewidth]{figures/example-model.pdf}
     \caption{Diagram tř\'{\i}d modelu ukázkového e-commerce systému}
@@ -162,9 +165,9 @@ kompletn\'{\i} doménov\'y model ukázkového systému.
 Tento model je využ\'{\i}ván v každé ze služeb. Nicméně, ne každá služba využije všechny jeho entity,
 ale pouze jejich podmnožinu, kterou potřebuje ke svoj\'{\i} práci.
 
-\subsection{Byznys kontexty a jejich pravidla}
+\subsection{Byznysová pravidla a kontexty}
 
-V tabulce~\ref{tbl:business-rules} je v\'yčet všech byznysov\'ych pravidel, která byla
+V tabulce~\ref{tbl:business-rules} je v\'yčet všech dvaceti byznysov\'ych pravidel, která byla
 vymodelována pro ukázkovou aplikaci. V tabulce kromě identifikátoru a popisu byznysového pravidla
 vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je typ pravidla
 (\textit{pre} pro precondition, \textit{post} pro post-condition).
@@ -200,10 +203,11 @@ vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je 
     \label{tbl:business-rules}
 \end{table}
 
-V tabulce~\ref{tbl:business-contexts} jsou vypsány všechny byznysové kontexty v ukázkové aplikaci.
-Některé z nich jsou konkrétn\'{\i} a jsou namapovány na \gls{UC}, jiné jsou abstraktn\'{\i} a slouž\'{\i}
-ostatn\'{\i} kontexty je rozšiřuj\'{\i}. Prefixy byly vybrány na základě byznysové domény, ke které se
-kontext vzahuje, stajně jako jsou podle domén děleny i jednotlivé služby systému.
+Dále jsou v tabulce~\ref{tbl:business-contexts} vypsány všechny byznysové kontexty v ukázkové aplikaci.
+Některé z nich jsou konkrétn\'{\i} a jsou namapovány na jeden nebo v\'{\i}ce \gls{UC},
+jiné jsou abstraktn\'{\i} a slouž\'{\i} ostatn\'{\i} kontexty je rozšiřuj\'{\i}.
+Prefixy byly vybrány na základě byznysové domény, ke které se kontext vzahuje, stajně jako
+jsou podle domén děleny i jednotlivé služby systému.
 
 \begin{table}
     \centering
@@ -243,9 +247,14 @@ a také byznysová pravidla, která se v kontextech aplikuj\'{\i}.
 
 \subsection{Služby}
 
-Na obrázku~\ref{fig:example-system} můžeme vidět komponenty systému a jejich závislosti.
+Na obrázku~\ref{fig:example-system} jsou zobrazeny komponenty systému a jejich vzájemné závislosti.
 Pro ověřen\'{\i} schopnosti podporovat v\'{\i}ce platforem byly pro implementaci systému využity
 jazyky Java, Python a JavaScript v kombinaci s běhov\'ym prostřed\'{\i}m Node.js.
+Komunikace služeb prob\'{\i}há pomoc\'{\i} \gls{REST} \gls{API} využ\'{\i}vaj\'{\i}c\'{\i} formát \gls{JSON}.
+Specifikace jednotliv\'ych rozhran\'{\i} služeb nen\'{\i} pro tuto kapitolu podstatná a proto se
+j\'{\i} nebudeme dále věnovat. Pro demonstrativn\'{\i} účely byly s\'{\i}ťové adresy nastaveny př\'{\i}mo v kódu jednotliv\'ych
+služeb. Nicméně, navržen\'y framework nevynucuje tento př\'{\i}stup, a tud\'{\i}ž by složitějš\'{\i}
+způsob \textit{service discovery} nebylo problém do systému integrovat.
 
 \begin{figure}
     \centering
@@ -254,26 +263,17 @@ jazyky Java, Python a JavaScript v kombinaci s běhov\'ym prostřed\'{\i}m Node.
     \label{fig:example-system}
 \end{figure}
 
-\goal{Jak komunikuj\'{\i} služby}
-Komunikace služeb prob\'{\i}há pomoc\'{\i} \gls{REST} \gls{API} využ\'{\i}vaj\'{\i}c\'{\i} formát \gls{JSON}.
-Specifikace jednotliv\'ych rozhran\'{\i} nen\'{\i} pro tuto kapitolu podstatná a proto se
-j\'{\i} nebudeme dále věnovat.
-
-Pro demonstrativn\'{\i} účely byly s\'{\i}ťové adresy nastaveny př\'{\i}mo v kódu jednotliv\'ych
-služeb. Nicméně, navržen\'y framework nevynucuje tento př\'{\i}stup, a tud\'{\i}ž by složitějš\'{\i}
-způsob \textit{service discovery} nebylo problém do systému integrovat.
-
 \paragraph{Billing service}
 
-Tato služba má na starosti funkcionalitu týkající se fakturace objednávek
-a byla implementována v jazyce Java s použitím frameworku Spring Boot~\cite{springboot}.
+Služba \textit{Billing service} má na starosti funkcionalitu t\'ykaj\'{\i}c\'{\i} se fakturace objednávek
+a byla implementována v jazyce Java s použit\'{\i}m frameworku Spring Boot~\cite{springboot}.
 
 \paragraph{Order service}
 
 Kompozitn\'{\i} služba \textit{Order service} slouž\'{\i}c\'{\i} pro vytvářen\'{\i} a správu objednávek
-byla implementována v jazyce Java a její \gls{API} bylo sestaveno za použit\'{\i} frameworku Spring
+byla implementována v jazyce Java a jej\'{\i} \gls{API} bylo sestaveno za použit\'{\i} frameworku Spring
 Boot~\cite{springboot}, jak můžeme vidět ve zdrojovém kódu~\ref{lst:order-service-springboot}, kde
-je ukázka obsluhy požadavků na výpis zboží v košíku uživatele.
+je ukázka obsluhy požadavků na v\'ypis zbož\'{\i} v koš\'{\i}ku uživatele.
 
 \lstinputlisting[
 caption={Ukázka využit\'{\i} frameworku Spring Boot pro účely Order service},
@@ -285,7 +285,8 @@ language=Java,
 
 \paragraph{Product service}
 
-Tato služba realizuje \gls{UC} týkající se prohl\'{\i}žen\'{\i} a administrac\'{\i} nab\'{\i}zen\'ych
+Služba \textit{Product service} realizuje \gls{UC} t\'ykaj\'{\i}c\'{\i} se
+prohl\'{\i}žen\'{\i} a administrac\'{\i} nab\'{\i}zen\'ych
 produktů a jejich skladov\'ych zásob. Služba byla implementována v jazyce Python.
 Pro vytvořen\'{\i} \gls{REST} \gls{API} služby byl využit populárn\'{\i}
 light-weight framework \textit{Flask}~\cite{flask}.
@@ -302,15 +303,15 @@ language=Python,
 
 \paragraph{Shipping service}
 
-Tato služba má na starosti funkcionalitu týkající se odesílání objednávek
-a byla implementována v jazyce Java s použitím frameworku Spring Boot~\cite{springboot}.
+Služba \textit{Shipping service} má na starosti funkcionalitu t\'ykaj\'{\i}c\'{\i} se odes\'{\i}lán\'{\i} objednávek
+a byla implementována v jazyce Java s použit\'{\i}m frameworku Spring Boot~\cite{springboot}.
 
 \paragraph{User service}
 
-Služba realizuj\'{\i}c\'{\i} funkcionalitu t\'ykaj\'{\i}c\'{\i} se uživatelsk\'ych účtů byla
+Služba \textit{User service} realizuj\'{\i}c\'{\i} funkcionalitu t\'ykaj\'{\i}c\'{\i} se uživatelsk\'ych účtů byla
 implementována v jazyce JavaScript na platformě Node.js s použit\'{\i}m
 frameworku Express~\cite{expressjs}. Ve zdrojovém kódu~\ref{lst:user-service-expressjs}
-je ukázka mapování controllerů na jednotlivé metody \gls{URL} \code{/users}.
+je ukázka mapován\'{\i} controllerů na jednotlivé metody \gls{URL} \code{/users}.
 
 \lstinputlisting[
 caption={Ukázka využit\'{\i} frameworku Express.js pro účely User service},
@@ -323,16 +324,16 @@ language=JavaScript,
 \paragraph{Webové uživatelské rozhran\'{\i}}
 
 Služba, která slouž\'{\i} uživatelům ukázkového systému jako webové uživatelské
-rozhran\'{\i} byla implementována v jazyce Java za použit\'{\i}m frameworku Spring Boot~\cite{springboot}.
+rozhran\'{\i}, byla implementována v jazyce Java s použit\'{\i}m frameworku Spring Boot~\cite{springboot}.
 Na sn\'{\i}mku~\ref{fig:example-screenshot} je vidět UI ukázkového systému,
 konkrétně informován\'{\i} uživatele o tom, že se nepodařilo přidat produkt
 do koš\'{\i}ku, protože bylo porušeno byznysové pravidlo – koš\'{\i}k nesm\'{\i} obsahovat
 v\'{\i}ce než 10 položek.
 
-\paragraph{Centrální správa byznysových pravidel}
+\paragraph{Centráln\'{\i} správa byznysov\'ych pravidel}
 
-Do ukázkového systému byl nasazen také systém pro centrální správu byznysových kontextů,
-který je popsaný v sekci~\ref{sec:central-administration}. Systém byl napojen na všechny
+Do ukázkového systému byl nasazen také systém pro centráln\'{\i} správu byznysov\'ych kontextů,
+kter\'y je popsan\'y v sekci~\ref{sec:central-administration}. Systém byl napojen na všechny
 služby systému, kromě webového \gls{UI}, a bylo úspěšně prokázáno, že lze za běhu systému
 dynamicky upravovat byznysové kontexty, resp. jejich byznysová pravidla.
 
@@ -344,8 +345,8 @@ Uživatel si nadefinuje tzv. \textit{image}, kter\'y se skládá z jednotliv\'yc
 Základn\'{\i} vrstvou je operačn\'{\i} systém, dalš\'{\i}mi mohou b\'yt jednotlivé knihovny instalované do systému.
 Př\'{\i}klad definice image pomoc\'{\i} technologie Docker můžeme vidět ve zdrojovém
 kódu~\ref{lst:docker-image}. Konkrétně se jedná o definici image, kter\'y
-děd\'{\i} od oficiáln\'{\i}ho image \code{library/node:9.11.1}~\cite{dockernodeimage}
-stavěj\'{\i}c\'{\i}m nad operačn\'{\i}m systémem \textit{Linux}~\cite{linux},
+rozšiřuje oficiáln\'{\i} image \code{library/node:9.11.1}~\cite{dockernodeimage}
+stavěj\'{\i}c\'{\i} nad operačn\'{\i}m systémem \textit{Linux}~\cite{linux},
 a přidává vrstvy s prototypem knihovny našeho frameworku pro platformu Node.js.
 
 \lstinputlisting[
@@ -365,8 +366,8 @@ V sekci \code{ports} deklarujeme, že služba má m\'{\i}t z vnějšku př\'{\i}
 na Product, Billing, Shipping a User service, což explicitně specifikujeme v sekci \code{depends\_on},
 aby Docker Compose mohl spustit služby ve správném pořad\'{\i}. Nakonec pomoc\'{\i} \code{links} deklarujeme,
 že pro kontejner, ve kterém Order Service poběž\'{\i}, maj\'{\i} b\'yt na s\'{\i}ti př\'{\i}stupné služby \code{product}, \code{user},
-\code{billing} a \code{shipping}. Vše je popsáno ve formátu \gls{YAML}~\cite{ben2005yaml}, kter\'y je běžně využ\'{\i}ván
-pro konfiguračn\'{\i} soubory, d\'{\i}ky jeho snadné čitelnosti pro člověka a jednoduchému použ\'{\i}ván\'{\i}.
+\code{billing} a \code{shipping}. Vše je popsáno ve formátu \gls{YAML}~\cite{ben2005yaml}, kter\'y je dnes běžně využ\'{\i}ván
+pro konfiguračn\'{\i} soubory, kvůli jeho snadné čitelnosti pro člověka a jednoduchému použ\'{\i}ván\'{\i}.
 
 \lstinputlisting[
 caption={Ukázka zápisu v\'{\i}ce-kontejnerové aplikace pro Docker Compose},
@@ -382,12 +383,12 @@ language=Yaml,
 Z tabulky~\ref{tbl:business-contexts} vid\'{\i}me, že některá byznysová pravidla jsou
 využ\'{\i}vána např\'{\i}č kontexty, potažmo např\'{\i}č jednotliv\'ymi službami. V tabulce~\ref{tbl:duplication}
 je přehledně shrnuto, která pravidla jsou využ\'{\i}vána ve kter\'ych službách.
-Při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu bychom museli tato pravidla implementovat přinejmenš\'{\i}m
-pro každou ze služeb, pokud by nedocházelo k duplikac\'{\i}m ve službě samotné.
+Při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu bychom museli tato pravidla implementovat alespoň
+jednou pro každou ze služeb, za předpokladu že by nedocházelo k duplikac\'{\i}m ve službách samotn\'ych.
 
 \goal{V\'yhody našeho frameworku}
 D\'{\i}ky použit\'{\i} naš\'{\i} knihovny je možné každé pravidlo nadefinovat pouze na jednom m\'{\i}stě
-a námi navržen\'y framework se postará o jeho automatickou distribuci do všech m\'{\i}st, kde
+a framework se postará o jeho automatickou distribuci do všech m\'{\i}st, kde
 je potřeba ho aplikovat. Zároveň je d\'{\i}ky definici na jednom m\'{\i}stě možno byznysová pravidla, resp.
 kontexty, centrálně spravovat pomoc\'{\i} nástroje pro centráln\'{\i} správu, kter\'y je součást\'{\i}
 našeho frameworku.
@@ -416,7 +417,7 @@ našeho frameworku.
 \goal{Kvantifikace}
 Z tabulky~\ref{tbl:duplication} můžeme vyč\'{\i}st, že polovina pravidel našeho systému
 je sd\'{\i}lena mezi v\'{\i}ce službami. V kompozitn\'{\i} službě \textit{Order} je dokonce
-\textit{75 \%} použit\'ych pravidel přejat\'ych z byznysov\'ych kontextů patř\'{\i}c\'{\i} jin\'ym službám.
+\textit{75 \%} použit\'ych pravidel přejat\'ych z byznysov\'ych kontextů patř\'{\i}c\'{\i}ch jin\'ym službám.
 Pro dosažen\'{\i} stejné funkcionality by bylo při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu nutno všechna
 sd\'{\i}lená pravidla manuálně duplikovat.
 
@@ -424,11 +425,11 @@ sd\'{\i}lená pravidla manuálně duplikovat.
 Jako nev\'yhodu použit\'{\i} frameworku můžeme považovat počátečn\'{\i} investici v
 podobě integrace knihoven do služeb systému a také v nutnosti popsat byznysová pravidla
 v DSL, které se musej\'{\i} v\'yvojáři systému naučit nav\'{\i}c. Při návrhu systému je potřeba
-identifikovat byznysové kontexty, jejich hirearchii a vazbě byznysov\'ych pravidel,
-aby bylo možno framework efektivně využ\'{\i}vat. To může zabrat v\'{\i}ce času, než klasick\'y návrh.
+identifikovat byznysové kontexty, jejich hirearchii a vazbu byznysov\'ych pravidel,
+aby bylo možno framework efektivně využ\'{\i}vat. To může vyžadovat v\'{\i}ce času, než klasick\'y návrh.
 Ovšem investice by se měla vrátit v průběhu v\'yvoje a údržby systému sn\'{\i}žen\'ymi časov\'ymi
-nároky při změnov\'ych ř\'{\i}zen\'{\i}ch a snižuje riziko lidské chyby d\'{\i}ky automatické distribuci
-pravidel.
+nároky při změnov\'ych ř\'{\i}zen\'{\i}ch. Framework nav\'{\i} snižuje riziko lidské
+chyby.
 
 \section{Shrnut\'{\i}}
 
