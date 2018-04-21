@@ -17,8 +17,8 @@ a nev\'yhody jeho použit\'{\i}.
 Prototypy knihoven, jejichž implementaci jsme popsali
 v kapitole~\ref{ch:implementace}, byly důkladně
 otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch testů
-a tím byla verifikována jejich správná funkcionalita. Způsob
-testování knihoven si popíšeme zvlášť pro každou platformu.
+a t\'{\i}m byla verifikována jejich správná funkcionalita. Způsob
+testován\'{\i} knihoven si pop\'{\i}šeme zvlášť pro každou platformu.
 
 V rámci konceptu \textit{continous integration} (\gls{CI})~\cite{fowler2006continuous}
 byl kód po celou dobu v\'yvoje verzován systémem Git~\cite{git},
@@ -380,18 +380,13 @@ language=Yaml,
 \section{Srovnán\'{\i} s konvenčn\'{\i}m př\'{\i}stupem}
 
 \goal{Ukázka na konkrétn\'{\i}m př\'{\i}kladě}
-Z tabulky~\ref{tbl:business-contexts} vid\'{\i}me, že některá byznysová pravidla jsou
-využ\'{\i}vána např\'{\i}č kontexty, potažmo např\'{\i}č jednotliv\'ymi službami. V tabulce~\ref{tbl:duplication}
-je přehledně shrnuto, která pravidla jsou využ\'{\i}vána ve kter\'ych službách.
+Z tabulky~\ref{tbl:business-contexts} vid\'{\i}me, že 60 \% byznysov\'ych pravidel v ukázkovém systému je
+využ\'{\i}váno ve v\'{\i}ce kontextech, a polovina je využ\'{\i}vána např\'{\i}č v\'{\i}ce službami.
+V tabulce~\ref{tbl:duplication} je přehledně shrnuto, která pravidla jsou využ\'{\i}vána ve kter\'ych službách.
 Při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu bychom museli tato pravidla implementovat alespoň
-jednou pro každou ze služeb, za předpokladu že by nedocházelo k duplikac\'{\i}m ve službách samotn\'ych.
-
-\goal{V\'yhody našeho frameworku}
-D\'{\i}ky použit\'{\i} naš\'{\i} knihovny je možné každé pravidlo nadefinovat pouze na jednom m\'{\i}stě
-a framework se postará o jeho automatickou distribuci do všech m\'{\i}st, kde
-je potřeba ho aplikovat. Zároveň je d\'{\i}ky definici na jednom m\'{\i}stě možno byznysová pravidla, resp.
-kontexty, centrálně spravovat pomoc\'{\i} nástroje pro centráln\'{\i} správu, kter\'y je součást\'{\i}
-našeho frameworku.
+jednou pro každou ze služeb, za předpokladu, že by nedocházelo k duplikac\'{\i}m ve službách samotn\'ych.
+Manuáln\'{\i} duplikace nav\'{\i}c přináš\'{\i} nutnost synchronizovat podobu pravidla při každém změnovém ř\'{\i}zen\'{\i},
+což zvyšuje náklady na v\'yvoj a riziko lidské chyby.
 
 \begin{table}
     \centering
@@ -414,22 +409,29 @@ našeho frameworku.
     \label{tbl:duplication}
 \end{table}
 
-\goal{Kvantifikace}
-Z tabulky~\ref{tbl:duplication} můžeme vyč\'{\i}st, že polovina pravidel našeho systému
-je sd\'{\i}lena mezi v\'{\i}ce službami. V kompozitn\'{\i} službě \textit{Order} je dokonce
-\textit{75 \%} použit\'ych pravidel přejat\'ych z byznysov\'ych kontextů patř\'{\i}c\'{\i}ch jin\'ym službám.
-Pro dosažen\'{\i} stejné funkcionality by bylo při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu nutno všechna
-sd\'{\i}lená pravidla manuálně duplikovat.
+\goal{V\'yhody našeho frameworku}
+D\'{\i}ky použit\'{\i} naš\'{\i} knihovny je však možné každé pravidlo nadefinovat centrálně
+a framework se postará o jeho automatickou distribuci do všech m\'{\i}st, kde je potřeba ho aplikovat.
+D\'{\i}ky tomu je možno byznysová pravidla, resp. kontexty, spravovat pomoc\'{\i} nástroje pro
+centráln\'{\i} správu, kter\'y je součást\'{\i} našeho frameworku. Z toho vypl\'yvá sn\'{\i}žen\'{\i} nároků
+na v\'yvoj a sn\'{\i}žené riziko lidské chyby.
 
 \goal{Nev\'yhody použit\'{\i}}
 Jako nev\'yhodu použit\'{\i} frameworku můžeme považovat počátečn\'{\i} investici v
-podobě integrace knihoven do služeb systému a také v nutnosti popsat byznysová pravidla
-v DSL, které se musej\'{\i} v\'yvojáři systému naučit nav\'{\i}c. Při návrhu systému je potřeba
-identifikovat byznysové kontexty, jejich hirearchii a vazbu byznysov\'ych pravidel,
-aby bylo možno framework efektivně využ\'{\i}vat. To může vyžadovat v\'{\i}ce času, než klasick\'y návrh.
-Ovšem investice by se měla vrátit v průběhu v\'yvoje a údržby systému sn\'{\i}žen\'ymi časov\'ymi
-nároky při změnov\'ych ř\'{\i}zen\'{\i}ch. Framework nav\'{\i} snižuje riziko lidské
-chyby.
+podobě integrace knihoven do služeb systému. Zvážit mus\'{\i}me i cenu popisu byznysov\'ych pravidel
+v \gls{DSL}, kter\'y se musej\'{\i} v\'yvojáři systému naučit nav\'{\i}c oproti programovac\'{\i}mu jazyku,
+ve kterém popisuj\'{\i} služby. Dále je při návrhu systému potřeba identifikovat byznysové kontexty, jejich
+hirearchii a vzájemnou vazbu s byznysov\'mi pravidly, aby bylo možno framework efektivně využ\'{\i}vat.
+To může vyžadovat v\'{\i}ce času, než klasick\'y návrh.
+
+\goal{Závěr}
+Navržen\'y framework tedy oproti konvenčn\'{\i}mu př\'{\i}stupu nab\'{\i}z\'{\i} možnost z\'{\i}skat dlouhodobě
+nižš\'{\i} náklady na v\'yvoj za cenu počátečn\'{\i} investice. Architekt softwarového systému mus\'{\i} př\'{\i}padné nasazen\'{\i}
+frameworku zvážit z několika úhlů pohledu a posoudit, zda bude životnost systému dostatečně dlouhá a systém
+dostatečně velk\'y. Dalš\'{\i}m podstatn\'ym bodem ke zvážen\'{\i} je reálná m\'{\i}ra znovupoužit\'{\i} byznysov\'ych pravidel.
+Mohou existovat domény, ve kter\'ych bude nasazen\'{\i} frameworku jistě mnohem vhodnějš\'{\i}, než v jin\'ych.
+D\'{\i}ky provedené př\'{\i}padové studii jsme zjistili, že v \gls{SOA} lze efektivně řešit otázku byznysov\'ych pravidel,
+potažmo průřezov\'ych problémů obecně, námi navržen\'ym způsobem.
 
 \section{Shrnut\'{\i}}
 
@@ -440,4 +442,4 @@ ukázkového systému, na kterém jsme provedli př\'{\i}padovou studii použit\
 frameworku. D\'{\i}ky tomu jsme validovali, že navržen\'y framework je funkčn\'{\i}
 a splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements}.
 Nakonec jsme na ukázkovém systému diskutovali srovnán\'{\i} použit\'{\i} našeho frameworku
-a konvenčn\'{\i} př\'{\i}stup k návrhu a implementaci softwarov\'ych systému.
+a konvenčn\'{\i}ho př\'{\i}stupu k návrhu a implementaci softwarov\'ych systému.
