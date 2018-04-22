@@ -64,6 +64,15 @@ byznysov\'y kontext.
 
 \section{Centráln\'{\i} správa byznys kontextů}
 
+Vzhledem k nutnosti centralizovat správu byznysových kontextů se nám
+architektura \gls{P2P} představená v subsekci~\ref{sec:p2p} nehodí.
+Při úpravě kotextů by totiž v systému mohly existovat staré i nové verze
+byznysových pravidel, což je pro správnou funkci systém nepřijatelné.
+Využijeme tedy architektury klient-server s více servery.
+Byznysové kontexty budou podle svého prefixu rozděleny do skupin
+a každou ze skupin bude spravovat jedna služba, která bude zároveň
+držet jejich aktuální a jediný stav.
+
 \begin{figure}
     \centering
     \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/business-context-management.pdf}
