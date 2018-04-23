@@ -2,16 +2,46 @@
 
 \chapter{Rešerše}\label{ch:reserse}
 
+% TODO: úvod
+
 \section{Modelem ř\'{\i}zená architektura}
 
-\todo{
-\begin{itemize}
-    \item Co to je MDA
-    \item V\'yhody
-    \item Nev\'yhody
-    \item Shrnut\'{\i} a proč se nám nehod\'{\i}
-\end{itemize}
-}
+Modelem řízená architektura (\gls{MDA}) se zaměřuje na využití
+modelovacích nástrojů a jejich následnou transformaci do
+spustitelného kódu pomocí generativních nástrojů~\cite{soley2000model}.
+Za specifikací \gls{MDA} stojí konsorcium Object Modeling Group (\gls{OMG}),
+která se zaměřuje na standardizaci modelovacích standardů pro software
+a stojí za modelovacím jazykem \gls{UML}, který je de facto globálním standardem
+pro vizualizaci statických i dynamických aspektů softwarových systémů.
+
+\gls{MDA} využívá Platform Independent Model (\gls{PIM}),
+který popisuje systém pomocí platformově nezávislého \gls{DSL},
+typicky pomocí \gls{UML}. Ten je následně převeden do
+Platform Specific Model (\gls{PSM}), tedy modelu využívajícího
+specifických aspektů platformy, pro kterou má být systém postaven.
+Tím může být obecný programovací jazyk či jiné \gls{DSL}.
+
+Hlavní výhodou \gls{MDA} je vysoká úroveň abstrakce a z toho vyplívající
+deduplikace kódu. Pokud je byznysové pravidlo zachyceno v nejvyšší
+úrovni modelu, může pak snadno být distribuováno do systému na všechna
+místa, kde má být aplikováno. Další výhodou je usnadnění tvorby a zvýšení
+kvality kódu díky jeho automatickému generování.
+
+Hlavní nevýhodou \gls{MDA}, která zabraňuje jejímu využití
+pro náš účel, je jednosměrný proces, kterým je kód z modelu
+generován. Pokud dojde ke změně požadavků, je potřeba přegenerovat
+celou aplikaci od \gls{PIM} až k finálnímu kódu. Kód, který bylo
+nutno doplnit ručně, může snadno zastarat a je potřeba ho manuálně
+projít a opravit. Změna byznysových pravidel v našem případě by
+navíc při využití \gls{MDA} vyžadovala znovu-nasazení celého
+systému, což je v přímém rozporu s požadavkem na možnost dynamicky
+upravovat či přidávat byznysová pravidla za běhu systému.
+
+Další nevýhodou tohoto přístupu je jeho závislost na \gls{OOP},
+které samotné není schopné se efektivně vypořádat s průřezovými
+problémy~\cite{cemus2014aspect}, jak si popíšeme v sekci~\ref{sec:aop}.
+Ačkoliv je \gls{MDA} známá již od roku 2000, generativní nástroje pro
+její podporu jsou stále nevyspělé a pro některé platformy úplně chybí.
 
 \section{Síťové architektury}
 
@@ -68,6 +98,14 @@ jehož výpadek ochromí funkci celého systému (v angličtině
 Pokud na serveru nastane chyba či výpadek, žádný z klientů není schopen využívat
 jeho služeb.
 
+Pro sdílení byznysových pravidel se tato architektura jeví
+jako vhodná. Klient, který potřebuje byznysové pravidlo ke
+svému běhu, by zažádal server o dané pravidlo a poté by
+se postaral o jeho spuštění. Tím by bylo dosaženo automatické
+distribuce a integrace byznysových pravidel. Vzhledem k tomu,
+že server je v této architetkuře centrální autorita, usnadnila
+by se tak centrální správa byznysových pravidel.
+
 \subsection{Architektura Peer-to-peer}\label{sec:p2p}
 
 Opakem modelu klient-server je síťová architektura zvaná \textit{Peer-to-peer (\gls{P2P})}.
@@ -97,7 +135,15 @@ Mezi silné nevýhody této architektury patří zvýšená bezpečnostní rizik
 že klienti jsou otevřeni komunikaci s jakýmkoliv jiným, potenciálně nebezpečným, klientem.
 Potenciální útočník tak může velmi snadno využít zranitelností na dálku.
 Další hrozbou je to, že některý z klientů může \textit{otrávit} síť podvrženými daty.
-Další nevýhodou může být absence jakékoliv centrální správy sdílených dat.
+Podstatnou nevýhodou může být absence jakékoliv centrální správy sdílených dat.
+
+Ačkoliv se může \gls{P2P} jevit jako vhodný přístup pro sdílení byznysových pravidel
+díky svojí orientaci na sdílení dat, vysoké datové propustnosti a robustnosti, právě absence
+centrální správy by mohla uvrhnout systém do nekonzistentního stavu při úpravě či přidání
+byznysového pravidla. Tato architektura totiž implikuje, že by byznysové pravidlo bylo
+replikováno a distribuováno mezi více uzlů sítě. Změna pravidla by se tak musela šířit postupně
+napříč systémem, přičemž některé uzly by stále využívaly starou verzi pravidla, a nad samotným
+šířením by neměl administrátor systému kontrolu.
 
 \subsection{Representational state transfer}\label{sec:rest}
 
@@ -146,7 +192,15 @@ která se v praxi často zjednodušuje a tím degraduje její výhody. Přes ro�
 této architektury ji stále mnoho vývojářů nezná do detailu a zanedbávají některé její části.
 Většina programovacích jazyků je založena na volání funkcí či metod, což svádí vývojáře ke
 špatnému návrhu systému. \gls{REST} totiž naopak vyžaduje od vývojáře nad systémem přemýšlet jako
-nad množinou zdrojů.
+nad množinou zdrojů. Jinou nespornou nevýhodou je náročná implementace transakcí, které zahrnují více
+zdrojů najednou. Protokol \gls{HTTP} nepodporuje uzavření více požadavků do jedné atomické
+transakce. To může být problém v \gls{SOA} zejména pokud je vyžadována kooperace více služeb
+najednou při vykonávání byznysové operace. Existují však koncepty, které využívají model
+Try-Cancel/Confirm~\cite{pardon2011towards}, umožňující zajistit atomické transakce nad \gls{REST} architekturou.
+Jak jsme již zmínili v sekci~\ref{sec:microservices}, moderní systémy se přiklánějí ke konceptu
+\textit{eventual consistency}, kdy jsou tolerovány drobné nekonzistence, které jsou nakonec
+dořešeny manuálně, pokud je cena za ně menší než cena za implementaci systému, který
+by plně podporoval atomické transakce.
 
 \subsection{Remote procedure call}\label{sec:rpc}
 
@@ -182,7 +236,14 @@ serializaci a zpracování chyb. Middleware je zpravidla dodáván v podobě kni
 dané technologie. Některé systémy a jejich případy použití mohou být snadněji
 realizovány jako volání procedury než jako entita reprezentující systémový zdroj.
 
-\section{Aspektově orientované programován\'{\i}}
+Vhodnost \gls{RPC} architektury pro distribuci a správu byznysových pravidel je do značné
+míry ovlivněna tím, jakou konkrétní technologii využijeme. Stejně jako \gls{REST}
+ani \gls{RPC} nedefinuje jakým způsobem by měly být obslouženy transakce. Byli bychom tedy
+nuceni si transakční systém doimplementovat. To by však mohlo být o něco snažší díky tomu,
+že by obsluha transakce mohla být volána jako procedura, a tím bychom si ušetřili práci
+s obslužným kódem.
+
+\section{Aspektově orientované programován\'{\i}}\label{sec:aop}
 
 \goal{Co je paradigma}
 Programován\'{\i} je komplexn\'{\i} discipl\'{\i}na s teoreticky
