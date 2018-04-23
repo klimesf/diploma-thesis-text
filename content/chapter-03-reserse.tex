@@ -160,15 +160,25 @@ nad jedním zdrojem jsou využívány slovesa protokolu \gls{HTTP}, zejména pak
 \code{POST} pro vytváření, \code{PUT} pro úpravu a \code{DELETE} pro mazání. Tím jsou zastřešeny
 všechny \gls{CRUD} operace.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.9\linewidth]{figures/rest-statelessness.pdf}
+    \caption{Znázornění architektury \gls{REST}}
+    \label{fig:rest-statelessness}
+\end{figure}
+
 Principy architektury \gls{REST} jsou:
 
 \begin{description}
-    \item [Architektura klient-server] Systém by měl využívat model klient-server. Díky tomu může jasně rozdělit
+    \item [Klient-server] Systém by měl využívat model klient-server. Díky tomu může jasně rozdělit
     zodpovědnost za uživatelské rozhraní na klienta a zodpovědnost za ukládání dat na server. Díky tomu se zvyšuje
     škálovatelnost systému díky nižším nárokům na server.
     \item [Bezstavovost] Každý požadavek na server by měl obsahovat všechny informace potřebné k jeho vykonání.
-    Kromě těla \gls{HTTP} požadavku se často využívají i hlavičky, například pro autentizaci uživatele pro
-    přístup k zabezpečeným zdrojům.
+    Kromě těla \gls{HTTP} požadavku se k tomuto účelu často využívají i hlavičky požadavku,
+    například hlavička \code{Authorization} pro autentizaci uživatele kvůli přístupu k zabezpečeným zdrojům.
+    Tím se zjednodušuje komplexita serveru, který plně přesouvá zodpovědnost za uchování stavu uživatelského rozhraní
+    na klienta, jak je znázorněno na obrázku~\ref{fig:rest-statelessness}. Nutno poznamenat, že stav dat v systému
+    je stále uchováván na serveru.
     \item [Kešování] Odpovědi serveru musí obsahovat explicitní informaci o tom, zda lze odpověď uložit do cache.
     Díky tomu lze znovupoužívat data, která již server jednou vrátil, a jejich životnost má dlouhodobější charakter.
     Tím se zvyšuje výkon celého systému.
@@ -216,7 +226,15 @@ Zásadním bodem je fakt, že \gls{RPC} kompletně obstarává komunikaci, a v p
 je vzdálená procedura volána stejným způsobem jako lokální procedury. Základním
 prvkem architektury na klientovi i na serveru je tzv. \textit{stub}, tedy komponenta, která
 umožňuje volat vzdálenou proceduru lokálně a zapozdřuje veškerou síťovou komunikaci
-a serializaci či deserializaci argumentů, resp. návratových hodnot.
+a serializaci či deserializaci argumentů, resp. návratových hodnot. Schéma komunikace
+je znázorněno na obrázku~\ref{fig:rpc}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/rpc.pdf}
+    \caption{Schéma komunikace \gls{RPC}}
+    \label{fig:rpc}
+\end{figure}
 
 Představitelem architektury \gls{RPC} je například technologie \gls{CORBA},
 kterou jsme již popsali v sekci~\ref{sec:corba}, nebo technologie Remote Method Invocation (\gls{RMI})
@@ -274,13 +292,14 @@ vede k lepš\'{\i}mu návrhu a organizaci programu a snižuje
 tak náklady na jeho v\'yvoj a údržbu.
 
 \goal{Nedostatky OOP}
-Ačkoliv je \gls{OOP} velmi siln\'ym a všestran\'ym nástrojem,
+Ačkoliv je \gls{OOP} velmi siln\'ym a všestrann\'ym nástrojem,
 existuj\'{\i} problémy, které nelze jeho pomoc\'{\i} efektivně řešit.
 Jedn\'{\i}m takov\'ym problémem jsou obecné požadavky na systém,
 které musej\'{\i} b\'yt konzistentně dodržovány na v\'{\i}ce m\'{\i}stech,
 které spolu zdánlivě nesouvis\'{\i}. Př\'{\i}kladem
 může b\'yt logován\'{\i} systémov\'ych akc\'{\i}, optimalizace správy paměti
-nebo uniformn\'{\i} zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect}.
+nebo uniformn\'{\i} zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect},
+ale i aplikace byznysových pravidel~\cite{cemus2014aspect}.
 Takové požadavky naz\'yváme \textit{průřezové problémy}
 (z anglického \textit{cross-cutting concerns}).
 V rámci \gls{OOP} je programátor nucen v ojektech manuálně opakovat
@@ -341,34 +360,103 @@ jev\'{\i} jako vhodn\'y př\'{\i}stup, kter\'y nám pomůže dosáhnout c\'{\i}l
 
 \subsection{Drools DSL}
 
-\todo{
-\begin{itemize}
-    \item co to je
-    \item jak to funguje
-    \item RETE algoritmus
-    \item v\'yhody
-    \item nev\'yhody
-    \item shrnut\'{\i} a proč se nám nehod\'{\i}
-\end{itemize}
-}
+Framework Drools~\cite{drools} vyvijený společností JBoss\footnote{http://www.jboss.org/}
+je open-source projekt realizující \textit{business rule management engine} (\gls{BRMS}),
+tedy nástroj pro vývoj a správu byznysových pravidel. Framework umožňuje realizovat
+tzv. \textit{produkční systémy}, tedy systémy tvořené sadou \textit{produkčních pravidel}
+určujících chování programu. Tato pravidla obsahují popis situace a její řešení v případě,
+že nastane. Jedná se tedy o formu umělé inteligence.
 
-\goal{Drools se nám nehod\'{\i}, protože je jen pro platformu Java}
-...
+Produkční pravidlo se skládá z levé strany (\gls{LHS} z anglického \textit{left-hand side}),
+a z pravé strany (\gls{RHS} z anglického \textit{right-hand side}),
+\gls{LHS} popisuje situaci, při které má být pravidlo aplikováno. \gls{RHS} popisuje akci,
+která má být vykonána.
+
+Pro správnou funkci systému je nutno při vyhodnocování správně určit, která produkční pravidla
+mají být aplikována. Pro tento účel využívá frameowkr Drools algoritmus RETE~\cite{forgy1988rete},
+který je přímo navržený pro párování pravidel produkčních systémů.
+
+Součástí frameworku Drools je i speciální doménově specifický jazyk vyvinutý přímo
+pro modelování produkčních pravidel.
+
+Ve zdrojovém kódu~\ref{lst:drools-example} můžeme vidět příklad zápisu
+byznysového pravidla v jazyce Drools DSL. Kromě názvu pravidla je v hlavičce
+uvedeno, které dialekty jsou v pravidle využity. Dialekt \code{MVEL} je součástí
+Drools \gls{DSL} a slouží pro zápis \gls{LHS} i \gls{RHS}. Dialekt \code{java}
+nám umožňuje pro \gls{RHS} využít přímo jazyk Java.
+
+%\todo{
+%\begin{itemize}
+%    \item co to je
+%    \item jak to funguje
+%    \item RETE algoritmus
+%    \item v\'yhody
+%    \item nev\'yhody
+%    \item shrnut\'{\i} a proč se nám nehod\'{\i}
+%\end{itemize}
+%}
+%
+%\goal{Drools se nám nehod\'{\i}, protože je jen pro platformu Java}
+%...
+
+\lstinputlisting[
+caption={Ukázka zápisu byznysového pravidla v jazyce Drools DSL},
+label={lst:drools-example},
+language=Drools,
+%frame=single,
+%float,
+%floatplacement=H
+]
+{code/drools_example.drl}
+
+Ačkoliv je jazyk Drools \gls{DSL} vymodelovaný přímo pro zápis pravidel doménovými experty,
+odlišnost produkčních pravidel a byznysových pravidel tak, jak jsme si je zavedli v sekci~\ref{sec:business-rules}
+je na první pohled zřejmá. Pro naše účely bychom využili pouze \gls{LHS}, protože nám stačí
+popsat nastalou situaci, ale o následnou akci se postará systém \textendash v případě
+precondition je byznysová operace zastavena, v případě post-condition je aplikován filtr
+na všechny proměnné splňující danou podmínku. Zároveň jazyk Drools \gls{DSL} postrádá
+nástroje pro kvalitní popis byznysového kontextu držícího byznysová pravidla,
+zejména pak rozšiřování jiných kontextů a popis typu jednotlivých pravidel.
+V neposlední řadě nejsou ze strany frameworku Drools podporovány jiné platformy než
+Java a .NET, což nevyhovuje našim požadavkům na platformovou nezávislost.
 
 \subsection{JetBrains MPS}
 
-\todo{
-\begin{itemize}
-    \item co to je
-    \item jak to funguje
-    \item v\'yhody
-    \item nev\'yhody
-    \item shrnut\'{\i} a proč se nám nehod\'{\i}
-\end{itemize}
-}
+Zajímavým nástrojem z dílny společnosti JetBrains\footnote{https://www.jetbrains.com/}
+je tzv. \textit{MPS \textendash\xspace Meta Programming System}~\cite{jetbrainsmps}, který si klade za úkol být univerzálním
+nástrojem pro tvorbu doménově specifických jazyků. Staví na konceptu \textit{language-oriented
+programming} (\gls{LOP})~\cite{ward1994language}, který se zaměřuje na vývoj velmi specifického jazyka,
+který je následně použit pro implementaci programu namísto obecného mnohoúčelového jazyka. Pro překlad
+ze specifického jazyka do spustitelného kódu je použit automatický překladač. Příkladem jazyka, který využívá koncept \gls{LOP}
+je \LaTeX\xspace, který byl využit pro sazbu této diplomové práce. Ten totiž pomocí maker jazyka \TeX\xspace
+sestavuje abstraktnější jazyk, který umožňuje autorovi soustředit se hlavně na strukturu textu, aniž by
+se musel příliš detailně zaobírat samotnou sazbou.
 
-\goal{MPS je super, ale nevyhovuje nám kvůli dynamick\'ym změnám}
-...
+MPS umožňuje uživateli nadefinovat gramatiku speciálního \gls{DSL} a následně poskytuje
+editor pro tento jazyk včetně validace. MPS podporuje také transformování kódu napsaného
+v nadefinovaném jazyce do jiných nízkoúrovňovějších jazyků, zejména pak do jazyka Java.
+Díky tomu lze nejen vytvářet libovolné \gls{DSL}, ale také rozšiřovat existující
+jazyky \textendash například přidat do jazyka Java podporu pro jednoduchý vizuální zápis matic.
+
+Výhoda tohoto přístupu je podobně jako u \gls{MDA} vysoká úroveň abstrakce, která
+velmi dobře odděluje problém návrhu systému od implementačních problémů.
+Navíc lze díky použití \gls{DSL} zapojit do vývoje doménové experty a snížit tak
+zátěž na programátory, kteří se mohou více věnovat právě implementačním problémům.
+\gls{DSL} typicky zvyšuje expresivitu kódu a díky tomu se zmenšuje jeho objem.
+Nižší objem kódu vede ke snížení nákladů na jeho údržbu a vývoj~\cite{littman1987mental}\cite{soloway1986empirical}.
+Významnou výhodou MPS, potažmo \gls{LOP}, je vysoká portabilita vyvinutého jazyka.
+Pro migraci na jinou platformu stačí doprogramovat překladač jazyka, ale
+samotný jazyk může zůstat zachovaný.
+
+Z výčtu výhod plyne, že bychom mohli MPS využít k popisu byznysových pravidel,
+resp. byznysových kontextů. Tím bychom získali silný aparát k zachycení a
+znovupoužití pravidel a jejich transformaci do neomezeného počtu jazyků pro
+využití na mnoha platformách. Podobně jako u \gls{MDA} je však problém v dopředném
+generování \textendash pro případ úpravy pravidla za běhu programu bychom museli
+nějakým způsobem upravované pravidlo přetransformovat z dané platformy zpět
+do našeho \gls{DSL}, upravit ho pomocí editoru MPS, a následně ho opět přeložit
+do spustitelného jazyka pro danou platformu. To by vyžadovali potřebu překompilovat
+a znovunasadit všechny služby využívající dané pravidlo.
 
 \section{Shrnut\'{\i}}
 

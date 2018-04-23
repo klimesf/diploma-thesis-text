@@ -9,6 +9,32 @@
 
 \section{Budouc\'{\i} rozšiřitelnost frameworku}
 
+\subsection{Kvalitní doménově specifický jazyk}
+Zadáním této práce nebylo zkonstruovat vlastní \gls{DSL}
+k účelům automatické distribuce a centrální správy byznys pravidel,
+nicméně v sekci~\ref{sec:implementation-requirements} jsme potřebu takového
+jazyka jasně identifikovali a následně v kapitole~\ref{ch:reserse}
+jsme došli k závěru, že momentálně neexistuje vhodné \gls{DSL},
+které by splňovalo všechny naše požadavky a mohli bychom ho
+využít pro naše účely. V rámci implementace prototypu knihoven
+jsme navrhli a implementovali vlastní \gls{DSL} v jazyce \gls{XML},
+jak jsme popsali v sekci~\ref{sec:dsl-impl}. Tento jazyk je však
+velmi omezený a snaží se vyhovět co nejnižším nárokům na implementaci.
+Sestavení kvalitního jazyka pro naše účely je tématem nejméně pro
+bakalářskou práci. Nicméně, námi navržený framework je schopen toto
+rozšíření pojmout, stačí doimplementovat plug-in, který se bude starat
+o převod z daného \gls{DSL} do paměťové reprezentace byznysového kontextu.
+
+Kvalitní jazyk by měl kromě výše zmíněných požadavků pro zachycení
+pravidla poskytovat co nejpřehlednější zápis, aby ho mohl snadno číst a zapisovat
+nejen vývojář, ale i doménový expert či administrátor systému. Tím by se
+ještě zvýšil přínos centrální administrace byznysových pravidel, kterou jsme v rámci
+této práce implementovali a popsali v sekci~\ref{sec:central-administration}.
+Můžeme také diskutovat, že by jazyk pro popis byznysových kontextů sloužil pouze
+jako platforma a samotná pravidla by byla popsána v \gls{DSL} vytvořeném na míru
+byznysové doméně, pro kterou by byl implementován systém využívající našeho frameworku.
+
+
 \section{Možnost\'{\i} uplatněn\'{\i} navrženého frameworku}
 
 \section{Dalš\'{\i} možnosti uplatněn\'{\i} \gls{AOP} v \gls{SOA}}

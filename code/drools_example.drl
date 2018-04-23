@@ -1,0 +1,8 @@
+rule "validate holiday"
+dialect "mvel"
+dialect "java"
+when
+    $h1 : Holiday( month == "july" )
+then
+    System.out.println($h1.name + ":" + $h1.month);
+end
