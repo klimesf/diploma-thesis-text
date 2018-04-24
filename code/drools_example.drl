@@ -1,8 +1,10 @@
-rule "validate holiday"
+rule "print user email"
+
 dialect "mvel"
 dialect "java"
+
 when
-    $h1 : Holiday( month == "july" )
+    $u : User( email != null )
 then
-    System.out.println($h1.name + ":" + $h1.month);
+    System.out.println($u.name + ": " + $u.email);
 end

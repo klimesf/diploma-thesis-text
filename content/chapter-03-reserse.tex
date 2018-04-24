@@ -134,7 +134,8 @@ Navíc v takové síti neexistuje \textit{single point of failure} a tak se zvy�
 Mezi silné nevýhody této architektury patří zvýšená bezpečnostní rizika způsobená tím,
 že klienti jsou otevřeni komunikaci s jakýmkoliv jiným, potenciálně nebezpečným, klientem.
 Potenciální útočník tak může velmi snadno využít zranitelností na dálku.
-Další hrozbou je to, že některý z klientů může \textit{otrávit} síť podvrženými daty.
+Další hrozbou je to, že některý z klientů může \textit{otrávit} síť
+(z anglického \textit{network poisoning}) podvrženými daty.
 Podstatnou nevýhodou může být absence jakékoliv centrální správy sdílených dat.
 
 Ačkoliv se může \gls{P2P} jevit jako vhodný přístup pro sdílení byznysových pravidel
@@ -263,6 +264,8 @@ s obslužným kódem.
 
 \section{Aspektově orientované programován\'{\i}}\label{sec:aop}
 
+\subsection{Motivace}
+
 \goal{Co je paradigma}
 Programován\'{\i} je komplexn\'{\i} discipl\'{\i}na s teoreticky
 neomezen\'ym počtem možnost\'{\i}, jak\'ym programátor může
@@ -295,17 +298,54 @@ tak náklady na jeho v\'yvoj a údržbu.
 Ačkoliv je \gls{OOP} velmi siln\'ym a všestrann\'ym nástrojem,
 existuj\'{\i} problémy, které nelze jeho pomoc\'{\i} efektivně řešit.
 Jedn\'{\i}m takov\'ym problémem jsou obecné požadavky na systém,
-které musej\'{\i} b\'yt konzistentně dodržovány na v\'{\i}ce m\'{\i}stech,
-které spolu zdánlivě nesouvis\'{\i}. Př\'{\i}kladem
-může b\'yt logován\'{\i} systémov\'ych akc\'{\i}, optimalizace správy paměti
-nebo uniformn\'{\i} zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect},
-ale i aplikace byznysových pravidel~\cite{cemus2014aspect}.
+které musej\'{\i} b\'yt konzistentně dodržovány na v\'{\i}ce
+m\'{\i}stech systému, které spolu zdánlivě nesouvis\'{\i}.
 Takové požadavky naz\'yváme \textit{průřezové problémy}
 (z anglického \textit{cross-cutting concerns}).
 V rámci \gls{OOP} je programátor nucen v ojektech manuálně opakovat
 kód, kter\'y zodpov\'{\i}dá za jejich realizaci. Duplikace kódu
 vede k větš\'{\i} náchylnosti na lidskou chybu a k vyšš\'{\i}m nárokům na v\'yvoj
 a údržbu daného softwarového systému~\cite{fowler1999refactoring}.
+Obrázek~\ref{fig:cross-cutting} znázorňuje vzájemné postavení průřezových
+problémů a komponent informačního systému.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.35\linewidth]{figures/cross-cutting.pdf}
+    \caption{Průřezové problémy v informačních systémech}
+    \label{fig:cross-cutting}
+\end{figure}
+
+\goal{Konkrétní příklad nedostatku OOP}
+Př\'{\i}kladem průřezového problému může b\'yt logován\'{\i}
+systémov\'ych akc\'{\i}, optimalizace správy paměti
+nebo uniformn\'{\i} zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect},
+ale i aplikace byznysových pravidel~\cite{cemus2014aspect}.
+Uvážme e-commerce systém a zpracování transakcí. To musí
+být zohledněno jak při vytváření objednávek, tak při registraci
+nového uživatele \textendash dvě byznysové akce, které by měly
+být podle \gls{OOP} implementovány v naprosto odlišných objektech
+a striktně odděleny, ale část jejich funkcionality je identická,
+a tudíž dochází k duplikaci kódu.
+
+Ve zdrojovém kódu~\ref{lst:tangling} můžeme vidět, jak průřezové
+problémy zasahují do kódu imaginární třídy implementované v
+jazyce Java, která slouží pro vytváření objednávek v e-commerce
+systému popsaném v sekci~\ref{sec:shortcomings}.
+Můžeme si všimnout, že aspekt logování je zohledněn na třech
+místech, stejně jako aspekt transakcí. Navíc jsou zde zohledněna
+i byznysová pravidla pro validaci doručovací a fakturační adresy
+objednávky.
+
+\lstinputlisting[
+caption={Příklad průřezových problémů zohledněných při vytváření objednávky},
+label={lst:tangling},
+language=Java,
+%frame=single,
+float,
+floatplacement=t
+]
+{code/tangling.java}
 
 \goal{AOP jako odpověď na nedostatky OOP}
 Aspektově orientované programován\'{\i} (\gls{AOP}) přináš\'{\i} řešen\'{\i} na
@@ -321,35 +361,84 @@ V ideáln\'{\i}m př\'{\i}padě je tedy k návrhu systému využita kombinace
 \gls{AOP} s jin\'ym paradigmatem. Pro účely této práce se zaměř\'{\i}me na
 kombinaci \gls{AOP} a \gls{OOP}.
 
-\todo{
-\begin{itemize}
-    \item diagram cross cutting concerns
-    \item roztáhnout do v\'{\i}ce odstavců
-    \item diagram weaveru
-    \item section BPEL
-\end{itemize}
-}
+% TODO: ilustace tangled vs. untangled kódu
 
-\begin{description}
-    \item [Aspekt]
-    \item [Join-point]
-    \item [Pointcut]
-    \item [Advice]
-    \item [Weaving]
-\end{description}
+\subsection{Názvosloví}
+
+\paragraph{Aspekt}
+Jak jsme již naznačili, základním pojmem v rámci \gls{AOP} je \textit{aspekt},
+který zapozdřuje průřezovou funkcionalitu a zároveň adresuje místa, kde má být
+funkcionalita aplikována. Aspekt vždy obsahuje alespoň jeden \textit{advice}
+a jeden \textit{pointcut}.
+
+\paragraph{Join-point}
+Místo v kódu, na které může být aplikována funkcionalita aspektu, se nazývá
+\textit{join-point}. Typů join-pointů je více a závisí na použitém paradigmatu,
+na který je \gls{AOP} aplikováno, a také na programovacím jazyce. V případě
+kombinace s \gls{OOP} a klasickým víceúčelovým jazykem jako je například Java,
+mohou jako join-pointy sloužit konstruktory tříd, volání metod, zápis a čtení
+z atributu objektu, inicializace třídy nebo objektu a mnoho dalších.
+
+\paragraph{Pointcut}
+Ne každý aspekt je aplikován na každý join-point. Množina join-pointů,
+na které je jeden konkrétní aspekt aplikován, se nazývá \textit{pointcut}.
+Tato množina může být určena staticky a být známá při kompilaci programu, nebo
+dynamicky za běhu programu, což přináší výpočetní složitost navíc.
+Dynamické určení pointcutu ale umožňuje vývojářům postihnout i případy,
+kdy nelze předem jasně určit místa, kde má být aspekt začleněn.
+Příkladem může být zpracování transakcí v zanořených byznysových operací,
+kdy transakce má být započata pouze při vstupu do vnější operace
+a dokončena při výstupu z vnější operace.
+
+\paragraph{Advice}
+Funkcionalita, kterou aspekt přidává v jeho pointcutu, se nazývá
+\textit{advice}. Existuje více typů advice, podle toho, kam je
+přidaná funkcionalita přidána. Například při volání metody může
+být funkcionalita přidána před, za, nebo kolem metody.
+
+\paragraph{Weaving}
+Proces, kterým jsou advice začleňovány podle pointcutu do
+jednotlivých join-pointů se nazývá \textit{weaving}. Ten může
+probíhat již při kompilaci nebo dynamicky za běhu programu,
+tzv. \textit{run-time weaving}. Proces weavingu je ilustrován
+na obrázku~\ref{fig:aspect-weaving}. Komponenta zodpovědná za
+weaving se nazývá \textit{aspect weaver}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/aspect-weaving.pdf}
+    \caption{Proces weavingu aspektů}
+    \label{fig:aspect-weaving}
+\end{figure}
 
 \section{Aspect-driven Design Approach}
 
-\todo{
-\begin{itemize}
-    \item co to je
-    \item jak nám to pomůže
-    \item využ\'{\i}t\'{\i} jeho konceptů
-    \item shrnut\'{\i}
-\end{itemize}
-}
+Alternativním způsobem návrhu informačních systémů, který staví na principech \gls{AOP},
+je Aspect-driven Design Approach (\gls{ADDA})~\cite{cemus2014aspect} ().
 
-Aspect-driven Design Approach (\gls{ADDA})
+\subsection{Možnosti aplikace}
+
+\paragraph{Automatické začleňování byznysových pravidel do datové vrstvy}
+
+\paragraph{Automatické generování uživatelského rozhraní}
+
+\paragraph{Automatická integrace byznysových pravidel v uživatelských rozhraních}
+
+%\todo{
+%\begin{itemize}
+%    \item co to je
+%    \item jak nám to pomůže
+%    \item využ\'{\i}t\'{\i} jeho konceptů
+%    \item shrnut\'{\i}
+%\end{itemize}
+%}
+
+
+\subsection{Výhody a nevýhody}
+
+
+
+\subsection{Použití pro tuto práci}
 
 \goal{Vhodnost AOP pro náš úkol}
 Vzhledem k požadavkům na implementaci našeho frameworku stanoven\'ym
@@ -381,9 +470,10 @@ pro modelování produkčních pravidel.
 
 Ve zdrojovém kódu~\ref{lst:drools-example} můžeme vidět příklad zápisu
 byznysového pravidla v jazyce Drools DSL. Kromě názvu pravidla je v hlavičce
-uvedeno, které dialekty jsou v pravidle využity. Dialekt \code{MVEL} je součástí
+uvedeno, které dialekty jsou v pravidle využity. Dialekt \code{mvel} je součástí
 Drools \gls{DSL} a slouží pro zápis \gls{LHS} i \gls{RHS}. Dialekt \code{java}
-nám umožňuje pro \gls{RHS} využít přímo jazyk Java.
+nám umožňuje pro \gls{RHS} využít přímo jazyk Java. Popsané produkční pravidlo
+vypíše uživatelovo jméno a email, pokud má uživatel email vyplněný.
 
 %\todo{
 %\begin{itemize}
@@ -404,8 +494,8 @@ caption={Ukázka zápisu byznysového pravidla v jazyce Drools DSL},
 label={lst:drools-example},
 language=Drools,
 %frame=single,
-%float,
-%floatplacement=H
+float,
+floatplacement=t
 ]
 {code/drools_example.drl}
 
@@ -434,7 +524,7 @@ se musel příliš detailně zaobírat samotnou sazbou.
 
 MPS umožňuje uživateli nadefinovat gramatiku speciálního \gls{DSL} a následně poskytuje
 editor pro tento jazyk včetně validace. MPS podporuje také transformování kódu napsaného
-v nadefinovaném jazyce do jiných nízkoúrovňovějších jazyků, zejména pak do jazyka Java.
+v nadefinovaném jazyce do jiných, nízkoúrovňovějších jazyků, zejména pak do jazyka Java.
 Díky tomu lze nejen vytvářet libovolné \gls{DSL}, ale také rozšiřovat existující
 jazyky \textendash například přidat do jazyka Java podporu pro jednoduchý vizuální zápis matic.
 

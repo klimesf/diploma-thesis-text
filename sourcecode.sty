@@ -16,6 +16,7 @@
 \definecolor{xmlcyan}{rgb}{0.0,0.6,0.6}
 
 \definecolor{jslightgray}{rgb}{.9,.9,.9}
+\definecolor{jsgray}{rgb}{.6,.6,.6}
 \definecolor{jsdarkgray}{rgb}{.4,.4,.4}
 \definecolor{jspurple}{rgb}{0.65, 0.12, 0.82}
 
@@ -47,7 +48,8 @@ rulecolor=\color{blue},
 keywords={instanceof, new, true, false, catch, return, null, catch, switch, if, while, do, else, case, break, class, implements, extends, import, public, private, static, protected, void, int, float, double},
 keywordstyle=\color{blue},
 stringstyle=\color{darkgreen},
-commentstyle=\color{xmlcyan},
+comment=[l]{//},
+commentstyle=\color{jsgray}\ttfamily,
 morecomment=[s][\color{javadocblue}]{/**}{*/},
 moredelim=[il][\textcolor{javared}]{$$},
 moredelim=[is][\textcolor{javared}]{\%\%}{\%\%},
@@ -75,7 +77,7 @@ identifierstyle=\color{black},
 sensitive=false,
 comment=[l]{//},
 morecomment=[s]{/*}{*/},
-commentstyle=\color{jspurple}\ttfamily,
+commentstyle=\color{jsgray}\ttfamily,
 stringstyle=\color{jsred}\ttfamily,
 morestring=[b]',
 morestring=[b]",
