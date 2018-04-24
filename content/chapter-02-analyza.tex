@@ -2,8 +2,8 @@
 
 \chapter{Anal\'yza}\label{ch:analyza}
 
-Tato kapitola analyzuje problematiku byznysov\'ych pravidel v informačn\'{\i}ch systémech.
-Dále detailně popisuje architekturu orientovanou na služby, včetně jej\'{\i}ho historického
+Tato kapitola analyzuje problematiku byznysov\'ych pravidel v informačn\'{\i}ch systémech
+a detailně popisuje architekturu orientovanou na služby, včetně jej\'{\i}ho historického
 v\'yvoje a modern\'{\i}ho trendu v podobě microservices. Na základě toho kapitola popisuje nedostatky
 současn\'ych př\'{\i}stupů při řešen\'{\i} průřezov\'ych problémů v těchto architekturách, s důrazem na byznysová pravidla.
 V závěru kapitoly jsou identifikovány požadavky, které by měl splňovat framework,
@@ -405,7 +405,7 @@ do tř\'{\i} služeb, z nichž každá má zodpovědnost za jiné byznysové ope
 To znamená, že stejn\'y kód, kter\'y realizuje validaci fakturačn\'{\i} adresy,
 mus\'{\i} b\'yt implementován v každé ze služeb – v našem př\'{\i}padě nav\'{\i}c ve třech
 různ\'ych programovac\'{\i}ch jazyc\'{\i}ch. Ve chv\'{\i}li, kdy vzejde požadavek na změnu
-validace fakturačn\'{\i} adresy \textendash řekněme, že chceme zobecnit
+validace fakturačn\'{\i} adresy \textendash\xspace řekněme, že chceme zobecnit
 validaci PSČ a umožn\'{\i}me přij\'{\i}mat i jeho tvar s mezerou – mus\'{\i}me stejnou změnu
 provést konzistentně na třech různ\'ych m\'{\i}stech, všechny tři služby znovu
 sestavit a nasadit ve správném pořad\'{\i} tak, aby nedošlo ke stavu,

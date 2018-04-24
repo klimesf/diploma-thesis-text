@@ -5,7 +5,7 @@
 V této kapitole se budeme věnovat rešerši existujících řešení
 a výzkumu relevantního k tématu této práce. Prozkoumáme
 modelem řízenou architekturu, její výhody, nevýhody a vhodnost
-použití. Věnovat se budeme síťovým architekturám umožňujícím
+použití. Věnovat se budeme také síťovým architekturám umožňujícím
 komunikaci služeb v rámci architektury \gls{SOA}.
 Dále se zaměříme na aspektově orientované programování
 a na něm založený inovativní přístup k návrhu iformačních systémů \gls{ADDA}.
@@ -14,11 +14,11 @@ byznysových pravidel.
 
 \section{Modelem ř\'{\i}zená architektura}
 
-Modelem řízená architektura (\gls{MDA}) se zaměřuje na využití
-modelovacích nástrojů a jejich následnou transformaci do
-spustitelného kódu pomocí generativních nástrojů~\cite{soley2000model}.
-Za specifikací \gls{MDA} stojí konsorcium Object Modeling Group (\gls{OMG}),
-která se zaměřuje na standardizaci modelovacích standardů pro software
+Modelem řízená architektura (\gls{MDA} z anglického \textit{Model-Driven
+Architecture}) se zaměřuje na návrh \gls{IS} pomocí modelů a jejich
+následnou transformaci do spustitelného kódu pomocí generativních nástrojů~\cite{soley2000model}.
+Autorem specifikací \gls{MDA} je konsorcium Object Modeling Group (\gls{OMG}),
+které se zaměřuje na standardizaci modelovacích standardů pro software
 a stojí za modelovacím jazykem \gls{UML}, který je de facto globálním standardem
 pro vizualizaci statických i dynamických aspektů softwarových systémů.
 
@@ -28,6 +28,7 @@ typicky pomocí \gls{UML}. Ten je následně převeden do
 Platform Specific Model (\gls{PSM}), tedy modelu využívajícího
 specifických aspektů platformy, pro kterou má být systém postaven.
 Tím může být obecný programovací jazyk či jiné \gls{DSL}.
+Nakonec je \gls{PSM} transformován do spustitelného kódu.
 
 Hlavní výhodou \gls{MDA} je vysoká úroveň abstrakce a z toho vyplívající
 deduplikace kódu. Pokud je byznysové pravidlo zachyceno v nejvyšší
@@ -36,7 +37,7 @@ místa, kde má být aplikováno. Další výhodou je usnadnění tvorby a zvý�
 kvality kódu díky jeho automatickému generování.
 
 Hlavní nevýhodou \gls{MDA}, která zabraňuje jejímu využití
-pro náš účel, je jednosměrný proces, kterým je kód z modelu
+pro náš účel, je jednosměrný dopředný proces, kterým je výsledný kód z modelu
 generován. Pokud dojde ke změně požadavků, je potřeba přegenerovat
 celou aplikaci od \gls{PIM} až k finálnímu kódu. Kód, který bylo
 nutno doplnit ručně, může snadno zastarat a je potřeba ho manuálně
@@ -77,9 +78,9 @@ na obrázku ~\ref{fig:client-server}.
 \end{figure}
 
 Tato architektura je jednou ze základních stavebních kamenů
-internetových protokolů. Je využívána zejména protokolem
-\gls{TCP}~\cite{postel1981transmission}, který je využíván ke
-komunikaci v síti Internet. Jako příklad si můžeme představit
+internetových protokolů. Využívá ji zejména protokol
+\gls{TCP}~\cite{postel1981transmission}, který je hlavním
+komunikačním protokolem v síti Internet. Jako příklad si můžeme představit
 prohlížení internetových stránek. Uživatel zadá \gls{URL} adresu
 stránky, kterou chce navštívit, a internetový prohlížeč, potažmo uživatelův osobní počítač,
 v roli klienta odešle požadavek na server nacházející se na dané adrese.
@@ -102,16 +103,16 @@ kdy server může jasně definovat a vynucovat přístupová pravidla.
 
 Hlavní nevýhodu této architektury je vytvoření jednoho centrálního bodu,
 jehož výpadek ochromí funkci celého systému (v angličtině
-\textit{single point of failure}). Tímto bodem je server.
+\textit{single point of failure}) \textendash\xspace tímto bodem je server.
 Pokud na serveru nastane chyba či výpadek, žádný z klientů není schopen využívat
 jeho služeb.
 
 Pro sdílení byznysových pravidel se tato architektura jeví
 jako vhodná. Klient, který potřebuje byznysové pravidlo ke
-svému běhu, by zažádal server o dané pravidlo a poté by
+svém funkci, by zažádal server o dané pravidlo a po jeho získání by
 se postaral o jeho spuštění. Tím by bylo dosaženo automatické
 distribuce a integrace byznysových pravidel. Vzhledem k tomu,
-že server je v této architetkuře centrální autorita, usnadnila
+že server je v této architetkuře centrální autoritou, usnadnila
 by se tak centrální správa byznysových pravidel.
 
 \subsection{Architektura Peer-to-peer}\label{sec:p2p}
@@ -119,7 +120,7 @@ by se tak centrální správa byznysových pravidel.
 Opakem modelu klient-server je síťová architektura zvaná \textit{Peer-to-peer (\gls{P2P})}.
 Jednotlivé počítače v síti spolu komunikují přímo, bez centrální autority.
 Všechny počítače v síti jsou si vzájemně rovnocenné.~\cite{fox2001peer}
-Na obrázku~\ref{fig:peer-to-peer} je architektura znázorněna.
+Na obrázku~\ref{fig:peer-to-peer} je tato architektura znázorněna.
 Hlavním cílem \gls{P2P} sítí je distribuce dat nebo výpočetních operací.
 
 \begin{figure}[t]
@@ -130,10 +131,10 @@ Hlavním cílem \gls{P2P} sítí je distribuce dat nebo výpočetních operací.
 \end{figure}
 
 Jednotliví klienti mezi sebou zpravidla vytvářejí virtuální síť, tzv. \textit{overlay},
-která je postavená nad fyzickou sítí, přes kterou jsou reálně zasílány zprávy.
-Typicky je tato virtuální síť podmnožinou fyzické sítě. Výhodou tohoto přístupu je,
+která je postavená nad fyzickou sítí, přes kterou jsou reálně fyzicky zasílány zprávy mezi klienty.
+Typicky je tato virtuální síť podmnožinou existující fyzické sítě. Výhodou tohoto přístupu je,
 že klienti jsou abstrahováni od fyzického uspořádání počítačů a mohou spolu komunikovat napřímo,
-i když mezi nimi mohou fyzicky být v síti zapojeny jiné počítače.
+i když mezi nimi mohou reálně být v síti zapojeny jiné počítače.
 
 Nespornou výhodou architektury \gls{P2P} je, že s rostoucím počtem klientů roste i
 kapacita a výkon sítě, narozdíl od modelu klient-server, kdy se klienti musí dělit o výkon serveru.
@@ -143,8 +144,9 @@ Mezi silné nevýhody této architektury patří zvýšená bezpečnostní rizik
 že klienti jsou otevřeni komunikaci s jakýmkoliv jiným, potenciálně nebezpečným, klientem.
 Potenciální útočník tak může velmi snadno využít zranitelností na dálku.
 Další hrozbou je to, že některý z klientů může \textit{otrávit} síť
-(z anglického \textit{network poisoning}) podvrženými daty.
-Podstatnou nevýhodou může být absence jakékoliv centrální správy sdílených dat.
+(z anglického \textit{network poisoning}) podvrženými daty, která jsou pak
+nekontrolovatelně šířena mezi všechny klienty. Z toho vyplývající nevýhodou
+může být absence jakékoliv centrální správy sdílených dat.
 
 Ačkoliv se může \gls{P2P} jevit jako vhodný přístup pro sdílení byznysových pravidel
 díky svojí orientaci na sdílení dat, vysoké datové propustnosti a robustnosti, právě absence
@@ -165,7 +167,7 @@ který je zároveň hlavním autorem specifikace \gls{HTTP} 1.1~\cite{fielding19
 
 \gls{REST} chápe data systému jako množinu zdrojů (z anglického \textit{resources}),
 nad kterými jsou prováděny operace pomocí \gls{HTTP} požadavků. K odlišení operací
-nad jedním zdrojem jsou využívány slovesa protokolu \gls{HTTP}, zejména pak \code{GET} pro čtení,
+nad jedním zdrojem jsou využívána slovesa protokolu \gls{HTTP}, zejména pak \code{GET} pro čtení,
 \code{POST} pro vytváření, \code{PUT} pro úpravu a \code{DELETE} pro mazání. Tím jsou zastřešeny
 všechny \gls{CRUD} operace.
 
@@ -179,8 +181,8 @@ všechny \gls{CRUD} operace.
 Principy architektury \gls{REST} jsou:
 
 \begin{description}
-    \item [Klient-server] Systém by měl využívat model klient-server. Díky tomu může jasně rozdělit
-    zodpovědnost za uživatelské rozhraní na klienta a zodpovědnost za ukládání dat na server. Díky tomu se zvyšuje
+    \item [Klient-server] Systém by měl využívat model klient-server. Díky tomu může jasně oddělit
+    zodpovědnost za uživatelské rozhraní na klienta a zodpovědnost za ukládání dat na server. To zvyšuje
     škálovatelnost systému díky nižším nárokům na server.
     \item [Bezstavovost] Každý požadavek na server by měl obsahovat všechny informace potřebné k jeho vykonání.
     Kromě těla \gls{HTTP} požadavku se k tomuto účelu často využívají i hlavičky požadavku,
@@ -189,7 +191,7 @@ Principy architektury \gls{REST} jsou:
     na klienta, jak je znázorněno na obrázku~\ref{fig:rest-statelessness}. Nutno poznamenat, že stav dat v systému
     je stále uchováván na serveru.
     \item [Kešování] Odpovědi serveru musí obsahovat explicitní informaci o tom, zda lze odpověď uložit do cache.
-    Díky tomu lze znovupoužívat data, která již server jednou vrátil, a jejich životnost má dlouhodobější charakter.
+    Díky tomu je možné znovupoužívat data, která již server jednou vrátil, a jejich životnost má dlouhodobější charakter.
     Tím se zvyšuje výkon celého systému.
     \item [Vrstvený systém] Klient by neměl mít možnost rozeznat, zda komunikuje přímo se serverem, nebo s prostředníkem,
     např. s proxy serverem, load balancerem nebo cache.
@@ -203,12 +205,12 @@ Principy architektury \gls{REST} jsou:
     Rozhraní by také mělo dodržovat koncept \textit{Hypermedia as the engine ot application state (\gls{HATEOAS})},
     který vyžaduje, aby server v odpovědích vracel metainformace o struktuře jeho \gls{API}.
     Klient je tak schopen dynamicky navigovat v rozhraní serveru aniž by bylo vyžadováno předem znát přesné adresy zdrojů.
-    Princip \gls{HATEOAS} se však ve většině reálných \gls{API} zanedbává či implementuje pouze částečně
+    Princip \gls{HATEOAS} se však ve většině reálných \gls{API} zanedbává či implementuje pouze částečně.
 \end{description}
 
 Nevýhody architektury \gls{REST} spočívají zejména v náročnosti její korektní implementace,
-která se v praxi často zjednodušuje a tím degraduje její výhody. Přes rošířenost a popularitu
-této architektury ji stále mnoho vývojářů nezná do detailu a zanedbávají některé její části.
+která se v praxi často zjednodušuje, a tím jsou degradovány její výhody. Přes rošířenost a popularitu
+této architektury ji stále mnoho vývojářů nezná do detailu a zanedbává některé její části.
 Většina programovacích jazyků je založena na volání funkcí či metod, což svádí vývojáře ke
 špatnému návrhu systému. \gls{REST} totiž naopak vyžaduje od vývojáře nad systémem přemýšlet jako
 nad množinou zdrojů. Jinou nespornou nevýhodou je náročná implementace transakcí, které zahrnují více
@@ -225,16 +227,16 @@ by plně podporoval atomické transakce.
 
 Remote procedure call (\gls{RPC}) je podstatně starší architekturou než \gls{REST}.
 Tento termín byl použit již v roce 1981 Brucem Nelsonem~\cite{nelson1981remote}.
-Architektura staví na modelu klient-server a její princip je velmi jednoduchý \textendash
+Architektura staví na modelu klient-server a její princip je velmi jednoduchý \textendash\xspace
 umožňuje jednomu procesu, klientovi, zavolat proceduru na druhém, vzdáleném procesu, tedy serveru.
-Klient zašle serveru zprávu, která vyžádá zavolání specifické procedury. Server
+Klient zašle serveru zprávu vyžadující zavolání specifické procedury. Server
 proceduru provede a po jejím dokončení zašle klientovi odpověď s návratovou hodnotou.
 Klient poté může pokračovat ve své práci.
 
 Zásadním bodem je fakt, že \gls{RPC} kompletně obstarává komunikaci, a v programu samotném
 je vzdálená procedura volána stejným způsobem jako lokální procedury. Základním
 prvkem architektury na klientovi i na serveru je tzv. \textit{stub}, tedy komponenta, která
-umožňuje volat vzdálenou proceduru lokálně a zapozdřuje veškerou síťovou komunikaci
+umožňuje volat, resp. obsloužit, vzdálenou proceduru lokálně a zapozdřuje veškerou síťovou komunikaci
 a serializaci či deserializaci argumentů, resp. návratových hodnot. Schéma komunikace
 je znázorněno na obrázku~\ref{fig:rpc}.
 
@@ -260,8 +262,8 @@ a správně ošetřit výjimky, které mohou při jeho běhu nastat.
 Na druhou stranu, narozdíl od \gls{REST} není pro \gls{RPC} potřeba
 implementovat komplexní middleware obstarávající síťovou komunikaci,
 serializaci a zpracování chyb. Middleware je zpravidla dodáván v podobě knihoven
-dané technologie. Některé systémy a jejich případy použití mohou být snadněji
-realizovány jako volání procedury než jako entita reprezentující systémový zdroj.
+dané technologie. Exsitují příklady funkcionality, která může být mnohem přirozeněji
+realizována pomocí volání procedur, než jako entita reprezentující systémový zdroj.
 
 Vhodnost \gls{RPC} architektury pro distribuci a správu byznysových pravidel je do značné
 míry ovlivněna tím, jakou konkrétní technologii využijeme. Stejně jako \gls{REST}
@@ -304,7 +306,7 @@ tak náklady na jeho v\'yvoj a údržbu.
 
 \goal{Nedostatky OOP}
 Ačkoliv je \gls{OOP} velmi siln\'ym a všestrann\'ym nástrojem,
-existuj\'{\i} problémy, které nelze jeho pomoc\'{\i} efektivně řešit.
+existuj\'{\i} problémy, které nelze s jeho pomoc\'{\i} efektivně řešit.
 Jedn\'{\i}m takov\'ym problémem jsou obecné požadavky na systém,
 které musej\'{\i} b\'yt konzistentně dodržovány na v\'{\i}ce
 m\'{\i}stech systému, které spolu zdánlivě nesouvis\'{\i}.
@@ -327,11 +329,11 @@ problémů a komponent informačního systému.
 \goal{Konkrétní příklad nedostatku OOP}
 Př\'{\i}kladem průřezového problému může b\'yt logován\'{\i}
 systémov\'ych akc\'{\i}, optimalizace správy paměti
-nebo uniformn\'{\i} zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect},
+nebo jednotné zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect},
 ale i aplikace byznysových pravidel~\cite{cemus2014aspect}.
 Uvážme e-commerce systém a zpracování transakcí. To musí
 být zohledněno jak při vytváření objednávek, tak při registraci
-nového uživatele \textendash dvě byznysové akce, které by měly
+nového uživatele \textendash\xspace dvě byznysové akce, které by měly
 být podle \gls{OOP} implementovány v naprosto odlišných objektech
 a striktně odděleny, ale část jejich funkcionality je identická,
 a tudíž dochází k duplikaci kódu.
@@ -388,18 +390,18 @@ z atributu objektu, inicializace třídy nebo objektu a mnoho dalších.
 \paragraph{Pointcut}
 Ne každý aspekt je aplikován na každý join-point. Množina join-pointů,
 na které je jeden konkrétní aspekt aplikován, se nazývá \textit{pointcut}.
-Tato množina může být určena staticky a být známá při kompilaci programu, nebo
+Tato množina může být určena staticky, a být tak známá při kompilaci programu, nebo
 dynamicky za běhu programu, což přináší výpočetní složitost navíc.
 Dynamické určení pointcutu ale umožňuje vývojářům postihnout i případy,
 kdy nelze předem jasně určit místa, kde má být aspekt začleněn.
-Příkladem může být zpracování transakcí v zanořených byznysových operací,
+Příkladem může být zpracování transakcí v zanořených byznysových operacích,
 kdy transakce má být započata pouze při vstupu do vnější operace
-a dokončena při výstupu z vnější operace.
+a dokončena pouze při výstupu z vnější operace.
 
 \paragraph{Advice}
 Funkcionalita, kterou aspekt přidává v jeho pointcutu, se nazývá
 \textit{advice}. Existuje více typů advice, podle toho, kam je
-přidaná funkcionalita přidána. Například při volání metody může
+daná funkcionalita přidána. Například při volání metody může
 být funkcionalita přidána před, za, nebo kolem metody.
 
 \paragraph{Weaving}
@@ -422,8 +424,8 @@ weaving se nazývá \textit{aspect weaver}.
 Alternativním způsobem návrhu informačních systémů, který staví na principech \gls{AOP},
 je Aspect-driven Design Approach\footnote{Autoři nejprve používali termín \textit{Aspect-Oriented
 Design Approach} (AODA), který byla později změněn. Oba tyto pojmy jsou vzájemně zaměnitelné.}
-(\gls{ADDA})~\cite{cemus2014aspect}. Tento přístup se zaměřuje na formalizaci
-jednotlivých komponent informačních systémů identifikování aspektů
+(\gls{ADDA})~\cite{cemus2014aspect}, představený Karlem Čemusem v roce 2015.
+Tento přístup se zaměřuje na formalizaci jednotlivých komponent informačních systémů identifikování aspektů
 v informačních systémech a jejich separaci do jednoho bodu, tzv. \textit{single focal point}.
 Následně přístup využívá weaving pro automatickou distribuci aspektů do systému.
 K popisu aspektu doporučuje využití doménově specifického jazyka, který bude navržen na
@@ -477,7 +479,7 @@ systému využívajícího tento přístup.
 
 \paragraph{Automatická extrakce dokumentace}
 
-Další oblastí informačních systému do které se promítají aspekty
+Další oblastí informačních systému, do které se promítají jeho aspekty,
 je jeho dokumentace~\cite{cemus2017automated}. Autoři \gls{ADDA}
 využívají data mining pro získání metainformací o byznysových operacích,
 datovém modelu systému a o byznysových pravidlech. Díky tomu mohou
@@ -490,24 +492,42 @@ který může sloužit pro verifikaci jejich správnosti.
 Jak můžeme pozorovat z uvedených příkladů, \gls{ADDA} poskytuje
 vývojářům způsob jakým výrazně snížit náklady na vývoj a údržbu
 systému díky deduplikaci, která je dosažena extrakcí aspektů
-do \textit{single focal point} a automatickou distribucí do
-komponent systému.
+do \textit{single focal point} a jejich automatickou distribucí do
+příslušných komponent systému.
 
 Je nutno poznamenat, že tento přístup má svoje úskalí v podobě
 vysoké počáteční investice, kterou vyžaduje vývoj specializovaných
-\gls{DSL} a také dynamických aspect weaverů. Ačkoliv autoři
+\gls{DSL} a dynamických aspect weaverů. Ačkoliv autoři
 tohoto přístupu implementovali prototypy knihoven umožňující
 požadovanou funkcionalitu, pro nasazení do reálného systému
 nejsou tyto knihovny připraveny.
 
 Pro náš účel se však jeví přístup \gls{ADDA} jako vysoce vhodný, protože
-rezonuje s cílemi této práce. Přístup navíc splňuje požadavky
+rezonuje s cíly této práce. Přístup navíc splňuje požadavky
 identifikované v sekci~\ref{sec:implementation-requirements},
 zejména využití speciálních \gls{DSL} pro popis aspektů a
 jejich automatickou distribuci za běhu systému. Pro popis byznysových pravidel
 využívá \gls{ADDA} nástroj \textit{Drools}, který prozkoumáme v následující sekci.
 
-\section{Stávaj\'{\i}c\'{\i} řešen\'{\i} reprezentace business pravidel}
+\section{Stávaj\'{\i}c\'{\i} řešen\'{\i} reprezentace business pravidel}\label{sec:business-rule-dsl}
+
+V rámci této kapitoly se zaměřujeme i na současné možnosti zachycení
+byznysových pravidel ve specializovaných jazycích a vhodnost jejich použití
+pro účel frameworku, který bude výstupem této práce.
+
+Ačkoliv existuje relativně velké množství knihoven poskytujících
+\gls{DSL} pro popis byznysových pravidel a umožňující automatickou
+distribuci byznys pravidel, žádný z nich neposkytuje podporu velkého
+množství programovacích jazyků, resp. platforem, ve kterých by mohl
+být jazyk použit. Namátkou můžeme zmínit projekt \textit{business-ruless}
+pro jazyk Python~\cite{businessrulespython}, projekt FlexRule pro platformy .NET a
+JavaScript nebo \gls{BRMS} JRules~\cite{jrules} od společnosti IBM pro
+platformu \gls{Java EE}.
+
+V této sekci se tedy zaměříme zejména na framework Drools, který
+používají autoři přístupu \gls{ADDA}, a také na moderní nástroj
+JetBrains MPS, který umožňuje vytvářet \gls{DSL} a transformovat je
+do libovolných víceúčelových jazyků.
 
 \subsection{Drools DSL}
 
@@ -516,7 +536,8 @@ je open-source projekt realizující \textit{business rule management engine} (\
 tedy nástroj pro vývoj a správu byznysových pravidel. Framework umožňuje realizovat
 tzv. \textit{produkční systémy}, tedy systémy tvořené sadou \textit{produkčních pravidel}
 určujících chování programu. Tato pravidla obsahují popis situace a její řešení v případě,
-že nastane. Jedná se tedy o formu umělé inteligence.
+že nastane. Tyto systémy tedy poskytují určitou formu umělé inteligence, která simuluje
+rozhodování experta na danou doménu.
 
 Produkční pravidlo se skládá z levé strany (\gls{LHS} z anglického \textit{left-hand side}),
 a z pravé strany (\gls{RHS} z anglického \textit{right-hand side}),
@@ -524,17 +545,23 @@ a z pravé strany (\gls{RHS} z anglického \textit{right-hand side}),
 která má být vykonána.
 
 Pro správnou funkci systému je nutno při vyhodnocování správně určit, která produkční pravidla
-mají být aplikována. Pro tento účel využívá frameowkr Drools algoritmus RETE~\cite{forgy1988rete},
-který je přímo navržený pro párování pravidel produkčních systémů.
+mají být aplikována. Pro tento účel využívá framework Drools algoritmus RETE~\cite{forgy1988rete},
+vynalezený Charlesem Forgym v roce 1983, který je přímo navržený pro párování pravidel produkčních systémů.
+Využívá stromové paměťové struktury, která minimalizuje výpočetní složitost na úkor paměťové složitosti. Framework
+Drools navíc implementuje některá vylepšení algoritmu optimalizující jeho paměťovou složitost.
 
-Součástí frameworku Drools je i speciální doménově specifický jazyk vyvinutý přímo
-pro modelování produkčních pravidel.
+Součástí frameworku Drools je speciální doménově specifický jazyk vyvinutý přímo
+pro modelování produkčních pravidel. Tento jazyk umožňuje popsat \gls{LHS} i \gls{RHS}
+daného pravidla a k tomu využívá několik užitečných konstruktů. Pro popis situací i důsledků
+využívá dialekt MVEL umožňující komfortní zápis logických výrazů. V rámci Drools \gls{DSL}
+lze využívat lokální i globální proměnné s plnou typovou podporu pramenící z jazyka Java a také
+podporu regulárních výrazů. Navíc je možno importovat i pomocné funkce, které lze
+využít v podmínkách pravidla.
 
 Ve zdrojovém kódu~\ref{lst:drools-example} můžeme vidět příklad zápisu
 byznysového pravidla v jazyce Drools DSL. Kromě názvu pravidla je v hlavičce
-uvedeno, které dialekty jsou v pravidle využity. Dialekt \code{mvel} je součástí
-Drools \gls{DSL} a slouží pro zápis \gls{LHS} i \gls{RHS}. Dialekt \code{java}
-nám umožňuje pro \gls{RHS} využít přímo jazyk Java. Popsané produkční pravidlo
+uvedeno, které dialekty jsou v pravidle využity. Dialekt \code{mvel} jsme již popsali výše a
+dialekt \code{java} nám umožňuje pro \gls{RHS} využít přímo jazyk Java. Popsané produkční pravidlo
 vypíše uživatelovo jméno a email, pokud má uživatel email vyplněný.
 
 \lstinputlisting[
@@ -548,10 +575,10 @@ floatplacement=t
 {code/drools_example.drl}
 
 Ačkoliv je jazyk Drools \gls{DSL} vymodelovaný přímo pro zápis pravidel doménovými experty,
-odlišnost produkčních pravidel a byznysových pravidel tak, jak jsme si je zavedli v sekci~\ref{sec:business-rules}
+odlišnost produkčních pravidel a byznysových pravidel tak, jak jsme si je zavedli v sekci~\ref{sec:business-rules},
 je na první pohled zřejmá. Pro naše účely bychom využili pouze \gls{LHS}, protože nám stačí
-popsat nastalou situaci, ale o následnou akci se postará systém \textendash v případě
-precondition je byznysová operace zastavena, v případě post-condition je aplikován filtr
+popsat nastalou situaci, ale o následnou akci se postará systém \textendash\xspace v případě
+neúspěšné validace precondition je probíhající byznysová operace zastavena, v případě post-condition je aplikován filtr
 na všechny proměnné splňující danou podmínku. Zároveň jazyk Drools \gls{DSL} postrádá
 nástroje pro kvalitní popis byznysového kontextu držícího byznysová pravidla,
 zejména pak rozšiřování jiných kontextů a popis typu jednotlivých pravidel~\cite{cemus2017automated}.
@@ -563,7 +590,7 @@ Java a .NET, což nevyhovuje našim požadavkům na platformovou nezávislost.
 Zajímavým nástrojem z dílny společnosti JetBrains\footnote{https://www.jetbrains.com/}
 je tzv. \textit{MPS \textendash\xspace Meta Programming System}~\cite{jetbrainsmps}, který si klade za úkol být univerzálním
 nástrojem pro tvorbu doménově specifických jazyků. Staví na konceptu \textit{language-oriented
-programming} (\gls{LOP})~\cite{ward1994language}, který se zaměřuje na vývoj velmi specifického jazyka,
+programming} (\gls{LOP})~\cite{ward1994language} zaměřujícího se na vývoj velmi specifického jazyka,
 který je následně použit pro implementaci programu namísto obecného mnohoúčelového jazyka. Pro překlad
 ze specifického jazyka do spustitelného kódu je použit automatický překladač. Příkladem jazyka, který využívá koncept \gls{LOP}
 je \LaTeX\xspace, který byl využit pro sazbu této diplomové práce. Ten totiž pomocí maker jazyka \TeX\xspace
@@ -574,7 +601,15 @@ MPS umožňuje uživateli nadefinovat gramatiku speciálního \gls{DSL} a násle
 editor pro tento jazyk včetně validace. MPS podporuje také transformování kódu napsaného
 v nadefinovaném jazyce do jiných, nízkoúrovňovějších jazyků, zejména pak do jazyka Java.
 Díky tomu lze nejen vytvářet libovolné \gls{DSL}, ale také rozšiřovat existující
-jazyky \textendash například přidat do jazyka Java podporu pro jednoduchý vizuální zápis matic.
+jazyky \textendash\xspace například přidat do jazyka Java podporu pro jednoduchý vizuální
+zápis matic, jak můžeme vidět na obrázku~\ref{fig:java-matrix}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/java-matrix.png}
+    \caption{Rozšíření jazyka java o zápis matic pomocí JetBrains MPS~\cite{jetbrainsmps}}
+    \label{fig:java-matrix}
+\end{figure}
 
 Výhoda tohoto přístupu je podobně jako u \gls{MDA} vysoká úroveň abstrakce, která
 velmi dobře odděluje problém návrhu systému od implementačních problémů.
@@ -590,11 +625,11 @@ Z výčtu výhod plyne, že bychom mohli MPS využít k popisu byznysových prav
 resp. byznysových kontextů. Tím bychom získali silný aparát k zachycení a
 znovupoužití pravidel a jejich transformaci do neomezeného počtu jazyků pro
 využití na mnoha platformách. Podobně jako u \gls{MDA} je však problém v dopředném
-generování \textendash pro případ úpravy pravidla za běhu programu bychom museli
+generování \textendash\xspace pro případ úpravy pravidla za běhu programu bychom museli
 nějakým způsobem upravované pravidlo přetransformovat z dané platformy zpět
 do našeho \gls{DSL}, upravit ho pomocí editoru MPS, a následně ho opět přeložit
-do spustitelného jazyka pro danou platformu. To by vyžadovali potřebu překompilovat
-a znovunasadit všechny služby využívající dané pravidlo.
+do spustitelného jazyka pro danou platformu. To by vyžadovalo potřebu překompilovat
+a znovu nasadit všechny služby využívající dané pravidlo.
 
 \section{Shrnut\'{\i}}
 

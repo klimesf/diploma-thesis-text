@@ -33,6 +33,14 @@ vlastn\'{\i}ho, na m\'{\i}ru šitého, doménově specifického jazyka~\cite{cem
 V našem př\'{\i}padě můžeme jazykem \gls{DSL} popsat kompletně i cel\'y
 byznysov\'y kontext.
 
+V sekci~\ref{sec:business-rule-dls} jsme zjistili, že ačkoliv jsou nástroje Drools a JetBrains
+MPS velmi silnými aparáty, jejich vlastnosti nejsou plně vhodné pro řešení problému
+centrální administrace a automatické distribuce byznysových pravidel.
+Můžeme jít cestou volby co nejvhodnějšího jazyka pro každou platformu, kterou chceme
+využívat pro naše účely, a implementace adapterů pro tyto jazyky, které transformují
+dané \gls{DSL} do reprezentace vhodné pro využití naším frameworkem. Vzhledem k
+různým vlastnostem těchto jazyků by takový přístup byl suboptimální.
+
 \section{Metamodel byznys kontextu}\label{sec:metamodel}
 
 \begin{figure}
