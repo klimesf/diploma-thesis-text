@@ -2,7 +2,15 @@
 
 \chapter{Rešerše}\label{ch:reserse}
 
-% TODO: úvod
+V této kapitole se budeme věnovat rešerši existujících řešení
+a výzkumu relevantního k tématu této práce. Prozkoumáme
+modelem řízenou architekturu, její výhody, nevýhody a vhodnost
+použití. Věnovat se budeme síťovým architekturám umožňujícím
+komunikaci služeb v rámci architektury \gls{SOA}.
+Dále se zaměříme na aspektově orientované programování
+a na něm založený inovativní přístup k návrhu iformačních systémů \gls{ADDA}.
+Nakonec prozkoumáme existující nástroje a specializované jazyky pro zápis
+byznysových pravidel.
 
 \section{Modelem ř\'{\i}zená architektura}
 
@@ -361,8 +369,6 @@ V ideáln\'{\i}m př\'{\i}padě je tedy k návrhu systému využita kombinace
 \gls{AOP} s jin\'ym paradigmatem. Pro účely této práce se zaměř\'{\i}me na
 kombinaci \gls{AOP} a \gls{OOP}.
 
-% TODO: ilustace tangled vs. untangled kódu
-
 \subsection{Názvosloví}
 
 \paragraph{Aspekt}
@@ -414,36 +420,92 @@ weaving se nazývá \textit{aspect weaver}.
 \section{Aspect-driven Design Approach}
 
 Alternativním způsobem návrhu informačních systémů, který staví na principech \gls{AOP},
-je Aspect-driven Design Approach (\gls{ADDA})~\cite{cemus2014aspect} ().
+je Aspect-driven Design Approach\footnote{Autoři nejprve používali termín \textit{Aspect-Oriented
+Design Approach} (AODA), který byla později změněn. Oba tyto pojmy jsou vzájemně zaměnitelné.}
+(\gls{ADDA})~\cite{cemus2014aspect}. Tento přístup se zaměřuje na formalizaci
+jednotlivých komponent informačních systémů identifikování aspektů
+v informačních systémech a jejich separaci do jednoho bodu, tzv. \textit{single focal point}.
+Následně přístup využívá weaving pro automatickou distribuci aspektů do systému.
+K popisu aspektu doporučuje využití doménově specifického jazyka, který bude navržen na
+míru danému průřezovému problému.
 
 \subsection{Možnosti aplikace}
 
+Autoři \gls{ADDA} aplikovali tento koncept v několika oblastech \gls{IS}.
+Mezi tyto oblasti patří automatické začleňování byznysových pravidel
+do datové vrstvy informačních systémů~\cite{cemus2015automated}, automatické
+generování uživatelských rozhraní citlivých na kontext uživatele~\cite{cemus2017separation},
+validaci vstupů formulářů v uživatelském rozhraní vůči byznysovým pravidlům~\cite{cemus2016context}\cite{cemus2017separation}
+a automatické extrakci dokumentace~\cite{cemus2017automated}.
+
 \paragraph{Automatické začleňování byznysových pravidel do datové vrstvy}
+
+Jednou z možných aplikací přístupu \gls{ADDA} je automatické začleňování
+byznysových pravidel do datové vrstvy \gls{IS}\footnote{Předpokládáme standardní
+třívrstvou architekturu informačních systémů~\cite{fowler2002patterns}}.
+Byznysová pravidla jsou nejprve vhodně popsána pomocí \gls{DSL} a následně jsou
+extrahována do jednoho bodu, ze kterého jsou automaticky distribuována.
+Pomocí specializovaného weaveru jsou pravidla překládána do podmínek
+jazyka \gls{JPQL}, potažmo \gls{SQL}, který je využíván k získávání dat
+z databázových systémů. To vede ke snížení manuální duplikace byznysových
+pravidel.
 
 \paragraph{Automatické generování uživatelského rozhraní}
 
-\paragraph{Automatická integrace byznysových pravidel v uživatelských rozhraních}
+Uživatelská rozhraní tvoří až 48 \% kódu informačních systému
+a zabírají až 50 \% jejich vývojového času~\cite{kennard2009separation}.
+Do \gls{UI} se přitom typicky promítá mnoho aspektů, které jsou
+již v systému obsaženy, a vývojáři je musí manuálně duplikovat.
+Typickým příkladem je struktura datového modelu, která se promítá
+zejmána do struktury formulářů sloužících pro manipulaci s daty systému.
+Byznysová pravidla jsou promítána do \gls{UI} při validaci vstupních
+dat formulářů na straně klienta~\cite{cemus2017separation}.
+Dalšími příklady může být lokalizace \gls{UI} do různých jazyků
+nebo rozložení a stylizace jednolivých ovládacích prvků, která
+je zpravidla uniformní v celém systému.
 
-%\todo{
-%\begin{itemize}
-%    \item co to je
-%    \item jak nám to pomůže
-%    \item využ\'{\i}t\'{\i} jeho konceptů
-%    \item shrnut\'{\i}
-%\end{itemize}
-%}
+Autoři přístupu \gls{ADDA} přicházejí s řešením v podobě
+využití několika \gls{DSL} pro popis jednotlivých aspektů
+a run-time weavingu, který aspekty při běhu aplikace
+dynamicky začlení do \gls{UI} s ohledem na aktuální kontext
+uživatele, například na jeho geolokační polohu či velikost
+displeje, na kterém je rozhraní zobrazováno.
+Díky tomu je dosaženo významné redukce kódu~\cite{cemus2016context}
+potřebného pro popis adaptibilního uživatelského rozhraní
+a tím jsou ušetřeny náklady na vývoj a údržbu informačního
+systému využívajícího tento přístup.
 
+\paragraph{Automatická extrakce dokumentace}
+
+Další oblastí informačních systému do které se promítají aspekty
+je jeho dokumentace~\cite{cemus2017automated}. Autoři \gls{ADDA}
+využívají data mining pro získání metainformací o byznysových operacích,
+datovém modelu systému a o byznysových pravidlech. Díky tomu mohou
+automaticky vygenerovat seznam byznysových operací, potažmo implementovaných
+use-cases, strukturu doménového modelu a formální popis byznysových pravidel,
+který může sloužit pro verifikaci jejich správnosti.
 
 \subsection{Výhody a nevýhody}
 
+Jak můžeme pozorovat z uvedených příkladů, \gls{ADDA} poskytuje
+vývojářům způsob jakým výrazně snížit náklady na vývoj a údržbu
+systému díky deduplikaci, která je dosažena extrakcí aspektů
+do \textit{single focal point} a automatickou distribucí do
+komponent systému.
 
+Je nutno poznamenat, že tento přístup má svoje úskalí v podobě
+vysoké počáteční investice, kterou vyžaduje vývoj specializovaných
+\gls{DSL} a také dynamických aspect weaverů. Ačkoliv autoři
+tohoto přístupu implementovali prototypy knihoven umožňující
+požadovanou funkcionalitu, pro nasazení do reálného systému
+nejsou tyto knihovny připraveny.
 
-\subsection{Použití pro tuto práci}
-
-\goal{Vhodnost AOP pro náš úkol}
-Vzhledem k požadavkům na implementaci našeho frameworku stanoven\'ym
-v předchoz\'{\i} kapitole~\ref{ch:analyza} se \gls{AOP} a na něm stavěj\'{\i}c\'{\i} \gls{ADDA}
-jev\'{\i} jako vhodn\'y př\'{\i}stup, kter\'y nám pomůže dosáhnout c\'{\i}le.
+Pro náš účel se však jeví přístup \gls{ADDA} jako vysoce vhodný, protože
+rezonuje s cílemi této práce. Přístup navíc splňuje požadavky
+identifikované v sekci~\ref{sec:implementation-requirements},
+zejména využití speciálních \gls{DSL} pro popis aspektů a
+jejich automatickou distribuci za běhu systému. Pro popis byznysových pravidel
+využívá \gls{ADDA} nástroj \textit{Drools}, který prozkoumáme v následující sekci.
 
 \section{Stávaj\'{\i}c\'{\i} řešen\'{\i} reprezentace business pravidel}
 
@@ -475,20 +537,6 @@ Drools \gls{DSL} a slouží pro zápis \gls{LHS} i \gls{RHS}. Dialekt \code{java
 nám umožňuje pro \gls{RHS} využít přímo jazyk Java. Popsané produkční pravidlo
 vypíše uživatelovo jméno a email, pokud má uživatel email vyplněný.
 
-%\todo{
-%\begin{itemize}
-%    \item co to je
-%    \item jak to funguje
-%    \item RETE algoritmus
-%    \item v\'yhody
-%    \item nev\'yhody
-%    \item shrnut\'{\i} a proč se nám nehod\'{\i}
-%\end{itemize}
-%}
-%
-%\goal{Drools se nám nehod\'{\i}, protože je jen pro platformu Java}
-%...
-
 \lstinputlisting[
 caption={Ukázka zápisu byznysového pravidla v jazyce Drools DSL},
 label={lst:drools-example},
@@ -506,7 +554,7 @@ popsat nastalou situaci, ale o následnou akci se postará systém \textendash v
 precondition je byznysová operace zastavena, v případě post-condition je aplikován filtr
 na všechny proměnné splňující danou podmínku. Zároveň jazyk Drools \gls{DSL} postrádá
 nástroje pro kvalitní popis byznysového kontextu držícího byznysová pravidla,
-zejména pak rozšiřování jiných kontextů a popis typu jednotlivých pravidel.
+zejména pak rozšiřování jiných kontextů a popis typu jednotlivých pravidel~\cite{cemus2017automated}.
 V neposlední řadě nejsou ze strany frameworku Drools podporovány jiné platformy než
 Java a .NET, což nevyhovuje našim požadavkům na platformovou nezávislost.
 
@@ -551,10 +599,11 @@ a znovunasadit všechny služby využívající dané pravidlo.
 \section{Shrnut\'{\i}}
 
 V této kapitole jsme provedli rešerši \textit{modelem řízené architektury},
-jej\'{\i}ch v\'yhod a nev\'yhod. Dále jsme prozkoumali, jak\'y způsobem funguje
-s\'{\i}ťová \textit{architektura klient-server}, jaké jsou v\'yhody a nev\'yhody
-a shrnuli jsme paradigma \textit{aspektově orientovaného programován\'{\i}} a
-z něch vycházej\'{\i}c\'{\i} př\'{\i}stup k návrhu softwarov\'ych systémů \textit{ADDA}.
+jej\'{\i}ch v\'yhod a nev\'yhod. Prozkoumali jsme síťové architektury,
+které mohou být využity pro komunikaci služeb v architektuře \gls{SOA}
+a zvážili vhodnost jejich použití pro účely této práce.
+Shrnuli jsme paradigma \textit{aspektově orientovaného programován\'{\i}} a
+věnovali se inovativnímu přístupu k návrhu softwarov\'ych systémů \textit{ADDA}.
 Nakonec jsme provedli rešerši stávaj\'{\i}c\'{\i}ch řešen\'{\i} reprezentace byznys pravidel
 včetně komplexn\'{\i}ho frameworku \textit{Drools} a zhodnotili jsme jeho vhodnost
-k řešen\'{\i} našeho problému. % TODO: revize podle toho co tu opravdu bude
+k řešen\'{\i} našeho problému.
