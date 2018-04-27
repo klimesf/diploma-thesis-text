@@ -34,6 +34,15 @@ Můžeme také diskutovat, že by jazyk pro popis byznysových kontextů slouži
 jako platforma a samotná pravidla by byla popsána v \gls{DSL} vytvořeném na míru
 byznysové doméně, pro kterou by byl implementován systém využívající našeho frameworku.
 
+\subsection{Integrace frameworku s uživatelským rozhraním}
+
+Autoři přístupu \gls{ADDA} již vyvinuli způsob, kterým lze integrovat vyhodnocování
+byznysových pravidel v uživatelském rozhraní~\cite{cemus2017separation}. Propojení s
+naším frameworkem by znamenalo pouze implementovat adaptér, který by převáděl námi
+použitou reprezentaci byznysového pravidla do podoby, kterou je schopen využívat
+aspect weaver v \gls{UI}. Tím by se rozšířila působnost našeho frameworku a zároveň
+by se zvýšil uživatelský komfort \gls{IS}, který framework využívá, díky real-time
+validaci vstupních hodnot formulářů.
 
 \section{Možnost\'{\i} uplatněn\'{\i} navrženého frameworku}
 

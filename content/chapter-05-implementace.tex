@@ -80,6 +80,8 @@ která jsou přenášena po s\'{\i}ti, bez vazby na konkrétn\'{\i} programovac\
 jazyk. Zároveň poskytuje obslužné knihovny pro naše vybrané platformy.
 Nav\'{\i}c je d\'{\i}ky binárn\'{\i} reprezentaci dat v přenosu velmi efektivn\'{\i},
 oproti formátům jako je \gls{JSON} nebo \gls{XML}~\cite{maeda2012performance}.
+Tím splňujeme i požadavek ze sekce~\ref{sec:saving-context} na minimalizaci dopadu
+síťového provozu týkajícího se byznysových kontextů na výkon celého systému.
 Oproti protokolům \textit{Apache Thrift}~\cite{thrift}
 a \textit{Apache Avro}~\cite{avro}, které poskytuj\'{\i}
 velmi srovnatelnou funkcionalitu, maj\'{\i} Protocol Buffers
@@ -414,15 +416,18 @@ Proto bylo nutné využ\'{\i}t dodatečné knihovny, jmenovitě
 \subsection{Detekce a prevence potenciáln\'{\i}ch problémů}
 
 \goal{Problémy způsobené rozšiřován\'{\i}m kontextů}
-Při úpravě nebo vytvářen\'{\i} nového byznysového kontextu je
+Jak jsme již naznačili v sekci~\ref{sec:context-inheritance},
+při úpravě nebo vytvářen\'{\i} nového byznysového kontextu je
 potřeba detekovat př\'{\i}padné chyby, abychom změnou neuvedli
-systém do nekonzistentn\'{\i}ho stavu. Kromě syntaktick\'ych chyb,
+systém do nefunkčn\'{\i}ho stavu. Kromě syntaktick\'ych chyb,
 které jsou detekovány automaticky pomoc\'{\i} definovaného schematu,
 je potřeba věnovat pozornost také sémantick\'ym chybám.
 Závažné chyby, které mohou b\'yt způsobeny rozšiřován\'{\i}m kontextů, jsou
 \begin{enumerate}[label=\alph*)]
+    \item Neunikátní identifikátory byznysových pravidel
     \item Závislosti na neexistuj\'{\i}c\'{\i}ch kontextech
     \item Cyklus v grafu závislost\'{\i} kontextů
+    \item Vzájemná kontradikce preconditions
 \end{enumerate}
 
 \goal{Chápán\'{\i} kontextů jako grafu}
@@ -439,11 +444,15 @@ zda existuj\'{\i} oba kontexty nálež\'{\i}c\'{\i} dané hraně.
 Při zvolen\'{\i} vhodn\'ych datov\'ych struktur lze dosáhnout
 lineárn\'{\i} složitosti v závislosti na počtu hran grafu.
 
+% TODO: detekce duplicitních kontextů
+
+% TODO: detekce protichůdných preconditions
+
 \goal{Detekce cyklů v grafu závislost\'{\i}}
-Pokud by závislosti v orientovaném grafu vytvořily cyklus,
-docházelo by při inicializaci služeb
-obsahuj\'{\i}c\'{\i} daná pravidla k zacyklen\'{\i}. Tomu můžeme předej\'{\i}t
-detekc\'{\i} cyklů v grafu. Pro tuto detekci byl zvolen
+Pokud by závislosti v orientovaném grafu vytvořily cyklus, tedy kruhovou závislost
+kontextů, kteoru jsme představili v sekci~\ref{sec:context-inheritance},
+docházelo by při inicializaci služeb obsahuj\'{\i}c\'{\i} daná pravidla k zacyklen\'{\i}.
+Tomu můžeme předej\'{\i}t detekc\'{\i} cyklů v grafu. Pro tuto detekci byl zvolen
 Tarjanův algoritmus~\cite{tarjan1971depth} pro detekci souvisl\'ych
 komponent, kter\'y disponuje velmi dobrou lineárn\'{\i} složitost\'{\i},
 závislou na součtu počtu hran a počtu uzlů grafu.
