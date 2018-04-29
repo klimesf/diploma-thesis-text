@@ -15,38 +15,47 @@
 %}
 
 \goal{Informační systémy a jejich důležitost}
-
 Informační systémy se ve 21. století staly neodmyslitelnou součástí našich každodenních životů.
 Do styku s nimi přicházíme jak při výkonu našich povolání, tak ve volném čase. Usnadňují
-mnoho aspektů našich činností. Jejich využití sahá do mnoha sektorů, od vzdělání a vědy,
-kde významně usnadnili přístup ke studijním materiálům, přes zdravotnictví,
+řadu aspektů našich činností. Jejich využití sahá do mnoha sektorů, od vzdělání a vědy,
+kde mimo jiné významně usnadňují přístup ke studijním materiálům, přes zdravotnictví,
 kde pomáhají zvyšovat efektivitu a úroveň péče o pacienty~\cite{fichman2011editorial}, až po
 sociální sítě, kde umožňují lidem globálně komunikovat a sdílet své myšlenky, pocity a zážitky.
 Jako budoucí profesionálové v oblasti informačních technologií máme za úkol nejen
 rozvíjet a vylepšovat funkcionalitu informačních systému, ale také zkoumat možnosti, kterými
 bychom mohli tento proces zjednodušit a zefektivnit. Jen díky tomu budeme moci dostát stále
-rostoucímu množství požadavků na informační systémy.
+rostoucímu množství požadavků na tyto systémy.
 
 \goal{SOA}
-
-
+Náročnost vývoje některých informačních systémů překračuje možnosti nejen jednotlivců, ale
+i celých týmů či skupin. Tyto systémy navíc musejí často využívat větší počet různorodých technologií kvůli
+širokému spektru funkcionality, kterou nabízejí. Jedním z přístupů, který se tyto problémy snaží řešit,
+je použití architektury orientované na služby. Ta se zaměřuje na sestavení systému z menších, vzájemně
+nezávislých celků, tzv. služeb. Každá služba pak zastřešuje pouze část funkcionality systému a kooperuje
+s ostatními službami pomocí komunikačních protokolů. Tím je umožněno využívat teoreticky neomezené množství
+technologií a rozdělit práci na systému mezi více nezávislých týmu.
 
 \goal{Byznysová pravidla}
-
-
-
-%\section{Jak č\'{\i}st tuto práci}
+Tato architektura bohužel nepřináší odpověď na všechny problémy, které je potřeba v informačních
+systémech řešit. Jak si v následujících kapitolách ukážeme, jedním z těchto problémů jsou tzv. byznysová
+pravidla. Ta slouží k zajištění správné funkcionality systému a konzistenci uložených dat.
+Některá tato pravidla je potřeba zohledňovat konzistentně napříč systémem, tedy i ve více službách.
+To bohužel při použití konvenčního přístupu přináší nutnost manuální duplikace zdrojového
+kódu aplikujícího tato pravidla a tím jsou zvýšeny náklady na vývoj systému a riziko lidské chyby
+pokud by pravidlo nebylo všude v systému aplikováno konzistentně.
 
 \goal{Motivace a cíle}
-Motivací této práce je prozkoumat myšlenku inovativního přístupu k centrální správě a automatické
-distribuci byznysových pravidel, která by usnadnila práci vývojářů a doménových expertů. Díky tomu
-by tento přístup mohl přinést snížení nákladů na vývoj a údržbu systémů využívajících architekturu
-orientovanou na služby.
+Cílem této práce je prozkoumat myšlenku inovativního přístupu k centrální správě a automatické
+distribuci byznysových pravidel v systémech využívajících architekturu orientovanou na služby
+a navrhnout framework, který by umožnil tento přístup uplatnit v praxi.
+Tento přístup by měl díky využití aspektově orientovaného programování usnadnit práci vývojářů
+a doménových expertů. Díky tomu by mohl přinést snížení nákladů na vývoj a údržbu takových systémů
+a tím umožnit vývoj lepších a rozsáhlejších systémů.
 
 \goal{Popis struktury DP a obsah kapitol}
 Kapitola~\ref{ch:analyza} se věnuje detailn\'{\i} anal\'yze problematiky bynysov\'ych pravidel a
 architektury orientované na služby, včetně jej\'{\i}ho historického v\'yvoje až po nejnovějš\'{\i} trendy,
-a v závěru identifikuje požadavky kladené na implementaci knihovny pro centráln\'{\i} správu a
+a v závěru identifikuje požadavky kladené na framework pro centráln\'{\i} správu a
 automatickou distribuci byznysov\'ych pravidel v této architektuře. Kapitola~\ref{ch:reserse}
 se zab\'yvá rešerš\'{\i} stávaj\'{\i}c\'{\i}ch pr\'{\i}stupu k v\'yvoji informacn\'{\i}ch systému a speciálně se zaměřuje
 na koncepty aspektově orientovaného programován\'{\i} a modern\'{\i}ho aspekty ř\'{\i}zeného př\'{\i}stupu k návrhu
