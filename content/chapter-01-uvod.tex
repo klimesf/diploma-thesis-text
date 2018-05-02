@@ -1,18 +1,6 @@
-%\usepackage[T1]{fontenc}
-%\usepackage[utf8]{inputenc}
-
 %!TEX ROOT=../diploma-thesis.tex
 
 \chapter{Úvod}\label{ch:uvod}
-
-%\todo{
-%\begin{itemize}
-%    \item popis tématu a jeho důležitost
-%    \item motivace práce
-%    \item co bude c\'{\i}lem a požadovan\'ym v\'ystupem této práce
-%    \item popis struktury DP
-%\end{itemize}
-%}
 
 \goal{Informační systémy a jejich důležitost}
 Informační systémy se ve 21. století staly neodmyslitelnou součástí našich každodenních životů.
@@ -23,34 +11,33 @@ kde pomáhají zvyšovat efektivitu a úroveň péče o pacienty~\cite{fichman20
 sociální sítě, kde umožňují lidem globálně komunikovat a sdílet své myšlenky, pocity a zážitky.
 Jako budoucí profesionálové v oblasti informačních technologií máme za úkol nejen
 rozvíjet a vylepšovat funkcionalitu informačních systému, ale také zkoumat možnosti, kterými
-bychom mohli tento proces zjednodušit a zefektivnit. Jen díky tomu budeme moci dostát stále
+bychom mohli tento proces zjednodušit a zefektivnit. Díky tomu budeme moci dostát stále
 rostoucímu množství požadavků na tyto systémy.
 
 \goal{SOA}
-Náročnost vývoje některých informačních systémů překračuje možnosti nejen jednotlivců, ale
-i celých týmů či skupin. Tyto systémy navíc musejí často využívat větší počet různorodých technologií kvůli
+Náročnost vývoje některých informačních systémů překračuje možnosti jednotlivců, ale
+i celých týmů či skupin. Tyto systémy často využívají větší počet různorodých technologií kvůli
 širokému spektru funkcionality, kterou nabízejí. Jedním z přístupů, který se tyto problémy snaží řešit,
 je použití architektury orientované na služby. Ta se zaměřuje na sestavení systému z menších, vzájemně
 nezávislých celků, tzv. služeb. Každá služba pak zastřešuje pouze část funkcionality systému a kooperuje
 s ostatními službami pomocí komunikačních protokolů. Tím je umožněno využívat teoreticky neomezené množství
-technologií a rozdělit práci na systému mezi více nezávislých týmu.
+technologií a rozdělit práci na systému mezi více nezávislých vývojářských týmu.
 
 \goal{Byznysová pravidla}
 Tato architektura bohužel nepřináší odpověď na všechny problémy, které je potřeba v informačních
-systémech řešit. Jak si v následujících kapitolách ukážeme, jedním z těchto problémů jsou tzv. byznysová
+systémech řešit. Jak je popsáno v následujících kapitolách, jedním z těchto problémů jsou tzv. byznysová
 pravidla. Ta slouží k zajištění správné funkcionality systému a konzistenci uložených dat.
-Některá tato pravidla je potřeba zohledňovat konzistentně napříč systémem, tedy i ve více službách.
-To bohužel při použití konvenčního přístupu přináší nutnost manuální duplikace zdrojového
-kódu aplikujícího tato pravidla a tím jsou zvýšeny náklady na vývoj systému a riziko lidské chyby
-pokud by pravidlo nebylo všude v systému aplikováno konzistentně.
+Některá tato pravidla zasahují do celého systému, tedy i do více služeb.
+To při použití konvenčního přístupu přináší nutnost manuální duplikace zdrojového
+kódu a tím jsou zvýšeny náklady na vývoj systému a riziko lidské chyby.
 
 \goal{Motivace a cíle}
 Cílem této práce je prozkoumat myšlenku inovativního přístupu k centrální správě a automatické
 distribuci byznysových pravidel v systémech využívajících architekturu orientovanou na služby
 a navrhnout framework, který by umožnil tento přístup uplatnit v praxi.
-Tento přístup by měl díky využití aspektově orientovaného programování usnadnit práci vývojářů
+Tento koncept by měl díky využití aspektově orientovaného programování usnadnit práci vývojářů
 a doménových expertů. Díky tomu by mohl přinést snížení nákladů na vývoj a údržbu takových systémů
-a tím umožnit vývoj lepších a rozsáhlejších systémů.
+a tím umožnit vývoj kvalitnějších a rozsáhlejších systémů.
 
 \goal{Popis struktury DP a obsah kapitol}
 Kapitola~\ref{ch:analyza} se věnuje detailn\'{\i} anal\'yze problematiky bynysov\'ych pravidel a
@@ -69,7 +56,3 @@ popisuje, jak\'ym způsobem byly tyto knihovny otestovány a jak byla prokázán
 je zde popsána validace a vyhodnocen\'{\i} konceptu frameworku jeho nasazen\'{\i}m při v\'yvoji
 jednoduchého ukázkového e-commerce systému. V posledn\'{\i} kapitole~\ref{ch:zaver} je shrnuto, jak\'ych
 c\'{\i}lů bylo v práci dosáhnuto a jak\'ym dalš\'{\i}m směrem se může v\'yzkum v této oblasti ub\'{\i}rat.
-
-%\goal{Zkratky}
-%Zkratky použ\'{\i}vané v textu jsou vždy nejdř\'{\i}ve zavedeny a vysvětleny. Pro přehlednost byl ale zároveň
-%souhrn použ\'{\i}van\'ych zkratek přidán jako př\'{\i}loha práce~\ref{ch:shortcuts}.
