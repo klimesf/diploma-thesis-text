@@ -1,0 +1,28 @@
+\chapter{Přehledové tabulky}
+
+\begin{landscape}
+    \begin{table}
+        \centering
+        \begin{tabular}{ l l l c c }
+            \hline
+            \textbf{Název} & \textbf{Argumenty} & \textbf{Atributy} & \textbf{Návratový typ} & \textbf{Typ výrazu} \\ \hline \hline
+            \textbf{Constant} & - & Hodnota a typ konstanty & \code{?} & Terminál \\
+            \textbf{FunctionCall} & Libovolný počet argumentů & Návratový typ funkce & \code{?} & Terminál \\
+            \textbf{IsNotNull} & Jeden argument libovolného typu & - & \code{BOOL} & Neterminál \\
+            \textbf{IsNotBlank} & Jeden argument typu \code{STRING} & - & \code{BOOL} & Neterminál \\
+            \textbf{LogicalAnd} & 2 argumenty typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
+            \textbf{LogicalEquals} & 2 argumenty libovolného typu & - & \code{BOOL} & Neterminál \\
+            \textbf{LogicalNegate} & 1 argument typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
+            \textbf{LogicalOr} & 2 argumenty typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
+            \textbf{NumericAdd} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
+            \textbf{NumericSubtract} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
+            \textbf{NumericMultiply} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
+            \textbf{NumericDivide} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
+            \textbf{ObjectReference} & - & Název objektu a název a typ proměnné & \code{?} & Terminál \\
+            \textbf{VariableReference} & - & Název a typ proměnné & \code{?} & Terminál \\
+            \hline
+        \end{tabular}
+        \caption{Přehled výrazů pro zápis byznysového pravidla}
+        \label{tbl:expressions}
+    \end{table}
+\end{landscape}

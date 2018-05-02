@@ -314,23 +314,14 @@ by ztrátu obchodn\'{\i} př\'{\i}ležitosti~\cite{lewis2014microservices}.
 
 \subsection{Orchestrace a choreografie služeb}
 
-Jak již bylo zm\'{\i}něno, aby informačn\'{\i} systém skládaj\'{\i}c\'{\i} se ze služeb mohl vykonávat
-své funkce, musej\'{\i} spolu služby komunikovat. Aby tato komunikace opravdu vedla
-ke správné funkci systému, mus\'{\i} podléhat jasně danému řádu.
+Základní podmínkou pro správnou funkci systému stavějícímu na \gls{SOA} je správná
+komunikace a spolupráce jednotlivých služeb. K tomu slouží dva odlišné přístupy \textendash\xspace
+\textit{orchestrace služeb} a \textit{choreografie služeb}.
 
 \paragraph{Orchestrace služeb}
-Pro vykonán\'{\i} byznysové operace je v rámci \gls{SOA} často potřeba součinnost v\'{\i}ce služeb
-najednou. \textit{Orchestrace služeb} má za úkol zajistit, že komunikace mezi službami
+\textit{Orchestrace služeb} má za úkol zajistit, že komunikace mezi službami
 proběhne úspěšně a ve správném časovém sledu~\cite{orchestration},
-pomoc\'{\i} centráln\'{\i} komponenty – tzv. \textit{dirigenta}.
-Abychom si mohli tento koncept lépe představit, uvažme následuj\'{\i}c\'{\i} př\'{\i}klad. Uživatel
-pomoc\'{\i} \gls{UI} vytvoř\'{\i} a odešle objednávku. V tuto chv\'{\i}li
-je spuštěn byznysov\'y proces, kter\'y mus\'{\i} zajistit, že objednávka bude založena v databázi,
-budou o n\'{\i} informováni skladn\'{\i}ci, bude zažádáno o vytvořen\'{\i} faktury a nakonec bude odeslán
-potvrzovac\'{\i} e-mail zákazn\'{\i}kovi. Po úspěšném dokončen\'{\i} operace je nav\'{\i}c potřeba uživateli
-zobrazit v \gls{UI} informaci, že vše proběhlo v pořádku. V př\'{\i}padě orchestrace služba
-poskytuj\'{\i}c\'{\i} \gls{UI} požádá dirigenta o vytvořen\'{\i} objednávky a ten se již postará o
-komunikaci tohoto požadavku všem službám zapojen\'ym do procesu.
+za použití centráln\'{\i} komponenty \textendash\xspace tzv. \textit{dirigenta}.
 Typicky je jako dirigent využ\'{\i}ván \gls{ESB}, kter\'y je pro tuto roli vhodn\'y,
 protože má informace o lokaci jednotliv\'ych služeb a zprostředkovává mezi nimi
 komunikačn\'{\i} kanály.
@@ -338,10 +329,10 @@ komunikačn\'{\i} kanály.
 \paragraph{Choreografie služeb}
 Př\'{\i}m\'ym opakem orchestrace je tzv. \textit{choreografie služeb} a znamená
 vykonáván\'{\i} byznysov\'ych operac\'{\i} autonomně a asynchronně, bez centráln\'{\i}
-autority. V př\'{\i}padě microservices je preferován tento př\'{\i}stup~\cite{dragoni2017microservices},
+autority. Tento př\'{\i}stup je preferován zejména v rámci microservices~\cite{dragoni2017microservices},
 protože orchestrace vede k vyšš\'{\i}mu provázán\'{\i} služeb a nerovnoměrnému rozložen\'{\i}
-zodpovědnost\'{\i} v systémů. Porovnán\'{\i} obou př\'{\i}stupů je pro lepš\'{\i} pochopen\'{\i} graficky
-znázorněno na obrázku~\ref{fig:choreography-orchestration}~\cite{orchestrationvschoreography}.
+zodpovědnost\'{\i} v systémů. Porovnán\'{\i} obou př\'{\i}stupů je graficky
+znázorněno na obrázku~\ref{fig:choreography-orchestration}.
 
 \begin{figure}
     \centering
@@ -371,10 +362,8 @@ Mezi dalš\'{\i} př\'{\i}klady se řad\'{\i} logován\'{\i}, monitoring či sb�
 o telemetrii procesů.
 
 \goal{Nast\'{\i}něn\'{\i} konkrétn\'{\i}ho př\'{\i}kladu}
-Abychom si mohli lépe představit diskutovan\'y problém, znázorněmě
-si ho na konkrétn\'{\i}m př\'{\i}kladu. Uvažme e-commerce systém
-skládaj\'{\i}c\'{\i} se z několika služeb naprogramovan\'ych v různ\'ych technologi\'{\i}ch,
-organizovan\'ych kolem jeho byznysov\'ych funkc\'{\i}.
+Pro lepší představu diskutovaného problému uvažme e-commerce systém
+skládaj\'{\i}c\'{\i} se z několika služeb naprogramovan\'ych v různ\'ych technologi\'{\i}ch.
 Jedna služba obsluhuje byznysové operace vázaj\'{\i}c\'{\i}
 se na uživatele systému, jejich registraci a administraci. Druhá
 služba realizuje operace s produkty, jejich vytvářen\'{\i}, úpravu,
@@ -386,47 +375,45 @@ faktur a komunikaci s bankovn\'{\i}mi službami o potvrzen\'{\i} přijat\'ych pl
 Posledn\'{\i}, pátá služba, poskytuje uživatelské a umožňuje komfortn\'{\i} obsluhu systému.
 
 \goal{Konkrétn\'{\i} problémy zpracován\'{\i} průřezov\'ych problémů na př\'{\i}kladu}
-Jak již v\'{\i}me, každá byznysová operace má své preconditions, které musej\'{\i} b\'yt splněny,
-aby mohla b\'yt vykonána. Operace má také post-conditions, které musej\'{\i} b\'yt
-aplikovány po skončen\'{\i} operace. Např\'{\i}klad při vytvářen\'{\i} faktury za
-objednávku mus\'{\i} b\'yt zvalidována fakturačn\'{\i} adresa, bez n\'{\i}ž nemůže
-b\'yt faktura vystavena. Pokud chceme ušetřit práci účetn\'{\i}kům, kteř\'{\i} by
-v př\'{\i}padě nevalidn\'{\i} adresy musely kontaktovat zákazn\'{\i}ka – pokud vůbec
-takovou možnost maj\'{\i} – mus\'{\i}me tento fakt zohlednit již při vytvářen\'{\i} objednávky.
-Proces vytvářen\'{\i} objednávky ale realizuje jiná služba, než vystavován\'{\i} faktur.
-V ideáln\'{\i}m př\'{\i}padě bychom chtěli zákazn\'{\i}ka upozornit na nevalidn\'{\i} fakturačn\'{\i}
-adresu dynamicky ještě před odeslán\'{\i}m objednávkového formuláře př\'{\i}mo v uživatelském
+Byznysové operace implementované tímto systémem musejí zohledňovat své preconditions a post-conditions.
+Např\'{\i}klad při vytvářen\'{\i} faktury za objednávku mus\'{\i} b\'yt nejprve zvalidována fakturačn\'{\i} adresa.
+Protože by mohla nastat situace, kdy by v př\'{\i}padě nevalidn\'{\i} adresy musely zaměstnanci společnosti kontaktovat zákazn\'{\i}ka
+\textendash\xspace pokud vůbec takovou možnost maj\'{\i} \textendash\xspace  musí být adresa validována již při vytvářen\'{\i}
+objednávky. Proces vytvářen\'{\i} objednávky ale realizuje jiná služba, než vystavován\'{\i} faktur.
+V ideáln\'{\i}m př\'{\i}padě by navíc měl zákazn\'{\i}k být upozorněn na nevalidn\'{\i} fakturačn\'{\i}
+adresu co nejdříve, ještě před odeslán\'{\i}m objednávkového formuláře př\'{\i}mo v uživatelském
 rozhran\'{\i}~\cite{cemus2017separation}. Pro lepš\'{\i} představu je problém znázorněn na
 obrázku~\ref{fig:service-cutting},
 
 \goal{Náročná údržba a reakce na změnu požadavku}
-Z tohoto př\'{\i}kladu je jasně vidět, že stejná funkcionalita se prom\'{\i}tá
+Uvedený příklad znázorňuje, že stejná funkcionalita se prom\'{\i}tá
 do tř\'{\i} služeb, z nichž každá má zodpovědnost za jiné byznysové operace.
-To znamená, že stejn\'y kód, kter\'y realizuje validaci fakturačn\'{\i} adresy,
+Stejn\'y kód, kter\'y realizuje validaci fakturačn\'{\i} adresy,
 mus\'{\i} b\'yt implementován v každé ze služeb – v našem př\'{\i}padě nav\'{\i}c ve třech
-různ\'ych programovac\'{\i}ch jazyc\'{\i}ch. Ve chv\'{\i}li, kdy vzejde požadavek na změnu
-validace fakturačn\'{\i} adresy \textendash\xspace řekněme, že chceme zobecnit
-validaci PSČ a umožn\'{\i}me přij\'{\i}mat i jeho tvar s mezerou – mus\'{\i}me stejnou změnu
+různ\'ych programovac\'{\i}ch jazyc\'{\i}ch. Pokud by vzešel změnový požadavek
+na validaci fakturačn\'{\i} adresy, mus\'{\i}me stejnou změnu
 provést konzistentně na třech různ\'ych m\'{\i}stech, všechny tři služby znovu
-sestavit a nasadit ve správném pořad\'{\i} tak, aby nedošlo ke stavu,
-kdy jedna služba přijme nov\'y tvar PSČ, ale navazuj\'{\i}c\'{\i} služba ho nen\'{\i}
-schopna zpracovat.
+sestavit a nasadit ve správném pořad\'{\i} tak, aby nedošlo k nekonzistení validaci adresy
+při provádění jednotlivých byznysových operací.
+
+\goal{Změny pravidel vs. změny v kódu služby}
+\changed{
+Změny byznysových pravidel se dějí častěji, než změny kódu a struktury samotných
+služeb v \gls{SOA}~\cite{rosenberg2005business}. Pokud je potřeba s každou změnou
+byznysového pravidla sestavit a nasadit minimálně jednu službu, dramaticky
+se zvyšuje náročnost na údržbu takového systému.
+}
 
 \goal{Microservices neř\'{\i}ká nic o tom, jak velké je mikro}
-Pozorn\'y čtenář může nam\'{\i}tnout, že problém validace fakturačn\'{\i}ch adres by
-bylo možné vyřešit vyčleněn\'{\i}m této funkcionality
+Problém validace fakturačn\'{\i}ch adres by bylo možné vyřešit vyčleněn\'{\i}m této funkcionality
 do samostatné služby a vystavit jej\'{\i} rozhran\'{\i} pro ostatn\'{\i} služby,
-v souladu s nosnou myšlenkou microservices. Je pravda, že microservices
-v názvu nese slovo \uv{micro} a evokuje tak, že služby by měly b\'yt co nejmenš\'{\i}
-a nést co nejméně zodpovědnosti. Může ale nastat stav, kdy je služba př\'{\i}liš malá?
-Pokud služby ponesou př\'{\i}liš málo odpovědnosti,
-přináš\'{\i} to s sebou několik problémů, které je nutné zvážit. Mus\'{\i}me m\'{\i}t na paměti, že
+v souladu s myšlenkou microservices. Pokud však služby nesou př\'{\i}liš málo odpovědnosti,
 nasazen\'{\i} a provoz každé služby s sebou přináš\'{\i} náklady nav\'{\i}c
 a zvyšuje časové nároky na jejich v\'yvojáře a administrátory.
 Komunikace služeb po s\'{\i}ti je nav\'{\i}c podstatně pomalejš\'{\i} a náchylnějš\'{\i} na
-chybu, než komunikace jednotliv\'ych komponent v rámci jednoho procesu.
-S rostouc\'{\i}m počtem \textit{průřezov\'ych problémů} by tak i rychle rostl
-počet služeb v systému a celkové náklady na jeho v\'yvoj a údržbu.
+selhání, než komunikace jednotliv\'ych komponent v rámci jednoho procesu.
+S rostouc\'{\i}m počtem průřezov\'ych problémů by tak rychle rostl
+i počet služeb v systému a celkové náklady na jeho v\'yvoj a údržbu.
 
 \begin{figure}
     \centering
@@ -435,21 +422,11 @@ počet služeb v systému a celkové náklady na jeho v\'yvoj a údržbu.
     \label{fig:service-cutting}
 \end{figure}
 
-\goal{Shrnut\'{\i} problémů}
-Na př\'{\i}kladu můžeme vidět, že existuje typ problémů, které v rámci architektury
-orientované na služby při využit\'{\i} současného př\'{\i}stupu nejsme schopni uspokojivě
-vyřešit na jednom m\'{\i}stě a vedou k duplikaci znalost\'{\i} na v\'{\i}ce m\'{\i}stech systému.
-Taková duplikace může vést k zv\'yšenému riziku lidské chyby v\'yvojáře a t\'{\i}m k
-nekonzistentn\'{\i}mu chován\'{\i} systému. Nav\'{\i}c zvyšuje cenu na v\'yvoj a údržbu systému.
-
 \section{Identifikace požadavků na implementaci frameworku}\label{sec:implementation-requirements}
 
-Z př\'{\i}kladu popsaného v\'yše můžeme identifikovat požadavky, které by měly
-b\'yt zohledněny při návrhu a implementaci frameworku, kter\'y bude sloužit
-pro centráln\'{\i} administraci a automatickou distribuci byznysov\'ych pravidel
-v architektuře orientované na služby.
-
-% TODO: odúvodnit potřebu změny pravidel za běhu programu
+Z př\'{\i}kladu popsaného v\'yše lze identifikovat požadavky, které by měly
+b\'yt zohledněny při návrhu a implementaci frameworku pro centráln\'{\i} administraci
+a automatickou distribuci byznysov\'ych pravidel v architektuře orientované na služby.
 
 Framework, resp. jeho knihovny, by měly umožňovat:
 
