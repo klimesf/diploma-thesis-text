@@ -29,12 +29,14 @@ kvality kódu díky jeho automatickému generování.
 %a stojí za modelovacím jazykem \gls{UML}, který je de facto globálním standardem
 %pro vizualizaci statických i dynamických aspektů softwarových systémů.
 
-\gls{MDA} využívá tzv. Platform Independent Model (\gls{PIM}),
-který popisuje systém pomocí platformově nezávislého \gls{DSL},
-typicky pomocí \gls{UML}. Ten je následně převeden do
+\gls{MDA} využívá Computation Independent Model (\gls{CIM}), který reprezentuje
+řešení nezávislé na použitých výpočetních metodách a algoritmech. Z \gls{CIM} je
+model převeden do Platform Independent Model (\gls{PIM}),
+který popisuje koncepci systému bez ohledu na implementační detaily, typicky k popisu
+využívá jazyk \gls{UML}. \gls{PIM} je následně převeden do
 Platform Specific Model (\gls{PSM}), tedy modelu využívajícího
 specifických aspektů platformy, pro kterou má být systém postaven.
-Tím může být obecný programovací jazyk či jiné \gls{DSL}.
+\gls{PIM} může být převeden na jeden či více \gls{PSM}.
 Nakonec je \gls{PSM} transformován do spustitelného kódu.
 
 Hlavní nevýhodou \gls{MDA}, která zabraňuje jejímu využití
@@ -54,15 +56,23 @@ problémy~\cite{cemus2014aspect}, jak si popíšeme v sekci~\ref{sec:aop}.
 
 \section{Generativní programování}
 
-\todo{
-\begin{itemize}
-    \item Co to je
-    \item Jak to funguje
-    \item Výhody a nevýhody
-\end{itemize}
-}
+Generativní programování (\gls{GP}) je dalším příkladem paradigmatu, který
+využívá vyšší úroveň abstrakce a díky tomu zvýšuje znovupoužitelnost
+kódu. \gls{GP} se zaměřuje na maximalizaci automatizace vývoje systému
+skrz generování a syntézu vysoce přizpusobitelných komponent. Vývojář
+popíše komponentu v abstraktním jazyce přizpůsobeném doméně řešeného
+problému a generátor se postará o její automatické vytvoření~\cite{czarnecki2000generative}.
+Díky tomu je možné oddělit popis jednotlivých vlastností systému a dosáhnout tak
+jejich vysoké znovupoužitelnosti.
 
-\section{BPEL}
+\gls{GP} by mohlo být využito pro abstrakci bynysových pravidel a jejich automatickému
+začleňování do kódu služeb v systému stavějícím na \gls{SOA}.
+Statické generování komponent však nesplňuje požadavek na dynamickou správu
+byznysových pravidel za běhu systému.
+
+\section{Business Process Execution Language}
+
+\gls{BPEL}
 
 \todo{
 \begin{itemize}
@@ -88,7 +98,7 @@ tak náklady na jeho v\'yvoj a údržbu.
 
 Vlastnosti \gls{OOP} jako je zapouzdření, dědičnost a polymorfismus přináší
 vysokou znovupoužitelnost kódu, nižší riziko lidské chyby, zjednodušení
-návrhu systému a nižší náklady na vývoj a údržbu takového software.
+návrhu systému a nižší náklady na vývoj a údržbu software.
 
 \section{Aspektově orientované programován\'{\i}}\label{sec:aop}
 
@@ -160,7 +170,7 @@ floatplacement=t
 
 \subsection{Vlastnosti}
 Aspektově orientované programován\'{\i} (\gls{AOP}) přináš\'{\i} řešen\'{\i}
-v\'yše zmiňovaných problémů. Využívá k tomu tzv. \textit{separation of concerns} \textendash\xspace
+v\'yše zmiňovaných problémů. Využívá k tomu \textit{separation of concerns} \textendash\xspace
 extrahuje kód zachycující průřezové problémy, tzv. \textit{aspekty}, do jednoho bodu, tzv. (\textit{single focal point}).
 Pomoc\'{\i} procesu zvaného \textit{weaving} je poté tento kód automaticky distribuován.
 Weaving může proběhnout staticky při kompilaci programu nebo dynamicky
@@ -313,9 +323,8 @@ Ačkoliv existuje relativně velké množství knihoven poskytujících
 distribuci byznys pravidel, žádný z nich neposkytuje podporu velkého
 množství programovacích jazyků, resp. platforem, ve kterých by mohl
 být jazyk použit. Příkladem může být projekt \textit{business-ruless}
-pro jazyk Python~\cite{businessrulespython}, projekt FlexRule pro platformy .NET a
-JavaScript nebo \gls{BRMS} JRules~\cite{jrules} od společnosti IBM pro
-platformu \gls{Java EE}.
+pro jazyk Python\footnote{https://pypi.org/project/business-rules/}, projekt FlexRule\footnote{http://www.flexrule.com/archives/business-rule-language/} pro platformy .NET a
+JavaScript nebo \gls{BRMS} JRules\footnote{https://www.ibm.com/support/knowledgecenter/en/SSZJPZ\_11.3.0/com.ibm.swg.im.iis.conn.jrules.use.doc/topics/c\_jrules\_enginemode.html} od společnosti IBM pro platformu \gls{Java EE}.
 Tato sekce se tedy zaměřuje zejména na framework Drools, který
 používají autoři přístupu \gls{ADDA}, a také na moderní nástroj
 JetBrains MPS, který umožňuje vytvářet vlastní \gls{DSL} a transformovat
@@ -323,7 +332,7 @@ ho do libovolných víceúčelových jazyků.
 
 \subsection{Drools DSL}
 
-Framework Drools~\cite{drools} vyvijený společností JBoss\footnote{http://www.jboss.org/}
+Framework Drools\footnote{https://www.drools.org/} vyvijený společností JBoss\footnote{http://www.jboss.org/}
 je open-source projekt realizující \textit{business rule management engine} (\gls{BRMS}),
 tedy nástroj pro vývoj a správu byznysových pravidel. Framework umožňuje realizovat
 tzv. \textit{produkční systémy}, tedy systémy tvořené sadou \textit{produkčních pravidel}
@@ -377,7 +386,7 @@ Java a .NET, což nevyhovuje požadavkům na platformovou nezávislost.
 \subsection{JetBrains MPS}
 
 Moderním nástrojem z dílny společnosti JetBrains\footnote{https://www.jetbrains.com/}
-je tzv. \textit{MPS \textendash\xspace Meta Programming System}~\cite{jetbrainsmps}, který si klade za úkol být univerzálním
+je tzv. \textit{MPS \textendash\xspace Meta Programming System}\footnote{https://www.jetbrains.com/mps/}, který si klade za úkol být univerzálním
 nástrojem pro tvorbu doménově specifických jazyků. Staví na konceptu \textit{language-oriented
 programming} (\gls{LOP})~\cite{ward1994language} zaměřujícího se na vývoj velmi specifického jazyka,
 který je následně použit pro implementaci programu namísto obecného mnohoúčelového jazyka. Pro překlad
@@ -396,7 +405,7 @@ zápis matic, jak můžeme vidět na obrázku~\ref{fig:java-matrix}.
 \begin{figure}[t]
     \centering
     \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/java-matrix.png}
-    \caption{Rozšíření jazyka java o zápis matic pomocí JetBrains MPS~\cite{jetbrainsmps}}
+    \caption{Rozšíření jazyka java o zápis matic pomocí JetBrains MPS}
     \label{fig:java-matrix}
 \end{figure}
 

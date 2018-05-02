@@ -74,7 +74,7 @@ serverem jedné služby, a zároveň klientem druhé služby.
 
 \goal{Proč jsme použili Protobuf}
 Pro přenos byznysov\'ych kontextů byl zvolen open-source formát
-\textit{Protocol Buffers}~\cite{protobuf}\cite{varda2008protocol}
+\textit{Protocol Buffers}\footnote{https://developers.google.com/protocol-buffers/}\cite{varda2008protocol}
 vyvinut\'y společnost\'{\i} Google\footnote{https://www.google.com/}.
 Umožňuje explicitně definovat a vynucovat schéma dat,
 která jsou přenášena po s\'{\i}ti, bez vazby na konkrétn\'{\i} programovac\'{\i}
@@ -83,8 +83,8 @@ Nav\'{\i}c je d\'{\i}ky binárn\'{\i} reprezentaci dat v přenosu velmi efektivn
 oproti formátům jako je \gls{JSON} nebo \gls{XML}~\cite{maeda2012performance}.
 Tím splňujeme i požadavek ze sekce~\ref{sec:saving-context} na minimalizaci dopadu
 síťového provozu týkajícího se byznysových kontextů na výkon celého systému.
-Oproti protokolům \textit{Apache Thrift}~\cite{thrift}
-a \textit{Apache Avro}~\cite{avro}, které poskytuj\'{\i}
+Oproti protokolům \textit{Apache Thrift}\footnote{https://thrift.apache.org/}
+a \textit{Apache Avro}\footnote{https://avro.apache.org/}, které poskytuj\'{\i}
 velmi srovnatelnou funkcionalitu, maj\'{\i} Protocol Buffers
 kvalitnějš\'{\i} a lépe srozumitelnou dokumentaci.
 
@@ -117,7 +117,7 @@ v sekci~\ref{sec:metamodel}.
 
 \goal{Proč jsme použili gRPC}
 Pro realizaci architektury klient-server byl zvolen
-open-source framework gRPC~\cite{grpcio}, kter\'y stav\'{\i}
+open-source framework gRPC\footnote{https://grpc.io/}, kter\'y stav\'{\i}
 na technologii Protocol Buffers a poskytuje v\'yvojáři
 možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i}
 protokolu \textit{\gls{RPC}}~\cite{nelson1981remote}.
@@ -258,7 +258,8 @@ language=Java,
 
 \goal{Správa závislost\'{\i} a buildu projektu}
 Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i}
-knihovny napsané v jazyce java byl zvolen projekt \textit{Maven}~\cite{maven}.
+knihovny napsané v jazyce java byl zvolen projekt
+\textit{Maven}\footnote{https://maven.apache.org/}.
 Tento nástroj umožňuje v\'yvojáři komfortně a centrálně
 spravovat závislosti jeho projektu včetně detailn\'{\i}ho
 popisu jejich verze. Dále také umožňuje definovat jak\'ym
@@ -281,7 +282,7 @@ engine pro weaving aspektů.
 \paragraph{JDOM 2}
 
 \goal{Proč jdom2 a co to um\'{\i}}
-Knihovna JDOM 2~\cite{jdom2} poskytuje
+Knihovna JDOM 2\footnote{http://www.jdom.org/} poskytuje
 kompletn\'{\i} sadu nástroju pro čten\'{\i} a zápis \gls{XML} dokumentů.
 Implementuje specifikaci \textit{Document Object Model} (\gls{DOM})~\cite{wood2004document},
 pomoc\'{\i} které lze programaticky sestavovat a č\'{\i}st \gls{XML} dokumenty.
@@ -291,7 +292,7 @@ Tuto knihovnu jsme využili pro serializaci a deserializaci
 \section{Knihovna pro platformu Python}
 
 Knihovna pro platformu jazyka Python využ\'{\i}vá jeho
-verzi 3.6. Pomoc\'{\i} nástroje \textit{pip}~\cite{pip}
+verzi 3.6. Pomoc\'{\i} nástroje \textit{pip}\footnote{https://pip.pypa.io/en/stable/}
 lze knihovnu nainstalovat a využ\'{\i}vat jako python modul.
 Implementace odpov\'{\i}dá navržené specifikaci.
 
@@ -393,8 +394,8 @@ v běhovém prostřed\'{\i} \textit{Node.js}. Tento nástroj ale nedisponuje
 př\'{\i}liš silnou podporou pro správu automatick\'ych sestaven\'{\i} knihovny
 a v základn\'{\i}m nastaven\'{\i} nen\'{\i} ani př\'{\i}liš efektivn\'{\i} pro správu závislost\'{\i}.
 Proto bylo nutné využ\'{\i}t dodatečné knihovny, jmenovitě
-\textit{Yarn}~\cite{yarnpkg}, \textit{Babel}~\cite{babel} a
-\textit{Rimraf}~\cite{rimraf}.
+\textit{Yarn}\footnote{https://yarnpkg.com/en/}, \textit{Babel}\footnote{https://babeljs.io/} a
+\textit{Rimraf}\footnote{https://github.com/isaacs/rimraf}.
 
 \section{Systém pro centráln\'{\i} správu byznys pravidel}\label{sec:central-administration}
 
