@@ -24,11 +24,6 @@ Hlavní výhodou \gls{MDA} je vysoká úroveň abstrakce, která zbavuje vývoj�
 manuálně duplikovat informace. Další výhodou je nezávislost na platformě a zvýšení
 kvality kódu díky jeho automatickému generování.
 
-%Autorem specifikací \gls{MDA} je konsorcium Object Modeling Group (\gls{OMG}),
-%které se zaměřuje na standardizaci modelovacích standardů pro software
-%a stojí za modelovacím jazykem \gls{UML}, který je de facto globálním standardem
-%pro vizualizaci statických i dynamických aspektů softwarových systémů.
-
 \gls{MDA} využívá Computation Independent Model (\gls{CIM}), který reprezentuje
 řešení nezávislé na použitých výpočetních metodách a algoritmech. Z \gls{CIM} je
 model převeden do Platform Independent Model (\gls{PIM}),
@@ -44,15 +39,9 @@ pro účel této práce, je jednosměrný dopředný proces, kterým je výsledn
 Pokud dojde ke změně požadavků, která se promítne do modelu, je potřeba přegenerovat
 kód celého systému. Kód, který bylo nutno doplnit ručně, může snadno zastarat a je tak
 potřeba ho manuálně projít a opravit.
-%Změna byznysových pravidel v našem případě by
-%navíc při využití \gls{MDA} vyžadovala znovu-nasazení celého
-%systému, což je v přímém rozporu s požadavkem na možnost dynamicky
-%upravovat či přidávat byznysová pravidla za běhu systému.
 Další nevýhodou tohoto přístupu je jeho závislost na \gls{OOP},
 které samotné není schopné se efektivně vypořádat s průřezovými
 problémy~\cite{cemus2014aspect}, jak si popíšeme v sekci~\ref{sec:aop}.
-%Ačkoliv je \gls{MDA} známá již od roku 2000, generativní nástroje pro
-%její podporu jsou stále nevyspělé a pro některé platformy úplně chybí.
 
 \section{Generativní programování}
 
@@ -102,21 +91,7 @@ návrhu systému a nižší náklady na vývoj a údržbu software.
 
 \section{Aspektově orientované programován\'{\i}}\label{sec:aop}
 
-
-
 \subsection{Motivace}
-
-%\goal{Co je paradigma}
-%Programován\'{\i} je komplexn\'{\i} discipl\'{\i}na s teoreticky
-%neomezen\'ym počtem možnost\'{\i}, jak\'ym programátor může
-%řešit zadan\'y problém. Ačkoliv každá úloha má své specifické
-%požadavky, za relativně krátkou historii programován\'{\i} se
-%stihlo ustálit několik ideologi\'{\i}, tzv. programovac\'{\i}ch
-%paradigmat, které programátorovi poskytuj\'{\i} sadu abstrakc\'{\i}
-%a základn\'{\i}ch principů~\cite{van2009programming}.
-%D\'{\i}ky znalosti paradigmatu může programátor nejen zlepšit
-%svou produktivitu, ale zároveň může snáze pochopit myšlenky
-%jiného programátora a t\'{\i}m zlepšit kvalitu t\'ymové spolupráce.
 
 \goal{Nedostatky OOP}
 Ačkoliv je \gls{OOP} velmi siln\'ym nástrojem, existuj\'{\i} problémy,
@@ -144,12 +119,6 @@ Př\'{\i}kladem průřezového problému může b\'yt logován\'{\i}
 systémov\'ych akc\'{\i}, optimalizace správy paměti
 nebo jednotné zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect},
 ale i aplikace byznysových pravidel~\cite{cemus2014aspect}.
-%Uvažme e-commerce systém a zpracování transakcí. To musí
-%být zohledněno jak při vytváření objednávek, tak při registraci
-%nového uživatele \textendash\xspace dvě byznysové akce, které by měly
-%být podle \gls{OOP} implementovány v naprosto odlišných objektech
-%a striktně odděleny, ale část jejich funkcionality je identická,
-%a tudíž dochází k duplikaci kódu.
 Ve zdrojovém kódu~\ref{lst:tangling} je znázorněno, jak průřezové
 problémy zasahují do kódu imaginární třídy implementované v
 jazyce Java, která slouží pro vytváření objednávek v e-commerce
@@ -162,7 +131,6 @@ a fakturační adresy objednávky.
 caption={Příklad průřezových problémů zohledněných při vytváření objednávky},
 label={lst:tangling},
 language=Java,
-%frame=single,
 float,
 floatplacement=t
 ]
@@ -179,7 +147,6 @@ protože k definici i změně aspektu docház\'{\i} centrálně, a t\'{\i}m je e
 potřeba manuáln\'{\i} duplikace kódu. \gls{AOP} nen\'{\i} paradigmatem poskytuj\'{\i}c\'{\i}m
 kompletn\'{\i} framework pro návrh programu. V ideáln\'{\i}m př\'{\i}padě je tedy k návrhu
 systému využita kombinace \gls{AOP} s jin\'ym paradigmatem.
-%Tato práce se zaměř\'{\i}uje na kombinaci \gls{AOP} a \gls{OOP}.
 
 \subsection{Názvosloví}
 
@@ -369,7 +336,6 @@ vypíše uživatelovo jméno a email, pokud má uživatel email vyplněný.
 caption={Ukázka zápisu byznysového pravidla v jazyce Drools DSL},
 label={lst:drools-example},
 language=Drools,
-%frame=single,
 float,
 floatplacement=t
 ]
@@ -437,8 +403,6 @@ Klient zašle požadavek serveru a ten mu vrátí odpověď~\cite{berson1992clie
 Schéma komunikace je znázorněno na obrázku ~\ref{fig:client-server}.
 Tento model může být použit obecně i v rámci jednoho počítače,
 nejčastěji je však využíván v síťové komunikaci mezi více počítači.
-%V tomto případě klient sestaví síťové spojení k serveru a po získání odpovědi
-%od serveru spojení zase uzavře.
 
 \begin{figure}[t]
     \centering
@@ -447,24 +411,9 @@ nejčastěji je však využíván v síťové komunikaci mezi více počítači.
     \label{fig:client-server}
 \end{figure}
 
-%Tato architektura je jednou ze základních stavebních kamenů
-%internetových protokolů. Využívá ji zejména protokol
-%\gls{TCP}~\cite{postel1981transmission}, který je hlavním
-%komunikačním protokolem v síti Internet. Jako příklad si můžeme představit
-%prohlížení internetových stránek. Uživatel zadá \gls{URL} adresu
-%stránky, kterou chce navštívit, a internetový prohlížeč, potažmo uživatelův osobní počítač,
-%v roli klienta odešle požadavek na server nacházející se na dané adrese.
-%Server požadavek přijme, zpracuje, a odešle odpověď obsahující
-%tělo webové stránky. Klient stránku přijme a zobrazí pro koncového
-%uživatele.
-
 Tento přístup má několik zásadních výhod, díky kterým se stal
 široce využívaným. Díky svojí velmi obecné myšlence je nezávislý
 na jakékoliv platformě.
-%a jako klient i server mohou sloužit
-%jak vysoce výkonné počítače, tak i osobní počítače nebo chytré telefony,
-%z nichž každý může využívat odlišné operační systémy –
-%stačí aby klient i server uměl komunikovat stejným protokolem.
 Zároveň tato architektura přesouvá byznysovou logiku a
 ukládání dat na server a díky tomu umožňuje
 snadnější kontrolu nad systémem a jeho centrální administraci. S tím
@@ -477,14 +426,6 @@ jehož výpadek ochromí funkci celého systému (v angličtině
 \textit{single point of failure}) \textendash\xspace tímto bodem je server.
 Pokud na serveru nastane chyba či výpadek, žádný z klientů není schopen využívat
 jeho služeb.
-
-%Pro sdílení byznysových pravidel se tato architektura jeví
-%jako vhodná. Klient, který potřebuje byznysové pravidlo ke
-%své funkci, by zažádal server o dané pravidlo a po jeho získání by
-%se postaral o jeho spuštění. Tím by bylo dosaženo automatické
-%distribuce a integrace byznysových pravidel. Vzhledem k tomu,
-%že server je v této architetkuře centrální autoritou, usnadnila
-%by se tak centrální správa byznysových pravidel.
 
 \subsection{Architektura Peer-to-peer}\label{sec:p2p}
 
@@ -500,12 +441,6 @@ Hlavním cílem \gls{P2P} sítí je distribuce dat nebo výpočetních operací.
     \caption{Architektura peer-to-peer}
     \label{fig:peer-to-peer}
 \end{figure}
-
-%Jednotliví klienti mezi sebou zpravidla vytvářejí virtuální síť, tzv. \textit{overlay},
-%která je postavená nad fyzickou sítí, přes kterou jsou reálně fyzicky zasílány zprávy mezi klienty.
-%Typicky je tato virtuální síť podmnožinou existující fyzické sítě. Výhodou tohoto přístupu je,
-%že klienti jsou abstrahováni od fyzického uspořádání počítačů a mohou spolu komunikovat napřímo,
-%i když mezi nimi mohou reálně být v síti zapojeny jiné počítače.
 
 Výhodou architektury \gls{P2P} rostoucí kapacita a výkon sítě s rostoucím počtem klientů,
 narozdíl od modelu klient-server, kdy se klienti musí dělit o výkon serveru.
@@ -602,12 +537,6 @@ Schéma komunikace je znázorněno na obrázku~\ref{fig:rpc}.
     \caption{Schéma komunikace \gls{RPC}}
     \label{fig:rpc}
 \end{figure}
-
-%Představitelem architektury \gls{RPC} je například technologie \gls{CORBA},
-%která již byla popsána v sekci~\ref{sec:corba}, nebo technologie Remote
-%Method Invocation (\gls{RMI}) v jazyce Java. Modernějším pojetím je technologie gRPC~\cite{grpcio}
-%od společnosti Google\footnote{https://www.google.com/},
-%která je v dnešní době hromadně využívána úspěšnými technologickými společnostmi.
 
 Nevýhodou abstrakce lokálních a vzdálených volání jsou
 negativní vlastnosti síťové komunikace, její zvýšená latence
