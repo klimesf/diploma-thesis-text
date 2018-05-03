@@ -98,75 +98,40 @@ musej\'{\i} při jejich vyhodnocován\'{\i} b\'yt dostupné proměnné exekučn\
 
 \section{Architektura orientovaná na služby}\label{sec:soa}
 
-\goal{Úvod do SOA, proč je potřeba}
-V posledn\'{\i}ch dekádách můžeme sledovat trend nárůstu komplexity
-modern\'{\i}ch informačn\'{\i}ch systémů, kter\'y je způsoben stále náročnějš\'{\i}mi
-požadavky na jejich funkcionalitu, v\'ykon a spolehlivost. To nut\'{\i}
-v\'yvojáře těchto systémů přizpůsobovat architekturu systému tak,
-aby uměla splnit všechny očekávané funkčn\'{\i} i nefunkčn\'{\i} požadavky,
-zejména pak škálovatelnost systému a jeho schopnost zvládat vysok\'y
-objem dat a uživatelů. \textit{Architektura orientovaná na služby} (\gls{SOA}) je
-důsledkem této evoluce. Na rozd\'{\i}l od dř\'{\i}vě běžné a dnes
-stále použ\'{\i}vané \textit{monolitické architektury},
-\gls{SOA} podle známého pravidla \uv{rozděl a panuj}
-děl\'{\i} systém na samostatné celky, zvané \textit{služby}, které jsou
-zodpovědné za d\'{\i}lč\'{\i} část požadované funkcionality.
-
-\goal{Proč tu vlastně p\'{\i}šu o nějaké historii}
-Historicky byl term\'{\i}n \gls{SOA} vykládán různ\'ymi způsoby a v\'yvojáři si
-pod n\'{\i}m představovali několik rozd\'{\i}ln\'ych, nekompatibiln\'{\i}ch
-konceptů~\cite{fowler2005serviceorientedambiguity}.
-Zejména pak absence kvalitn\'{\i}ch definic toho, co vlastně
-služba je, vedla k vzájemnému nedorozuměn\'{\i}, zmaten\'{\i} a v posledn\'{\i}
-době i ke snahám o opuštěn\'{\i} tohoto konceptu~\cite{cerny2017disambiguation}.
-Abychom lépe prozuměli tomu, co vlastně \gls{SOA} je, pop\'{\i}šeme si jej\'{\i} historick\'y
-v\'yvoj a shrneme v\'yhody a nev\'yhody jednotliv\'ych př\'{\i}stupů.
+\textit{Architektura orientovaná na služby} (\gls{SOA}) je odpovědí na stále se zvyšující
+nároky na informační systémy a jejich rostoucí velikost. Na rozd\'{\i}l od \textit{monolitické architektury},
+děl\'{\i} \gls{SOA} systém na samostatné nezávislé celky, zvané \textit{služby}, které jsou
+poskytují d\'{\i}lč\'{\i} části požadované funkcionality systému.
+Historicky byl term\'{\i}n \gls{SOA} vykládán několika způsoby a představoval
+několik rozd\'{\i}ln\'ych, nekompatibiln\'{\i}ch konceptů~\cite{fowler2005serviceorientedambiguity}.
+Absence kvalitn\'{\i}ch definic služby a obecně \gls{SOA} vedla k v posledn\'{\i} době i ke snahám
+o opuštěn\'{\i} tohoto konceptu~\cite{cerny2017disambiguation}.
+Pro lepší porozumění se tato kapitola věnuje stručnému historickému přehledu \gls{SOA}
+a shrnuje výhody a nevýhody jednotlivých přístupů.
 
 \subsection{Common Object Request Broker Architecture}\label{sec:corba}
 
 Prvn\'{\i}m historick\'ym předchůdcem architektury orientované na služby
 byla tzv. \textit{Common Object Request Broker Architecture}
-(\gls{CORBA})~\cite{siegel2000corba}, která vzikala v osmdesát\'ych a devadesát\'ych letech
-dvacátého stolet\'{\i}. Ta umožňuje komunikaci mezi aplikacemi implementovan\'ymi v
-různ\'ych technologi\'{\i}ch a běž\'{\i}c\'{\i}mi na vlastn\'{\i}ch stroj\'{\i}ch s rozd\'{\i}ln\'ymi
-operačn\'{\i}mi systémy. Základn\'{\i}m stavebn\'{\i}m kamenem této architektury
+(\gls{CORBA})~\cite{siegel2000corba}. Ta umožňuje vzájemnou komunikaci aplikací
+implementovan\'ych v různ\'ych technologi\'{\i}ch. Její základní komponentou je
 je \textit{Object Request Broker} (\gls{ORB}), kter\'y emuluje objekty,
 na kter\'ych může klient volat jejich metody. Při zavolán\'{\i} metody
-na objektu, kter\'y se fyzicky nacház\'{\i} v aplikaci na vzdáleném stroji,
-zprostředkovává \gls{ORB} veškerou komunikaci a svému uživateli poskytuje
-jeho kompletn\'{\i} rozhran\'{\i}. Uživatel tedy de facto nerozezná, kdy volá
-metodu na objektu, kter\'y je lokálně dostupn\'y,
-a kdy volá metodu, kterou obsouž\'{\i} vzdálená služba. To je ale zároveň
-hlavn\'{\i} nev\'yhodou této architektury, protože komunikace se vzdálen\'ym
-objektem s sebou nese celou řadu problémů, např\'{\i}klad mnohem vyšš\'{\i} latenci
-při komunikaci nebo v\'yjimečné stavy, které je potřeba ošetřit. Ve chv\'{\i}li,
-kdy klient nen\'{\i} schopen rozeznat mezi metodou volanou lokálně či vzdáleně,
-se těžko přizpůsobuje těmto okolnostem, což vnáš\'{\i} do kódu zbytečnou
-komplexitu a zhoršuje jeho kvalitu kvůli obt\'{\i}žnějš\'{\i} optimalizaci.
+na objektu, kter\'y se fyzicky nacház\'{\i} na vzdáleném stroji,
+zprostředkovává \gls{ORB} veškerou komunikaci a poskytuje kompletn\'{\i} rozhran\'{\i}
+volaného objektu. Komunikace se vzdálen\'ym objektem s sebou však nese celou řadu problémů,
+např\'{\i}klad vyšš\'{\i} latenci při komunikaci nebo v\'yjimečné stavy, které je potřeba
+ošetřit, či obížnou optimalizaci kódu využívající \gls{ORB}.
 
 \subsection{Web Services}
 
-Nedostatky architektury \gls{CORBA} vedly k volbě jednodušš\'{\i}ho
-formátu pro popis komunikace služeb, spolehlivějš\'{\i}ho a méně
-komplikovaného kanálu pro komunikaci a celkové redukci
-objemu komunikovan\'ych dat. Preferovanou cestou komunikace
-se na přelomu tis\'{\i}cilet\'{\i} stal protokol \gls{HTTP}, zat\'{\i}mco preferovan\'ym formátem
-pro serializaci přenášen\'ych dat se stal jazyk \gls{XML}.
-Postupně se upustilo od volán\'{\i} metod na vzdálen\'ych objektech a přijal
-se koncept explicitn\'{\i}ho pos\'{\i}lán\'{\i} zpráv mezi službami.
+Nedostatky architektury \gls{CORBA} vedly k vývoji jednodušš\'{\i}ho
+a kvalitnějšího formátu pro popis komunikace služeb. Volán\'{\i} metod na vzdálen\'ych objektech
+bylo nahrazeno explicitn\'{\i}m pos\'{\i}lán\'{\i}m zpráv mezi službami pomocí protokolu \gls{HTTP}.
 Pro popis schématu zpráv vznikl formát \textit{Simple Object Access
 Protocol} (\gls{SOAP})~\cite{box2000simple}, kter\'y v kombinaci s
 \textit{Web Service Description Language} (\gls{WSDL})~\cite{christensen2001web}
 umožňuje kompletn\'{\i} definici rozhran\'{\i} pro komunikaci mezi službami.
-V průběhu dalš\'{\i}ch let vznikla také velmi populárn\'{\i} architektura
-\textit{Representational State Transfer} (\gls{REST})~\cite{fielding2000rest},
-která pro popis webov\'ych služeb využ\'{\i}vá čistě protokol \gls{HTTP} a jeho slovesa.
-To službám přináš\'{\i} společn\'y slovn\'{\i}k a umožňuje snažš\'{\i} dokumentaci
-a rychlejš\'{\i} orientaci v\'yvojářů, kteř\'{\i} takovou službu implementuj\'{\i} či konzumuj\'{\i}.
-Kvůli těžkopádnosti \gls{XML} se pro služby implementuj\'{\i}c\'{\i} \gls{REST} architekturu stal
-preferovan\'ym formátem přenosu \textit{JavaScript Object Notation} (\gls{JSON}).
-Nejnovějš\'{\i}m formátem pro popis služeb, čerpaj\'{\i}c\'{\i} z nedostatků architektury \gls{REST}, je
-\textit{GraphQL}, se kter\'ym v roce 2015 přišla společnost Google.
 
 \subsection{Message Queue}
 
@@ -184,36 +149,15 @@ na platformě. Komunikaci zprostředkovává fronta, která přij\'{\i}má a roz
 zprávy mezi službami. To přináš\'{\i} vyšš\'{\i} škálovatelnost a menš\'{\i} provázanost
 mezi službami. Všechny služby ale mus\'{\i} použ\'{\i}vat jednotn\'y formát zpráv.
 
-\gls{MQ} přináš\'{\i} dva způsoby, kter\'ymi mohou služby komunikovat. Prvn\'{\i}m je
-\textit{Request/Reply}, připom\'{\i}naj\'{\i}c\'{\i} konverzaci dvou lid\'{\i}. Jedna
-služba zašle zprávu obsahuj\'{\i}c\'{\i} identifikátor konverzace. Druhá služba
-na obdrženou zprávu zašle odpověď a pomoc\'{\i} identifikátoru označ\'{\i},
-ke které otázce odpověď patř\'{\i}. Druh\'ym způsobem je \textit{publish-subscribe},
-kdy existuje v\'{\i}ce front s různ\'ymi tématy (\textit{topics}) a služby mohou
-do těchto front přisp\'{\i}vat relevantn\'{\i}mi zprávami nebo je konzumovat jako odběratelé.
-
 \subsection{Enterprise Service Bus}
 
 Ačkoliv zm\'{\i}něné modely usnadňuj\'{\i} komunikaci služeb a zvyšuj\'{\i} jejich
-spolehlivost, integrace služeb může b\'yt obt\'{\i}žná, pokud služby použ\'{\i}vaj\'{\i} navzájem různé
-komunikačn\'{\i} protokoly a formáty. Již v devadesát\'ych letech minulého stolet\'{\i}
-byl představen koncept \textit{Enterprise Service
-Bus} (\gls{ESB})~\cite{chappell2004enterprise},
-znázorněn\'y na obrázku~\ref{fig:enterprise-service-bus},
-kter\'y má za úkol propojit heterogenn\'{\i} služby a zajistit mezi nimi
-komunikačn\'{\i} kanály. T\'{\i}m na sebe \gls{ESB} přeb\'{\i}rá zodpovědnost za překlad
-jednotliv\'ych zpráv a centralizuje veškerou komunikaci v systému.
-
-\gls{ESB} se zároveň stav\'{\i} do role experta na lokalizaci jednotliv\'ych služeb.
-Službě tak pro komunikaci s okoln\'{\i}m světem stač\'{\i} znát adresu \gls{ESB}, kterému
-zašle zprávu, a ten ji sám doruč\'{\i} na m\'{\i}sto určen\'{\i}. Tento model ale
-znamená, že \gls{ESB} je velmi komplexn\'{\i} komponentou. V\'ypadek \gls{ESB} nav\'{\i}c
-v způsob\'{\i} zastaven\'{\i} funkce celého systému a \gls{ESB} se tak stává
-tzv. \textit{single point of failure}, což v praxi snižuje škálovatelnost systému.
-V př\'{\i}padě vlastn\'{\i}ho n\'{\i}zkého v\'ykonu se \gls{ESB} může snadno stát úzk\'ym hrdlem.
-Tyto problémy mohou b\'yt částečně vyřešeny tzv. \textit{federovan\'ym designem},
-kdy je systém rozdělen na byznysově př\'{\i}buzné části, z nichž každá má
-svůj \gls{ESB}.
+spolehlivost, integrace služeb může b\'yt obt\'{\i}žná, pokud služby použ\'{\i}vaj\'{\i}
+navzájem různé komunikačn\'{\i} protokoly a formáty. Tento problém řeší \textit{Enterprise Service
+Bus} (\gls{ESB})~\cite{chappell2004enterprise}, znázorněn\'y na obrázku~\ref{fig:enterprise-service-bus},
+kter\'y má za úkol propojit heterogenn\'{\i} služby a sestavit mezi nimi komunikačn\'{\i} kanály.
+T\'{\i}m na sebe \gls{ESB} přeb\'{\i}rá zodpovědnost za překlad jednotliv\'ych zpráv a centralizuje
+veškerou komunikaci v systému.
 
 \begin{figure}
     \centering
@@ -224,29 +168,23 @@ svůj \gls{ESB}.
 
 \subsection{Microservices}\label{sec:microservices}
 
-\goal{Microservices a budoucnost SOA}
-Nov\'ym trendem posledn\'{\i}ch let je architektura zvaná \textit{Microservices}.
-Přináš\'{\i} několik zajmav\'ych konceptů, které specializuj\'{\i} a konkretizuj\'{\i}
-principy \gls{SOA}. Microservices se tedy daj\'{\i} chápat jako podmnožina
-\gls{SOA}, ačkoliv existují i názory, že jde o odlišné architektury~\cite{richards2015microservices}.
-Základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho systému jako množiny
-mal\'ych oddělen\'ych služeb, které jsou spouštěny v samostatn\'ych procesech
+%\goal{Microservices a budoucnost SOA}
+Moderní architektura \textit{Microservices} přináš\'{\i} soubor konceptů, které specializuj\'{\i} a konkretizuj\'{\i}
+principy \gls{SOA}. Microservices se tedy dá chápat jako podmnožina \gls{SOA}, ačkoliv existují i názory,
+že jde o odlišné architektury~\cite{richards2015microservices}. Základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho
+systému jako množiny mal\'ych oddělen\'ych služeb, které jsou spouštěny v samostatn\'ych procesech
 a komunikuj\'{\i} spolu pomoc\'{\i} jednoduch\'ych protokolů~\cite{lewis2014microservices}.
+Microservices preferují decentralizaci a samostatnost služeb.
 
-\goal{Stavba služeb kolem byznysov\'ych schopnost\'{\i}}
-Důležitou myšlenkou microservices je organizace služeb kolem
-byznysov\'ych schopnost\'{\i} systému. Nam\'{\i}sto horizontáln\'{\i}ho dělen\'{\i} systému
-podle jeho vrstev\footnote{
+%\goal{Stavba služeb kolem byznysov\'ych schopnost\'{\i}}
+Microservices se zaměřují na organizaci služeb kolem byznysov\'ych schopnost\'{\i} systému.
+Nam\'{\i}sto horizontáln\'{\i}ho dělen\'{\i} systému podle jeho vrstev\footnote{
 Zde předpokládáme klasickou tř\'{\i}vrstvou architekturu~\cite{fowler2002patterns},
 rozděluj\'{\i}c\'{\i} systém na \textit{datovou vrstvu}, \textit{aplikačn\'{\i} vrstvu}
 a \textit{prezentačn\'{\i} vrstvu}. Tyto vrstvy maj\'{\i} oddělené zodpovědnosti a komunikuj\'{\i}
 spolu pomoc\'{\i} jasně definovan\'ych společn\'ych rozhran\'{\i}.
 } navrhuje rozdělit systém vertikálně podle jeho byznysov\'ych schopnost\'{\i}.
 Na obrázku~\ref{fig:monolith-vs-microservices} je toto rozdělen\'{\i} demonstrováno.
-Př\'{\i}kladem může b\'yt dělen\'{\i} e-commerce systému na jednu službu obsahuj\'{\i}c\'{\i} byznysovou
-logiku pro registraci a správu uživatelů, druhou službu obsahuj\'{\i}c\'{\i} byznysovou logiku
-pro práci s produkty a třet\'{\i} službu obsahuj\'{\i}c\'{\i} byznysovou logiku pro práci
-s objednávkami.
 
 \begin{figure}
     \centering
@@ -255,62 +193,62 @@ s objednávkami.
     \label{fig:monolith-vs-microservices}
 \end{figure}
 
-\goal{Myšlenka nahraditelnosti komponenty}
-Koncept microservices přem\'yšl\'{\i} o službě jako o samostatné komponentě,
-kterou lze individuálně vyměnit či vylepšit, bez nutnosti zásahu do
-ostatn\'{\i}ch služeb~\cite{lewis2014microservices}. Monolitická architektura
-vyžaduje i při malé změně jedné části cel\'y systém znovu zkompilovat, sestavit
-a nasadit. Malé služby slouž\'{\i}c\'{\i} ideálně jedinému byznysovému účelu lze naopak
-při změně byznysov\'ych požadavků snadno nahradit samostatně bez zásahu do zbytku
-systému. T\'{\i}m se usnadňuje cyklus nasazen\'{\i} a spuštěn\'{\i} nové verze služby.
+%\goal{Myšlenka nahraditelnosti komponenty}
+%Koncept microservices přem\'yšl\'{\i} o službě jako o samostatné komponentě,
+%kterou lze individuálně vyměnit či vylepšit, bez nutnosti zásahu do
+%ostatn\'{\i}ch služeb~\cite{lewis2014microservices}. Monolitická architektura
+%vyžaduje i při malé změně jedné části cel\'y systém znovu zkompilovat, sestavit
+%a nasadit. Malé služby slouž\'{\i}c\'{\i} ideálně jedinému byznysovému účelu lze naopak
+%při změně byznysov\'ych požadavků snadno nahradit samostatně bez zásahu do zbytku
+%systému. T\'{\i}m se usnadňuje cyklus nasazen\'{\i} a spuštěn\'{\i} nové verze služby.
 
-\goal{Myšlenka smart endpoints, dumb pipes}
-Microservices také přinášej\'{\i} koncept \uv{smart endpoint, dumb pipes},
-kter\'y opoušt\'{\i} koncept \gls{ESB} ve prospěch přesunut\'{\i} veškeré byznys logiky
-na stranu služeb. T\'{\i}m se zvyšuje zapouzdřenost služeb a snižuje se
-jejich vzájemné provázán\'{\i}. Nutno podotknout, že microservices často
-využ\'{\i}vaj\'{\i} ke své funkci Message Queues.
+%\goal{Myšlenka smart endpoints, dumb pipes}
+%Microservices také přinášej\'{\i} koncept \uv{smart endpoint, dumb pipes},
+%kter\'y opoušt\'{\i} koncept \gls{ESB} ve prospěch přesunut\'{\i} veškeré byznysové logiky
+%na stranu služeb. T\'{\i}m se zvyšuje zapouzdřenost služeb a snižuje se
+%jejich vzájemné provázán\'{\i}. Nutno podotknout, že microservices často
+%využ\'{\i}vaj\'{\i} ke své funkci Message Queues.
 
-\paragraph{Škálovatelnost}
-Dalš\'{\i} nespornou v\'yhodou microservices je vysoká škálovatelnost systému. Pokud je na
-některou ze služeb kladen vyšš\'{\i} nárok na v\'ykon než na ostatn\'{\i}, maj\'{\i}
-v\'yvojáři možnost konkrétn\'{\i} službu horizontálně škálovat aniž by
-museli škálovat kompletně cel\'y systém, na rozd\'{\i}l od monolitické architektury.
-Srovnán\'{\i} př\'{\i}stupů je znázorněno na obrázku~\ref{fig:microservices-deployment}.
-D\'{\i}ky této vlastnosti je možné sn\'{\i}žit nároky na systémové zdroje při zachován\'{\i}
-stejného v\'ykonu.
+%\paragraph{Škálovatelnost}
+%Dalš\'{\i} nespornou v\'yhodou microservices je vysoká škálovatelnost systému. Pokud je na
+%některou ze služeb kladen vyšš\'{\i} nárok na v\'ykon než na ostatn\'{\i}, maj\'{\i}
+%v\'yvojáři možnost konkrétn\'{\i} službu horizontálně škálovat aniž by
+%museli škálovat kompletně cel\'y systém, na rozd\'{\i}l od monolitické architektury.
+%Srovnán\'{\i} př\'{\i}stupů je znázorněno na obrázku~\ref{fig:microservices-deployment}.
+%D\'{\i}ky této vlastnosti je možné sn\'{\i}žit nároky na systémové zdroje při zachován\'{\i}
+%stejného v\'ykonu.
 
-\paragraph{Využit\'{\i} rozlišn\'ych technologi\'{\i}}
-Monolitické aplikace jsou často implementovány v jednom programovac\'{\i}m jazyce
-a využ\'{\i}vaj\'{\i} omezenou množinu technologi\'{\i}. Ne pro každ\'y úkol je ale vhodn\'y
-jeden programovac\'{\i} jazyk a s rostouc\'{\i} velikost\'{\i} informačn\'{\i}ho systému často roste
-i rozmanitost jeho funkcionality. Rozdělen\'{\i}m systému na v\'{\i}ce služeb, které
-komunikuj\'{\i} protokolem nezávisl\'ym na platformě, je v\'yvojářům umožněno využ\'{\i}t
-širš\'{\i} spektrum technologi\'{\i} a implementovat požadovanou funkcionalitu
-efektivněji.
+%\paragraph{Využit\'{\i} rozlišn\'ych technologi\'{\i}}
+%Monolitické aplikace jsou často implementovány v jednom programovac\'{\i}m jazyce
+%a využ\'{\i}vaj\'{\i} omezenou množinu technologi\'{\i}. Ne pro každ\'y úkol je ale vhodn\'y
+%jeden programovac\'{\i} jazyk a s rostouc\'{\i} velikost\'{\i} informačn\'{\i}ho systému často roste
+%i rozmanitost jeho funkcionality. Rozdělen\'{\i}m systému na v\'{\i}ce služeb, které
+%komunikuj\'{\i} protokolem nezávisl\'ym na platformě, je v\'yvojářům umožněno využ\'{\i}t
+%širš\'{\i} spektrum technologi\'{\i} a implementovat požadovanou funkcionalitu
+%efektivněji.
 
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/microservices-deployment.pdf}
-    \caption{Porovnán\'{\i} nasazen\'{\i} monolitické architektury a microservices~\cite{lewis2014microservices}}
-    \label{fig:microservices-deployment}
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/microservices-deployment.pdf}
+%    \caption{Porovnán\'{\i} nasazen\'{\i} monolitické architektury a microservices~\cite{lewis2014microservices}}
+%    \label{fig:microservices-deployment}
+%\end{figure}
 
-\paragraph{Decentralizace úložiště}
-Dalš\'{\i}m z principů, které microservices přináš\'{\i}, je oddělen\'{\i} a decentralizace
-databázového úložiště. Každá služba, či cluster instanc\'{\i} jedné služby, zapisuj\'{\i}
-a čtou data ze své oddělené databáze. Pokud potřebujou nač\'{\i}st data jiné služby,
-musej\'{\i} k tomu využ\'{\i}t jej\'{\i} \gls{API}. T\'{\i}m se ještě v\'yrazněji odděluje zodpovědnost služeb.
-Typickou praktikou v rámci \gls{SOA} je naopak sd\'{\i}len\'{\i} jedné databáze mezi v\'{\i}ce službami,
-což je často dáno komerčn\'{\i}m modelem extern\'{\i}ho dodatavele databáze. Jediná databáze
-má nav\'{\i}c obrovskou v\'yhodu v transakčn\'{\i}m zpracován\'{\i}, které je centralizované.
-V př\'{\i}padě microservices je nutno transakce řešit distribuovaně, což je velmi náročn\'y
-úkol a společnosti často vol\'{\i} koncept tzv. \textit{eventual consistency}, kdy je
-preferována občasná nekonzistence v datech, která je následně manuálně opravena.
-Tento př\'{\i}stup je opodstatněn t\'{\i}m, že občasná manuáln\'{\i} oprava může b\'yt
-často levnějš\'{\i} než investice do kvalitn\'{\i}ho řešen\'{\i} distribuovan\'ych transakc\'{\i} –
-zejména pokud by jeho řešen\'{\i} znamenalo zpožděn\'{\i} v\'yvoje produktu a způsobilo
-by ztrátu obchodn\'{\i} př\'{\i}ležitosti~\cite{lewis2014microservices}.
+%\paragraph{Decentralizace úložiště}
+%Dalš\'{\i}m z principů, které microservices přináš\'{\i}, je oddělen\'{\i} a decentralizace
+%databázového úložiště. Každá služba, či cluster instanc\'{\i} jedné služby, zapisuj\'{\i}
+%a čtou data ze své oddělené databáze. Pokud potřebujou nač\'{\i}st data jiné služby,
+%musej\'{\i} k tomu využ\'{\i}t jej\'{\i} \gls{API}. T\'{\i}m se ještě v\'yrazněji odděluje zodpovědnost služeb.
+%Typickou praktikou v rámci \gls{SOA} je naopak sd\'{\i}len\'{\i} jedné databáze mezi v\'{\i}ce službami,
+%což je často dáno komerčn\'{\i}m modelem extern\'{\i}ho dodatavele databáze. Jediná databáze
+%má nav\'{\i}c obrovskou v\'yhodu v transakčn\'{\i}m zpracován\'{\i}, které je centralizované.
+%V př\'{\i}padě microservices je nutno transakce řešit distribuovaně, což je velmi náročn\'y
+%úkol a společnosti často vol\'{\i} koncept tzv. \textit{eventual consistency}, kdy je
+%preferována občasná nekonzistence v datech, která je následně manuálně opravena.
+%Tento př\'{\i}stup je opodstatněn t\'{\i}m, že občasná manuáln\'{\i} oprava může b\'yt
+%často levnějš\'{\i} než investice do kvalitn\'{\i}ho řešen\'{\i} distribuovan\'ych transakc\'{\i} –
+%zejména pokud by jeho řešen\'{\i} znamenalo zpožděn\'{\i} v\'yvoje produktu a způsobilo
+%by ztrátu obchodn\'{\i} př\'{\i}ležitosti~\cite{lewis2014microservices}.
 
 \subsection{Orchestrace a choreografie služeb}
 
@@ -341,14 +279,21 @@ znázorněno na obrázku~\ref{fig:choreography-orchestration}.
     \label{fig:choreography-orchestration}
 \end{figure}
 
+% TODO: napsat o AI pro choreografii
+~\cite{rao2004survey}
+
+\subsection{Shrnutí}
+
+Z předchozího textu lze vyvodit, že \gls{SOA}
+
 \section{Nedostatky současného př\'{\i}stupu}\label{sec:shortcomings}
 
-\goal{Navázán\'{\i} na předchoz\'{\i} sekci}
-Jak jsme zjistili v předchoz\'{\i}ch odstavc\'{\i}ch, \gls{SOA} se zaměřuje zejména na
-dělen\'{\i} systému na služby a detailně rozeb\'{\i}rá formu jejich vzájemné komunikace.
-Neodpov\'{\i}dá ale na několik závažn\'ych otázek, se kter\'ymi se v praxi musej\'{\i}
-architekti informačn\'{\i}ch systémů vypořádat, aby architektura byla schopná uspokojivě
-plnit požadavky, které jsou na n\'{\i} kladené.
+%\goal{Navázán\'{\i} na předchoz\'{\i} sekci}
+%% TODO: toto přepsat nebo zahodit
+%\gls{SOA} se zaměřuje zejména na dělen\'{\i} systému na služby a detailně rozeb\'{\i}rá
+%formu jejich vzájemné komunikace. Neodpov\'{\i}dá ale na několik závažn\'ych otázek, se kter\'ymi se v praxi musej\'{\i}
+%architekti informačn\'{\i}ch systémů vypořádat, aby architektura byla schopná uspokojivě
+%plnit požadavky, které jsou na n\'{\i} kladené.
 
 \goal{Problémy SOA a průřezov\'ych problémů}
 Jelikož jedn\'{\i}m z c\'{\i}lů \gls{SOA}, potažmo microservices, je co nejv\'{\i}ce izolovat
@@ -363,42 +308,29 @@ o telemetrii procesů.
 
 \goal{Nast\'{\i}něn\'{\i} konkrétn\'{\i}ho př\'{\i}kladu}
 Pro lepší představu diskutovaného problému uvažme e-commerce systém
-skládaj\'{\i}c\'{\i} se z několika služeb naprogramovan\'ych v různ\'ych technologi\'{\i}ch.
-Jedna služba obsluhuje byznysové operace vázaj\'{\i}c\'{\i}
-se na uživatele systému, jejich registraci a administraci. Druhá
-služba realizuje operace s produkty, jejich vytvářen\'{\i}, úpravu,
-správu skladov\'ych zásob a informace o dostupnosti. Třet\'{\i} služba je
-zodpovědná za vytvářen\'{\i} a správu objednávek, informován\'{\i} uživatelů
-o změnách jejich stavů a vytvářen\'{\i} statistik a reportů pro management.
-Čtvrtá služba má na starosti účetnictv\'{\i}, tedy vystavován\'{\i} a přij\'{\i}mán\'{\i}
-faktur a komunikaci s bankovn\'{\i}mi službami o potvrzen\'{\i} přijat\'ych plateb.
-Posledn\'{\i}, pátá služba, poskytuje uživatelské a umožňuje komfortn\'{\i} obsluhu systému.
-
-\goal{Konkrétn\'{\i} problémy zpracován\'{\i} průřezov\'ych problémů na př\'{\i}kladu}
-Byznysové operace implementované tímto systémem musejí zohledňovat své preconditions a post-conditions.
-Např\'{\i}klad při vytvářen\'{\i} faktury za objednávku mus\'{\i} b\'yt nejprve zvalidována fakturačn\'{\i} adresa.
-Protože by mohla nastat situace, kdy by v př\'{\i}padě nevalidn\'{\i} adresy musely zaměstnanci společnosti kontaktovat zákazn\'{\i}ka
-\textendash\xspace pokud vůbec takovou možnost maj\'{\i} \textendash\xspace  musí být adresa validována již při vytvářen\'{\i}
-objednávky. Proces vytvářen\'{\i} objednávky ale realizuje jiná služba, než vystavován\'{\i} faktur.
+skládaj\'{\i}c\'{\i} se z několika služeb naprogramovan\'ych v různ\'ych technologi\'{\i}ch,
+a procesy vytváření faktury a vytváření objednávky, každý z nich implementovaný jinou službou.
+Systém navíc obsahuje službu poskytující webové uživatelské rozhraní.
+Při vytvářen\'{\i} faktury za objednávku mus\'{\i} b\'yt nejprve zvalidována fakturačn\'{\i} adresa.
+Protože by mohla nastat situace, kdy by v př\'{\i}padě nevalidn\'{\i} adresy museli zaměstnanci
+společnosti kontaktovat zákazn\'{\i}ka \textendash\xspace pokud vůbec takovou možnost maj\'{\i}
+\textendash\xspace musí být adresa validována již při vytvářen\'{\i} objednávky.
 V ideáln\'{\i}m př\'{\i}padě by navíc měl zákazn\'{\i}k být upozorněn na nevalidn\'{\i} fakturačn\'{\i}
 adresu co nejdříve, ještě před odeslán\'{\i}m objednávkového formuláře př\'{\i}mo v uživatelském
 rozhran\'{\i}~\cite{cemus2017separation}. Pro lepš\'{\i} představu je problém znázorněn na
 obrázku~\ref{fig:service-cutting},
 
 \goal{Náročná údržba a reakce na změnu požadavku}
-Uvedený příklad znázorňuje, že stejná funkcionalita se prom\'{\i}tá
+Na příkladu lze pozorovat, že stejná funkcionalita se prom\'{\i}tá
 do tř\'{\i} služeb, z nichž každá má zodpovědnost za jiné byznysové operace.
 Stejn\'y kód, kter\'y realizuje validaci fakturačn\'{\i} adresy,
-mus\'{\i} b\'yt implementován v každé ze služeb – v našem př\'{\i}padě nav\'{\i}c ve třech
-různ\'ych programovac\'{\i}ch jazyc\'{\i}ch. Pokud by vzešel změnový požadavek
-na validaci fakturačn\'{\i} adresy, mus\'{\i}me stejnou změnu
+mus\'{\i} b\'yt implementován v každé ze zmiňovaných služeb,
+v tomto př\'{\i}padě nav\'{\i}c ve třech různ\'ych programovac\'{\i}ch jazyc\'{\i}ch.
+Pokud by vzešel změnový požadavek na validaci fakturačn\'{\i} adresy, změnu by bylo nutno
 provést konzistentně na třech různ\'ych m\'{\i}stech, všechny tři služby znovu
 sestavit a nasadit ve správném pořad\'{\i} tak, aby nedošlo k nekonzistení validaci adresy
 při provádění jednotlivých byznysových operací.
-
-\goal{Změny pravidel vs. změny v kódu služby}
-\changed{
-Změny byznysových pravidel se dějí častěji, než změny kódu a struktury samotných
+\changed{Změny byznysových pravidel se dějí častěji, než změny kódu a struktury samotných
 služeb v \gls{SOA}~\cite{rosenberg2005business}. Pokud je potřeba s každou změnou
 byznysového pravidla sestavit a nasadit minimálně jednu službu, dramaticky
 se zvyšuje náročnost na údržbu takového systému.
@@ -407,11 +339,8 @@ se zvyšuje náročnost na údržbu takového systému.
 \goal{Microservices neř\'{\i}ká nic o tom, jak velké je mikro}
 Problém validace fakturačn\'{\i}ch adres by bylo možné vyřešit vyčleněn\'{\i}m této funkcionality
 do samostatné služby a vystavit jej\'{\i} rozhran\'{\i} pro ostatn\'{\i} služby,
-v souladu s myšlenkou microservices. Pokud však služby nesou př\'{\i}liš málo odpovědnosti,
-nasazen\'{\i} a provoz každé služby s sebou přináš\'{\i} náklady nav\'{\i}c
-a zvyšuje časové nároky na jejich v\'yvojáře a administrátory.
-Komunikace služeb po s\'{\i}ti je nav\'{\i}c podstatně pomalejš\'{\i} a náchylnějš\'{\i} na
-selhání, než komunikace jednotliv\'ych komponent v rámci jednoho procesu.
+Pokud však služby nesou př\'{\i}liš málo odpovědnosti,
+nasazen\'{\i} a provoz každé služby s sebou přináš\'{\i} náklady nav\'{\i}c.
 S rostouc\'{\i}m počtem průřezov\'ych problémů by tak rychle rostl
 i počet služeb v systému a celkové náklady na jeho v\'yvoj a údržbu.
 
@@ -441,9 +370,7 @@ Framework, resp. jeho knihovny, by měly umožňovat:
 
 \section{Shrnut\'{\i}}
 
-V této kapitole jsme nast\'{\i}nili problematiku vysoké komplexity modern\'{\i}ch informačn\'{\i}ch systémů
-a z toho vypl\'yvaj\'{\i}c\'{\i} požadavky na jejich architekturu. Analyzovali jsme koncept byznysov\'ych
-pravidel a byznysov\'ych kontextů. Dále jsme prozkoumali architekturu orientovanou na služby, jej\'{\i}
-v\'yhody a nev\'yhody, jej\'{\i} modern\'{\i} evoluci v podobě microservices a identifikovali jsme nedostatky
-současn\'ych př\'{\i}stupů v řešen\'{\i} průřezov\'ych problémů, které zasahuj\'{\i} do v\'{\i}ce služeb najednou. Nakonec
-jsme vyjmenovali požadavky, které by měl splňovat framework, jež bude v\'ystupem této práce.
+Tato kapitola analyzovala koncept byznysov\'ych pravidel a byznysov\'ych kontextů. Dále se věnovala architektuře orientované na služby,
+jej\'{\i}m podobám, v\'yhodám a nev\'yhodám, a identifikovala nedostatky současn\'ych př\'{\i}stupů v řešen\'{\i} průřezov\'ych problémů,
+které zasahuj\'{\i} do v\'{\i}ce služeb najednou. Nakonec byly identifikovány požadavky, které by měl splňovat framework, jež bude
+v\'ystupem této práce.

@@ -118,17 +118,14 @@ obrázku~\ref{fig:business-rules-weaver}.
 V předchozím textu byl představen koncept dědičnosti byznysových kontextů.
 Každý kontext díky němu může rozšiřovat libovolné množství jiných kontextů, a sdílet jejich
 byznysová pravidla. Byznysové operace pak mohou samy určit, který byznysový kontext se k ním váže.
-Tento kontext však přináší několik problémů, které vyřešíme v následujícím textu.
+Tento kontext však přináší několik problémů, které jsou rozebrány v následujících odstavcích.
 
 Mapování byznysových kontextů a byznysových operací jedna ku jedné by mohlo vést k situaci,
 kdy chceme využít pouze nějaká byznysová pravidla jiného kontextu, ale ne všecha.
-Příkladem může být proces vytváření objednávky a proces registrace uživatele.
-Při vytváření objednávky chceme zaslat uživateli potvrzující mail, a proto potřebujeme, aby
-měl vyplněnou e-mailovou adresu. Zároveň chceme, aby byl uživatel při vytváření objednávky přihlášený.
-Při registraci uživatele bychom mohli rozšířit kontext vytváření objednávky, ovšem nechceme využít pravidlo
-vyžadující přihlášení uživatele. Tuto situaci lze vyřešit rozvolněním vztahu mezi kontexty a operacemi
-a umožněním využití tzv. \textit{abstraktních kontextů} \textendash\xspace tedy takových kontextů, které
-přímo nevyužívá žádná byznysová operace. Situace je znázorněna na obrázku~\ref{fig:abstract-context}.
+K řešení tohoto problému budou využity tzv. \textit{abstraktní kontexty}
+\textendash\xspace takové kontexty, které přímo nevyužívá žádná byznysová operace.
+Příklad znázorněný na obrázku~\ref{fig:abstract-context} popisuje situaci, kdy je nežádoucí,
+aby kontext \code{user.register} zdědil pravidlo vyžadující přihlášení uživatele.
 
 \begin{figure}
     \centering
@@ -137,30 +134,23 @@ přímo nevyužívá žádná byznysová operace. Situace je znázorněna na obr
     \label{fig:abstract-context}
 \end{figure}
 
-Dalším problémem je kruhová závislost kontextů, která nastává, když kontext A dědí od kontextu B,
-a ten opět dědí od kontextu A. Pokud tato situace nastane, nelze ji z hlediska frameworku vyřešit.
-Je tedy nutné, aby byznysové kontexty systému využívajícího navrhovaný framework neobsahovaly žádný cyklus.
-K zajištění této skutečnosti by mohl sloužit validátor vestavěný do nástroje pro správu byznysových kontextů.
+Kvůli dědičnosti může vzniknout v grafu závislostí kontextů cyklus, který by způsobil zacyklení
+procesu inicializace v~\ref{itm:initialization}. Tuto situaci nelze z hlediska frameworku vyřešit,
+ale dá se jí předejít. K prevenci by mohl sloužit validátor vestavěný do nástroje pro správu
+byznysových kontextů.
 
-Kvůli vícenásobné dědičnosti může nastat problém, kdy jeden kontext zdědí více stejných pravidel z
-různých zdrojů. Představme si, že kontext D dědí od kontextů B a C, přičemž kontexty B a C dědí
-od kontextu A. Kontext D pak zdědí pravidla kontextu A dvakrát. Tomu lze předejít tak, že
+Vícenásobná dědičnosti může přinést problém, kdy jeden kontext zdědí více stejných pravidel z
+různých zdrojů, tzv. \textit{diamond problem}~\cite{boyen1994generalized}. Tomu lze předejít tak, že
 každé pravidlo bude mít unikátní identifikátor v rámci celého systému a při dědění budou zohledněna
 pouze unikátní pravidla. Zajištění unikátního identifikátoru můžeme vynutit díky nástroji pro centrální
-administraci byznysových pravidel, která je součástí navrhovaného frameworku.
-
-Posledním problémem je zdědění takové množiny preconditions, která nebude nikdy
-splnitelná. Například pokud jedna precondition vyžaduje příhlášení uživatele a druhá precondition požaduje
-opak. Takovéto stavy by měl primárně hlídat administrátor či architekt systému, nicméně můžeme
-jeho práci usnadnit díky nástroji pro centrální administraci kontextů.
+administraci byznysových pravidel.
 
 \section{Logické výrazy byznysových pravidel}
 
-Sekce~\ref{sec:business-rules} uvádí, že pravidla obsahují logické podmínky, které je
-potřeba vyhodnocovat. V případě preconditions je to ověření podmínky, která musí být platná před spuštěním
-byznysové operace. V případě post-condition není logická podmínku potřeba vždy, ale může nastat moment,
-kdy je filtrování návratové hodnotry potřeba pouze pokud je splněna nějaká podmínka \textendash\xspace
-například pokud uživatel není administrátorem.
+Sekce~\ref{sec:business-rules} uvádí, že pravidla obsahují logické podmínky. V případě preconditions je to
+ověření podmínky, která musí být platná před spuštěním byznysové operace v~\ref{itm:before}. V případě
+post-condition může filtrování návratové hodnotry podléhat splnění určité podmínky, která musí být
+vyhodnocena v~\ref{itm:after}.
 
 \begin{figure}
     \centering
@@ -169,25 +159,23 @@ například pokud uživatel není administrátorem.
     \label{fig:expression}
 \end{figure}
 
-Vyhodnocování logických výrazů byznysových pravidel bude prováděno frameworkem
-při weavingu byznysových kontextů. K tomuto účelu je vhodný návrhový vzor
-\textit{Interpreter}~\cite{fowler2002patterns} umožňující interpretaci
-jazyka, kdy každý jeho výraz (z anglického \textit{expression}) je reprezentován
-samostatným objektem, který přebírá zodpovědnost za správnou interpretaci daného výrazu.
-Logické výrazy tvoří orientovaný acyklický graf (\gls{DAG}), tzv. \textit{derivační strom},
-a rozdělují se na tzv. \textit{terminály} a \textit{neterminály}~\cite{melichar2003jazyky}.
-Terminál znamená, že z daného výrazu již nevychází žádná hrana do jiného výrazu. Neterminál je opak terminálu.
-Na obrázku~\ref{fig:expression} můžeme vidět použití vzoru interpreter pro tento účel.
-Strom interpretovaných výrazů využívá návrhový vzor \textit{Composite}~\cite{fowler2002patterns}.
+Podmínky byznysových pravidel se skládají z jednotlivých výrazů, které tvoří
+orientovaný acyklický graf (\gls{DAG}), tzv. \textit{derivační strom}.
+Výrazy se dělí na \textit{terminály} a \textit{neterminály}~\cite{melichar2003jazyky}.
+Terminál znamená, že z daného výrazu již nevychází žádná hrana do jiného výrazu.
+Neterminál je opak terminálu. Pro reprezentaci stromu bude využit návrhový vzor
+\textit{Composite}~\cite{fowler2002patterns}. K vyhodnocování podmínek popsaných v byznysovém
+pravidle je vhodný návrhový vzor \textit{Interpreter}~\cite{fowler2002patterns}, jehož
+použití je demonstrováno na obrázku~\ref{fig:expression}.
 
-Framework bude disponovat základní sadou logických výrazů, které budou
-sloužit pro zápis byznysových pravidel. Těmi budou základní logické operace jako je
-\code{and}, \code{or}, \code{equals} a \code{negate}. Výraz, který získá hodnotu proměnné
-či konstanty z kontextu. Pokud bude v kontextu uložen objekt, je potřeba přistupovat i k jeho
-veřejným atributům, což bude zajišťovat další speciální výraz. K ověření přítomnosti hodnoty v proměnné
-bude sloužit výraz \code{IsNotNull}. Výraz \code{IsNotBlank} ověří, zda je v proměnné řetězec
-nenulové délky. Pro vložení konstantní hodnoty přímo do byznysového pravidla bude sloužit terminál \code{Constant}.
-Pro zvýšený komfort budou přidány i výrazi realizující základní matematické operace sčítání, odečítání,
+Framework bude disponovat základní sadou výrazů pro zápis byznysových pravidel.
+Mezi ně budou patřit logické operace \code{and}, \code{or}, \code{equals} a \code{negate}.
+Dále výraz \code{VariableReference}, který získá hodnotu proměnné či konstanty z kontextu.
+Pokud bude v kontextu uložen objekt, je potřeba přistupovat i k jeho
+veřejným atributům, což bude zajišťovat výraz \code{ObjectPropertyReference}.
+K ověření přítomnosti hodnoty v proměnné bude sloužit výraz \code{IsNotNull}. Výraz \code{IsNotBlank} ověří,
+zda je v proměnné řetězec nenulové délky. Pro vložení konstantní hodnoty přímo do byznysového pravidla bude
+sloužit terminál \code{Constant}. Pro zvýšený komfort budou přidány i výrazi realizující základní matematické operace sčítání, odečítání,
 násobení a dělení. Pro volání uživatelských funkcí definovaných v operačním kontextu bude sloužit speciální výraz
 \code{FunctionCall}. V jeho případě je nutno zohlednit skutečnost, že funkce může přijímat libovolný počet argumentů.
 Protože volaná funkce může potřebovat přistupovat k operačnímu kontextu, musejí být argumenty také interpretovány.
@@ -195,11 +183,8 @@ Bohužel nelze u uživatelem definovaných funkcí ověřit, že bude při jejic
 Přehled všech výrazů, které bude framework podporovat, je v tabulce~\ref{tbl:expressions},
 
 \goal{Typované výrazy}
-Konstanty, proměnné a návratové hodnoty využívané ve výrazech mohou nabývat
-různých hodnot rozdílného typu. Pro umožnění implementace frameworku na více platformách je
-k logickým výrazum potřeba explicitně uložit informace o typu jejich argumentů a jejich návratové hodnoty.
-Díky tomu bude navíc možné framework rozšířit o typovou kontrolu, což přinese menší náchylnost
-k sémantickým chybám v zápisu pravidla. Výraz byznysového pravidla může nabývat logických hodnot,
+Pro snažší implementaci na více platformách a prevenci sémantických chyb v pravidlech budou výrazy
+obsahovat i explicitní definici svého návratového typu. Výraz byznysového pravidla může nabývat logických hodnot,
 může vracet číslo, textový řetězec a také objekt. Je potřeba počítat také s tím, že výraz nevrací žádnou
 hodnotu.
 
@@ -226,13 +211,12 @@ Volání funkce musí obsahovat její název a návratový typ.
 \end{figure}
 
 \goal{Příklad AST pravidla}
-Na obrázku~\ref{fig:simple-rule} je znázorněn vidět syntaktický strom, který zachycuje jednoduché
+Na obrázku~\ref{fig:simple-rule} je znázorněn syntaktický strom, který zachycuje jednoduché
 validační pravidlo validující fakturační adresu. Jedná se o ekvivalent validačních pravidel
 zachycených ve zdrojovém kódu~\ref{lst:jsr303} pomocí anotací standardu \gls{JSR} 303.
 Pravidlo je tvořeno čtyřmi teminály, které se odkazují na proměnné operačního kontextu.
-Každá z těchto proměnných je argumentem validačního výrazu \code{IsNotBlank}. Jednotlivé validace
-jsou spojeny pomocí binárního výrazu \code{LogicalAnd} odpovídací logické konjunkci.
-Pro přehlednost nejsou v diagramu zaneseny návratové typy výrazů.
+Hodnoty proměnných jsou validovány výrazem \code{IsNotBlank} a jednotlivé validace
+jsou spojeny pomocí binárních výrazu \code{LogicalAnd} odpovídajících logické konjunkci.
 
 \section{Filtrování návratových hodnot byznysové operace}
 
@@ -332,12 +316,11 @@ nebude nijak záviset.
     \label{fig:business-context-loading}
 \end{figure}
 
-Během inicializiace byzynsových kontextů je potřeba nejprve načíst lokálně dostupné kontexty popsané pomocí \gls{DSL}.
-Po převedení z \gls{DSL} do metamodelu je potřeba shromáždit seznam rozšířených kontextů a zjistit, které
-rozšířené kontexty nejsou lokálně dostupné. Následně je potřeba vyžádat si vzdálené kontexty od příslušných služeb
-a převést obdržené kontexty z formátu pro síťový přenos do formátu, ve kterém budou kontexty uloženy v paměti.
-Nakonec je potřeba, aby do všech kontextů, které využívají dědičnosti, byly začleněny byznysová pravidla
-rozšířených kontextů. Celou inicializaci může zastřešovat komponenta \code{BusinessContextRegistry}, která
+Při inicializiaci byzynsových kontextů jsou nejprve načteny lokálně dostupné kontexty popsané pomocí \gls{DSL}.
+Po převedení kontextů z \gls{DSL} do metamodelu je shromážděn seznam rozšířených kontextů a z nich jsou vybrány ty,
+které nejsou lokálně dostupné. Následně jsou tyto vzdálené kontexty vyžádány od příslušných služeb
+a po obdržení jsou převedeny ze síťového formátu do metamodelu. Nakonec jsou sdílená pravidla rozšířených kontextů začleněna
+do kontextů, které od nich dědí. Celou inicializaci bude zastřešovat komponenta \code{BusinessContextRegistry}, která
 má znalost o všech subsystémech, které jsou k tomuto procesu potřeba. Tato komponenta implementuje
 návrhový vzor \textit{Facade}~\cite{fowler2002patterns}. Na obrázku~\ref{fig:business-context-loading} je znázorněn
 navržený proces inicializace.
@@ -354,17 +337,13 @@ spravovat jejich aktuální a jediný stav a poskytovat je jiným službám.
 
 \subsection{Uložen\'{\i} rozšířeného pravidla}\label{sec:saving-context}
 
-\goal{Diskutovat chaining vs. direct update}
-Při ukládání byznysového kontextu, od kterého dědí jiné kontexty, je potřeba zajistit,
-že bude změna korektně propagována. Při změně rozšířeného pravidla budou všechny služby,
-které ho využívají informovány pomocí nástroje pro centrální správu byzynsových pravidel.
-Ten má informaci o všech závislostech v systému a zároveň zná i adresu všech služeb.
-Nástroj by tak při ukládání upraveného pravidla zmapuje, které kontexty je potřeba aktualizovat,
-a následně o to požádá služby spravující tyto kontexty. Nevýhodou tohoto přístupu je zvýšená komunikačmní
-zátěž kvůli většímu objemu přenesených informací. Je nutno zvážit, zda je tato zátěž vůči absolutnímu objemu
-přenášených dat v systému využívajícímu \gls{SOA} zanedbatelná. Při implementaci by bylo vhodné
-vybrat vhodný přenosový formát, který minimalizuje dopad veškeré síťové komunikace týkající se
-distribuce byznysových pravidel.
+Při ukládání byznysového kontextu je potřeba změnu propagovat do všech ostatních kontextů, které od něj dědí.
+Při změně rozšířeného kontextu budou všechny služby, které ho využívají, informovány pomocí nástroje pro
+centrální správu byzynsových pravidel. Ten má informaci o všech závislostech v systému a zároveň zná i adresu všech
+služeb. Nevýhodou tohoto přístupu je zvýšená komunikační zátěž kvůli většímu objemu přenesených informací, stejný kontext
+je totiž potřeba rozeslat mezi více služeb. Při implementaci je nutno zvážit, zda je tato zátěž vůči absolutnímu objemu
+přenášených dat v systému významná. Bylo by vhodné vybrat vhodný přenosový formát, který minimalizuje dopad veškeré síťové
+komunikace týkající se distribuce byznysových pravidel.
 
 \subsection{Proces úpravy kontextu}
 
@@ -410,6 +389,7 @@ Architektura je zachycena na obrázku~\ref{fig:business-context-registry}.
 
 \subsection{Service discovery}
 
+% TODO: tohle možné nezmiňovat v samostatné kapitole, ale jen to zmínit při procesu načítání
 Aby framework mohl distribuovat byznysové kontexty mezi službami, musí služba vyžadující kontext
 znát adresu služby, od které ho vyžaduje. Adresy služeb mohou podléhat různým konfiguracím,
 které se mohou lišit systém od systému. Framework proto nesmí být závislý na způsobu,

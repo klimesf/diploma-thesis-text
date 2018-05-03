@@ -41,7 +41,7 @@ kód celého systému. Kód, který bylo nutno doplnit ručně, může snadno za
 potřeba ho manuálně projít a opravit.
 Další nevýhodou tohoto přístupu je jeho závislost na \gls{OOP},
 které samotné není schopné se efektivně vypořádat s průřezovými
-problémy~\cite{cemus2014aspect}, jak si popíšeme v sekci~\ref{sec:aop}.
+problémy~\cite{kennard2009separation}\cite{cemus2014aspect}, jak si popíšeme v sekci~\ref{sec:aop}.
 
 \section{Generativní programování}
 
@@ -61,16 +61,16 @@ byznysových pravidel za běhu systému.
 
 \section{Business Process Execution Language}
 
-\gls{BPEL}
-~\cite{andrews2003business}
+Tématu byznysových pravidel v \gls{SOA} se již věnovali autoři technologie Business Process Execution
+Language (\gls{BPEL})~\cite{andrews2003business}. Ta využívá speciálního \gls{DSL} k popisu
+byznysových procesů realizovaných webovými službami.
+Grafickou reprezentaci byznysových procesů v \gls{BPEL} realizuje standard Business Process Model and Notation (\gls{BPMN})~\cite{model2011notation}.
 
-\todo{
-\begin{itemize}
-    \item Co to je
-    \item Jak to funguje
-    \item Výhody a nevýhody
-\end{itemize}
-}
+Přístup \gls{BPEL} se zaměřuje na centrální správu byznysových pravidel pomocí orchestrace.
+K tomu využívá meta-služby, které se starají o uložení a transformaci byznysových pravidel a také o
+zachycení byznysových operací a aplikaci těchto pravidel. Tento přístup přináší snažší
+údržbu byznysových pravidel. Nejnovější výzkum v oblastni \gls{SOA} a zejména pak Microservices
+však od orchestrace ustupuje na úkor decentralizace a choreografie služeb.
 
 \section{Objektově orientované programování}\label{sec:oop}
 
