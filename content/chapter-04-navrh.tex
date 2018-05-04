@@ -9,13 +9,13 @@ v předchozí kapitole~\ref{ch:reserse}, zejména na paradigmatu \gls{AOP} a př
 
 \section{Formalizace architektury orientované na služby}
 
-Pro formalizaci problému byznysových pravidel v \gls{SOA} do termínů \gls{AOP} musíme
+Pro formalizaci problému byznysových pravidel v \gls{SOA} do termínů \gls{AOP} je nutno
 identifikovat \textit{join-points}, určit podobu \textit{advices}, popsat způsob jakým budou
 zachyceny \textit{pointcuts} a nakonec navrhnout proces \textit{weavingu} pravidel.
 
 \subsection{Join-points}
 
-Při identifikování join-points budeme vycházet ze životního cyklu služby, který je znázorněn
+Identifikace join-points vychází ze životního cyklu služby, který je znázorněn
 na obrázku~\ref{fig:join-points}. První fází v životě instance služby je její inicializace,
 konkrétně načtení aplikačního kontextu. V tomto bodě je potřeba získat veškerá pravidla, která
 bude služba potřebovat ke své funkci.
@@ -87,7 +87,7 @@ pouze pravidla jednoho kontextu.
 
 \subsection{Advices}
 
-V případě join-pointu~\ref{itm:initialization} se za advice dá považovat reprezentace byznysového
+V případě join-pointu~\ref{itm:initialization} je advice samotná reprezentace byznysového
 kontextu přenášeného mezi službami. Naopak v join-pointech~\ref{itm:before}~a~\ref{itm:after}
 je přidanou funkcionalitou vyhodnocování preconditions nad aplikačním kontextem, resp. aplikování
 post-conditions na návratovou hodnotu operace.
@@ -120,10 +120,10 @@ Každý kontext díky němu může rozšiřovat libovolné množství jiných ko
 byznysová pravidla. Byznysové operace pak mohou samy určit, který byznysový kontext se k ním váže.
 Tento kontext však přináší několik problémů, které jsou rozebrány v následujících odstavcích.
 
-Mapování byznysových kontextů a byznysových operací jedna ku jedné by mohlo vést k situaci,
-kdy chceme využít pouze nějaká byznysová pravidla jiného kontextu, ale ne všecha.
-K řešení tohoto problému budou využity tzv. \textit{abstraktní kontexty}
-\textendash\xspace takové kontexty, které přímo nevyužívá žádná byznysová operace.
+Může nastat situace, kdy je potřeba sdílet pouze některá byznysová pravidla
+daného kontextu. Při mapování kontextů jedna ku jedné s operacemi by to ale
+nebylo možné. Řešením je využití tzv. \textit{abstraktních kontextů},
+které přímo nevyužívá žádná byznysová operace.
 Příklad znázorněný na obrázku~\ref{fig:abstract-context} popisuje situaci, kdy je nežádoucí,
 aby kontext \code{user.register} zdědil pravidlo vyžadující přihlášení uživatele.
 
@@ -142,7 +142,7 @@ byznysových kontextů.
 Vícenásobná dědičnosti může přinést problém, kdy jeden kontext zdědí více stejných pravidel z
 různých zdrojů, tzv. \textit{diamond problem}~\cite{boyen1994generalized}. Tomu lze předejít tak, že
 každé pravidlo bude mít unikátní identifikátor v rámci celého systému a při dědění budou zohledněna
-pouze unikátní pravidla. Zajištění unikátního identifikátoru můžeme vynutit díky nástroji pro centrální
+pouze unikátní pravidla. Zajištění unikátního identifikátoru lze zajistit díky nástroji pro centrální
 administraci byznysových pravidel.
 
 \section{Logické výrazy byznysových pravidel}
@@ -300,14 +300,6 @@ je tedy vhodné, aby registr pracoval s nekonkrétními rozhraními, na jejichž
 nebude nijak záviset.
 
 \section{Inicializace byznysových kontextů}
-%Při inicializaci služby je potřeba načíst všechny byznysové kontexty, které bude služba
-%pro svůj běh potřebovat. Mohli bychom argumentovat, že načítat příslušný kontext by šlo
-%až ve chvíli, kdy je opravdu zavolána byznysová operace. Kontext bychom pak mohli uložit
-%do paměti, aby se nemusel načítat při dalším spuštění operace. Toto řešení by rozprostřelo
-%latenci při inicializaci služby mezi jednotlivá první spuštění každé byznysové operace.
-%Zároveň by se však zvýšila komplexita frameworku. V rámci principů \gls{KISS}~\cite{kiss}
-%a \gls{YAGNI}~\cite{beck2000extreme} využijeme první zmíněné řešení. Nicméně, pokud by druhé
-%řešení v budoucnu přinášelo další benefity, můžeme ho do frameworku snadno přidat.
 
 \begin{figure}
     \centering

@@ -66,7 +66,7 @@ jazyce. Tato metoda je snadná, protože programátor může použ\'{\i}t stejn\
 pro popis pravidel stejně jako pro popis celého systému. Bohužel, tato metoda
 nám nedává př\'{\i}liš možnost\'{\i} jak provést inspekci a extrakci pravidel.
 Dalš\'{\i}, pokročilejš\'{\i} metodou, je zápis pravidel pomoc\'{\i} meta-instrukc\'{\i}, např\'{\i}klad anotac\'{\i},
-nebo tzv.\textit{Expression Language} (\gls{EL}). Tato metoda poskytuje dobrou možnost inspekce,
+nebo tzv. \textit{Expression Language} (\gls{EL}). Tato metoda poskytuje dobrou možnost inspekce,
 ale zpravidla nen\'{\i} typově bezpečná a může snáze způsobovat chyby v programu.
 Posledn\'{\i}, nejpokročilejš\'{\i} metodou, je zápis pomoc\'{\i} doménově specifick\'ych jazyků.
 Ty jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
@@ -85,8 +85,8 @@ konkrétně preconditions a post-conditions.
 
 Při běhu informačn\'{\i}ho systému je v paměti držen tzv. \textit{exekučn\'{\i} kontext} (z anglického \textit{execution context}),
 kter\'y se skládá z několika d\'{\i}lč\'{\i}ch kontextů~\cite{cemus2017separation}. Prvn\'{\i}m
-je \textit{aplikačn\'{\i} kontext} (z anglického \textit{application context}), ve kterém je uložen stav globálnc\'{\i}h proměnn\'ych systému,
-jako např. nastaven\'{\i} produkčn\'{\i}ho režimu, nebo př\'{\i}znak o tom, zda právě prob\'{\i}há obchodn\'{\i}
+je \textit{aplikačn\'{\i} kontext} (z anglického \textit{application context}), ve kterém je uložen stav globáln\'{\i}ch proměnn\'ych systému,
+jako například nastaven\'{\i} produkčn\'{\i}ho režimu, nebo př\'{\i}znak o tom, zda právě prob\'{\i}há obchodn\'{\i}
 uzávěrka. Dalš\'{\i}m je \textit{uživatelsk\'y kontext}, kter\'y obsahuje informace o aktuálně
 přihlášeném uživateli. \textit{Kontext požadavku} (z anglického \textit{Request context}) obsahuje
 informace o aktuáln\'{\i}m požadavku, jako IP adresa uživatele či jeho geolokace,
@@ -169,86 +169,18 @@ veškerou komunikaci v systému.
 \subsection{Microservices}\label{sec:microservices}
 
 %\goal{Microservices a budoucnost SOA}
-Moderní architektura \textit{Microservices} přináš\'{\i} soubor konceptů, které specializuj\'{\i} a konkretizuj\'{\i}
-principy \gls{SOA}. Microservices se tedy dá chápat jako podmnožina \gls{SOA}, ačkoliv existují i názory,
-že jde o odlišné architektury~\cite{richards2015microservices}. Základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho
-systému jako množiny mal\'ych oddělen\'ych služeb, které jsou spouštěny v samostatn\'ych procesech
-a komunikuj\'{\i} spolu pomoc\'{\i} jednoduch\'ych protokolů~\cite{lewis2014microservices}.
-Microservices preferují decentralizaci a samostatnost služeb.
-
-%\goal{Stavba služeb kolem byznysov\'ych schopnost\'{\i}}
-Microservices se zaměřují na organizaci služeb kolem byznysov\'ych schopnost\'{\i} systému.
-Nam\'{\i}sto horizontáln\'{\i}ho dělen\'{\i} systému podle jeho vrstev\footnote{
-Zde předpokládáme klasickou tř\'{\i}vrstvou architekturu~\cite{fowler2002patterns},
+Microservices je moderní architekturou, která podobně jako \gls{SOA} přináší řešení
+problémů pramenících z vysoké komplexity současných \gls{IS}.
+Tato architektura se dá chápat jako podmnožina \gls{SOA}, ačkoliv existují i názory,
+že jde o odlišné architektury~\cite{richards2015microservices}\cite{cerny2017disambiguation}.
+Základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho systému jako množiny mal\'ych oddělen\'ych služeb,
+které jsou spouštěny v samostatn\'ych procesech a komunikuj\'{\i} spolu pomoc\'{\i} jednoduch\'ych
+protokolů nezávislých na platformě~\cite{lewis2014microservices}. Microservices preferuje decentralizaci a samostatnost služeb
+a zaměřují se na jejich organizaci kolem byznysov\'ych schopnost\'{\i} systému, nam\'{\i}sto horizontáln\'{\i}ho
+dělen\'{\i} systému podle jeho vrstev\footnote{Zde předpokládáme klasickou tř\'{\i}vrstvou architekturu~\cite{fowler2002patterns},
 rozděluj\'{\i}c\'{\i} systém na \textit{datovou vrstvu}, \textit{aplikačn\'{\i} vrstvu}
 a \textit{prezentačn\'{\i} vrstvu}. Tyto vrstvy maj\'{\i} oddělené zodpovědnosti a komunikuj\'{\i}
-spolu pomoc\'{\i} jasně definovan\'ych společn\'ych rozhran\'{\i}.
-} navrhuje rozdělit systém vertikálně podle jeho byznysov\'ych schopnost\'{\i}.
-Na obrázku~\ref{fig:monolith-vs-microservices} je toto rozdělen\'{\i} demonstrováno.
-
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=0.5\linewidth]{figures/monolith-vs-microservices.pdf}
-    \caption{Porovnán\'{\i} struktury monolitické architektury a microservices~\cite{lewis2014microservices}}
-    \label{fig:monolith-vs-microservices}
-\end{figure}
-
-%\goal{Myšlenka nahraditelnosti komponenty}
-%Koncept microservices přem\'yšl\'{\i} o službě jako o samostatné komponentě,
-%kterou lze individuálně vyměnit či vylepšit, bez nutnosti zásahu do
-%ostatn\'{\i}ch služeb~\cite{lewis2014microservices}. Monolitická architektura
-%vyžaduje i při malé změně jedné části cel\'y systém znovu zkompilovat, sestavit
-%a nasadit. Malé služby slouž\'{\i}c\'{\i} ideálně jedinému byznysovému účelu lze naopak
-%při změně byznysov\'ych požadavků snadno nahradit samostatně bez zásahu do zbytku
-%systému. T\'{\i}m se usnadňuje cyklus nasazen\'{\i} a spuštěn\'{\i} nové verze služby.
-
-%\goal{Myšlenka smart endpoints, dumb pipes}
-%Microservices také přinášej\'{\i} koncept \uv{smart endpoint, dumb pipes},
-%kter\'y opoušt\'{\i} koncept \gls{ESB} ve prospěch přesunut\'{\i} veškeré byznysové logiky
-%na stranu služeb. T\'{\i}m se zvyšuje zapouzdřenost služeb a snižuje se
-%jejich vzájemné provázán\'{\i}. Nutno podotknout, že microservices často
-%využ\'{\i}vaj\'{\i} ke své funkci Message Queues.
-
-%\paragraph{Škálovatelnost}
-%Dalš\'{\i} nespornou v\'yhodou microservices je vysoká škálovatelnost systému. Pokud je na
-%některou ze služeb kladen vyšš\'{\i} nárok na v\'ykon než na ostatn\'{\i}, maj\'{\i}
-%v\'yvojáři možnost konkrétn\'{\i} službu horizontálně škálovat aniž by
-%museli škálovat kompletně cel\'y systém, na rozd\'{\i}l od monolitické architektury.
-%Srovnán\'{\i} př\'{\i}stupů je znázorněno na obrázku~\ref{fig:microservices-deployment}.
-%D\'{\i}ky této vlastnosti je možné sn\'{\i}žit nároky na systémové zdroje při zachován\'{\i}
-%stejného v\'ykonu.
-
-%\paragraph{Využit\'{\i} rozlišn\'ych technologi\'{\i}}
-%Monolitické aplikace jsou často implementovány v jednom programovac\'{\i}m jazyce
-%a využ\'{\i}vaj\'{\i} omezenou množinu technologi\'{\i}. Ne pro každ\'y úkol je ale vhodn\'y
-%jeden programovac\'{\i} jazyk a s rostouc\'{\i} velikost\'{\i} informačn\'{\i}ho systému často roste
-%i rozmanitost jeho funkcionality. Rozdělen\'{\i}m systému na v\'{\i}ce služeb, které
-%komunikuj\'{\i} protokolem nezávisl\'ym na platformě, je v\'yvojářům umožněno využ\'{\i}t
-%širš\'{\i} spektrum technologi\'{\i} a implementovat požadovanou funkcionalitu
-%efektivněji.
-
-%\begin{figure}
-%    \centering
-%    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/microservices-deployment.pdf}
-%    \caption{Porovnán\'{\i} nasazen\'{\i} monolitické architektury a microservices~\cite{lewis2014microservices}}
-%    \label{fig:microservices-deployment}
-%\end{figure}
-
-%\paragraph{Decentralizace úložiště}
-%Dalš\'{\i}m z principů, které microservices přináš\'{\i}, je oddělen\'{\i} a decentralizace
-%databázového úložiště. Každá služba, či cluster instanc\'{\i} jedné služby, zapisuj\'{\i}
-%a čtou data ze své oddělené databáze. Pokud potřebujou nač\'{\i}st data jiné služby,
-%musej\'{\i} k tomu využ\'{\i}t jej\'{\i} \gls{API}. T\'{\i}m se ještě v\'yrazněji odděluje zodpovědnost služeb.
-%Typickou praktikou v rámci \gls{SOA} je naopak sd\'{\i}len\'{\i} jedné databáze mezi v\'{\i}ce službami,
-%což je často dáno komerčn\'{\i}m modelem extern\'{\i}ho dodatavele databáze. Jediná databáze
-%má nav\'{\i}c obrovskou v\'yhodu v transakčn\'{\i}m zpracován\'{\i}, které je centralizované.
-%V př\'{\i}padě microservices je nutno transakce řešit distribuovaně, což je velmi náročn\'y
-%úkol a společnosti často vol\'{\i} koncept tzv. \textit{eventual consistency}, kdy je
-%preferována občasná nekonzistence v datech, která je následně manuálně opravena.
-%Tento př\'{\i}stup je opodstatněn t\'{\i}m, že občasná manuáln\'{\i} oprava může b\'yt
-%často levnějš\'{\i} než investice do kvalitn\'{\i}ho řešen\'{\i} distribuovan\'ych transakc\'{\i} –
-%zejména pokud by jeho řešen\'{\i} znamenalo zpožděn\'{\i} v\'yvoje produktu a způsobilo
-%by ztrátu obchodn\'{\i} př\'{\i}ležitosti~\cite{lewis2014microservices}.
+spolu pomoc\'{\i} jasně definovan\'ych společn\'ych rozhran\'{\i}.}.
 
 \subsection{Orchestrace a choreografie služeb}
 
@@ -257,7 +189,7 @@ komunikace a spolupráce jednotlivých služeb. K tomu slouží dva odlišné p�
 \textit{orchestrace služeb} a \textit{choreografie služeb}.
 
 \paragraph{Orchestrace služeb}
-\textit{Orchestrace služeb} má za úkol zajistit, že komunikace mezi službami
+Orchestrace služeb má za úkol zajistit, že komunikace mezi službami
 proběhne úspěšně a ve správném časovém sledu~\cite{orchestration},
 za použití centráln\'{\i} komponenty \textendash\xspace tzv. \textit{dirigenta}.
 Typicky je jako dirigent využ\'{\i}ván \gls{ESB}, kter\'y je pro tuto roli vhodn\'y,
@@ -279,35 +211,26 @@ znázorněno na obrázku~\ref{fig:choreography-orchestration}.
     \label{fig:choreography-orchestration}
 \end{figure}
 
-% TODO: napsat o AI pro choreografii
-~\cite{rao2004survey}
-
 \subsection{Shrnutí}
 
-Z předchozího textu lze vyvodit, že \gls{SOA}
+Z předchozího textu vyplývá, že přístupy k realizaci \gls{SOA} vychází ze společné
+myšlenky členění systémů do dílčích izolovaných služeb poskytujících byznysovou funkcionalitu.
+Přístupy se liší zejména v přístupu ke komunikaci a spolupráci služeb a k centralizaci jejich správy.
+Moderní přístupy od centralizace upouštějí, což ale přináší
 
 \section{Nedostatky současného př\'{\i}stupu}\label{sec:shortcomings}
 
-%\goal{Navázán\'{\i} na předchoz\'{\i} sekci}
-%% TODO: toto přepsat nebo zahodit
-%\gls{SOA} se zaměřuje zejména na dělen\'{\i} systému na služby a detailně rozeb\'{\i}rá
-%formu jejich vzájemné komunikace. Neodpov\'{\i}dá ale na několik závažn\'ych otázek, se kter\'ymi se v praxi musej\'{\i}
-%architekti informačn\'{\i}ch systémů vypořádat, aby architektura byla schopná uspokojivě
-%plnit požadavky, které jsou na n\'{\i} kladené.
+Některá složitější byznysová funkcionalita vyžaduje kompozici více služeb
+najednou~\cite{papazoglou2003service}. Kompozitní služby by měly zohlednit
+byznysová pravidla služeb, které ke své funkci využívají, aby zabránily
+nekonzistentním stavům v systému a zbytečným spouštěním byznysových operací,
+jejichž preconditions nejsou splněny~\cite{cerny2017disambiguation}.
+To je však s přímým rozporem s požadavkem \gls{SOA} na nízkou provázanost služeb.
+Služby by neměly mít potřebu vzájemně znát svoji interní strukturu. Tato skutečnost
+vede k nutnosti duplikace byznysových pravidel v kompozitních službách~\cite{cerny2016survey}.
 
-\goal{Problémy SOA a průřezov\'ych problémů}
-Jelikož jedn\'{\i}m z c\'{\i}lů \gls{SOA}, potažmo microservices, je co nejv\'{\i}ce izolovat
-jednotlivé služby, maj\'{\i} tyto architektury tendenci duplikovat části kódu
-zajišťuj\'{\i}c\'{\i} funkcionalitu, která vyžaduje konzistentn\'{\i} zpracován\'{\i} ve v\'{\i}ce
-službách~\cite{cerny2017disambiguation}, tzv. \textit{průřezov\'ych
-problémů} (z anglického \textit{cross-cutting concerns}).
-Př\'{\i}kladem mohou b\'yt právě byznysová pravidla~\cite{cemus2014aspect}, která je potřeba
-zohlednit v rámci různ\'ych byznysov\'ych kontextů realizovan\'ych ve v\'{\i}ce službách.
-Mezi dalš\'{\i} př\'{\i}klady se řad\'{\i} logován\'{\i}, monitoring či sběr dat
-o telemetrii procesů.
-
-\goal{Nast\'{\i}něn\'{\i} konkrétn\'{\i}ho př\'{\i}kladu}
-Pro lepší představu diskutovaného problému uvažme e-commerce systém
+%\goal{Nast\'{\i}něn\'{\i} konkrétn\'{\i}ho př\'{\i}kladu}
+Pro lepší představu tohoto problému uvažme e-commerce systém
 skládaj\'{\i}c\'{\i} se z několika služeb naprogramovan\'ych v různ\'ych technologi\'{\i}ch,
 a procesy vytváření faktury a vytváření objednávky, každý z nich implementovaný jinou službou.
 Systém navíc obsahuje službu poskytující webové uživatelské rozhraní.
@@ -317,32 +240,20 @@ společnosti kontaktovat zákazn\'{\i}ka \textendash\xspace pokud vůbec takovou
 \textendash\xspace musí být adresa validována již při vytvářen\'{\i} objednávky.
 V ideáln\'{\i}m př\'{\i}padě by navíc měl zákazn\'{\i}k být upozorněn na nevalidn\'{\i} fakturačn\'{\i}
 adresu co nejdříve, ještě před odeslán\'{\i}m objednávkového formuláře př\'{\i}mo v uživatelském
-rozhran\'{\i}~\cite{cemus2017separation}. Pro lepš\'{\i} představu je problém znázorněn na
-obrázku~\ref{fig:service-cutting},
+rozhran\'{\i}~\cite{cemus2017separation}. Pro ilustraci je problém znázorněn na obrázku~\ref{fig:service-cutting},
 
-\goal{Náročná údržba a reakce na změnu požadavku}
+%\goal{Náročná údržba a reakce na změnu požadavku}
 Na příkladu lze pozorovat, že stejná funkcionalita se prom\'{\i}tá
 do tř\'{\i} služeb, z nichž každá má zodpovědnost za jiné byznysové operace.
 Stejn\'y kód, kter\'y realizuje validaci fakturačn\'{\i} adresy,
-mus\'{\i} b\'yt implementován v každé ze zmiňovaných služeb,
-v tomto př\'{\i}padě nav\'{\i}c ve třech různ\'ych programovac\'{\i}ch jazyc\'{\i}ch.
+mus\'{\i} b\'yt implementován v každé ze zmiňovaných služeb, navíc v různých technologiích.
 Pokud by vzešel změnový požadavek na validaci fakturačn\'{\i} adresy, změnu by bylo nutno
 provést konzistentně na třech různ\'ych m\'{\i}stech, všechny tři služby znovu
 sestavit a nasadit ve správném pořad\'{\i} tak, aby nedošlo k nekonzistení validaci adresy
-při provádění jednotlivých byznysových operací.
-\changed{Změny byznysových pravidel se dějí častěji, než změny kódu a struktury samotných
-služeb v \gls{SOA}~\cite{rosenberg2005business}. Pokud je potřeba s každou změnou
-byznysového pravidla sestavit a nasadit minimálně jednu službu, dramaticky
-se zvyšuje náročnost na údržbu takového systému.
-}
-
-\goal{Microservices neř\'{\i}ká nic o tom, jak velké je mikro}
-Problém validace fakturačn\'{\i}ch adres by bylo možné vyřešit vyčleněn\'{\i}m této funkcionality
-do samostatné služby a vystavit jej\'{\i} rozhran\'{\i} pro ostatn\'{\i} služby,
-Pokud však služby nesou př\'{\i}liš málo odpovědnosti,
-nasazen\'{\i} a provoz každé služby s sebou přináš\'{\i} náklady nav\'{\i}c.
-S rostouc\'{\i}m počtem průřezov\'ych problémů by tak rychle rostl
-i počet služeb v systému a celkové náklady na jeho v\'yvoj a údržbu.
+při provádění jednotlivých byznysových operací. Změny byznysových pravidel se dějí častěji,
+než změny kódu a struktury samotných služeb v \gls{SOA}~\cite{rosenberg2005business}.
+Pokud je potřeba s každou změnou byznysového pravidla sestavit a nasadit jednu či více služeb,
+dramaticky se zvyšuje náročnost na údržbu takového systému.
 
 \begin{figure}
     \centering
@@ -353,24 +264,25 @@ i počet služeb v systému a celkové náklady na jeho v\'yvoj a údržbu.
 
 \section{Identifikace požadavků na implementaci frameworku}\label{sec:implementation-requirements}
 
-Z př\'{\i}kladu popsaného v\'yše lze identifikovat požadavky, které by měly
-b\'yt zohledněny při návrhu a implementaci frameworku pro centráln\'{\i} administraci
-a automatickou distribuci byznysov\'ych pravidel v architektuře orientované na služby.
+Pro usnadnění vývoje a údržby systému stavějícího na \gls{SOA}, který
+obsahuje kompozitní služby, je nutné umožnit sdílení byznysových pravidel.
+Ta by měla být zachycena mimo samotnou implementaci služby, ideálně ve formátu, který bude nezávislý na
+konkrétní platformě, bude poskytovat možnost automatické inspekce a bude srozumitelný doménovým expertům.
+Úprava pravidel by navíc neměla vyžadovat změnu kódu služby a její opětovné nasazování.
+Administrátoři systému by měly mít možnost byznysová pravidla spravovat centrálně a bez
+přerušení provozu systému, aby mohli co nejrychleji a flexibilně reagovat na změnové požadavky.
 
-Framework, resp. jeho knihovny, by měly umožňovat:
+Framework, který bude výstupem této práce, by tedy měl splňovat následující vlastnosti:
 
 \begin{itemize}
-    \item{Definice byznys kontextů pomoc\'{\i} platformně nezávislého doménově specifického jazyka srozumitelného pro doménové experty}
-    \item{Zápis preconditions a post-conditions pravidla jednotliv\'ych byznys kontextů}
-    \item{Možnost jednoho kontextu rozšiřovat jiné kontexty}
-    \item{Možnost centrálně spravovat byznysové kontexty, včetně úpravy stávaj\'{\i}c\'{\i}ch a vytvářen\'{\i} nov\'ych kontextů, to vše dynamicky za běhu systému}
-    \item{Automatickou distribuci kontextů, vyhodnocován\'{\i} jejich preconditions a aplikaci post-conditions}
+    \item{Možnost definovat byznysová pravidla pomoc\'{\i} platformově nezávislého \gls{DSL} srozumitelného pro doménové experty}
+    \item{Možnost centrálně spravovat byznysová pravidla, včetně úpravy stávaj\'{\i}c\'{\i}ch a vytvářen\'{\i} nov\'ych dynamicky za běhu systému}
+    \item{Automatická distribuce byzynsových pravidel včetně vyhodnocován\'{\i} preconditions a aplikace post-conditions}
     \item{Možnost využ\'{\i}vat framework na v\'{\i}ce plaformách}
 \end{itemize}
 
 \section{Shrnut\'{\i}}
 
-Tato kapitola analyzovala koncept byznysov\'ych pravidel a byznysov\'ych kontextů. Dále se věnovala architektuře orientované na služby,
-jej\'{\i}m podobám, v\'yhodám a nev\'yhodám, a identifikovala nedostatky současn\'ych př\'{\i}stupů v řešen\'{\i} průřezov\'ych problémů,
-které zasahuj\'{\i} do v\'{\i}ce služeb najednou. Nakonec byly identifikovány požadavky, které by měl splňovat framework, jež bude
-v\'ystupem této práce.
+V této kapitole byla provedena analýza byznysov\'ych pravidel a byznysov\'ych kontextů a architektury orientované na služby.
+Dále byly popsány nedostatky \gls{SOA} při kompozici služeb a sdílení byznysových pravidel.
+Nakonec byly identifikovány požadavky, které by měl splňovat framework, který bude v\'ystupem této práce.
