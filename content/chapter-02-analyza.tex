@@ -4,10 +4,10 @@
 
 Tato kapitola analyzuje problematiku byznysov\'ych pravidel v informačn\'{\i}ch systémech
 a detailně popisuje architekturu orientovanou na služby, včetně jej\'{\i}ho historického
-v\'yvoje a modern\'{\i}ho trendu v podobě microservices. Na základě toho kapitola popisuje nedostatky
-současn\'ych př\'{\i}stupů při řešen\'{\i} průřezov\'ych problémů v těchto architekturách, s důrazem na byznysová pravidla.
-V závěru kapitoly jsou identifikovány požadavky, které by měl splňovat framework,
-jež bude v\'ystupem této diplomové práce.
+v\'yvoje a modern\'{\i}ch trendů. Na základě toho kapitola popisuje nedostatky
+současn\'ych př\'{\i}stupů při řešen\'{\i} průřezov\'ych problémů v těchto architekturách,
+s důrazem na byznysová pravidla. V závěru kapitoly jsou identifikovány požadavky, které by
+měl splňovat framework, jež bude v\'ystupem této diplomové práce.
 
 \section{Byznysová pravidla}\label{sec:business-rules}
 
@@ -40,46 +40,40 @@ a \textit{post-conditions}~\cite{cemus2015automated}.
 Aby mohla b\'yt byznysová operace vykonána, musej\'{\i}
 b\'yt splněny předem definované podm\'{\i}nky, neboli předpoklady,
 které naz\'yváme \textit{preconditions}. Pokud alespoň jedna z podm\'{\i}nek
-nen\'{\i} splněna, byznysová operace nemůže proběhnout.
-
-Pro lepš\'{\i} ilustraci uveďme př\'{\i}klad: aby mohla b\'yt provedena
-registrace uživatele s danou emailovou adresu, mus\'{\i} b\'yt splněna
-podm\'{\i}nka, že uživatel vyplnil svoj\'{\i} emailovou adresu, a zároveň
+nen\'{\i} splněna, byznysová operace nemůže proběhnout~\cite{larman2001patterns}.
+Například při registracu uživatele mus\'{\i} b\'yt splněna podm\'{\i}nka,
+že uživatel vyplnil svoj\'{\i} emailovou adresu, a zároveň
 dosud v systému neexistuje žádn\'y uživatel se stejnou emailovou adresou.
 
 \subsection{Post-condition}
 
 Na byznysovou operaci mohou b\'yt kladeny požadavky, které
-musej\'{\i} b\'yt splněny po jej\'{\i}m úspěšném vykonán\'{\i}. Př\'{\i}kladem
-může b\'yt anonymizace uživatelů při vytvářen\'{\i} statistického
-reportu e-commerce společnosti – po vygenerován\'{\i} reportu
-post-condition zajist\'{\i}, že z něj budou smazány veškeré citlivé údaje.
-Dalš\'{\i}m př\'{\i}padem může b\'yt filtrován\'{\i} v\'ystupu byznysové operace.
-Např\'{\i}klad při v\'ypisu objednávek pro zákazn\'{\i}ka se chceme ujistit, že
-všechny vypsané objednávky patř\'{\i} danému zákazn\'{\i}kovi.
+musej\'{\i} b\'yt splněny po jej\'{\i}m úspěšném vykonán\'{\i}~\cite{cemus2015automated}.
+Př\'{\i}kladem může b\'yt anonymizace uživatelů při vytvářen\'{\i} statistického
+reportu e-commerce společnosti \textendash\xspace vygenerováný report
+nesmí obsahovat citlivé údaje. Dalš\'{\i}m př\'{\i}padem může b\'yt filtrován\'{\i}
+v\'ystupu byznysové operace, např\'{\i}klad při v\'ypisu objednávek pro zákazn\'{\i}ka
+musí všechny vypsané objednávky patřit danému zákazn\'{\i}kovi.
 
 \subsection{Reprezentace byznysového pravidla}
 
 Existuje několik možnost\'{\i}, jak zachytit a reprezentovat byznysová pravidla~\cite{cemus2015automated}.
-Nejběžnějš\'{\i} a nejpouž\'{\i}vanějš\'{\i} metodou je jejich zachycen\'{\i} v programovac\'{\i}m
-jazyce. Tato metoda je snadná, protože programátor může použ\'{\i}t stejn\'y jazyk
-pro popis pravidel stejně jako pro popis celého systému. Bohužel, tato metoda
-nám nedává př\'{\i}liš možnost\'{\i} jak provést inspekci a extrakci pravidel.
-Dalš\'{\i}, pokročilejš\'{\i} metodou, je zápis pravidel pomoc\'{\i} meta-instrukc\'{\i}, např\'{\i}klad anotac\'{\i},
+Nejběžnějš\'{\i} metodou je jejich zachycen\'{\i} v programovac\'{\i}m
+jazyce, umožňující použití stejného jazyku pro popis pravidel stejně jako pro popis celého systému.
+Bohužel, tato metoda nepřináší možnosti inspekce a extrakce pravidel.
+Pokročilejš\'{\i} metodou je zápis pravidel pomoc\'{\i} meta-instrukc\'{\i} jazyka, např\'{\i}klad anotac\'{\i},
 nebo tzv. \textit{Expression Language} (\gls{EL}). Tato metoda poskytuje dobrou možnost inspekce,
-ale zpravidla nen\'{\i} typově bezpečná a může snáze způsobovat chyby v programu.
-Posledn\'{\i}, nejpokročilejš\'{\i} metodou, je zápis pomoc\'{\i} doménově specifick\'ych jazyků.
-Ty jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
-Nevyžaduj\'{\i} inspekci a mohou b\'yt typově bezpečné. Mezi jejich nev\'yhody ale patř\'{\i} vysoká
-počátečn\'{\i} investice v podobě návrhu takového jazyka a nutnost jeho kompilace nebo
-interpretace.
+ale zpravidla nen\'{\i} typově bezpečná. Nejpokročilejš\'{\i} metodou, je zápis pomoc\'{\i} doménově specifick\'ych
+jazyků. Ty jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
+Doménové jazyky nevyžaduj\'{\i} inspekci a mohou b\'yt typově bezpečné. Mezi jejich nev\'yhody ale patř\'{\i} vysoká
+počátečn\'{\i} investice v podobě návrhu jazyka a nutnosti jeho kompilace nebo interpretace.
 
 \subsection{Byznysov\'y kontext}
 
 Informačn\'{\i} systém zpravidla implementuje v\'{\i}ce byznysov\'ych procesů, které se vážou
-na jeden či v\'{\i}ce uživatelsk\'ych scénářů. Uživatelsk\'y scénář se pak děl\'{\i} na jednotlivé
+na jeden či v\'{\i}ce uživatelsk\'ych scénářů~\cite{larman2001patterns}. Uživatelsk\'y scénář se pak děl\'{\i} na jednotlivé
 kroky, např\'{\i}klad zaslán\'{\i} potvrzovac\'{\i}ho e-mailu k objednávce, či uložen\'{\i} objednávky
-do databáze. Tyto kroky naz\'yváme \textit{byznysové operace} – tedy operace, které maj\'{\i}
+do databáze. Tyto kroky naz\'yváme \textit{byznysové operace} \textendash\xspace tedy operace, které maj\'{\i}
 byznysovou hodnotu. Ke každé byznysové operaci př\'{\i}sluš\'{\i} množina byznysov\'ych pravidel,
 konkrétně preconditions a post-conditions.
 
@@ -173,30 +167,30 @@ Microservices je moderní architekturou, která podobně jako \gls{SOA} přiná�
 problémů pramenících z vysoké komplexity současných \gls{IS}.
 Tato architektura se dá chápat jako podmnožina \gls{SOA}, ačkoliv existují i názory,
 že jde o odlišné architektury~\cite{richards2015microservices}\cite{cerny2017disambiguation}.
+Vzhledem k její vzrůstající adopci v posledních letech je nutno ji v rámci této práce zohlednit~\cite{xiao2016reflections}.
 Základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho systému jako množiny mal\'ych oddělen\'ych služeb,
 které jsou spouštěny v samostatn\'ych procesech a komunikuj\'{\i} spolu pomoc\'{\i} jednoduch\'ych
 protokolů nezávislých na platformě~\cite{lewis2014microservices}. Microservices preferuje decentralizaci a samostatnost služeb
-a zaměřují se na jejich organizaci kolem byznysov\'ych schopnost\'{\i} systému, nam\'{\i}sto horizontáln\'{\i}ho
+a zaměřuje se na jejich organizaci kolem byznysov\'ych schopnost\'{\i} systému, nam\'{\i}sto horizontáln\'{\i}ho
 dělen\'{\i} systému podle jeho vrstev\footnote{Zde předpokládáme klasickou tř\'{\i}vrstvou architekturu~\cite{fowler2002patterns},
 rozděluj\'{\i}c\'{\i} systém na \textit{datovou vrstvu}, \textit{aplikačn\'{\i} vrstvu}
 a \textit{prezentačn\'{\i} vrstvu}. Tyto vrstvy maj\'{\i} oddělené zodpovědnosti a komunikuj\'{\i}
 spolu pomoc\'{\i} jasně definovan\'ych společn\'ych rozhran\'{\i}.}.
+Hlavní výhodou tohoto přístupu je flexibilní nasazování a škálování, které je vhodné
+pro stále populárnější nasazení v cloudu~\cite{kratzke2017understanding}\cite{cerny2018contextual}\cite{xiao2016reflections}.
 
 \subsection{Orchestrace a choreografie služeb}
 
-Základní podmínkou pro správnou funkci systému stavějícímu na \gls{SOA} je správná
-komunikace a spolupráce jednotlivých služeb. K tomu slouží dva odlišné přístupy \textendash\xspace
-\textit{orchestrace služeb} a \textit{choreografie služeb}.
+Základní podmínkou pro funkci systému stavějícímu na \gls{SOA} je komunikace a spolupráce jednotlivých služeb.
+K tomu slouží principy \textit{orchestrace služeb} a \textit{choreografie služeb}.
 
-\paragraph{Orchestrace služeb}
+\paragraph{Orchestrace}
 Orchestrace služeb má za úkol zajistit, že komunikace mezi službami
 proběhne úspěšně a ve správném časovém sledu~\cite{orchestration},
 za použití centráln\'{\i} komponenty \textendash\xspace tzv. \textit{dirigenta}.
-Typicky je jako dirigent využ\'{\i}ván \gls{ESB}, kter\'y je pro tuto roli vhodn\'y,
-protože má informace o lokaci jednotliv\'ych služeb a zprostředkovává mezi nimi
-komunikačn\'{\i} kanály.
+Typicky je jako dirigent využ\'{\i}ván \gls{ESB}.
 
-\paragraph{Choreografie služeb}
+\paragraph{Choreografie}
 Př\'{\i}m\'ym opakem orchestrace je tzv. \textit{choreografie služeb} a znamená
 vykonáván\'{\i} byznysov\'ych operac\'{\i} autonomně a asynchronně, bez centráln\'{\i}
 autority. Tento př\'{\i}stup je preferován zejména v rámci microservices~\cite{dragoni2017microservices},
@@ -215,8 +209,10 @@ znázorněno na obrázku~\ref{fig:choreography-orchestration}.
 
 Z předchozího textu vyplývá, že přístupy k realizaci \gls{SOA} vychází ze společné
 myšlenky členění systémů do dílčích izolovaných služeb poskytujících byznysovou funkcionalitu.
-Přístupy se liší zejména v přístupu ke komunikaci a spolupráci služeb a k centralizaci jejich správy.
-Moderní přístupy od centralizace upouštějí, což ale přináší
+Přístupy se liší zejména v řešení komunikace služeb a v centralizaci jejich správy.
+Historické přístupy využívají komplexní komunikační technologie a umožňují centrální
+správu systému, zatímco moderní přístupy od těchto vlastností upouštění. To přináší výzvu
+při sdílení byznysových pravidel, která je rozebrána v následující sekci.
 
 \section{Nedostatky současného př\'{\i}stupu}\label{sec:shortcomings}
 
@@ -225,8 +221,8 @@ najednou~\cite{papazoglou2003service}. Kompozitní služby by měly zohlednit
 byznysová pravidla služeb, které ke své funkci využívají, aby zabránily
 nekonzistentním stavům v systému a zbytečným spouštěním byznysových operací,
 jejichž preconditions nejsou splněny~\cite{cerny2017disambiguation}.
-To je však s přímým rozporem s požadavkem \gls{SOA} na nízkou provázanost služeb.
-Služby by neměly mít potřebu vzájemně znát svoji interní strukturu. Tato skutečnost
+To je však s přímým rozporem s požadavkem na nízkou provázanost služeb, které
+by neměly vzájemně znát svoji interní strukturu. Tato skutečnost
 vede k nutnosti duplikace byznysových pravidel v kompozitních službách~\cite{cerny2016survey}.
 
 %\goal{Nast\'{\i}něn\'{\i} konkrétn\'{\i}ho př\'{\i}kladu}
@@ -239,7 +235,7 @@ Protože by mohla nastat situace, kdy by v př\'{\i}padě nevalidn\'{\i} adresy 
 společnosti kontaktovat zákazn\'{\i}ka \textendash\xspace pokud vůbec takovou možnost maj\'{\i}
 \textendash\xspace musí být adresa validována již při vytvářen\'{\i} objednávky.
 V ideáln\'{\i}m př\'{\i}padě by navíc měl zákazn\'{\i}k být upozorněn na nevalidn\'{\i} fakturačn\'{\i}
-adresu co nejdříve, ještě před odeslán\'{\i}m objednávkového formuláře př\'{\i}mo v uživatelském
+adresu co nejdříve, ještě před odeslán\'{\i}m objednávkového formuláře, př\'{\i}mo v uživatelském
 rozhran\'{\i}~\cite{cemus2017separation}. Pro ilustraci je problém znázorněn na obrázku~\ref{fig:service-cutting},
 
 %\goal{Náročná údržba a reakce na změnu požadavku}

@@ -14,19 +14,18 @@ a nev\'yhody jeho použit\'{\i}.
 
 \section{Testován\'{\i} prototypů knihoven}
 
-Prototypy knihoven, jejichž implementaci jsme popsali
-v kapitole~\ref{ch:implementace}, byly důkladně
-otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch testů
+Prototypy knihoven, jejichž implementaci je popsána v kapitole~\ref{ch:implementace},
+byly důkladně otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch testů
 a t\'{\i}m byla verifikována jejich správná funkcionalita. Způsob
-testován\'{\i} knihoven si pop\'{\i}šeme zvlášť pro každou platformu.
+testován\'{\i} knihoven je popsán zvlášť pro každou platformu.
 
 V rámci konceptu \textit{continous integration} (\gls{CI})~\cite{fowler2006continuous}
 byl kód po celou dobu v\'yvoje verzován systémem Git\footnote{https://git-scm.com/},
 zas\'{\i}lán do centráln\'{\i}ho repozitáře a s pomoc\'{\i}
 nástroje Travis \gls{CI}\footnote{https://travis-ci.org/}
-bylo automaticky spouštěno jeho sestaven\'{\i} a otestován\'{\i}. Systém
-zároveň okamžitě informoval v\'yvojáře o v\'ysledc\'{\i}ch. To
-umožnilo v krátkém časovém horizontu identifikovat konkrétn\'{\i} změny
+bylo automaticky spouštěno jeho sestaven\'{\i} a otestován\'{\i}.
+Systém zároveň okamžitě informoval v\'yvojáře o v\'ysledc\'{\i}ch.
+To umožnilo v krátkém časovém horizontu identifikovat konkrétn\'{\i} změny
 v kódu, které do programu vnesly chybu. T\'{\i}m byla sn\'{\i}žena
 pravděpodobnost regrese a dlouhodobě se zv\'yšila celková kvalita kódu.
 
@@ -45,11 +44,10 @@ language=Java,
 ]
 {code/test_example.java}
 
-Ve zdrojovém kódu~\ref{lst:java-testing}
-můžeme vidět jednotkov\'y test tř\'{\i}dy \code{BusinessContextWeaver} ověřuj\'{\i}c\'{\i},
+Ve zdrojovém kódu~\ref{lst:java-testing} je znázorněn jednotkov\'y test
+tř\'{\i}dy \code{BusinessContextWeaver} ověřuj\'{\i}c\'{\i},
 že byly správně aplikovány post-conditions daného byznys kontextu, konkrétně
-že bylo správně zakryto pole \code{email} objektu \code{user}. Anotace
-\code{@Test} metody \code{test()} znač\'{\i},
+zakrytí pole \code{email} objektu \code{user}. Anotace \code{@Test} metody \code{test()} znač\'{\i},
 že metoda obsahuje \textit{test case} a framework JUnit zajist\'{\i}, že bude spuštěna
 a vyhodnocena. Statické metody tř\'{\i}dy \code{Assert} ověř\'{\i}, zda uživateli zůstalo
 vyplněno jméno, ale emailová adresa ne.
@@ -143,7 +141,7 @@ přehled je v tabulce~\ref{tbl:use-cases}.
 
 \subsection{Model systému}
 
-Na obrázku~\ref{fig:example-model} můžeme vidět diagram tř\'{\i}d reprezentuj\'{\i}c\'{\i}ch
+Na obrázku~\ref{fig:example-model} je diagram tř\'{\i}d reprezentuj\'{\i}c\'{\i}ch
 kompletn\'{\i} doménov\'y model ukázkového systému.
 
 \begin{itemize}
@@ -272,7 +270,7 @@ a byla implementována v jazyce Java s použit\'{\i}m frameworku Spring Boot\foo
 
 Kompozitn\'{\i} služba \textit{Order service} slouž\'{\i}c\'{\i} pro vytvářen\'{\i} a správu objednávek
 byla implementována v jazyce Java a jej\'{\i} \gls{API} bylo sestaveno za použit\'{\i} frameworku Spring
-Boot, jak můžeme vidět ve zdrojovém kódu~\ref{lst:order-service-springboot}, kde
+Boot, jak je ukázáno ve zdrojovém kódu~\ref{lst:order-service-springboot}, kde
 je ukázka obsluhy požadavků na v\'ypis zbož\'{\i} v koš\'{\i}ku uživatele.
 
 \lstinputlisting[
@@ -290,7 +288,7 @@ prohl\'{\i}žen\'{\i} a administrac\'{\i} nab\'{\i}zen\'ych
 produktů a jejich skladov\'ych zásob. Služba byla implementována v jazyce Python.
 Pro vytvořen\'{\i} \gls{REST} \gls{API} služby byl využit populárn\'{\i}
 light-weight framework \textit{Flask}\footnote{http://flask.pocoo.org/}.
-Ve zdrojovém kódu~\ref{lst:product-service-flask} můžeme vidět použit\'{\i}
+Ve zdrojovém kódu~\ref{lst:product-service-flask} je znázorněno použit\'{\i}
 tohoto frameworku pro obsluhu požadavku na v\'ypis všech produktů.
 
 \lstinputlisting[
@@ -343,11 +341,11 @@ Docker~\cite{merkel2014docker}, která umožňuje vytvořit virtuáln\'{\i} běh
 pro aplikaci pomoc\'{\i} kontejnerizace využ\'{\i}vaj\'{\i}c\'{\i} virtualizaci nad operačn\'{\i}m systémem.
 Uživatel si nadefinuje tzv. \textit{image}, kter\'y se skládá z jednotliv\'ych vrstev.
 Základn\'{\i} vrstvou je operačn\'{\i} systém, dalš\'{\i}mi mohou b\'yt jednotlivé knihovny instalované do systému.
-Př\'{\i}klad definice image pomoc\'{\i} technologie Docker můžeme vidět ve zdrojovém
+Př\'{\i}klad definice image pomoc\'{\i} technologie Docker je znázorněn ve zdrojovém
 kódu~\ref{lst:docker-image}. Konkrétně se jedná o definici image, kter\'y
 rozšiřuje oficiáln\'{\i} image \code{library/node:9.11.1}\footnote{https://hub.docker.com/\_/node/}
 stavěj\'{\i}c\'{\i} nad operačn\'{\i}m systémem \textit{Linux}\footnote{https://www.linuxfoundation.org/projects/linux/},
-a přidává vrstvy s prototypem knihovny našeho frameworku pro platformu Node.js.
+a přidává vrstvy s prototypem knihovny pro platformu Node.js.
 
 \lstinputlisting[
 caption={Ukázka zápisu Docker image obsahuj\'{\i}c\'{\i} knihovnu pro platformu Node.js},
@@ -380,13 +378,13 @@ language=Yaml,
 \section{Srovnán\'{\i} s konvenčn\'{\i}m př\'{\i}stupem}
 
 \goal{Ukázka na konkrétn\'{\i}m př\'{\i}kladě}
-Z tabulky~\ref{tbl:business-contexts} vid\'{\i}me, že 60 \% byznysov\'ych pravidel v ukázkovém systému je
+Z tabulky~\ref{tbl:business-contexts} plyne, že 60 \% byznysov\'ych pravidel v ukázkovém systému je
 využ\'{\i}váno ve v\'{\i}ce kontextech, a polovina je využ\'{\i}vána např\'{\i}č v\'{\i}ce službami.
 V tabulce~\ref{tbl:duplication} je přehledně shrnuto, která pravidla jsou využ\'{\i}vána ve kter\'ych službách.
-Při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu bychom museli tato pravidla implementovat alespoň
+Při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu by tato pravidla bylo nutné implementovat alespoň
 jednou pro každou ze služeb, za předpokladu, že by nedocházelo k duplikac\'{\i}m ve službách samotn\'ych.
-Manuáln\'{\i} duplikace nav\'{\i}c přináš\'{\i} nutnost synchronizovat podobu pravidla při každém změnovém ř\'{\i}zen\'{\i},
-což zvyšuje náklady na v\'yvoj a riziko lidské chyby.
+Manuáln\'{\i} duplikace nav\'{\i}c přináš\'{\i} nutnost synchronizovat podobu pravidla při každém změnovém
+ř\'{\i}zen\'{\i}, což zvyšuje náklady na v\'yvoj a riziko lidské chyby.
 
 \begin{table}
     \centering
@@ -409,15 +407,15 @@ což zvyšuje náklady na v\'yvoj a riziko lidské chyby.
     \label{tbl:duplication}
 \end{table}
 
-\goal{V\'yhody našeho frameworku}
-D\'{\i}ky použit\'{\i} naš\'{\i} knihovny je však možné každé pravidlo nadefinovat centrálně
+\goal{V\'yhody frameworku}
+D\'{\i}ky použit\'{\i} navrženého frameworku je však možné každé pravidlo nadefinovat centrálně
 a framework se postará o jeho automatickou distribuci do všech m\'{\i}st, kde je potřeba ho aplikovat.
 D\'{\i}ky tomu je možno byznysová pravidla, resp. kontexty, spravovat pomoc\'{\i} nástroje pro
-centráln\'{\i} správu, kter\'y je součást\'{\i} našeho frameworku. Z toho vypl\'yvá sn\'{\i}žen\'{\i} nároků
-na v\'yvoj a sn\'{\i}žené riziko lidské chyby.
+centráln\'{\i} správu, kter\'y je součást\'{\i} navrženého frameworku. Z toho vypl\'yvá
+sn\'{\i}žen\'{\i} nároků na v\'yvoj a sn\'{\i}žené riziko lidské chyby.
 
 \goal{Nev\'yhody použit\'{\i}}
-Jako nev\'yhodu použit\'{\i} frameworku můžeme považovat počátečn\'{\i} investici v
+Jako nev\'yhodu použit\'{\i} frameworku lze považovat počátečn\'{\i} investici v
 podobě integrace knihoven do služeb systému. Zvážit mus\'{\i}me i cenu popisu byznysov\'ych pravidel
 v \gls{DSL}, kter\'y se musej\'{\i} v\'yvojáři systému naučit nav\'{\i}c oproti programovac\'{\i}mu jazyku,
 ve kterém popisuj\'{\i} služby. Dále je při návrhu systému potřeba identifikovat byznysové kontexty, jejich
@@ -430,16 +428,15 @@ nižš\'{\i} náklady na v\'yvoj za cenu počátečn\'{\i} investice. Architekt 
 frameworku zvážit z několika úhlů pohledu a posoudit, zda bude životnost systému dostatečně dlouhá a systém
 dostatečně velk\'y. Dalš\'{\i}m podstatn\'ym bodem ke zvážen\'{\i} je reálná m\'{\i}ra znovupoužit\'{\i} byznysov\'ych pravidel.
 Mohou existovat domény, ve kter\'ych bude nasazen\'{\i} frameworku jistě mnohem vhodnějš\'{\i}, než v jin\'ych.
-D\'{\i}ky provedené př\'{\i}padové studii jsme zjistili, že v \gls{SOA} lze efektivně řešit otázku byznysov\'ych pravidel,
-potažmo průřezov\'ych problémů obecně, námi navržen\'ym způsobem.
+D\'{\i}ky provedené př\'{\i}padové studii bylo prokázáno, že v \gls{SOA} lze efektivně řešit sdílení byznysov\'ych pravidel
+navržen\'ym způsobem.
 
 \section{Shrnut\'{\i}}
 
-V této kapitole jsme popsali, jak\'ym způsobem byly testovány prototypy knihoven
-pro platformy jazyků Java a Python a pro platformu Node.js. T\'{\i}m jsme verifikovali
-jejich správnou fukcionalitu. Dále jsme naspecifikovali a popsali implementaci
-ukázkového systému, na kterém jsme provedli př\'{\i}padovou studii použit\'{\i} našeho
-frameworku. D\'{\i}ky tomu jsme validovali, že navržen\'y framework je funkčn\'{\i}
+Tato kapitola popisuje, jak\'ym způsobem byly testovány prototypy knihoven
+pro platformy jazyků Java a Python a pro platformu Node.js. T\'{\i}m byla verifikována
+jejich správná fukcionalita. Dále kapitola specifikuje ukázkový systém, na kterém byla provedena př\'{\i}padová studie použit\'{\i} frameworku,
+a popisuje jeho implementaci. D\'{\i}ky studii bylo zvalidováno, že navržen\'y framework je funkčn\'{\i}
 a splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements}.
-Nakonec jsme na ukázkovém systému diskutovali srovnán\'{\i} použit\'{\i} našeho frameworku
+Nakonec je na ukázkovém systému změřen počet duplikací pravidel a je srovnáno použit\'{\i} frameworku
 a konvenčn\'{\i}ho př\'{\i}stupu k návrhu a implementaci softwarov\'ych systému.
