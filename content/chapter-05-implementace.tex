@@ -115,13 +115,13 @@ jako jedin\'y argument typu \code{BusinessContextUpdateRequestMessage}.
 
 \section{Doménově specifick\'y jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
 
-\goal{Popsat proč a jak jsme tvořili DSL}
+%\goal{Popsat proč a jak jsme tvořili DSL}
 Ačkoliv nen\'{\i} specifikace a implementace \gls{DSL} pro popis byznysových kontextů
 úkolem této práce, pro ověřen\'{\i} konceptu je nutné nadefinovat alespoň jeho zjednodušenou
 verzi a implementovat část knihovny, která bude umět jazyk zpracovat a sestavit metamodel popsaného
 kontextu. Tento jazyk však bude možno v produkční verzi knihovny nahradit komplexnejším.
 
-\goal{Důvody pro v\'yběr XML}
+%\goal{Důvody pro v\'yběr XML}
 Pro popis kontextů byl jako kompromis mezi jednoduchost\'{\i} implementace
 a př\'{\i}větivost\'{\i} pro koncového uživatele zvolen univerzáln\'{\i} formát Extensible
 Markup Language (\gls{XML})~\cite{bray1997extensible} doplněný o definici schematu dat
@@ -129,7 +129,7 @@ pomocí \textit{XML Schema Definition} (\gls{XSD})~\cite{lee2000comparative}.
 D\'{\i}ky formálně definovanému schématu lze popis byznys kontextu
 automaticky validovat a vyvarovat se tak př\'{\i}padn\'ych chyb.
 
-\goal{Popis formátu}
+%\goal{Popis formátu}
 Ve zdrojovém kódu~\ref{lst:business-context-xml} je znázorněn
 př\'{\i}klad zápisu jednoduchého byznys kontextu s jednou precondition.
 Samotn\'y zápis byznys kontextu je obsažen v kořenovém elementu
@@ -186,7 +186,7 @@ language=Java,
 
 \paragraph{Apache Maven}
 
-\goal{Správa závislost\'{\i} a buildu projektu}
+%\goal{Správa závislost\'{\i} a buildu projektu}
 Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i}
 knihovny napsané v jazyce java byl zvolen projekt
 \textit{Maven}\footnote{https://maven.apache.org/}.
@@ -197,7 +197,7 @@ způsobem bude projekt kompilován.
 
 \paragraph{AspectJ}
 
-\goal{Proč AspectJ a co to um\'{\i}}
+%\goal{Proč AspectJ a co to um\'{\i}}
 Knihovna AspectJ přináš\'{\i} pro jazyk Java sadu nástrojů,
 d\'{\i}ky kter\'ym lze snadno implementovat koncepty aspektově orientovaného
 programován\'{\i}, zejména pak snadn\'y zápis pointcuts a kompletn\'{\i}
@@ -211,7 +211,7 @@ engine pro weaving aspektů.
 
 \paragraph{JDOM 2}
 
-\goal{Proč jdom2 a co to um\'{\i}}
+%\goal{Proč jdom2 a co to um\'{\i}}
 Knihovna JDOM 2\footnote{http://www.jdom.org/} poskytuje
 kompletn\'{\i} sadu nástroju pro čten\'{\i} a zápis \gls{XML} dokumentů.
 Implementuje specifikaci \textit{Document Object Model} (\gls{DOM})~\cite{wood2004document},
@@ -312,7 +312,7 @@ language=JavaScript,
 
 \subsection{Použité technologie}
 
-\goal{Použité technologie pro v\'yvoj knihovny}
+%\goal{Použité technologie pro v\'yvoj knihovny}
 Podobně jako byl použit nástroj Maven pro knihovnu v jazyce Java byl
 využit bal\'{\i}čkovac\'{\i} nástroj \textit{NPM}, kter\'y je předinstalován
 v běhovém prostřed\'{\i} \textit{Node.js}. Tento nástroj ale nedisponuje
@@ -328,7 +328,7 @@ Součástí této práce je i implementace nástroje, který umožní centráln�
 pravidel
 \subsection{Popis implementace}
 
-Systém pro centrální správu
+Systém pro centrální správu ...
 
 Pro komfortn\'{\i} obsluhu centráln\'{\i} administrace bylo naprogramováno
 uživatelské rozhran\'{\i} pomoc\'{\i} technologi\'{\i} Hypertext Markup Language~\cite{berners1995hypertext}
@@ -348,7 +348,7 @@ na sn\'{\i}mku~\ref{fig:screenshot-context-edit}.
 
 \subsection{Detekce a prevence potenciáln\'{\i}ch problémů}
 
-\goal{Problémy způsobené rozšiřován\'{\i}m kontextů}
+%\goal{Problémy způsobené rozšiřován\'{\i}m kontextů}
 Sekce~\ref{sec:context-inheritance} identifikuje problémy, které
 mohou nastat při úpravě nebo vytvářen\'{\i} nového byznysového kontextu.
 Kromě syntaktick\'ych chyb, které jsou detekovány automaticky pomoc\'{\i} definovaného schematu,
@@ -359,34 +359,24 @@ je potřeba detekovat následující sémantické chyby, které mohou b\'yt způ
     \item Cyklus v grafu závislost\'{\i} kontextů
 \end{enumerate}
 
-\goal{Chápán\'{\i} kontextů jako grafu}
+%\goal{Chápán\'{\i} kontextů jako grafu}
+Unikátnost byznysových pravidel lze zajistit postupným ukládáním jejich identifikátorů
+do vhodné datové struktury a kontrolovat, zda již nejsou ve struktuře obsaženy. Vhodnou
+strukturou je například \code{Set}~\cite{hopcroft1983data}.
 Kontexty a jejich vzájemné závislosti lze vn\'{\i}mat jako
 orientovan\'y graf, kde uzel grafu reprezentuje kontext
 a orientovaná hrana reprezentuje závislost mezi kontexty.
 Směr závislosti lze pro tento účel zvolit libovolně.
-
-\goal{Detekce závislost\'{\i} na neexistuj\'{\i}c\'{\i}ch kontextech}
 Pro detekci závislosti na neexistuj\'{\i}c\'{\i}ch kontextech je nejprve
 sestaven seznam existuj\'{\i}c\'{\i}ch kontextů a následně jsou navštíveny
 jednotlivé hrany grafu kontextů a je ověřeno, zda existuj\'{\i} oba kontexty
 nálež\'{\i}c\'{\i} dané hraně. Při zvolen\'{\i} vhodn\'ych datov\'ych struktur
 lze dosáhnout lineárn\'{\i} složitosti v závislosti na počtu hran grafu.
-
-\goal{Detekce duplicitních kontextů}
-Unikátnost byznysových pravidel lze zajistit postupným ukládáním jejich identifikátorů
-do vhodné datové struktury a kontrolovat, zda již nejsou ve struktuře obsaženy. Vhodnou
-strukturou je například \code{HashSet}~\cite{hopcroft1983data}.
-
-\goal{Detekce cyklů v grafu závislost\'{\i}}
-Pro tuto detekci cyklů v grafu závislosti pravidel popsanou v sekci~\ref{sec:context-inheritance} byl
+Pro detekci cyklů v grafu závislosti pravidel popsanou v sekci~\ref{sec:context-inheritance} byl
 zvolen Tarjanův algoritmus~\cite{tarjan1971depth}. Ten umožňuje detekci souvisl\'ych
-komponent a disponuje velmi dobrou lineárn\'{\i} složitost\'{\i}, závislou na součtu počtu hran a
-počtu uzlů grafu.
-
-\goal{Reakce na chyby}
-V př\'{\i}padě, že zápis nového či praveného kontextu obsahuje syntaktické
-chyby a nebo způsobuje některou z detekovan\'ych chyb v závislostech,
-administrace nedovol\'{\i} uživateli změnu provést a vyp\'{\i}še informativn\'{\i}
+komponent a má lineárn\'{\i} složitost závislou na součtu počtu hran a
+počtu uzlů grafu. V př\'{\i}padě, že zápis nového či upraveného kontextu obsahuje syntaktické
+nebo sémantické chyby, administrace nedovol\'{\i} uživateli změnu provést a vyp\'{\i}še informativn\'{\i}
 chybovou hlášku.
 
 \section{Závěr}
