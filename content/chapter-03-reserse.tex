@@ -10,7 +10,7 @@ distribuci byznysových pravidel.
 \section{Modelem ř\'{\i}zená architektura}
 
 Modelem řízená architektura (\gls{MDA} z anglického \textit{Model-Driven
-Architecture}) se zaměřuje na návrh \gls{IS} s využitím modelů a jejich
+Architecture}) se zaměřuje na návrh \gls{EIS} s využitím modelů a jejich
 následnou transformaci do spustitelného kódu pomocí generativních nástrojů~\cite{soley2000model}.
 Hlavní výhodou \gls{MDA} je vysoká úroveň abstrakce, která zbavuje vývojáře nutnosti
 manuálně duplikovat informace. Další výhodou je nezávislost na platformě a zvýšení
@@ -61,7 +61,7 @@ lze provádět staticky, ale i za běhu daného programu~\cite{sheard2001accompl
 Program, který manipuluje s kódem, se nazývá \textit{metaprogram}. Programovací
 jazyk, který umožňuje programování, se nazývá \textit{metajazyk} (z anglického
 \textit{metalanguage})~\cite{visser2002meta}. Schopnost programovacího jazyka
-být sám sobě metajazykem se nazývá \textit{reflexe}.
+být sám sobě metajazykem se nazývá \textit{reflexe}~\cite{sobel1996introduction}.
 
 Tento přístup přináší vysokou úroveň abstrakce a zvýšenou efektivitu
 vývojářů, kteří jsou schopni automaticky provádět inspekci, generovat a upravovat
@@ -88,7 +88,7 @@ služeb~\cite{bakshi2017microservices}\cite{cerny2018contextual}.
 
 %\goal{OOP a jeho popis}
 Jedn\'{\i}m z nejpoužívanějších paradigmat používaných k
-v\'yvoji modern\'{\i}ch \gls{IS} je objektově orientované programován\'{\i} (\gls{OOP}).
+v\'yvoji modern\'{\i}ch \gls{EIS} je objektově orientované programován\'{\i} (\gls{OOP}).
 To používá koncept tzv. objektů, které zapouzdřují data a funkcionalitu do
 malých funkčních celků odpov\'{\i}daj\'{\i}c\'{\i} struktuře reálného světa~\cite{rentsch1982object}.
 Objekty se rozum\'{\i} jak konkrétn\'{\i} koncepty, např\'{\i}klad auto nebo člověk, tak i
@@ -98,7 +98,7 @@ poč\'{\i}tače. Tento př\'{\i}stup je velmi snadn\'y pro pochopen\'{\i},
 vede k lepš\'{\i}mu návrhu a organizaci programu a snižuje
 tak náklady na jeho v\'yvoj a údržbu.
 
-Vlastnosti \gls{OOP} jako je zapouzdření, dědičnost a polymorfismus přináší
+Vlastnosti \gls{OOP}, jako je zapouzdření, dědičnost a polymorfismus, přináší
 vysokou znovupoužitelnost kódu, nižší riziko lidské chyby, zjednodušení
 návrhu systému a nižší náklady na vývoj a údržbu software.
 
@@ -126,6 +126,11 @@ problémů a komponent informačního systému.
     \caption{Průřezové problémy v informačních systémech}
     \label{fig:cross-cutting}
 \end{figure}
+
+\begin{definition}
+    Průřezový problém je vlastnost systému, která ovlivňuje více jeho komponent
+    zásahem do jejich funkcionality~\cite{kiczales1997aspect}.
+\end{definition}
 
 %\goal{Konkrétní příklad nedostatku OOP}
 Př\'{\i}kladem průřezového problému může b\'yt logován\'{\i}
@@ -220,7 +225,7 @@ míru danému průřezovému problému.
 
 \subsection{Možnosti aplikace}
 
-Autoři \gls{ADDA} aplikovali tento koncept v několika oblastech \gls{IS}.
+Autoři \gls{ADDA} aplikovali tento koncept v několika oblastech \gls{EIS}.
 Mezi tyto oblasti patří automatické začleňování byznysových pravidel
 do datové vrstvy informačních systémů~\cite{cemus2015automated}, automatické
 generování uživatelských rozhraní citlivých na kontext uživatele~\cite{cemus2017separation},
@@ -228,7 +233,7 @@ validaci vstupů formulářů v uživatelském rozhraní vůči byznysovým prav
 a automatické extrakci dokumentace~\cite{cemus2017automated}.
 
 Jednou z možných aplikací přístupu \gls{ADDA} je automatické začleňování
-byznysových pravidel do datové vrstvy \gls{IS}\footnote{Předpokládáme standardní
+byznysových pravidel do datové vrstvy \gls{EIS}\footnote{Předpokládáme standardní
 třívrstvou architekturu informačních systémů~\cite{fowler2002patterns}}.
 Byznysová pravidla jsou nejprve vhodně popsána pomocí \gls{DSL} a následně jsou
 extrahována do jednoho bodu, ze kterého jsou automaticky distribuována.
@@ -291,7 +296,12 @@ Tato sekce se proto zaměřuje zejména na framework Drools, který používají
 a také na moderní nástroj JetBrains MPS, který umožňuje vytvářet vlastní \gls{DSL} a transformovat
 ho do dalších jazyků.
 
-\subsection{Drools DSL}
+\begin{definition}
+    \gls{DSL} je programovací jazyk určený k popisu specifické vlastnosti či funkce systému v
+    rámci dané domény~\cite{fowler2010domain}.
+\end{definition}
+
+\subsection{Drools DSL}\label{sec:drools}
 
 Framework Drools\footnote{https://www.drools.org/} je open-source projekt realizující
 \textit{business rule management engine} (\gls{BRMS}), tedy nástroj pro vývoj a správu byznysových
@@ -428,11 +438,10 @@ síťovou komunikaci a serializaci či deserializaci argumentů, resp. návratov
 
 \section{Shrnut\'{\i}}
 
-Tato kapitola provádí rešerši modelem řízené architektury,
-generativního programování, metaprogramování, \gls{BPEL}, jej\'{\i}ch v\'yhody a nev\'yhody.
-Kapitola dále shrnuje paradigma \textit{aspektově orientovaného programován\'{\i}} a
-věnuje se inovativnímu přístupu k návrhu softwarov\'ych systémů \textit{ADDA}.
-Kapitola se také věnuje rešerši stávaj\'{\i}c\'{\i}ch řešen\'{\i} reprezentace byznys pravidel
-včetně komplexn\'{\i}ho frameworku \textit{Drools} a hodnotí jejich vhodnost pro použití v této práci.
-Nakonec kapitola studuje existující síťové architektury, které by mohly být využity
-pro distribuci byznysových pravidel v rámci \gls{SOA}.
+V této kapitole byla provedena rešerše architektur, paradigmat a frameworků, které by mohly být vhodné
+pro řešení sdílení byznysových pravidel v \gls{SOA}, a shrnula jejich v\'yhody a nev\'yhody.
+Nejvíce se kapitola věnovala inovativnímu přístupu k návrhu softwarov\'ych systémů \textit{ADDA},
+ze kterého bude vycházet návrh frameworku, který bude výstupem této práce.
+Kapitola také shrnula rešerši stávaj\'{\i}c\'{\i}ch řešen\'{\i} reprezentace byznys pravidel
+a zhodnotila jejich vhodnost pro použití v této práci. Nakonec kapitola studovala existující
+síťové architektury, které by mohly být využity pro distribuci byznysových pravidel v rámci \gls{SOA}.

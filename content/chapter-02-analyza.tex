@@ -5,35 +5,49 @@
 Tato kapitola analyzuje problematiku byznysov\'ych pravidel v informačn\'{\i}ch systémech
 a detailně popisuje architekturu orientovanou na služby, včetně jej\'{\i}ho historického
 v\'yvoje a modern\'{\i}ch trendů. Na základě toho kapitola popisuje nedostatky
-současn\'ych př\'{\i}stupů při řešen\'{\i} průřezov\'ych problémů v těchto architekturách,
-s důrazem na byznysová pravidla. V závěru kapitoly jsou identifikovány požadavky, které by
-měl splňovat framework, jež bude v\'ystupem této diplomové práce.
+současn\'ych př\'{\i}stupů při sdílení byznysových pravidel. V závěru kapitoly jsou
+identifikovány požadavky, které by měl splňovat framework, jež bude v\'ystupem této diplomové práce.
 
 \section{Byznysová pravidla}\label{sec:business-rules}
 
-Informačn\'{\i} systémy (\gls{IS}) maj\'{\i} za úkol ulehčit, automatizovat či poskytovat podporu pro
-byznysové procesy společnost\'{\i}, které je využ\'{\i}vaj\'{\i}. Tyto procesy jsou tedy stěžejn\'{\i}m
-prvkem \gls{IS}. Systém má také za úkol uchovávat a spravovat data společnosti
-a měl by zaručit, že nedojde k jejich poškozen\'{\i} či narušen\'{\i} jejich integrity.
-Byznysové procesy, potažmo byznysové operace, proto musej\'{\i}
-podléhat jasně definovan\'ym byznysov\'ym pravidlům, která zajišťuj\'{\i} konzistenci dat informačn\'{\i}ho
-systému a také zabraňuj\'{\i} nepovolen\'ym operac\'{\i}m~\cite{cemus2015automated}.
+Podnikové informačn\'{\i} systémy (\gls{EIS} z anglického \textit{Enterprise Information System})
+maj\'{\i} za úkol ulehčit, automatizovat či poskytovat podporu pro byznysové procesy organizace,
+která je využívá~\cite{dumas2005process}. K tomuto účelu uchovávají a spravují data a měly by zaručit,
+že nedojde k jejich poškozen\'{\i} či narušen\'{\i} jejich integrity. Byznysové operace proto
+podléhají byznysov\'ym pravidlům, která zajišťuj\'{\i} konzistenci dat informačn\'{\i}ho systému a
+zabraňuj\'{\i} nepovolen\'ym operac\'{\i}m~\cite{cemus2015automated}.
 
-Byznysová pravidla děl\'{\i}me do tř\'{\i} skupin~\cite{cemus2014aspect}:
+\begin{definition}
+    Byznysové pravidlo je výraz, který definuje či omezuje některý z byznysových aspektů.
+    Jeho úkolem je ověřovat byznysovou strukturu nebo ovlivňovat byznysové chování~\cite{morgan2002business}.
+\end{definition}
+
+%Většina stávajících \gls{EIS} využívá tř\'{\i}vrstvou architekturu~\cite{fowler2002patterns}
+%rozděluj\'{\i}c\'{\i} systém na datovou vrstvu, aplikačn\'{\i} vrstvu
+%a prezentačn\'{\i} vrstvu. Každá z vrstev realizuje jinou funkcionalitu a vzájemně komunikují
+%porstřednictvím jasně definovaného rozhraní. Tím se zjednodušuje vývoj a testování systému.
+%Byznysová logika je zachycena v aplikační vrstvě, ale byznysová pravidla je potřeba
+%zohledňovat ve všech vrstvách systému~\cite{cerny2011reduce}\cite{cemus2015automated}.
+
+\gls{EIS} obsahují mnoho byznysových pravidel, typicky stovky či tisíce~\cite{morgan2002business}.
+Samotné pravidlo však bývá relativně krátké a lze shrnout do jedné věty. Díky tomu je pochopitelné
+pro všechny zainteresované strany, které se podílejí na návrhu a vývoji systému.
+Byznysová pravidla jsou dělena do tř\'{\i} skupin~\cite{cemus2014aspect}:
+
 \begin{description}
     \item [Bezkontextová pravidla] jsou validačn\'{\i} pravidla, která musej\'{\i} b\'yt obecně platná
-    v každé operaci, jinak by mohlo doj\'{\i}t k porušen\'{\i} integrity dat systému. Př\'{\i}kladem může
-    b\'yt pravidlo \uv{\textit{Adresa uživatele je platnou e-mailovou adresou}}.
+    v každé byznysové operaci, jinak by mohlo doj\'{\i}t k porušen\'{\i} integrity dat systému.
+    \item Př\'{\i}kladem může b\'yt pravidlo \uv{\textit{Adresa uživatele je platnou e-mailovou adresou}}.
     \item [Kontextová pravidla] jsou pravidla, která musej\'{\i} b\'yt zohledněna v daném kontextu
     byznysové operace, např\'{\i}klad \uv{\textit{Při přidán\'{\i} produktu do koš\'{\i}ku nesm\'{\i} součet položek
     v koš\'{\i}ku přesahovat částku milion korun}}
     \item [Průřezová pravidla] jsou parametrizována stavem systému nebo uživatelského účtu a maj\'{\i}
-    dopad na velkou část byznysov\'ych operac\'{\i}. Uvažme pravidlo \uv{\textit{V systému nesm\'{\i} prob\'{\i}hat
+    dopad na velkou část byznysov\'ych operac\'{\i}, například pravidlo \uv{\textit{V systému nesm\'{\i} prob\'{\i}hat
     žádné změny po dobu účetn\'{\i} uzávěrky}}.
 \end{description}
 
-Dále také rozlišujeme dva typy byznysov\'ych pravidel, a těmi jsou \textit{preconditions}
-a \textit{post-conditions}~\cite{cemus2015automated}.
+Pravidla lze také rozdělit do dvou skupin podle jejich vztahu k byznysové operaci, a těmi jsou
+\textit{preconditions} a \textit{post-conditions}~\cite{cemus2015automated}.
 
 \subsection{Precondition}
 
@@ -41,7 +55,7 @@ Aby mohla b\'yt byznysová operace vykonána, musej\'{\i}
 b\'yt splněny předem definované podm\'{\i}nky, neboli předpoklady,
 které naz\'yváme \textit{preconditions}. Pokud alespoň jedna z podm\'{\i}nek
 nen\'{\i} splněna, byznysová operace nemůže proběhnout~\cite{larman2001patterns}.
-Například při registracu uživatele mus\'{\i} b\'yt splněna podm\'{\i}nka,
+Například při registraci uživatele mus\'{\i} b\'yt splněna podm\'{\i}nka,
 že uživatel vyplnil svoj\'{\i} emailovou adresu, a zároveň
 dosud v systému neexistuje žádn\'y uživatel se stejnou emailovou adresou.
 
@@ -55,40 +69,60 @@ nesmí obsahovat citlivé údaje. Dalš\'{\i}m př\'{\i}padem může b\'yt filtr
 v\'ystupu byznysové operace, např\'{\i}klad při v\'ypisu objednávek pro zákazn\'{\i}ka
 musí všechny vypsané objednávky patřit danému zákazn\'{\i}kovi.
 
-\subsection{Reprezentace byznysového pravidla}
-
-Existuje několik možnost\'{\i}, jak zachytit a reprezentovat byznysová pravidla~\cite{cemus2015automated}.
-Nejběžnějš\'{\i} metodou je jejich zachycen\'{\i} v programovac\'{\i}m
-jazyce, umožňující použití stejného jazyku pro popis pravidel stejně jako pro popis celého systému.
-Bohužel, tato metoda nepřináší možnosti inspekce a extrakce pravidel.
-Pokročilejš\'{\i} metodou je zápis pravidel pomoc\'{\i} meta-instrukc\'{\i} jazyka, např\'{\i}klad anotac\'{\i},
-nebo tzv. \textit{Expression Language} (\gls{EL}). Tato metoda poskytuje dobrou možnost inspekce,
-ale zpravidla nen\'{\i} typově bezpečná. Nejpokročilejš\'{\i} metodou, je zápis pomoc\'{\i} doménově specifick\'ych
-jazyků. Ty jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
-Doménové jazyky nevyžaduj\'{\i} inspekci a mohou b\'yt typově bezpečné. Mezi jejich nev\'yhody ale patř\'{\i} vysoká
-počátečn\'{\i} investice v podobě návrhu jazyka a nutnosti jeho kompilace nebo interpretace.
-
 \subsection{Byznysov\'y kontext}
 
 Informačn\'{\i} systém zpravidla implementuje v\'{\i}ce byznysov\'ych procesů, které se vážou
-na jeden či v\'{\i}ce uživatelsk\'ych scénářů~\cite{larman2001patterns}. Uživatelsk\'y scénář se pak děl\'{\i} na jednotlivé
-kroky, např\'{\i}klad zaslán\'{\i} potvrzovac\'{\i}ho e-mailu k objednávce, či uložen\'{\i} objednávky
+na jeden či v\'{\i}ce uživatelsk\'ych scénářů~\cite{larman2001patterns}. Uživatelsk\'y scénář se
+pak děl\'{\i} na jednotlivé kroky, např\'{\i}klad zaslán\'{\i} potvrzovac\'{\i}ho e-mailu k objednávce, či uložen\'{\i} objednávky
 do databáze. Tyto kroky naz\'yváme \textit{byznysové operace} \textendash\xspace tedy operace, které maj\'{\i}
-byznysovou hodnotu. Ke každé byznysové operaci př\'{\i}sluš\'{\i} množina byznysov\'ych pravidel,
-konkrétně preconditions a post-conditions.
+byznysovou hodnotu.
 
-Při běhu informačn\'{\i}ho systému je v paměti držen tzv. \textit{exekučn\'{\i} kontext} (z anglického \textit{execution context}),
-kter\'y se skládá z několika d\'{\i}lč\'{\i}ch kontextů~\cite{cemus2017separation}. Prvn\'{\i}m
-je \textit{aplikačn\'{\i} kontext} (z anglického \textit{application context}), ve kterém je uložen stav globáln\'{\i}ch proměnn\'ych systému,
-jako například nastaven\'{\i} produkčn\'{\i}ho režimu, nebo př\'{\i}znak o tom, zda právě prob\'{\i}há obchodn\'{\i}
-uzávěrka. Dalš\'{\i}m je \textit{uživatelsk\'y kontext}, kter\'y obsahuje informace o aktuálně
-přihlášeném uživateli. \textit{Kontext požadavku} (z anglického \textit{Request context}) obsahuje
-informace o aktuáln\'{\i}m požadavku, jako IP adresa uživatele či jeho geolokace,
-a vztahuje se zejména k webov\'ym službám. Posledn\'{\i}m je \textit{byznysov\'y kontext}. Ten
-chápeme jako množinu preconditions a post-conditions s byznysovou hodnotou, která se
-váže na konkrétn\'{\i} byzynsovou operaci~\cite{cemus2015automated}.
-Abychom mohli efektivně definovat co nejširš\'{\i} škálu byzynsov\'ych pravidel,
-musej\'{\i} při jejich vyhodnocován\'{\i} b\'yt dostupné proměnné exekučn\'{\i}ho kontextu,
+Jak již bylo uvedeno, vykonávání byznysové operace je podmíněno byznysovými pravidly, která se k ní vztahují. Před spuštěním operace musejí
+být splněny všechny preconditions, jinak není možné operaci vykonat. Po jejím dokončení musejí být splněny všechny post-conditions.
+Aby \gls{EIS} mohl tyto podmínky ověřit dynamicky za běhu systému, využívá tzv. \textit{exekuční kontext} (z anglického
+\textit{execution context}), který se skládá z několika dílčích kontextů~\cite{cemus2017separation}:
+
+\begin{description}
+    \item[Aplikační kontext] drží stav globáln\'{\i}ch proměnn\'ych systému, jako například nastaven\'{\i}
+    produkčn\'{\i}ho režimu, nebo př\'{\i}znak o tom, zda právě prob\'{\i}há obchodn\'{\i} uzávěrka.
+    \item[Uživatelský kontext] obsahuje informace o aktuálně přihlášeném uživateli.
+    \item[Kontext požadavku] (z anglického \textit{Request context}) se váže zejména na webové služby a obsahuje
+    informace o aktuáln\'{\i}m požadavku, jako IP adresa uživatele či jeho geolokace.
+    \item[Byznysov\'y kontext] obsahuje informace o probíhající byznysové operaci včetně byznysových pravidel.
+\end{description}
+
+Byznysový kontext je tedy důležitým prvkem při výkonu byznysové operace, který umožňuje vyhodnocování byzynsových pravidel.
+Všechny proměnné, které jsou dostupné v exekučním kontextu, jsou dostupné při vyhodnocování pravidel. Díky tomu je možné
+definovat široké spektrum podmínek, které se mohou přizpůsobit aktuálnímu stavu systému.
+
+\begin{definition}
+    Byznysový kontext je množina preconditions a post-conditions s byznysovou hodnotou, která se váže na
+    konkrétn\'{\i} byzynsovou operaci~\cite{cemus2015automated}
+\end{definition}
+
+\subsection{Reprezentace byznysového pravidla}
+
+Existuje několik možnost\'{\i}, jak v rámci \gls{EIS} zachytit a reprezentovat byznysová
+pravidla~\cite{cemus2015automated}. Těmi jsou:
+
+\benum[label=\circledAlph]
+    \item\label{itm:gpl} Zápis v obecném programovacím jazyce
+    \item\label{itm:meta} Zápis pomocí meta-instrukcí
+    \item\label{itm:dsl} Zápis pomocí doménově specifických jazyků
+\eenum
+
+\ref{itm:gpl} je nejběžnějš\'{\i} metodou, umožňující použití stejného jazyka pro popis byznysových pravidel jako
+pro popis ostatních částí systému. Bohužel, tato metoda nepřináší možnosti inspekce a extrakce pravidel pro jejich další využití.
+\ref{itm:meta} je pokročilejš\'{\i} metodou, která může využívat např\'{\i}klad anotac\'{\i}, nebo tzv. \textit{Expression Language}
+(\gls{EL})~\cite{nemuraite2008representation}. Tato metoda poskytuje dobrou možnost inspekce, ale zpravidla nen\'{\i} typově bezpečná.
+Navíc je potřeba meta-instrukce vázat na existující prvky systému, což může být pro některé případy použití omezující~\cite{cemus2015automated}.
+
+\ref{itm:dsl} je nejpokročilejš\'{\i} metodou. \gls{DSL} jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
+Navíc mohou b\'yt typově bezpečné. Mezi jejich nev\'yhody ale patř\'{\i} vysoká počátečn\'{\i} investice v podobě návrhu jazyka, nutnosti
+jeho kompilace nebo interpretace a také proškolení vývojářů, kteří s ním budou pracovat. Kvůli tomu může být vhodné využít
+existující řešení~\cite{cemus2015automated}. Tím může být například Object Constraint Language (\gls{OCL})~\cite{warmer1998object},
+který je často využívaný ve výzkumu, nebo některé průmyslové řešení, jako je framework Drools\footnote{https://www.drools.org/},
+který je popsaný v sekci~\ref{sec:drools}.
 
 \section{Architektura orientovaná na služby}\label{sec:soa}
 
@@ -102,6 +136,11 @@ Absence kvalitn\'{\i}ch definic služby a obecně \gls{SOA} vedla k v posledn\'{
 o opuštěn\'{\i} tohoto konceptu~\cite{cerny2017disambiguation}.
 Pro lepší porozumění se tato kapitola věnuje stručnému historickému přehledu \gls{SOA}
 a shrnuje výhody a nevýhody jednotlivých přístupů.
+
+\begin{definition}
+    Služba je znovupoužitelný, soudržný, spravovatelný, nasaditelný a nezávislý proces komunikující
+    pomocí zpráv~\cite{papazoglou2003service}\cite{dragoni2017microservices}.
+\end{definition}
 
 \subsection{Common Object Request Broker Architecture}\label{sec:corba}
 
@@ -129,12 +168,12 @@ umožňuje kompletn\'{\i} definici rozhran\'{\i} pro komunikaci mezi službami.
 
 \subsection{Message Queue}
 
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=0.5\linewidth]{figures/message-queue.pdf}
-    \caption{Komunikace služeb pomoc\'{\i} Message Queue}
-    \label{fig:message-queue}
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \includegraphics[keepaspectratio=true, width=0.5\linewidth]{figures/message-queue.pdf}
+%    \caption{Komunikace služeb pomoc\'{\i} Message Queue}
+%    \label{fig:message-queue}
+%\end{figure}
 
 Dalš\'{\i}m z konceptů, kter\'y v rámci \gls{SOA} vznikl, je tzv. \textit{Message Queue} (\gls{MQ}).
 Základn\'{\i} myšlenkou \gls{MQ}, znázorněnou na obrázku~\ref{fig:message-queue},
@@ -155,7 +194,7 @@ veškerou komunikaci v systému.
 
 \begin{figure}
     \centering
-    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/enterprise-service-bus.pdf}
+    \includegraphics[keepaspectratio=true, width=0.6\linewidth]{figures/enterprise-service-bus.pdf}
     \caption{Komunikace služeb skrz Enterprise Service Bus}
     \label{fig:enterprise-service-bus}
 \end{figure}
@@ -164,7 +203,7 @@ veškerou komunikaci v systému.
 
 %\goal{Microservices a budoucnost SOA}
 Microservices je moderní architekturou, která podobně jako \gls{SOA} přináší řešení
-problémů pramenících z vysoké komplexity současných \gls{IS}.
+problémů pramenících z vysoké komplexity současných \gls{EIS}.
 Tato architektura se dá chápat jako podmnožina \gls{SOA}, ačkoliv existují i názory,
 že jde o odlišné architektury~\cite{richards2015microservices}\cite{cerny2017disambiguation}.
 Vzhledem k její vzrůstající adopci v posledních letech je nutno ji v rámci této práce zohlednit~\cite{xiao2016reflections}.
@@ -172,11 +211,7 @@ Základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho systému jako množiny m
 které jsou spouštěny v samostatn\'ych procesech a komunikuj\'{\i} spolu pomoc\'{\i} jednoduch\'ych
 protokolů nezávislých na platformě~\cite{lewis2014microservices}. Microservices preferuje decentralizaci a samostatnost služeb
 a zaměřuje se na jejich organizaci kolem byznysov\'ych schopnost\'{\i} systému, nam\'{\i}sto horizontáln\'{\i}ho
-dělen\'{\i} systému podle jeho vrstev\footnote{Zde předpokládáme klasickou tř\'{\i}vrstvou architekturu~\cite{fowler2002patterns},
-rozděluj\'{\i}c\'{\i} systém na \textit{datovou vrstvu}, \textit{aplikačn\'{\i} vrstvu}
-a \textit{prezentačn\'{\i} vrstvu}. Tyto vrstvy maj\'{\i} oddělené zodpovědnosti a komunikuj\'{\i}
-spolu pomoc\'{\i} jasně definovan\'ych společn\'ych rozhran\'{\i}.}.
-Hlavní výhodou tohoto přístupu je flexibilní nasazování a škálování, které je vhodné
+dělen\'{\i} systému podle jeho vrstev. Hlavní výhodou tohoto přístupu je flexibilní nasazování a škálování, které je vhodné
 pro stále populárnější nasazení v cloudu~\cite{kratzke2017understanding}\cite{cerny2018contextual}\cite{xiao2016reflections}.
 
 \subsection{Orchestrace a choreografie služeb}
@@ -214,6 +249,13 @@ Historické přístupy využívají komplexní komunikační technologie a umož
 správu systému, zatímco moderní přístupy od těchto vlastností upouštění. To přináší výzvu
 při sdílení byznysových pravidel, která je rozebrána v následující sekci.
 
+\begin{definition}
+    \gls{SOA} je soubor návrhových principů, který organizuje komponenty software
+    kolem byznysové funkcionality a spojuje je pomocí rozhraní a komunikačních protokolů.
+    Každá komponenta je soběstačná a izolovaná, okolnímu světu poskytuje pouze
+    své rozhraní~\cite{papazoglou2003service}\cite{lewis2014microservices}.
+\end{definition}
+
 \section{Nedostatky současného př\'{\i}stupu}\label{sec:shortcomings}
 
 Některá složitější byznysová funkcionalita vyžaduje kompozici více služeb
@@ -224,6 +266,11 @@ jejichž preconditions nejsou splněny~\cite{cerny2017disambiguation}.
 To je však s přímým rozporem s požadavkem na nízkou provázanost služeb, které
 by neměly vzájemně znát svoji interní strukturu. Tato skutečnost
 vede k nutnosti duplikace byznysových pravidel v kompozitních službách~\cite{cerny2016survey}.
+
+\begin{definition}
+    Kompozitní služba získává a kombinuje informace a funkce existujících poskytovatelné
+    služeb~\cite{papazoglou2003service}.
+\end{definition}
 
 %\goal{Nast\'{\i}něn\'{\i} konkrétn\'{\i}ho př\'{\i}kladu}
 Pro lepší představu tohoto problému uvažme e-commerce systém
