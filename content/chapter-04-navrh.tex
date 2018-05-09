@@ -213,7 +213,7 @@ Přehled všech výrazů, které bude framework podporovat, je v tabulce~\ref{tb
 \clearpage% Flush page
 }
 
-\goal{Typované výrazy}
+%\goal{Typované výrazy}
 Pro snažší implementaci na více platformách a prevenci sémantických chyb v pravidlech budou výrazy
 obsahovat i explicitní definici svého návratového typu. Výraz byznysového pravidla může nabývat logických hodnot,
 může vracet číslo, textový řetězec a také objekt. Je potřeba počítat také s tím, že výraz nevrací žádnou
@@ -227,7 +227,7 @@ hodnotu.
     \item \code{VOID} je pseudotyp značící, že výraz nemá návratovou hodnotu.
 \end{itemize}
 
-\goal{Atributy pravidel}
+%\goal{Atributy pravidel}
 Kromě argumentů neterminálů je v některých případech potřeba k výrazu uložit i dodatečné informace \textendash\xspace
 \textit{atributy}. Jedním z atributů je typ návratové hotnoty výrazu, pokud není přímo implikována.
 V případě výrazu \code{Constant} je potřeba uložit hodnotu a typ konstanty. Reference na proměnnou
@@ -241,7 +241,7 @@ Volání funkce musí obsahovat její název a návratový typ.
     \label{fig:simple-rule}
 \end{figure}
 
-\goal{Příklad AST pravidla}
+%\goal{Příklad AST pravidla}
 Na obrázku~\ref{fig:simple-rule} je znázorněn syntaktický strom, který zachycuje jednoduché
 validační pravidlo validující fakturační adresu. Jedná se o ekvivalent validačních pravidel
 zachycených ve zdrojovém kódu~\ref{lst:jsr303} pomocí anotací standardu \gls{JSR} 303.
