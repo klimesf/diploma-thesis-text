@@ -8,7 +8,7 @@
 		\setentrycounter[]{page}\glsnumberformat{33}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{62}}}%
 \glossentry{AOP}{\glossaryentrynumbers{\relax 
-		\setentrycounter[]{page}\glsnumberformat{xiv}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{xii}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{14\delimR 16}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{21}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{33}\delimN 
@@ -38,8 +38,8 @@
 \glossentry{DOM}{\glossaryentrynumbers{\relax 
 		\setentrycounter[]{page}\glsnumberformat{40}}}%
 \glossentry{DSL}{\glossaryentrynumbers{\relax 
-		\setentrycounter[]{page}\glsnumberformat{xii}\delimN 
-		\setentrycounter[]{page}\glsnumberformat{xv}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{xi}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{xiii}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{5}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{10}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{12}\delimN 
@@ -123,7 +123,7 @@
 		\setentrycounter[]{page}\glsnumberformat{37}}}\glsgroupskip
 \glsgroupheading{S}\relax \glsresetentrylist %
 \glossentry{SOA}{\glossaryentrynumbers{\relax 
-		\setentrycounter[]{page}\glsnumberformat{xiv}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{xii}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{6\delimR 10}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{12}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{19\delimR 21}\delimN 
@@ -153,7 +153,7 @@
 		\setentrycounter[]{page}\glsnumberformat{6}}}\glsgroupskip
 \glsgroupheading{X}\relax \glsresetentrylist %
 \glossentry{XML}{\glossaryentrynumbers{\relax 
-		\setentrycounter[]{page}\glsnumberformat{xix}\delimN 
+		\setentrycounter[]{page}\glsnumberformat{xvii}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{12}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{36}\delimN 
 		\setentrycounter[]{page}\glsnumberformat{38}\delimN 
