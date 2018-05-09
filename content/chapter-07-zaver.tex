@@ -5,76 +5,110 @@
 
 \chapter{Závěr}\label{ch:zaver}
 
-\section{Přínos použití frameworku}
+Architektura orientovaná na služby usnadňuje vývoj komplexních informačních
+systému díky jejich členění do menších, samostatných celků. Díky tomu lze
+snáze oddělit zodpovědnost a zvýšit znovupoužitelnost komponent systému.
+Existuje však funkcionalita, která zasahuje do více služeb najednou a je
+potřeba ji všude vykonávat konzistentně. Zástupcem této funkcionality jsou
+byznysová pravidla, která zajišťují validní vykonávání byznysových procesů
+a konzistenci dat uložených v systému. Při využití stávajících přístupů je
+potřeba tato pravidla ve službách manuálně duplikovat, což zvyšuje náklady
+spojené s vývojem a údržbou takových systémů.
 
+Tato práce se věnuje problematice byznysových pravidel v architektuře orientované
+na služby a navrhuje způsob, jakým lze usnadnit práci vývojářů a administrátorů
+pomocí centrální správy pravidel a jejich automatické distribuce a integrace.
+K tomu využívá aspektově orientovaného programování a na něm založeného
+přístupu \gls{ADDA}.
 
+\section{Přínos a možnosti použití frameworku}
+
+Framework navržený v této práci přináší způsob, kterým mohou vývojáři systémů
+stavějících na \gls{SOA} výrazně ušetřit náklady spojené s manuální duplikací
+byznysových pravidel v jednotlivých službách. Framework je nezávislý na
+platformě a díky tomu může být využíván i v heterogenních systémech, jejichž
+služby využívají rozdílné technologie. Ačkoliv se tato práce odkazuje zejména
+na třívrstvou architekturu, framework neklade nároky na architekturu jednotlivých
+služeb.
+
+Pro využití frameworku musejí vývojáři zachytit byznysová pravidla ve speciálním
+\gls{DSL} a navrhnout mapování a hirearchii byznysových kontextů a byznysových operací.
+Díky tomu ale zvyšují znovupoužitelnost pravidel, ulehčují jejich centrální administraci
+a realizaci změnových požadavků. Tato počáteční investice se tedy vyplatí od určité velikosti systému,
+kdy náklady na manuální duplikaci pravidel přesáhnou cenu za návrh a využití \gls{DSL}.
 
 \section{Budouc\'{\i} rozšiřitelnost frameworku}
 
-\subsection{Kvalitní doménově specifický jazyk}
-Zadáním této práce nebylo zkonstruovat vlastní \gls{DSL}
-k účelům automatické distribuce a centrální správy byznys pravidel,
-nicméně v sekci~\ref{sec:implementation-requirements} jsme potřebu takového
-jazyka jasně identifikovali a následně v kapitole~\ref{ch:reserse}
-jsme došli k závěru, že momentálně neexistuje vhodné \gls{DSL},
-které by splňovalo všechny naše požadavky a mohli bychom ho
-využít pro naše účely. V rámci implementace prototypu knihoven
-jsme navrhli a implementovali vlastní \gls{DSL} v jazyce \gls{XML},
-jak jsme popsali v sekci~\ref{sec:dsl-impl}. Tento jazyk je však
-velmi omezený a snaží se vyhovět co nejnižším nárokům na implementaci.
-Sestavení kvalitního jazyka pro naše účely je tématem nejméně pro
-bakalářskou práci. Nicméně, námi navržený framework je schopen toto
-rozšíření pojmout, stačí doimplementovat plug-in, který se bude starat
-o převod z daného \gls{DSL} do paměťové reprezentace byznysového kontextu.
+Navržený framework podporuje budoucí rozšíření o další moduly a funkce, které
+dále zvýší jeho schopnost znovupoužití byzynsových pravidel v \gls{SOA}.
 
-Kvalitní jazyk by měl kromě výše zmíněných požadavků pro zachycení
-pravidla poskytovat co nejpřehlednější zápis, aby ho mohl snadno číst a zapisovat
-nejen vývojář, ale i doménový expert či administrátor systému. Tím by se
-ještě zvýšil přínos centrální administrace byznysových pravidel, kterou jsme v rámci
-této práce implementovali a popsali v sekci~\ref{sec:central-administration}.
-Můžeme také diskutovat, že by jazyk pro popis byznysových kontextů sloužil pouze
-jako platforma a samotná pravidla by byla popsána v \gls{DSL} vytvořeném na míru
-byznysové doméně, pro kterou by byl implementován systém využívající našeho frameworku.
+\subsection{Univerzální doménově specifický jazyk}
+Zadáním této práce nebylo zkonstruovat vlastní \gls{DSL}
+k účelům automatické integrace a centrální správy byznys pravidel,
+nicméně v sekci~\ref{sec:implementation-requirements} byla potřeba takového
+jazyka identifikována. Kapitola~\ref{ch:reserse}
+došla k závěru, že momentálně neexistuje vhodné \gls{DSL},
+které by splňovalo všechny požadavky kladené na navržený framework.
+V rámci implementace prototypu knihoven
+bylo navrženo a implementováno \gls{DSL} v jazyce \gls{XML},
+popsané v sekci~\ref{sec:dsl-impl}. Tento jazyk je však
+omezený a slouží pouze jako nástroj pro demonstraci navrženého řešení.
+Sestavení komplexního jazyka pro popis byznysových kontextů je proto vhodným
+rozšířením frameworku. Ten je k tomu navíc plně připraven.
 
 \subsection{Integrace frameworku s uživatelským rozhraním}
 
-V sekci~\ref{sec:architecture} jsme nastínili způsob, jakým lze využívat náš framework.
-Jedním ze způsobů je integrace do uživatelského rozhraní. Autoři přístupu \gls{ADDA} již
-vyvinuli způsob, kterým lze integrovat vyhodnocování
-byznysových pravidel v uživatelském rozhraní~\cite{cemus2017separation}. Propojení s
-naším frameworkem by znamenalo pouze implementovat adaptér, který by převáděl námi
-použitou reprezentaci byznysového pravidla do podoby, kterou je schopen využívat
-aspect weaver v \gls{UI}. Tím by se rozšířila působnost našeho frameworku a zároveň
-by se zvýšil uživatelský komfort \gls{EIS}, který framework využívá, díky real-time
-validaci vstupních hodnot formulářů.
+V sekci~\ref{sec:architecture} je popsána architektura frameworku, která umožňuje využití
+ve všech třech standardních vrstvách \gls{EIS}. Autoři přístupu \gls{ADDA} již
+vyvinuli způsob, kterým lze integrovat vyhodnocování byznysových pravidel do uživatelského
+rozhraní. Propojení s navrženým frameworkem by znamenalo implementovat adaptér, který by převáděl
+reprezentaci byznysového pravidla do podoby, kterou je schopen využívat aspect weaver v \gls{UI}.
+Díky tomu by bylo umožněno další snížení nákladů na vývoj a údržbu systému využívající framework.
+Zároveň by došlo ke zvýšení uživatelského komfortu díky real-time validaci vstupních hodnot formulářů.
 
 \subsection{Integrace frameworku s datovou vrstvou}
 
-Jak jsme také zmínili v sekci~\ref{sec:architecture}, integrace do datové vrstvy
-je také jednou z možností. Podobně jako v případě \gls{UI}, autoři přístupu
-\gls{ADDA} navrhují způsob, kterým lze automaticky distribuovat post-conditions
-do datové vrstvy transformováním jejich podmínek do výrazů v \gls{SQL}
-jazyce~\ref{cemus2015automated}. Aplikováním příslušného aspect weaveru by byl
-zvýšen dosah frameworku a byla by pokryta další oblast, ve které může docházet
-k manuální duplikaci byznysových pravidel.
-
-\section{Možnost\'{\i} uplatněn\'{\i} navrženého frameworku}
+Integrace do datové vrstvy \gls{EIS} je další z možností budoucí rozšiřitelnosti navrženého frameworku.
+Podobně jako v případě \gls{UI}, autoři přístupu \gls{ADDA} navrhují způsob, kterým lze automaticky distribuovat
+post-conditions do datové vrstvy transformováním jejich podmínek do výrazů v jazyce \gls{SQL}.
+Implementací a napojením příslušného aspect weaveru na navržený framework by byla pokryta další oblast,
+ve které může docházet k manuální duplikaci byznysových pravidel.
 
 \section{Dalš\'{\i} možnosti uplatněn\'{\i} \gls{AOP} v \gls{SOA}}
 
-\todo{
-\begin{itemize}
-    \item{Extrakce dokumentace}
-    \item{Extrakce byznysového modelu}
-    \item{Konfigurace prostřed\'{\i}}
-\end{itemize}
-}
+Byznysová pravidla nejsou jediným průřezovým problémem, se kterým se systémy stavějící na \gls{SOA} musejí
+vypořádat. Autoři přístupu \gls{ADDA} identifikují strukturu doménového modelu jako průřezový problém
+zasahující do všech standardních vrstev \gls{EIS}, zejména pak do \gls{UI}. V \gls{SOA} může být
+struktura doménového modelu navíc sdílena mezi jednotlivými službami, což se promítá zejména do rozhraní,
+pomocí kterých spolu komunikují. Pomocí \gls{AOP} by bylo možné automaticky integrovat tuto strukturu do kódu, který
+komunikaci obsluhuje.
+
+Dalším průřezovým problémem, kterému se autoři \gls{ADDA} ve svém výzkumu věnují, je extrakce dokumentace.
+V rámci \gls{SOA} by se pak \gls{AOP} dalo využít k extrakci informací o doménovém modelu, implementovaných use-cases
+a byznysových pravidlech a následnému automatickému generování dokumentace.
+
+Posledním průřezovým problémem v \gls{SOA} je společná konfigurace parametrů služeb, zejména pak v
+decentralizovaném systému využívajícím architekturu Microservices.
+Příkladem takového parametru může být v ukázkovém e-commerce systému výše DPH, která se využívá v objednávkové i
+fakturační službě. Pomocí centrální, automaticky distribuované konfigurace by se dalo zamezit nekonzistencím
+a zabránit tak poškozením dat v systému, či jiným závažným problémům.
 
 \section{Shrnut\'{\i}}
 
-\todo{
-\begin{itemize}
-    \item{Dosáhli jsme c\'{\i}lů práce}
-    \item{Stručné shrnut\'{\i} co všechno a jak jsme udělali}
-\end{itemize}
-}
+%\goal{Naplnění požadavků ze zadání}
+V rámci této práce byly dosaženy cíle stanovené v úvodu práce a byly splněny všechny
+požadavky zadání. Nejprve byla provedena analýza využití, vyjádření a znovupoužití
+byzynsových pravidel v \gls{SOA} a byly identifikovány potenciální problémy a požadavky
+na framework navržený v této práci. Dále byla provedena rešerše vhodných architektur,
+paradigmat a nástrojů, které by mohly být použity pro řešení těchto problémů, včetně stávajících
+frameworků pro reprezentaci byznysových pravidel a jejich výhod a nevýhod. Na základě analýzy a
+rešerše byl navržen framework pro správu a automatickou integraci byznysových pravidel
+v architektuře orientované na služby. Tento framework využívá koncepty aspektově orientovaného programování
+a na něm založeného přístupu \gls{ADDA}. Funkčnost navrženého řešení byla demonstrována implementací a
+otestováním prototypů knihoven pro platformy jazyků Java a Python a platformu Node.js. Tyto knihovny byly
+použity pro vývoj jednoduché ukázkové e-commerce aplikace, která je tvořena šesti službami naprogramovanými
+ve třech různých jazycích. Na této aplikaci byla ukázána schopnost frameworku centrálně administrovat byznysová
+pravidla, sdílet a automaticky je integrovat do služeb aplikace. Zároveň byl změřen a analyzován
+dopad použití frameworku na počet duplikací byznysových pravidel a byl diskutován jeho vliv na
+údržbu systému. V závěru práce byly navíc analyzovány další oblasti \gls{SOA}, kde by bylo možné aplikovat
+aspektově orientované programování.
