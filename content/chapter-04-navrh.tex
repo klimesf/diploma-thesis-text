@@ -235,6 +235,13 @@ například filtrování e-mailových adres v kolekci více uživatelů. Itentif
 
 \section{Metamodel byznysového kontextu}\label{sec:metamodel}
 
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=\linewidth]{figures/business-context-metamodel.pdf}
+    \caption{Diagram tř\'{\i}d metamodelu byznysového kontextu}
+    \label{fig:business-context-metamodel}
+\end{figure}
+
 Z předchozího textu vyplývá podoba metamodelu byznysových pravidel, resp. byznysových kontextů.
 Kromě samotných logických výrazů musí pravidlo nést informace o tom, zda
 se jedná o precondition nebo post-condition, a také jeho identifikátor.
@@ -242,13 +249,6 @@ Post-condition navíc potřebuje uložit informaci o jejím typu a názvu. Pravi
 do byznysových kontextů, z nichž každý má svůj unikátní identifikátor skládající se z prefixu
 a samotného jména a seznam rozšířených kontextů. Diagram tříd navrženého kontextu je znázorněn
 na obrázku~\ref{fig:business-context-metamodel}.
-
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=\linewidth]{figures/business-context-metamodel.pdf}
-    \caption{Diagram tř\'{\i}d metamodelu byznysového kontextu}
-    \label{fig:business-context-metamodel}
-\end{figure}
 
 \section{Popis byznysových kontextů pomocí \gls{DSL}}
 
@@ -259,13 +259,6 @@ Jak bylo popsáno v sekci~\ref{sec:business-rule-dsl}, vlastnosti nástrojů Dro
 nejsou optimální pro dosažení vytyčených cílů. Pro účely frameworku je tedy nutné specifikovat vlastnosti,
 které by \gls{DSL} mělo nést. Konkrétní podoba DSL bude přenechána na implementaci frameworku.
 
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression-visitor.pdf}
-    \caption{Diagram tříd popisující využití vzoru Visitor pro zápis logických výrazů v \gls{DSL}}
-    \label{fig:expression-visitor}
-\end{figure}
-
 Pro uložení kontextu z metamodelu do \gls{DSL}, aby ho mohl vývojář či administrátor
 systému upravovat, je vzhledem k reprezentaci logických výrazů vhodný návrhový vzor
 \textit{Visitor}~\cite{fowler2002patterns}. Ten umožní převádět libovolně složité logické
@@ -273,6 +266,13 @@ výrazy pomocí metody \textit{double-dispatch}. Jeho volbou je zároveň zajiš
 frameworku pro libovolné \gls{DSL} \textendash\xspace bude stačit implementovat konkrétní
 visitor pro zvolený jazyk, aniž by bylo nutno zasahovat přímo do implementace frameworku.
 Princip použití vzoru Visitor je znázorněn na obrázku~\ref{fig:expression-visitor}.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression-visitor.pdf}
+    \caption{Diagram tříd popisující využití vzoru Visitor pro zápis logických výrazů v \gls{DSL}}
+    \label{fig:expression-visitor}
+\end{figure}
 
 \section{Organizace byznysových kontextů}
 
@@ -339,6 +339,13 @@ komunikace týkající se distribuce byznysových pravidel.
 
 \subsection{Proces úpravy kontextu}
 
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=\linewidth]{figures/business-context-management.pdf}
+    \caption{Diagram procesu centráln\'{\i} správy byznysov\'ych kontextů}
+    \label{fig:business-context-management}
+\end{figure}
+
 Proces úpravy byznysového kontextu pomocí nástroje pro centrální administraci nejprve načte všechny
 byznysové kontexty všech služeb v systému. Následně zobrazí administrátorovi formulář pro úpravu pravidla.
 Pravidlo je pro účely formuláře převedeno z metamodelu do \gls{DSL}. Po odeslání formuláře bude pravidlo
@@ -359,6 +366,13 @@ aplikační a datové vrstvy. Každá z těchto vrstev může framework využív
 \textendash\xspace prezentační vrstva při validování vstupních polí formuláře, aplikační vrstva při
 aplikaci byzynsových pravidel v byznysových operacích a datová vrstva při aplikaci post-conditions pro
 filtrování dat při jejich získávání z databáze.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=\linewidth]{figures/business-context-registry.pdf}
+    \caption{Diagram tříd zachycující architekturu navrženého frameworku}
+    \label{fig:business-context-registry}
+\end{figure}
 
 Základem frameworku je komponenta \code{BusinessContextRegistry}, tedy registr
 byznysových kontextů, který je zodpovědný za inicializaci a uchovávání byznysových kontextů.
