@@ -6,10 +6,10 @@
 \chapter{Závěr}\label{ch:zaver}
 
 Architektura orientovaná na služby přináší snažší způsob vývoje komplexních
-informačních systému díky jejich členění do menších celků. Díky tomu lze
-snáze oddělit zodpovědnost a zvýšit znovupoužitelnost komponent systému.
-Existuje však funkcionalita, která zasahuje do více služeb najednou a je
-potřeba ji všude vykonávat konzistentně. Zástupcem této funkcionality jsou
+informačních systému pomocí členění jejich funkcionality do dílčích služeb. Díky
+tomu lze snáze oddělit zodpovědnost a zvýšit znovupoužitelnost jednotlivých
+komponent systému. Existuje však funkcionalita, která zasahuje do více služeb
+najednou a je potřeba ji všude vykonávat konzistentně. Zástupcem této funkcionality jsou
 byznysová pravidla, která zajišťují validní vykonávání byznysových procesů
 a konzistenci dat uložených v systému. Při využití stávajících přístupů je
 potřeba tato pravidla ve službách manuálně duplikovat, což zvyšuje náklady
@@ -25,10 +25,10 @@ přístupu \gls{ADDA}.
 
 Framework navržený v této práci přináší způsob, kterým mohou vývojáři systémů
 stavějících na \gls{SOA} výrazně ušetřit náklady spojené s manuální duplikací
-byznysových pravidel v jednotlivých službách. Framework je nezávislý na
-platformě a díky tomu může být využíván i v heterogenních systémech, jejichž
-služby využívají rozdílné technologie. Ačkoliv se tato práce odkazuje zejména
-na třívrstvou architekturu, framework neklade nároky na architekturu jednotlivých
+byznysových pravidel v jednotlivých službách. Tento framework je nezávislý na
+platformě a díky tomu může být využíván i v technologicky heterogenních systémech,
+jejichž služby využívají více programovacích jazyků. Ačkoliv se text této práce odkazuje
+zejména na třívrstvou architekturu, framework neklade nároky na architekturu jednotlivých
 služeb.
 
 Pro využití frameworku musejí vývojáři zachytit byznysová pravidla ve speciálním
@@ -41,7 +41,7 @@ kdy náklady na manuální duplikaci pravidel přesáhnou cenu za návrh a využ
 
 Navržený framework podporuje budoucí rozšíření o další moduly a funkce, které
 dále zvýší jeho schopnost znovupoužití byzynsových pravidel v \gls{SOA}.
-Díky svobodné licenci \gls{MIT} může framework rožšířit a volně používat kdokoliv.
+Díky svobodné licenci \gls{MIT} může framework kdokoliv volně používat a modifikovat.
 
 \subsection{Univerzální doménově specifický jazyk}
 Zadáním této práce nebylo zkonstruovat vlastní \gls{DSL}
@@ -65,7 +65,8 @@ vyvinuli způsob, kterým lze integrovat vyhodnocování byznysových pravidel d
 rozhraní. Propojení s navrženým frameworkem by znamenalo implementovat adaptér, který by převáděl
 reprezentaci byznysového pravidla do podoby, kterou je schopen využívat aspect weaver v \gls{UI}.
 Díky tomu by bylo umožněno další snížení nákladů na vývoj a údržbu systému využívající framework.
-Zároveň by došlo ke zvýšení uživatelského komfortu díky real-time validaci vstupních hodnot formulářů.
+Zároveň by došlo ke zvýšení uživatelského komfortu díky dynamické validaci vstupních hodnot formulářů
+na straně klienta.
 
 \subsection{Integrace frameworku s datovou vrstvou}
 
@@ -78,28 +79,28 @@ ve které může docházet k manuální duplikaci byznysových pravidel.
 \section{Dalš\'{\i} možnosti uplatněn\'{\i} \gls{AOP} v \gls{SOA}}
 
 Byznysová pravidla nejsou jediným průřezovým problémem, se kterým se systémy stavějící na \gls{SOA} musejí
-vypořádat. Autoři přístupu \gls{ADDA} identifikují strukturu doménového modelu jako průřezový problém
-zasahující do všech standardních vrstev \gls{EIS}, zejména pak do \gls{UI}. V \gls{SOA} může být
-struktura doménového modelu navíc sdílena mezi jednotlivými službami, což se promítá zejména do rozhraní,
-pomocí kterých spolu komunikují. Pomocí \gls{AOP} by bylo možné automaticky integrovat tuto strukturu do kódu, který
-komunikaci obsluhuje.
+vypořádat. Jak bylo popsáno v sekci~\ref{sec:adda}, autoři přístupu \gls{ADDA} identifikují strukturu
+doménového modelu jako průřezový problém zasahující do všech standardních vrstev \gls{EIS},
+zejména pak do \gls{UI}. V \gls{SOA} může být struktura doménového modelu navíc sdílena mezi jednotlivými
+službami, což se promítá zejména do rozhraní, pomocí kterých spolu komunikují.
+Díky \gls{AOP} by bylo možné automaticky integrovat tuto strukturu do kódu, který komunikaci obsluhuje.
 
 Dalším průřezovým problémem, kterému se autoři \gls{ADDA} ve svém výzkumu věnují, je extrakce dokumentace.
 V rámci \gls{SOA} by se pak \gls{AOP} dalo využít k extrakci informací o doménovém modelu, implementovaných use-cases
 a byznysových pravidlech a následnému automatickému generování dokumentace.
 
 Posledním průřezovým problémem v \gls{SOA} je společná konfigurace parametrů služeb, zejména pak v
-decentralizovaném systému využívajícím architekturu Microservices.
-Příkladem takového parametru může být v ukázkovém e-commerce systému výše DPH, která se využívá v objednávkové i
+decentralizovaném systému využívajícím architekturu Microservices. Příkladem takového parametru může
+být v ukázkovém e-commerce systému výše DPH, která se využívá v objednávkové i
 fakturační službě. Pomocí centrální, automaticky distribuované konfigurace by se dalo zamezit nekonzistencím
-a zabránit tak poškozením dat v systému, či jiným závažným problémům.
+a zabránit tak poškozením dat v systému, či jiným závažným chybám.
 
 \section{Shrnut\'{\i}}
 
 %\goal{Naplnění požadavků ze zadání}
 V rámci této práce byly dosaženy cíle stanovené v úvodu práce a byly splněny všechny
-požadavky zadání. Nejprve byla provedena analýza využití, vyjádření a znovupoužití
-byzynsových pravidel v \gls{SOA} a byly identifikovány potenciální problémy a požadavky
+požadavky zadání. Nejprve bylo analyzováno využití, vyjádření a znovupoužití
+byzynsových pravidel v \gls{SOA} a byly identifikovány potenciální problémy a z nich vyplývající požadavky
 na framework navržený v této práci. Dále byla provedena rešerše vhodných architektur,
 paradigmat a nástrojů, které by mohly být použity pro řešení těchto problémů, včetně stávajících
 frameworků pro reprezentaci byznysových pravidel a jejich výhod a nevýhod. Na základě analýzy a
@@ -109,7 +110,7 @@ a na něm založeného přístupu \gls{ADDA}. Funkčnost navrženého řešení 
 otestováním prototypů knihoven pro platformy jazyků Java a Python a platformu Node.js. Tyto knihovny byly
 použity pro vývoj jednoduché ukázkové e-commerce aplikace, která je tvořena šesti službami naprogramovanými
 ve třech různých jazycích. Na této aplikaci byla ukázána schopnost frameworku centrálně administrovat byznysová
-pravidla, sdílet a automaticky je integrovat do služeb aplikace. Zároveň byl změřen a analyzován
+pravidla a automaticky je sdílet a integrovat do služeb aplikace. Zároveň byl změřen a analyzován
 dopad použití frameworku na počet duplikací byznysových pravidel a byl diskutován jeho vliv na
 údržbu systému. V závěru práce byly navíc analyzovány další oblasti \gls{SOA}, kde by bylo možné aplikovat
 aspektově orientované programování.
