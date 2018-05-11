@@ -41,7 +41,7 @@ knihovny použity různé technologie, které jsou popsány v následujícím te
     \begin{tabular*}{\textwidth}{ l l }
         \hline
         \textbf{\#} & \textbf{Popis} \\ \hline \hline
-        \textbf{TC01} & \makecell[l]{Pouze identifikátor byzynsového kontextu obsahující alfanumerický prefix \\ a název je validní} \\ \hline
+        \textbf{TC01} & \makecell[l]{Pouze identifikátor byznysového kontextu obsahující alfanumerický prefix \\ a název je validní} \\ \hline
         \textbf{TC02} & \makecell[l]{Precondition weaver zkontroluje všechny preconditions vztahující se \\ k aktuálnímu kontextu} \\ \hline
         \textbf{TC03} & \makecell[l]{Precondition weaver nevyhodí výjimku, pokud jsou všechny preconditions \\ splněny} \\ \hline
         \textbf{TC04} & \makecell[l]{Precondition weaver vyhodí výjimku, pokud alespoň jedna precondition \\ není splněna} \\ \hline
@@ -61,8 +61,11 @@ knihovny použity různé technologie, které jsou popsány v následujícím te
         \textbf{TC18} & \makecell[l]{Výraz \code{VariableReference} správně vkládá do výrazu hodnotu proměnné \\ z kontextu} \\ \hline
         \textbf{TC19} & \makecell[l]{Byznysové kontexty jsou korektně inicializovány, jejich závislosti staženy \\ a spojeny} \\ \hline
         \textbf{TC20} & Byznysové kontexty jsou správně a kompletně přenášeny mezi službami \\ \hline
-        \textbf{TC21} & Byznysové kontexty jsou správně deserializovány z \gls{XML} \\ \hline
-        \textbf{TC22} & Byznysové kontexty jsou správně serializovány do \gls{XML} \\ \hline
+        \textbf{TC21} & Při dokončení transakce se správně uloží upravené i nové byznysové kontexty \\ \hline
+        \textbf{TC21} & Při zrušení transakce se neuloží upravené ani nové byznysové kontexty \\ \hline
+        \textbf{TC22} & Spouštění byznysových operací je pozastaveno při probíhající transakci \\ \hline
+        \textbf{TC23} & Byznysové kontexty jsou správně deserializovány z \gls{XML} \\ \hline
+        \textbf{TC24} & Byznysové kontexty jsou správně serializovány do \gls{XML} \\ \hline
         \hline
     \end{tabular*}
     \caption{Testovací scénáře prototypů knihoven}
@@ -398,7 +401,7 @@ Pro samotné spuštěn\'{\i} byla využita funkce \textit{Compose}, která umož
 definovat a spouštět v\'{\i}ce-kontejnerové aplikace. Ve zdrojovém kódu~\ref{lst:docker-compose}
 můžeme vidět zápis Order service. Pro jej\'{\i} image je použit \code{filipklimes-diploma/example-order-service}.
 V sekci \code{ports} deklarujeme, že služba má m\'{\i}t z vnějšku př\'{\i}stupn\'y port \code{5501}, na kterém poskytuje své
-\gls{REST} \gls{API}, a port \code{5551}, nak terém poskytuje své gRPC \gls{API} pro sd\'{\i}lené byzynsov\'ych kontextů. Order service je závislá
+\gls{REST} \gls{API}, a port \code{5551}, nak terém poskytuje své gRPC \gls{API} pro sd\'{\i}lené byznysov\'ych kontextů. Order service je závislá
 na Product, Billing, Shipping a User service, což explicitně specifikujeme v sekci \code{depends\_on},
 aby Docker Compose mohl spustit služby ve správném pořad\'{\i}. Nakonec pomoc\'{\i} \code{links} deklarujeme,
 že pro kontejner, ve kterém Order Service poběž\'{\i}, maj\'{\i} b\'yt na s\'{\i}ti př\'{\i}stupné služby \code{product}, \code{user},
@@ -477,5 +480,5 @@ jejich správná fukcionalita. Dále kapitola specifikuje ukázkový systém, na
 provedena př\'{\i}padová studie použit\'{\i} frameworku, a popisuje jeho implementaci.
 D\'{\i}ky této studii bylo ověřeno, že navržen\'y framework je funkčn\'{\i},
 splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements}
-a prokazuje reálné snížení manuální duplikace byzynsových pravidel oproti
+a prokazuje reálné snížení manuální duplikace byznysových pravidel oproti
 konvenčn\'{\i}mu př\'{\i}stupu k návrhu a implementaci softwarov\'ych systému.

@@ -7,14 +7,14 @@
 
 %\goal{Uveden\'{\i} kapitoly a nast\'{\i}něn\'{\i} obsahu}
 Součást\'{\i} zadán\'{\i} této práce je implementace prototypů
-knihoven pro framework navržen\'y v kapitole~\ref{ch:navrh}
+knihoven frameworku navrženého v kapitole~\ref{ch:navrh}
 pro tři rozd\'{\i}lné platformy, z nichž jedna mus\'{\i} b\'yt \textit{Java}.
 Tato kapitola popisuje výběr plaforem a konkrétní implementace
 knihoven pro tyto platformy. Jelikož jednotlivé implementace
 vycházejí ze stejného návrhu, kompletní implementace
-je popsána pouze pro platformu Java a ostatní jsou shrnuty
-komparativní metodou. Součástí kapitoly je i stručný popis
-použitých technologií pro lepší kontext.
+je popsána pouze pro platformu Java. Ostatní implementace jsou
+shrnuty komparativní metodou. Součástí kapitoly je i stručný popis
+použitých technologií.
 
 \section{V\'yběr použit\'ych platforem}
 
@@ -31,27 +31,28 @@ nejpopulárnějš\'{\i}ch programovacích jazyků pro obecné použit\'{\i}.
 
 %\goal{Formát pro přenos pravidel po s\'{\i}ti a jeho v\'yhody}
 Pro sd\'{\i}lení byznysových kontextů a jejich pravidel
-mezi jednotliv\'ymi službami bude využita s\'{\i}ťová komunikace
-ve formátu nezávislém na platformě, s vysokou efektivitou přenosu.
+mezi jednotliv\'ymi službami je využita s\'{\i}ťová komunikace.
+Ta musí probíhat ve formátu nezávislém na platformě, ideálně s vysokou
+efektivitou přenosu. Návrh frameworku je však nezávislý na použité technologii.
 
 \subsection{Protocol Buffers}
 
 %\goal{Proč jsme použili Protobuf}
-Pro přenos byznysov\'ych kontextů byl zvolen open-source formát
+Pro prototypy knihoven byl pro přenos byznysových kontextů zvolen open-source formát
 \textit{Protocol Buffers}\footnote{https://developers.google.com/protocol-buffers/}\cite{varda2008protocol}
 vyvinut\'y společnost\'{\i} Google\footnote{https://www.google.com/}.
-Umožňuje explicitně definovat a vynucovat schéma dat,
+Ten umožňuje explicitně definovat a vynucovat schéma dat,
 která jsou přenášena po s\'{\i}ti, bez vazby na konkrétn\'{\i} programovac\'{\i}
 jazyk. Zároveň poskytuje obslužné knihovny pro vybrané platformy.
-D\'{\i}ky binárn\'{\i} reprezentaci dat v přenosu velmi efektivn\'{\i},
+D\'{\i}ky binárn\'{\i} reprezentaci dat je v přenosu velmi efektivn\'{\i},
 oproti formátům jako je \gls{JSON} nebo \gls{XML}~\cite{maeda2012performance}.
-Oproti protokolům \textit{Apache Thrift}\footnote{https://thrift.apache.org/}
+Na rozdíl od protokolů \textit{Apache Thrift}\footnote{https://thrift.apache.org/}
 a \textit{Apache Avro}\footnote{https://avro.apache.org/}, které poskytuj\'{\i}
-velmi srovnatelnou funkcionalitu, maj\'{\i} Protocol Buffers
-kvalitnějš\'{\i} a lépe srozumitelnou dokumentaci.
+velmi srovnatelnou funkcionalitu, má zvolený protokol kvalitnějš\'{\i} a lépe
+srozumitelnou dokumentaci.
 
 \lstinputlisting[
-caption={Část definice schématu zpráv byznys kontextů v jazyce Protobuffer},
+caption={Část definice schématu zpráv byznys kontextů ve formátu Protocol Buffers},
 label={lst:protobuf-example},
 language=protobuf2,
 style=protobuf,
@@ -78,11 +79,10 @@ v sekci~\ref{sec:metamodel}.
 \subsection{gRPC}
 
 %\goal{Proč jsme použili gRPC}
-Pro realizaci architektury klient-server byl zvolen
+Síťovou komunikaci potřebnou pro distribuci byznysových kontextů realizuje
 open-source framework gRPC\footnote{https://grpc.io/}, kter\'y stav\'{\i}
-na technologii Protocol Buffers a poskytuje v\'yvojáři
-možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i}
-protokolu \textit{\gls{RPC}}.
+na technologii Protocol Buffers. Tento framework poskytuje v\'yvojáři
+možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i} protokolu \textit{\gls{RPC}}.
 Zdrojov\'y kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
 kter\'y umožňuje volat metody \code{FetchContexts},
 \code{FetchAllContexts} a \code{UpdateOrSaveContext}.
@@ -98,7 +98,7 @@ style=protobuf,
 ]
 {code/grpc_example.proto}
 
-\paragraph{FetchContexts()} je metoda, která umožňuje klientovi
+\paragraph{FetchContexts()} je procedura, která umožňuje klientovi
 z\'{\i}skat kontexty, jejichž identifikátory zašle jako argument
 typu \code{BusinessContextRequestMessage}.
 V odpovědi pak obdrž\'{\i} dotazované kontexty a nebo chybovou hlášku,
@@ -112,6 +112,16 @@ nad nimi mohly prob\'{\i}hat úpravy a anal\'yzy.
 \paragraph{UpdateOrSaveContext()} slouž\'{\i} pro uložen\'{\i} nového či
 editovaného pravidla, které je zasláno v serializované podobě
 jako jedin\'y argument typu \code{BusinessContextUpdateRequestMessage}.
+Tato procedura musí být volána pouze pokud byla spuštěna transakce.
+
+\paragraph{BeginTransaction()} spouští transakci, při které může proběhnout
+změna nebo uložení nového byznysového kontextu.
+
+\paragraph{CommitTransaction()} dokončuje transakci, která byla spuštěna pomocí \code{BeginTransaction()},
+a uloží všechny změny byznysových kontextů.
+
+\paragraph{RollbackTransaction()} zruší transakci, která byla spuštěna pomocí \code{BeginTransaction()}
+a neuloží žádnou z provedených změn.
 
 \section{Doménově specifick\'y jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
 
@@ -122,8 +132,7 @@ verzi a implementovat část knihovny, která bude umět jazyk zpracovat a sesta
 kontextu. Tento jazyk však bude možno v produkční verzi knihovny nahradit komplexnejším.
 
 %\goal{Důvody pro v\'yběr XML}
-Pro popis kontextů byl jako kompromis mezi jednoduchost\'{\i} implementace
-a př\'{\i}větivost\'{\i} pro koncového uživatele zvolen univerzáln\'{\i} formát Extensible
+Pro popis kontextů byl zvolen univerzáln\'{\i} formát Extensible
 Markup Language (\gls{XML}) doplněný o definici schematu dat
 pomocí \textit{XML Schema Definition}.
 D\'{\i}ky formálně definovanému schématu lze popis byznys kontextu
@@ -156,21 +165,50 @@ language=XML,
 
 \section{Knihovna pro platformu Java}
 
-\todo{
+Knihovna pro platformu Java se skládá ze čtyř modulů, které zajišťují
+její funkcionalitu:
+
 \begin{itemize}
-    \item Popis business context registry
-    \item Popis expression AST
-    \item Popis tř\'{\i}d kolem business kontextu
-    \item Popis XML parseru a generátoru
-    \item Popis server a klient tř\'{\i}d pro obsluhu GRPC
-    \item Popis weaveru
-    \item Popis anotac\'{\i} pro AOP
+    \item \code{business-context} obsahuje jádro knihovny
+    \item \code{business-context-aspectj} poskytuje integraci s nástrojem AspectJ
+    \item \code{business-context-grpc} přináší klienta a server pro distribuci byznysových pravidel pomocí frameworku gRPC
+    \item \code{business-context-xml} obsahuje třídy pro čtení a zápis byznysových kontextů do \gls{XML}
 \end{itemize}
-}
 
-\subsection{Popis implementace}
+Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i}
+všech těchto modulů byl zvolen projekt \textit{Maven}\footnote{https://maven.apache.org/}.
+Tento nástroj umožňuje v\'yvojáři komfortně a centrálně spravovat závislosti jeho projektu včetně
+detailn\'{\i}ho popisu jejich verze. Dále také umožňuje specifikovat a rozšiřovat kompilaci projektu.
 
-\paragraph{BusinessContextRegistry}
+\subsection{Jádro knihovny}
+
+% Jádro knihovny
+Jádro knihovny obsahuje metamodel a registr byznysových kontextů, weaver byznysových pravidel
+a logické výrazy pravidel. Registr kontextů implementuje třída \code{BusinessContextRegistry},
+která kromě funkcí popsaných v sekci~\ref{sec:registry-design} umožňuje snadnou konfiguraci
+stahování vzdálených byznysových kontextů a načítání lokálních kontextů z \gls{DSL}.
+Není závislá na konkrétních technologiích použitých pro síťovou komunikaci ani
+na použitém \gls{DSL}.
+
+% popis expressions
+Logické výrazy byznysových pravidel jsou implementovány samostatnými třídami, které rozšiřují
+jednotné rozhraní \code{Expression}. Toto rozhraní podporuje návrhový vzor Interpreter, který umožňuje
+vyhodnocení výrazů, jak bylo popsáno v sekci~\ref{sec:expressions-design}. Zároveň je tím usnadněno
+rozšíření knihovny o nové výrazy. Toto rozhraní navíc poskytuje metody, které usnadňují serializaci
+výrazů.
+
+\subsection{Weaving}
+
+% popis weaveru
+Weaver byznysových pravidel musí být schopen extrahovat informace o kontextu probíhající byznysové
+operace, aby mohl správně zvolit příslušný byznysový kontext. V knihovne pro jazyk Java
+byla pro tento účel zvolena anotace \code{BusinessOperation}, která umožňuje uživateli
+knihovny označit metodu vykonávající byznysovou operaci. Parametry této metody mohou být
+označeny anotací \code{BusinessContextParameter}. Weaver takto oanotované parametry vloží
+jako proměnné do operačního kontextu a podmínky byznysových pravidel se na ně mohou odkazovat.
+Ukázka použití těchto anotací je ve zdrojovém kódu~\ref{lst:business-operation-aspectj}.
+Pomocí knihovny AspectJ\footnote{https://www.eclipse.org/aspectj/}, která poskytuje sadu nástrojů pro použití principů \gls{AOP},
+je pak weaver pravidel volán ve chvíli, kdy je vykonávána anotovaná byznysová metoda.
 
 \lstinputlisting[
 caption={Označen\'{\i} operačn\'{\i}ho kontextu a jeho parametrů pomoc\'{\i} anotac\'{\i} Java knihovny},
@@ -182,59 +220,34 @@ language=Java,
 ]
 {code/business_operation_aspectj.java}
 
-\subsection{Použité technologie}
+\subsection{Serializace a deserializace XML}
 
-\paragraph{Apache Maven}
-
-%\goal{Správa závislost\'{\i} a buildu projektu}
-Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i}
-knihovny napsané v jazyce java byl zvolen projekt
-\textit{Maven}\footnote{https://maven.apache.org/}.
-Tento nástroj umožňuje v\'yvojáři komfortně a centrálně
-spravovat závislosti jeho projektu včetně detailn\'{\i}ho
-popisu jejich verze. Dále také umožňuje definovat jak\'ym
-způsobem bude projekt kompilován.
-
-\paragraph{AspectJ}
-
-%\goal{Proč AspectJ a co to um\'{\i}}
-Knihovna AspectJ přináš\'{\i} pro jazyk Java sadu nástrojů,
-d\'{\i}ky kter\'ym lze snadno implementovat koncepty aspektově orientovaného
-programován\'{\i}, zejména pak snadn\'y zápis pointcuts a kompletn\'{\i}
-engine pro weaving aspektů.
-
-\todo{
-\begin{itemize}
-    \item Ukázka kódu knihovny
-\end{itemize}
-}
-
-\paragraph{JDOM 2}
-
-%\goal{Proč jdom2 a co to um\'{\i}}
-Knihovna JDOM 2\footnote{http://www.jdom.org/} poskytuje
+% DSL XML
+Pro serializaci a deserializici \gls{DSL} byznysových kontextů byly implementovány třídy
+\code{BusinessContextXmlWriter} a \code{BusinessContextXmlLoader}. Ty využívají knihovnu
+JDOM~2\footnote{http://www.jdom.org/}, která poskytuje
 kompletn\'{\i} sadu nástroju pro čten\'{\i} a zápis \gls{XML} dokumentů.
 Implementuje specifikaci \textit{Document Object Model}
 pomoc\'{\i} které lze automaticky sestavovat a č\'{\i}st \gls{XML} dokumenty.
 
+\subsection{Distribuce byznysových pravidel}
+
+K distribuci byznysových pravidel mezi službami byly implementovány třídy
+\code{GrpcBusinessContextServer} a \code{GrpcBusinessContextClient}.
+Framework gRPC poskytuje knihovnu pro jazyk Java, která vygeneruje \textit{Stub}
+zapouzdřující veškerou síťovou komunikaci. Obsluha komunikace tak vyžaduje pouze
+sepsání obslužného kódu, který převede byznysové kontexty z metamodelu a zpět.
+Obě třídy navíc obsahují metody pro snadnou konfiguraci sítových adres.
+
 \section{Knihovna pro platformu Python}
 
-Knihovna pro platformu jazyka Python využ\'{\i}vá jeho
-verzi 3.6. Pomoc\'{\i} nástroje \textit{pip}\footnote{https://pip.pypa.io/en/stable/}
-lze knihovnu nainstalovat a využ\'{\i}vat jako python modul.
-Implementace odpov\'{\i}dá navržené specifikaci.
-
-\todo{
-\begin{itemize}
-    \item Srovnán\'{\i} řešen\'{\i} s knihovnou Java
-    \item Problémy pythonu a jak byly vyřešeny
-    \item Ukázka kódu knihovny
-    \item Použité technologie
-    \item Ukázka AOP v pythonu pomoc\'{\i} vestavěn\'ych dekorátorů
-    \item Knihovna pro GRPC
-    \item Popis weaveru
-\end{itemize}
-}
+Knihovna pro platformu Python využ\'{\i}vá verzi jazyka 3.6.
+Skládá se ze tří částí: \code{business\_context} obsahuje jádro knihovny,
+\code{business\_context\_grpc} umožňuje síťovou komunikaci pomocí frameworku
+gRPC a \code{business\_context\_xml} poskytuje nástroje pro zápis a čtení kontextů z \gls{XML}.
+Pomoc\'{\i} nástroje \textit{pip}\footnote{https://pip.pypa.io/en/stable/}
+lze jednotlivé části knihovny nainstalovat a využ\'{\i}vat jako samostatné
+Python moduly. Implementace odpov\'{\i}dá navržené specifikaci.
 
 \subsection{Srovnán\'{\i} s knihovnou pro platformu Java}
 
@@ -259,17 +272,29 @@ language=Python,
 ]
 {code/python_weaving.py}
 
-\paragraph{}
+\paragraph{Jména tříd a metod} Jazyk Python využívá jiné jmenné konvence
+a jinak člení kód do jednotlivých souborů. Aby byly tyto konvence zachovány,
+třídy knihovny a názvy jejich metod se liší od těch v jazyce Java.
 
 \subsection{Použité technologie}
+
+Jazyk Python poskytuje na rozdíl od jazyka Java téměř všechny nástroje, které byly pro implementaci
+prototypu knihovny potřeba. Jedinou výjimkou byl modul pro obsluhu frameworku gRPC.
+Ze standardní knihovny jazyka byly využity moduly \code{typing} pro statické typování,
+\code{re} pro regulární výrazy, \code{enum} pro implementaci výčtových hodnot, \code{copy} pro
+kopírování objektů a \code{xml} pro práci s XML dokumenty.
 
 \section{Knihovna pro platformu Node.js}
 
 Knihovna pro platformu \textit{Node.js} byla implementována
-v jazyce JavaScript, konkrétně jeho verzi \textit{ECMAScript 6.0}.
+v jazyce JavaScript, konkrétně ve verzi \textit{ECMAScript 6.0}.
 Implementace odpov\'{\i}dá specifikaci návrhu, umožňuje
 instalaci pomoc\'{\i} bal\'{\i}čkovac\'{\i}ho nástroje a snadnou
-integraci do kódu v\'ysledné služby.
+integraci do kódu v\'ysledné služby. Stejně jako knihovna
+pro jazyk Python se skládá ze tří modulů: \code{business-context} obsahuje
+jádro knihovny, \code{business-context-grpc} poskytuje server a klienta pro distribuci
+byznysových kontextů po síti pomocí frameworku gRPC a \code{business-context-xml} umožňuje
+serializaci a deserializaci z XML.
 
 \subsection{Srovnán\'{\i} s knihovnou pro platformu Java}
 
@@ -279,8 +304,8 @@ největš\'{\i} rozd\'{\i}l v implementaci weavingu. Platforma Node.js
 totiž nedisponuje žádnou kvalitn\'{\i} knihovnou, která by ulehčila
 využit\'{\i} konceptů aspektově orientovaného programován\'{\i}.
 Jazyk JavaScript však podobně jako jazyk Python umožňuje využ\'{\i}t
-princip dekorátoru jako funkce. Ukázka dekorátoru je ve zdrojovém kódu~\ref{lst:nodejs-weaving}.
-Funkce \code{register()} obsahuje logiku pro registraci uživatele,
+princip dekorátoru funkce. Ukázka takového dekorátoru je ve zdrojovém
+kódu~\ref{lst:nodejs-weaving}. Funkce \code{register()} obsahuje logiku pro registraci uživatele,
 která může obsahovat např\'{\i}klad uložen\'{\i} entity do databáze a odeslán\'{\i}
 registračn\'{\i}ho emailu. Při exportován\'{\i} funkce z Node.js modulu
 je využita funkce \code{wrapCall()}, která má za úkol dekorovat

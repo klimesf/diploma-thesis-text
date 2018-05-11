@@ -65,7 +65,7 @@ ve zdrojovém kódu~\ref{lst:jsr303}, kde je pomocí anotace \code{$@$NotNull} z
 adresa bude mít vyplněna všechna pole (v kontextu našeho frameworku se jedná o paralelu preconditions).
 Podobným způsobem by každá byznysová operace mohla pomocí metainstrukcí specifikovat, která byznysová
 pravidla bude využívat. Toto řešení však neposkytuje možnost dynamicky při běhu programu změnit sadu
-byzynsových pravidel. Tento problém lze řešit zavedením konceptu byznysového kontextu, který
+byznysových pravidel. Tento problém lze řešit zavedením konceptu byznysového kontextu, který
 zapouzdřuje byznysová pravidla, a byznysová operace se na něj může explicitně odkázat. Obsah byznysového
 kontextu by přitom mohl být dynamicky změněn za běhu programu.
 
@@ -145,7 +145,7 @@ každé pravidlo bude mít unikátní identifikátor v rámci celého systému a
 pouze unikátní pravidla. Zajištění unikátního identifikátoru lze zajistit díky nástroji pro centrální
 administraci byznysových pravidel.
 
-\section{Logické výrazy byznysových pravidel}
+\section{Logické výrazy byznysových pravidel}\label{sec:expressions-design}
 
 Sekce~\ref{sec:business-rules} uvádí, že pravidla obsahují logické podmínky. V případě preconditions je to
 ověření podmínky, která musí být platná před spuštěním byznysové operace v~\ref{itm:before}. V případě
@@ -313,10 +313,10 @@ tzv. \textit{prefix}. Kontexty se stejným prefixem pak budou spravovány výhra
 služby spravující objednávky budou označeny prefixem \code{order}, zatímco kontexty služby zajišťující fakturaci budou
 označeny prefixem \code{billing}. Může nastat i situace, kdy jedna služba bude spravovat více prefixů.
 
-\subsection{Registr byznysových kontextů}
+\subsection{Registr byznysových kontextů}\label{sec:registry-design}
 
 Cílem frameworku je soustředit byznysové kontexty na jedno místo, ze kterého budou
-automaticky distribuovány. Pro tento účel bude využit registr byzynsových pravidel
+automaticky distribuovány. Pro tento účel bude využit registr byznysových pravidel
 (\code{BusinessContextRegistry}), který bude mít za úkol kontexty načítat z \gls{DSL} do metamodelu,
 stahovat lokálně nedostupné kontexty z ostatních služeb a načtené kontexty uchovávat pro použití při weavingu.
 Každá služba pak bude disponovat svým registrem. Při inicializaci kontextů spolu budou registry komunikovat
@@ -339,7 +339,7 @@ nebude nijak záviset.
     \label{fig:business-context-loading}
 \end{figure}
 
-Při inicializiaci byzynsových kontextů jsou nejprve načteny lokálně dostupné kontexty popsané pomocí \gls{DSL}.
+Při inicializiaci byznysových kontextů jsou nejprve načteny lokálně dostupné kontexty popsané pomocí \gls{DSL}.
 Po převedení kontextů z \gls{DSL} do metamodelu je shromážděn seznam rozšířených kontextů a z nich jsou vybrány ty,
 které nejsou lokálně dostupné. Následně jsou tyto vzdálené kontexty vyžádány od příslušných služeb
 a po obdržení jsou převedeny ze síťového formátu do metamodelu. Nakonec jsou sdílená pravidla rozšířených kontextů začleněna
@@ -362,7 +362,7 @@ spravovat jejich aktuální a jediný stav a poskytovat je jiným službám.
 
 Při ukládání byznysového kontextu je potřeba změnu propagovat do všech ostatních kontextů, které od něj dědí.
 Při změně rozšířeného kontextu budou všechny služby, které ho využívají, informovány pomocí nástroje pro
-centrální správu byzynsových pravidel. Ten má informaci o všech závislostech v systému a zároveň zná i adresu všech
+centrální správu byznysových pravidel. Ten má informaci o všech závislostech v systému a zároveň zná i adresu všech
 služeb. Nevýhodou tohoto přístupu je zvýšená komunikační zátěž kvůli většímu objemu přenesených informací, stejný kontext
 je totiž potřeba rozeslat mezi více služeb. Při implementaci je nutno zvážit, zda je tato zátěž vůči absolutnímu objemu
 přenášených dat v systému významná. Bylo by vhodné vybrat vhodný přenosový formát, který minimalizuje dopad veškeré síťové
@@ -395,7 +395,7 @@ V této sekci je popsána obecná architektura navrženého frameworku v rámci 
 klasickou třívrstvou architekturu~\cite{fowler2002patterns}, která se skládá z prezentační,
 aplikační a datové vrstvy. Každá z těchto vrstev může framework využívat
 -- prezentační vrstva při validování vstupních polí formuláře, aplikační vrstva při
-aplikaci byzynsových pravidel v byznysových operacích a datová vrstva při aplikaci post-conditions pro
+aplikaci byznysových pravidel v byznysových operacích a datová vrstva při aplikaci post-conditions pro
 filtrování dat při jejich získávání z databáze.
 
 \begin{figure}
