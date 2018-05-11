@@ -278,14 +278,12 @@ i v knihovně pro Node.js byl oproti knihovně pro jazyk Java
 největš\'{\i} rozd\'{\i}l v implementaci weavingu. Platforma Node.js
 totiž nedisponuje žádnou kvalitn\'{\i} knihovnou, která by ulehčila
 využit\'{\i} konceptů aspektově orientovaného programován\'{\i}.
-Jazyk JavaScript je ale velmi flexibiln\'{\i} a lze
-tedy pro dosažen\'{\i} požadované funkcionality využ\'{\i}t
-podobně jako pro jazyk Python princip dekorátoru jako funkce.
-Ukázka je ve zdrojovém kódu~\ref{lst:nodejs-weaving}.
+Jazyk JavaScript však podobně jako jazyk Python umožňuje využ\'{\i}t
+princip dekorátoru jako funkce. Ukázka dekorátoru je ve zdrojovém kódu~\ref{lst:nodejs-weaving}.
 Funkce \code{register()} obsahuje logiku pro registraci uživatele,
 která může obsahovat např\'{\i}klad uložen\'{\i} entity do databáze a odeslán\'{\i}
 registračn\'{\i}ho emailu. Při exportován\'{\i} funkce z Node.js modulu
-využijeme \code{wrapCall()}, která má za úkol dekorovat
+je využita funkce \code{wrapCall()}, která má za úkol dekorovat
 předanou funkci \code{func}, před jej\'{\i}m zavolán\'{\i} vyhodnotit
 preconditions a po zavolán\'{\i} aplikovat post-conditions.
 D\'{\i}ky tomu bude každ\'y kód, kter\'y využije modul definuj\'{\i}c\'{\i} funkci

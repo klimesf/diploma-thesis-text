@@ -25,17 +25,14 @@
 \usepackage{graphicx}               % pro vkládání obrázků
 \usepackage{colors}
 \usepackage{k336_thesis_macros}     % specialni makra pro formatovani DP a BP
-\definecolor{hrcolor-cite}{HTML}{2F8F00}
-\definecolor{hrcolor-links}{HTML}{A40004}
-\definecolor{hrcolor-urls}{HTML}{092EAB}
 \usepackage[
 pdftitle={\WorkTitle},              % nastaví v informacích o pdf název
 pdfauthor={\FirstandFamilyName},    % nastaví v informacích o pdf autora
-colorlinks=true,                    % před tiskem doporučujeme nastavit na false, aby odkazy a url nebyly šedé při ČB tisku
+colorlinks=false,                    % před tiskem doporučujeme nastavit na false, aby odkazy a url nebyly šedé při ČB tisku
 breaklinks=true,
-urlcolor=hrcolor-urls,
-citecolor=hrcolor-cite,
-linkcolor=hrcolor-links,
+%urlcolor=MidnightBlue,
+%citecolor=MidnightBlue,
+%linkcolor=MidnightBlue,
 unicode=true,
 ]
 {hyperref}                          % pro zobrazování "prokliknutelných" linků
