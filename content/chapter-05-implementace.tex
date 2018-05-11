@@ -360,26 +360,28 @@ Proto bylo nutné využ\'{\i}t dodatečné knihovny, jmenovitě
 \section{Systém pro centráln\'{\i} správu byznys pravidel}\label{sec:central-administration}
 
 Součástí této práce je i implementace nástroje, který umožní centrální správu byznysových
-pravidel
+pravidel. Ta vychází z návrhu popsaného v sekci~\ref{sec:central-administration-design}
+
 \subsection{Popis implementace}
 
-Systém pro centrální správu ...
+Systém pro centrální správu byl implementován jako webová služba v jazyce Java
+s využitím frameworku Spring Boot\footnote{https://projects.spring.io/spring-boot/}.
+Ten umožňuje využití návrhového vzoru Model-View-Controller, který je vhodný
+pro aplikace s uživatelským rozhraním.
+
+Model systému obsahuje třídu \code{BusinesssContextEditor}, která implementuje
+návrhový vzor Facade~\cite{fowler2002patterns}. Umožňuje načtení byznysových
+kontextů ze vzdálených služeb a jejich následnou úpravu a validaci. K tomu využívá
+prototyp knihovny pro jazyk Java, díky kterému může kontexty přenášet po síti,
+načítat a zapisovat ze do \gls{DSL} a využívat metamodel kontextů.
 
 Pro komfortn\'{\i} obsluhu centráln\'{\i} administrace bylo naprogramováno
 uživatelské rozhran\'{\i} pomoc\'{\i} technologi\'{\i} Hypertext Markup Language
-(HTML) a Cascading Style Sheets (\gls{CSS}).
+(HTML) a Cascading Style Sheets (\gls{CSS}). V uživatelském rozhraní lze zobrazit
+přehled všech byznysových kontextů a pomocí formulářů je upravovat a vytvářet nové.
 Detail byznysového kontextu v uživatelském rozhran\'{\i} je zobrazen
 na sn\'{\i}mku~\ref{fig:screenshot-context-detail} a formulář pro úpravu kontextu
 na sn\'{\i}mku~\ref{fig:screenshot-context-edit}.
-
-\todo{
-\begin{itemize}
-    \item Uživatelské rozhran\'{\i} v HTML + CSS
-    \item Jak jsme použili Spring Boot a jeho MVC k nastaven\'{\i} základn\'{\i} webové aplikace
-    \item Dependency Injection Container
-    \item Využit\'{\i} knihovny pro platformu Java
-\end{itemize}
-}
 
 \subsection{Detekce a prevence potenciáln\'{\i}ch problémů}
 
@@ -387,7 +389,7 @@ na sn\'{\i}mku~\ref{fig:screenshot-context-edit}.
 Sekce~\ref{sec:context-inheritance} identifikuje problémy, které
 mohou nastat při úpravě nebo vytvářen\'{\i} nového byznysového kontextu.
 Kromě syntaktick\'ych chyb, které jsou detekovány automaticky pomoc\'{\i} definovaného schematu,
-je potřeba detekovat následující sémantické chyby, které mohou b\'yt způsobeny rozšiřován\'{\i}m kontextů.
+je potřeba detekovat následující sémantické chyby, které mohou b\'yt způsobeny rozšiřován\'{\i}m kontextů:
 \begin{enumerate}[label=\alph*)]
     \item Neunikátní identifikátory byznysových pravidel
     \item Závislosti na neexistuj\'{\i}c\'{\i}ch kontextech
@@ -396,8 +398,8 @@ je potřeba detekovat následující sémantické chyby, které mohou b\'yt způ
 
 %\goal{Chápán\'{\i} kontextů jako grafu}
 Unikátnost byznysových pravidel lze zajistit postupným ukládáním jejich identifikátorů
-do vhodné datové struktury a kontrolovat, zda již nejsou ve struktuře obsaženy. Vhodnou
-strukturou je například \code{Set}~\cite{hopcroft1983data}.
+do vhodné datové struktury a kontrolovat, zda v ní již nejsou obsaženy. Jako vhodná struktura
+pro tento účel byl zvolen \code{Set}~\cite{hopcroft1983data}.
 Kontexty a jejich vzájemné závislosti lze vn\'{\i}mat jako
 orientovan\'y graf, kde uzel grafu reprezentuje kontext
 a orientovaná hrana reprezentuje závislost mezi kontexty.
@@ -405,8 +407,8 @@ Směr závislosti lze pro tento účel zvolit libovolně.
 Pro detekci závislosti na neexistuj\'{\i}c\'{\i}ch kontextech je nejprve
 sestaven seznam existuj\'{\i}c\'{\i}ch kontextů a následně jsou navštíveny
 jednotlivé hrany grafu kontextů a je ověřeno, zda existuj\'{\i} oba kontexty
-nálež\'{\i}c\'{\i} dané hraně. Při zvolen\'{\i} vhodn\'ych datov\'ych struktur
-lze dosáhnout lineárn\'{\i} složitosti v závislosti na počtu hran grafu.
+nálež\'{\i}c\'{\i} dané hraně. Díky zvolen\'{\i} vhodn\'ych datov\'ych struktur
+bylo dosaženo lineárn\'{\i} časové složitosti v závislosti na počtu hran grafu.
 Pro detekci cyklů v grafu závislosti pravidel popsanou v sekci~\ref{sec:context-inheritance} byl
 zvolen Tarjanův algoritmus~\cite{tarjan1971depth}. Ten umožňuje detekci souvisl\'ych
 komponent a má lineárn\'{\i} složitost závislou na součtu počtu hran a
