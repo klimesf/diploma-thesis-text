@@ -113,14 +113,14 @@ pravidla~\cite{cemus2015automated}. Těmi jsou:
 
 \ref{itm:gpl} je nejběžnějš\'{\i} metodou, umožňující použití stejného jazyka pro popis byznysových pravidel jako
 pro popis ostatních částí systému. Bohužel, tato metoda nepřináší možnosti inspekce a extrakce pravidel pro jejich další využití.
-\ref{itm:meta} je pokročilejš\'{\i} metodou, která může využívat např\'{\i}klad anotac\'{\i}, nebo tzv. \textit{Expression Language}
-(\gls{EL})~\cite{nemuraite2008representation}. Tato metoda poskytuje dobrou možnost inspekce, ale zpravidla nen\'{\i} typově bezpečná.
+\ref{itm:meta} je pokročilejš\'{\i} metodou, která může využívat např\'{\i}klad anotac\'{\i}, nebo tzv. \textit{Expression
+Language}~\cite{nemuraite2008representation}. Tato metoda poskytuje dobrou možnost inspekce, ale zpravidla nen\'{\i} typově bezpečná.
 Navíc je potřeba meta-instrukce vázat na existující prvky systému, což může být pro některé případy použití omezující~\cite{cemus2015automated}.
 
 \ref{itm:dsl} je nejpokročilejš\'{\i} metodou. \gls{DSL} jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
 Navíc mohou b\'yt typově bezpečné. Mezi jejich nev\'yhody ale patř\'{\i} vysoká počátečn\'{\i} investice v podobě návrhu jazyka, nutnosti
 jeho kompilace nebo interpretace a také proškolení vývojářů, kteří s ním budou pracovat. Kvůli tomu může být vhodné využít
-existující řešení~\cite{cemus2015automated}. Tím může být například Object Constraint Language (\gls{OCL})~\cite{warmer1998object},
+existující řešení~\cite{cemus2015automated}. Tím může být například Object Constraint Language~\cite{warmer1998object},
 který je často využívaný ve výzkumu, nebo některé průmyslové řešení, jako je framework Drools\footnote{https://www.drools.org/},
 který je popsaný v sekci~\ref{sec:drools}.
 
@@ -162,8 +162,8 @@ Nedostatky architektury \gls{CORBA} vedly k vývoji jednodušš\'{\i}ho
 a kvalitnějšího formátu pro popis komunikace služeb. Volán\'{\i} metod na vzdálen\'ych objektech
 bylo nahrazeno explicitn\'{\i}m pos\'{\i}lán\'{\i}m zpráv mezi službami pomocí protokolu \gls{HTTP}.
 Pro popis schématu zpráv vznikl formát \textit{Simple Object Access
-Protocol} (\gls{SOAP})~\cite{box2000simple}, kter\'y v kombinaci s
-\textit{Web Service Description Language} (\gls{WSDL})~\cite{christensen2001web}
+Protocol}~\cite{box2000simple}, kter\'y v kombinaci s
+\textit{Web Service Description Language}~\cite{christensen2001web}
 umožňuje kompletn\'{\i} definici rozhran\'{\i} pro komunikaci mezi službami.
 
 \subsection{Message Queue}
@@ -175,9 +175,8 @@ umožňuje kompletn\'{\i} definici rozhran\'{\i} pro komunikaci mezi službami.
 %    \label{fig:message-queue}
 %\end{figure}
 
-Dalš\'{\i}m z konceptů, kter\'y v rámci \gls{SOA} vznikl, je tzv. \textit{Message Queue} (\gls{MQ}).
-Základn\'{\i} myšlenkou \gls{MQ} %, znázorněnou na obrázku~\ref{fig:message-queue},
-je asynchronn\'{\i} komunikace služeb pomoc\'{\i} zpráv nezávisl\'ych
+Dalš\'{\i}m z konceptů, kter\'y v rámci \gls{SOA} vznikl, je tzv. \textit{Message Queue}.
+Jeho základn\'{\i} myšlenkou je asynchronn\'{\i} komunikace služeb pomoc\'{\i} zpráv nezávisl\'ych
 na platformě. Komunikaci zprostředkovává fronta, která přij\'{\i}má a rozes\'{\i}lá
 zprávy mezi službami. To přináš\'{\i} vyšš\'{\i} škálovatelnost a menš\'{\i} provázanost
 mezi službami. Všechny služby ale mus\'{\i} použ\'{\i}vat jednotn\'y formát zpráv.

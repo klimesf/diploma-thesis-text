@@ -160,7 +160,7 @@ vyhodnocena v~\ref{itm:after}.
 \end{figure}
 
 Podmínky byznysových pravidel se skládají z jednotlivých výrazů, které tvoří
-orientovaný acyklický graf (\gls{DAG}), tzv. \textit{derivační strom}.
+orientovaný acyklický graf, tzv. \textit{derivační strom}.
 Výrazy se dělí na \textit{terminály} a \textit{neterminály}~\cite{melichar2003jazyky}.
 Terminál znamená, že z daného výrazu již nevychází žádná hrana do jiného výrazu.
 Neterminál je opak terminálu. Pro reprezentaci stromu bude využit návrhový vzor
@@ -281,7 +281,7 @@ do byznysových kontextů, z nichž každý má svůj unikátní identifikátor 
 a samotného jména a seznam rozšířených kontextů. Diagram tříd navrženého kontextu je znázorněn
 na obrázku~\ref{fig:business-context-metamodel}.
 
-\section{Popis byznysových kontextů pomocí \gls{DSL}}
+\section{Popis byznysových kontextů}
 
 Př\'{\i}stup \gls{ADDA} doporučuje popsat byznysová pravidla pomoc\'{\i}
 vlastn\'{\i}ho, na m\'{\i}ru šitého, doménově specifického jazyka~\cite{cemus2015automated}.
@@ -301,7 +301,7 @@ Princip použití vzoru Visitor je znázorněn na obrázku~\ref{fig:expression-v
 \begin{figure}
     \centering
     \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression-visitor.pdf}
-    \caption{Využití vzoru Visitor pro zápis logických výrazů v \gls{DSL}}
+    \caption{Využití vzoru Visitor pro převod logických výrazů do doménově specifického jazyka}
     \label{fig:expression-visitor}
 \end{figure}
 
