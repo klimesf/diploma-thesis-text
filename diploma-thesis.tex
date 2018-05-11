@@ -23,15 +23,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % minimální importy
 \usepackage{graphicx}               % pro vkládání obrázků
+\usepackage{colors}
 \usepackage{k336_thesis_macros}     % specialni makra pro formatovani DP a BP
+\definecolor{hrcolor-cite}{HTML}{2F8F00}
+\definecolor{hrcolor-links}{HTML}{A40004}
+\definecolor{hrcolor-urls}{HTML}{092EAB}
 \usepackage[
 pdftitle={\WorkTitle},              % nastaví v informacích o pdf název
 pdfauthor={\FirstandFamilyName},    % nastaví v informacích o pdf autora
 colorlinks=true,                    % před tiskem doporučujeme nastavit na false, aby odkazy a url nebyly šedé při ČB tisku
 breaklinks=true,
-urlcolor=red,
-citecolor=blue,
-linkcolor=blue,
+urlcolor=hrcolor-urls,
+citecolor=hrcolor-cite,
+linkcolor=hrcolor-links,
 unicode=true,
 ]
 {hyperref}                          % pro zobrazování "prokliknutelných" linků
@@ -183,7 +187,9 @@ prokazuje snížení manuální duplikace na ukázkovém systému využívajíc�
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % obsahy a seznamy
 \setcounter{tocdepth}{1}
-\tableofcontents        % Obsah / Table of Contents
+\begingroup
+\hypersetup{linkcolor=black}
+\tableofcontents
 
 % pokud v práci nejsou obrázky nebo tabulky - odstraňte jejich seznam
 \listoffigures            % Obsah / Table of Contents
@@ -195,6 +201,7 @@ prokazuje snížení manuální duplikace na ukázkovém systému využívajíc�
 basicstyle=\fontsize{10}{12}\selectfont\ttfamily
 }
 \lstlistoflistings
+\endgroup
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % začátek textu
