@@ -39,15 +39,15 @@ efektivitou přenosu. Návrh frameworku je však nezávislý na použité techno
 
 %\goal{Proč jsme použili Protobuf}
 Pro prototypy knihoven byl pro přenos byznysových kontextů zvolen open-source formát
-\textit{Protocol Buffers}\footnote{https://developers.google.com/protocol-buffers/}\cite{varda2008protocol}
-vyvinut\'y společnost\'{\i} Google\footnote{https://www.google.com/}.
+\textit{Protocol Buffers}\footnote{\url{https://developers.google.com/protocol-buffers/}}\cite{varda2008protocol}
+vyvinut\'y společnost\'{\i} Google\footnote{\url{https://www.google.com/}}.
 Ten umožňuje explicitně definovat a vynucovat schéma dat,
 která jsou přenášena po s\'{\i}ti, bez vazby na konkrétn\'{\i} programovac\'{\i}
 jazyk. Zároveň poskytuje obslužné knihovny pro vybrané platformy.
 D\'{\i}ky binárn\'{\i} reprezentaci dat je v přenosu velmi efektivn\'{\i},
 oproti formátům jako je \gls{JSON} nebo \gls{XML}~\cite{maeda2012performance}.
-Na rozdíl od protokolů \textit{Apache Thrift}\footnote{https://thrift.apache.org/}
-a \textit{Apache Avro}\footnote{https://avro.apache.org/}, které poskytuj\'{\i}
+Na rozdíl od protokolů \textit{Apache Thrift}\footnote{\url{https://thrift.apache.org/}}
+a \textit{Apache Avro}\footnote{\url{https://avro.apache.org/}}, které poskytuj\'{\i}
 velmi srovnatelnou funkcionalitu, má zvolený protokol kvalitnějš\'{\i} a lépe
 srozumitelnou dokumentaci.
 
@@ -80,7 +80,7 @@ v sekci~\ref{sec:metamodel}.
 
 %\goal{Proč jsme použili gRPC}
 Síťovou komunikaci potřebnou pro distribuci byznysových kontextů realizuje
-open-source framework gRPC\footnote{https://grpc.io/}, kter\'y stav\'{\i}
+open-source framework gRPC\footnote{\url{https://grpc.io/}}, kter\'y stav\'{\i}
 na technologii Protocol Buffers. Tento framework poskytuje v\'yvojáři
 možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i} protokolu \textit{\gls{RPC}}.
 Zdrojov\'y kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
@@ -189,7 +189,7 @@ Jádro knihovny je nezávislé na konkrétních implementaci síťové komunikac
 \subsection{Správa závislostí projektu}
 
 Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i}
-všech těchto modulů byl zvolen projekt \textit{Maven}\footnote{https://maven.apache.org/}.
+všech těchto modulů byl zvolen projekt \textit{Maven}\footnote{\url{https://maven.apache.org/}}.
 Tento nástroj umožňuje v\'yvojáři komfortně a centrálně spravovat závislosti jeho projektu včetně
 detailn\'{\i}ho popisu jejich verze. Dále také umožňuje specifikovat a rozšiřovat kompilaci projektu.
 
@@ -220,7 +220,7 @@ knihovny označit metodu vykonávající byznysovou operaci. Parametry této met
 označeny anotací \code{BusinessContextParameter}. Weaver takto oanotované parametry vloží
 jako proměnné do operačního kontextu a podmínky byznysových pravidel se na ně mohou odkazovat.
 Ukázka použití těchto anotací je ve zdrojovém kódu~\ref{lst:business-operation-aspectj}.
-Pomocí knihovny AspectJ\footnote{https://www.eclipse.org/aspectj/}, která poskytuje sadu nástrojů pro použití principů \gls{AOP},
+Pomocí knihovny AspectJ\footnote{\url{https://www.eclipse.org/aspectj/}}, která poskytuje sadu nástrojů pro použití principů \gls{AOP},
 je pak weaver pravidel volán ve chvíli, kdy je vykonávána anotovaná byznysová metoda.
 
 \lstinputlisting[
@@ -238,7 +238,7 @@ language=Java,
 % DSL XML
 Pro serializaci a deserializici \gls{DSL} byznysových kontextů byly implementovány třídy
 \code{BusinessContextXmlWriter} a \code{BusinessContextXmlLoader}. Ty využívají knihovnu
-JDOM~2\footnote{http://www.jdom.org/}, která poskytuje
+JDOM~2\footnote{\url{http://www.jdom.org/}}, která poskytuje
 kompletn\'{\i} sadu nástroju pro čten\'{\i} a zápis \gls{XML} dokumentů.
 Implementuje specifikaci \textit{Document Object Model}
 pomoc\'{\i} které lze automaticky sestavovat a č\'{\i}st \gls{XML} dokumenty.
@@ -258,7 +258,7 @@ Knihovna pro platformu Python využ\'{\i}vá verzi jazyka 3.6, která byla v dob
 psaní práce nejnovější stabilní verzí. Knihovna se skládá ze tří částí: \code{business\_context} obsahuje jádro knihovny,
 \code{business\_context\_grpc} umožňuje síťovou komunikaci pomocí frameworku
 gRPC a \code{business\_context\_xml} poskytuje nástroje pro zápis a čtení kontextů z \gls{XML}.
-Pomoc\'{\i} nástroje \textit{pip}\footnote{https://pip.pypa.io/en/stable/}
+Pomoc\'{\i} nástroje \textit{pip}\footnote{\url{https://pip.pypa.io/en/stable/}}
 lze jednotlivé části knihovny nainstalovat a využ\'{\i}vat jako samostatné
 Python moduly. Implementace odpov\'{\i}dá navržené specifikaci.
 
@@ -354,8 +354,8 @@ v běhovém prostřed\'{\i} \textit{Node.js}. Tento nástroj ale nedisponuje
 př\'{\i}liš silnou podporou pro správu automatick\'ych sestaven\'{\i} knihovny
 a v základn\'{\i}m nastaven\'{\i} nen\'{\i} ani př\'{\i}liš efektivn\'{\i} pro správu závislost\'{\i}.
 Proto bylo nutné využ\'{\i}t dodatečné knihovny, jmenovitě
-\textit{Yarn}\footnote{https://yarnpkg.com/en/}, \textit{Babel}\footnote{https://babeljs.io/} a
-\textit{Rimraf}\footnote{https://github.com/isaacs/rimraf}.
+\textit{Yarn}\footnote{\url{https://yarnpkg.com/en/}}, \textit{Babel}\footnote{\url{https://babeljs.io/}} a
+\textit{Rimraf}\footnote{\url{https://github.com/isaacs/rimraf}}.
 
 \section{Systém pro centráln\'{\i} správu byznys pravidel}\label{sec:central-administration}
 
@@ -365,7 +365,7 @@ pravidel. Ta vychází z návrhu popsaného v sekci~\ref{sec:central-administrat
 \subsection{Popis implementace}
 
 Systém pro centrální správu byl implementován jako webová služba v jazyce Java
-s využitím frameworku Spring Boot\footnote{https://projects.spring.io/spring-boot/}.
+s využitím frameworku Spring Boot\footnote{\url{https://projects.spring.io/spring-boot/}}.
 Ten umožňuje využití návrhového vzoru Model-View-Controller, který je vhodný
 pro aplikace s uživatelským rozhraním.
 
@@ -431,7 +431,7 @@ funkčn\'{\i}ho systému, jak je popisáno v následuj\'{\i}c\'{\i} kapitole.
 
 %\goal{Hostován\'{\i} na GitHubu + licence}
 Vešker\'y kód implementace je hostován v centráln\'{\i}m repozitáři
-ve službě GitHub\footnote{https://github.com/klimesf/diploma-thesis}
+ve službě GitHub\footnote{\url{https://github.com/klimesf/diploma-thesis}}
 a je zpř\'{\i}stupněn pod open-source licenc\'{\i} \gls{MIT}~\cite{mitlicense}.
 Knihovny pro jednotlivé platformy tedy lze libovolně
 využ\'{\i}vat, modifikovat a š\'{\i}řit.

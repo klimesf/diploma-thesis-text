@@ -21,9 +21,9 @@ a t\'{\i}m byla verifikována jejich správná funkcionalita. Způsob
 testován\'{\i} knihoven je popsán zvlášť pro každou platformu.
 
 V rámci konceptu \textit{continous integration} (\gls{CI})~\cite{fowler2006continuous}
-byl kód po celou dobu v\'yvoje verzován systémem Git\footnote{https://git-scm.com/},
+byl kód po celou dobu v\'yvoje verzován systémem Git\footnote{\url{https://git-scm.com/}},
 zas\'{\i}lán do centráln\'{\i}ho repozitáře a s pomoc\'{\i}
-nástroje Travis \gls{CI}\footnote{https://travis-ci.org/}
+nástroje Travis \gls{CI}\footnote{\url{https://travis-ci.org/}}
 bylo automaticky spouštěno jeho sestaven\'{\i} a otestován\'{\i}.
 Systém zároveň okamžitě informoval v\'yvojáře o v\'ysledc\'{\i}ch.
 To umožnilo v krátkém časovém horizontu identifikovat konkrétn\'{\i} změny
@@ -75,9 +75,9 @@ knihovny použity různé technologie, které jsou popsány v následujícím te
 \subsection{Platforma Java}
 
 Prototyp knihovny pro platformu jazyka Java byl testován pomoc\'{\i}
-nástroje JUnit\footnote{https://junit.org/junit4/}, kter\'y poskytuje veškerou potřebnou funkcionalitu pro
+nástroje JUnit\footnote{\url{https://junit.org/junit4/}}, kter\'y poskytuje veškerou potřebnou funkcionalitu pro
 jednotkové i integračn\'{\i} testován\'{\i}. Všechny testy byly spouštěny automaticky
-při sestavován\'{\i} knihovny pomoc\'{\i} nástroje Maven\footnote{https://maven.apache.org/}.
+při sestavován\'{\i} knihovny pomoc\'{\i} nástroje Maven\footnote{\url{https://maven.apache.org/}}.
 
 \lstinputlisting[
 caption={Jednotkový test knihovny pro jazyk Java s využit\'{\i}m nástroje JUnit 4},
@@ -97,7 +97,7 @@ vyplněno jméno, ale emailová adresa ne.
 \subsection{Platforma Python}
 
 Prototyp knihovny pro platformu jazyka Python byl testován pomoc\'{\i}
-nástroje \code{unittest}\footnote{https://docs.python.org/3/library/unittest.html}, inspirovaného nástrojem
+nástroje \code{unittest}\footnote{\url{https://docs.python.org/3/library/unittest.html}}, inspirovaného nástrojem
 JUnit. Ačkoliv jméno obou nástrojů nasvědčuje, že slouž\'{\i} zejména pro jednotkové testy,
 lze je plně využ\'{\i}t i pro integračn\'{\i} testy.
 
@@ -122,8 +122,8 @@ identifikátoru na textov\'y řetězec.
 
 Tendence ve světě modern\'{\i}ho JavaScriptu je vytvářet knihovny s co nejmenš\'{\i}m polem působnosti,
 které jdou kombinovat do větš\'{\i}ho celku. Prototyp knihovny pro platformu Node.js byl proto testován pomoc\'{\i}
-kombinace dvou nástrojů. Spouštěn\'{\i} testů obstarává knihovna \textit{Mocha}\footnote{https://mochajs.org/}, zat\'{\i}mco
-ověřován\'{\i} a zápis testů ve stylu \textit{Behaviour Driven Development} poskytuje knihovna \textit{Chai}\footnote{http://www.chaijs.com/}.
+kombinace dvou nástrojů. Spouštěn\'{\i} testů obstarává knihovna \textit{Mocha}\footnote{\url{https://mochajs.org/}}, zat\'{\i}mco
+ověřován\'{\i} a zápis testů ve stylu \textit{Behaviour Driven Development} poskytuje knihovna \textit{Chai}\footnote{\url{http://www.chaijs.com/}}.
 
 \lstinputlisting[
 caption={Jednotkový test knihovny pro platformu Node.js s využit\'{\i}m nástroje Mocha a Chai},
@@ -305,7 +305,7 @@ způsob \textit{service discovery} nebylo problém do systému integrovat.
 \paragraph{Billing service}
 
 Služba \textit{Billing service} má na starosti funkcionalitu t\'ykaj\'{\i}c\'{\i} se fakturace objednávek
-a byla implementována v jazyce Java s použit\'{\i}m frameworku Spring Boot\footnote{https://projects.spring.io/spring-boot/}.
+a byla implementována v jazyce Java s použit\'{\i}m frameworku Spring Boot\footnote{\url{https://projects.spring.io/spring-boot/}}.
 
 \paragraph{Order service}
 
@@ -328,7 +328,7 @@ Služba \textit{Product service} realizuje \gls{UC} t\'ykaj\'{\i}c\'{\i} se
 prohl\'{\i}žen\'{\i} a administrac\'{\i} nab\'{\i}zen\'ych
 produktů a jejich skladov\'ych zásob. Služba byla implementována v jazyce Python.
 Pro vytvořen\'{\i} \gls{REST} \gls{API} služby byl využit populárn\'{\i}
-light-weight framework \textit{Flask}\footnote{http://flask.pocoo.org/}.
+light-weight framework \textit{Flask}\footnote{\url{http://flask.pocoo.org/}}.
 Ve zdrojovém kódu~\ref{lst:product-service-flask} je znázorněno použit\'{\i}
 tohoto frameworku pro obsluhu požadavku na v\'ypis všech produktů.
 
@@ -349,7 +349,7 @@ a byla implementována v jazyce Java s použit\'{\i}m frameworku Spring Boot.
 
 Služba \textit{User service} realizuj\'{\i}c\'{\i} funkcionalitu t\'ykaj\'{\i}c\'{\i} se uživatelsk\'ych účtů byla
 implementována v jazyce JavaScript na platformě Node.js s použit\'{\i}m
-frameworku Express\footnote{https://expressjs.com/}. Ve zdrojovém kódu~\ref{lst:user-service-expressjs}
+frameworku Express\footnote{\url{https://expressjs.com/}}. Ve zdrojovém kódu~\ref{lst:user-service-expressjs}
 je ukázka mapován\'{\i} controllerů na \gls{URL} \code{/users} a různé metody protokolu \gls{HTTP}.
 
 \lstinputlisting[
@@ -384,8 +384,8 @@ Uživatel si nadefinuje tzv. \textit{image}, kter\'y se skládá z jednotliv\'yc
 Základn\'{\i} vrstvou je operačn\'{\i} systém, dalš\'{\i}mi mohou b\'yt jednotlivé knihovny instalované do systému.
 Př\'{\i}klad definice image pomoc\'{\i} technologie Docker je znázorněn ve zdrojovém
 kódu~\ref{lst:docker-image}. Konkrétně se jedná o definici image, kter\'y
-rozšiřuje oficiáln\'{\i} image \code{library/node:9.11.1}\footnote{https://hub.docker.com/\_/node/}
-stavěj\'{\i}c\'{\i} nad operačn\'{\i}m systémem \textit{Linux}\footnote{https://www.linuxfoundation.org/projects/linux/},
+rozšiřuje oficiáln\'{\i} image \code{library/node:9.11.1}\footnote{\url{https://hub.docker.com/\_/node/}}
+stavěj\'{\i}c\'{\i} nad operačn\'{\i}m systémem \textit{Linux}\footnote{\url{https://www.linuxfoundation.org/projects/linux/}},
 a přidává vrstvy s prototypem knihovny pro platformu Node.js.
 
 \lstinputlisting[
