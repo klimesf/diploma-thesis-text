@@ -175,6 +175,19 @@ její funkcionalitu:
     \item \code{business-context-xml} obsahuje třídy pro čtení a zápis byznysových kontextů do \gls{XML}
 \end{itemize}
 
+Moduly knihovny a jejich vzájemné závislosti jsou znázorněny na obrázku~\ref{fig:modules}.
+Jádro knihovny je nezávislé na konkrétních implementaci síťové komunikace a zvoleném
+\gls{DSL}, ale využívá rozhraní, které jsou těmito moduly implementovány.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/library-modules.pdf}
+    \caption{Moduly prototypu knihovny pro jazyk Java a jejich závislosti}
+    \label{fig:modules}
+\end{figure}
+
+\subsection{Správa závislostí projektu}
+
 Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i}
 všech těchto modulů byl zvolen projekt \textit{Maven}\footnote{https://maven.apache.org/}.
 Tento nástroj umožňuje v\'yvojáři komfortně a centrálně spravovat závislosti jeho projektu včetně
@@ -186,9 +199,9 @@ detailn\'{\i}ho popisu jejich verze. Dále také umožňuje specifikovat a rozš
 Jádro knihovny obsahuje metamodel a registr byznysových kontextů, weaver byznysových pravidel
 a logické výrazy pravidel. Registr kontextů implementuje třída \code{BusinessContextRegistry},
 která kromě funkcí popsaných v sekci~\ref{sec:registry-design} umožňuje snadnou konfiguraci
-stahování vzdálených byznysových kontextů a načítání lokálních kontextů z \gls{DSL}.
-Není závislá na konkrétních technologiích použitých pro síťovou komunikaci ani
-na použitém \gls{DSL}.
+stahování vzdálených byznysových kontextů a načítání lokálních kontextů z \gls{DSL} pomocí
+návrhové vzoru Builder~\cite{fowler2002patterns}. Registr není závislý na konkrétních
+technologiích použitých pro síťovou komunikaci ani na použitém \gls{DSL}.
 
 % popis expressions
 Logické výrazy byznysových pravidel jsou implementovány samostatnými třídami, které rozšiřují
@@ -232,7 +245,7 @@ pomoc\'{\i} které lze automaticky sestavovat a č\'{\i}st \gls{XML} dokumenty.
 
 \subsection{Distribuce byznysových pravidel}
 
-K distribuci byznysových pravidel mezi službami byly implementovány třídy
+K distribuci byznysových pravidel mezi službami byly implementovány obsluhující třídy
 \code{GrpcBusinessContextServer} a \code{GrpcBusinessContextClient}.
 Framework gRPC poskytuje knihovnu pro jazyk Java, která vygeneruje \textit{Stub}
 zapouzdřující veškerou síťovou komunikaci. Obsluha komunikace tak vyžaduje pouze
@@ -241,8 +254,8 @@ Obě třídy navíc obsahují metody pro snadnou konfiguraci sítových adres.
 
 \section{Knihovna pro platformu Python}
 
-Knihovna pro platformu Python využ\'{\i}vá verzi jazyka 3.6.
-Skládá se ze tří částí: \code{business\_context} obsahuje jádro knihovny,
+Knihovna pro platformu Python využ\'{\i}vá verzi jazyka 3.6, která byla v době
+psaní práce nejnovější stabilní verzí. Knihovna se skládá ze tří částí: \code{business\_context} obsahuje jádro knihovny,
 \code{business\_context\_grpc} umožňuje síťovou komunikaci pomocí frameworku
 gRPC a \code{business\_context\_xml} poskytuje nástroje pro zápis a čtení kontextů z \gls{XML}.
 Pomoc\'{\i} nástroje \textit{pip}\footnote{https://pip.pypa.io/en/stable/}
