@@ -64,7 +64,7 @@ dosud v systému neexistuje žádn\'y uživatel se stejnou emailovou adresou.
 Na byznysovou operaci mohou b\'yt kladeny požadavky, které
 musej\'{\i} b\'yt splněny po jej\'{\i}m úspěšném vykonán\'{\i}~\cite{cemus2015automated}.
 Př\'{\i}kladem může b\'yt anonymizace uživatelů při vytvářen\'{\i} statistického
-reportu e-commerce společnosti \textendash\xspace vygenerováný report
+reportu e-commerce společnosti -- vygenerováný report
 nesmí obsahovat citlivé údaje. Dalš\'{\i}m př\'{\i}padem může b\'yt filtrován\'{\i}
 v\'ystupu byznysové operace, např\'{\i}klad při v\'ypisu objednávek pro zákazn\'{\i}ka
 musí všechny vypsané objednávky patřit danému zákazn\'{\i}kovi.
@@ -74,7 +74,7 @@ musí všechny vypsané objednávky patřit danému zákazn\'{\i}kovi.
 Informačn\'{\i} systém zpravidla implementuje v\'{\i}ce byznysov\'ych procesů, které se vážou
 na jeden či v\'{\i}ce uživatelsk\'ych scénářů~\cite{larman2001patterns}. Uživatelsk\'y scénář se
 pak děl\'{\i} na jednotlivé kroky, např\'{\i}klad zaslán\'{\i} potvrzovac\'{\i}ho e-mailu k objednávce, či uložen\'{\i} objednávky
-do databáze. Tyto kroky naz\'yváme \textit{byznysové operace} \textendash\xspace tedy operace, které maj\'{\i}
+do databáze. Tyto kroky naz\'yváme \textit{byznysové operace} -- tedy operace, které maj\'{\i}
 byznysovou hodnotu.
 
 Jak již bylo uvedeno, vykonávání byznysové operace je podmíněno byznysovými pravidly, která se k ní vztahují. Před spuštěním operace musejí
@@ -222,7 +222,7 @@ K tomu slouží principy \textit{orchestrace služeb} a \textit{choreografie slu
 \paragraph{Orchestrace}
 Orchestrace služeb má za úkol zajistit, že komunikace mezi službami
 proběhne úspěšně a ve správném časovém sledu~\cite{orchestration},
-za použití centráln\'{\i} komponenty \textendash\xspace tzv. \textit{dirigenta}.
+za použití centráln\'{\i} komponenty -- tzv. \textit{dirigenta}.
 Typicky je jako dirigent využ\'{\i}ván \gls{ESB}.
 
 \paragraph{Choreografie}
@@ -279,8 +279,8 @@ a procesy vytváření faktury a vytváření objednávky, každý z nich implem
 Systém navíc obsahuje službu poskytující webové uživatelské rozhraní.
 Při vytvářen\'{\i} faktury za objednávku mus\'{\i} b\'yt nejprve zvalidována fakturačn\'{\i} adresa.
 Protože by mohla nastat situace, kdy by v př\'{\i}padě nevalidn\'{\i} adresy museli zaměstnanci
-společnosti kontaktovat zákazn\'{\i}ka \textendash\xspace pokud vůbec takovou možnost maj\'{\i}
-\textendash\xspace musí být adresa validována již při vytvářen\'{\i} objednávky.
+společnosti kontaktovat zákazn\'{\i}ka -- pokud vůbec takovou možnost maj\'{\i}
+-- musí být adresa validována již při vytvářen\'{\i} objednávky.
 V ideáln\'{\i}m př\'{\i}padě by navíc měl zákazn\'{\i}k být upozorněn na nevalidn\'{\i} fakturačn\'{\i}
 adresu co nejdříve, ještě před odeslán\'{\i}m objednávkového formuláře, př\'{\i}mo v uživatelském
 rozhran\'{\i}~\cite{cemus2017separation}. Pro ilustraci je problém znázorněn na obrázku~\ref{fig:service-cutting},

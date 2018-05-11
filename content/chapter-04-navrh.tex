@@ -228,7 +228,7 @@ hodnotu.
 \end{itemize}
 
 %\goal{Atributy pravidel}
-Kromě argumentů neterminálů je v některých případech potřeba k výrazu uložit i dodatečné informace \textendash\xspace
+Kromě argumentů neterminálů je v některých případech potřeba k výrazu uložit i dodatečné informace --
 \textit{atributy}. Jedním z atributů je typ návratové hotnoty výrazu, pokud není přímo implikována.
 V případě výrazu \code{Constant} je potřeba uložit hodnotu a typ konstanty. Reference na proměnnou
 musí obsahovat její název a typ, reference na pole objektu navíc musí obsahovat název odkazovaného pole.
@@ -294,7 +294,7 @@ Pro uložení kontextu z metamodelu do \gls{DSL}, aby ho mohl vývojář či adm
 systému upravovat, je vzhledem k reprezentaci logických výrazů vhodný návrhový vzor
 \textit{Visitor}~\cite{fowler2002patterns}. Ten umožní převádět libovolně složité logické
 výrazy pomocí metody \textit{double-dispatch}. Jeho volbou je zároveň zajištěna rozšiřitelnost
-frameworku pro libovolné \gls{DSL} \textendash\xspace bude stačit implementovat konkrétní
+frameworku pro libovolné \gls{DSL} -- bude stačit implementovat konkrétní
 visitor pro zvolený jazyk, aniž by bylo nutno zasahovat přímo do implementace frameworku.
 Princip použití vzoru Visitor je znázorněn na obrázku~\ref{fig:expression-visitor}.
 
@@ -394,7 +394,7 @@ nového kontextu je analogický.
 V této sekci je popsána obecná architektura navrženého frameworku v rámci služby využívající
 klasickou třívrstvou architekturu~\cite{fowler2002patterns}, která se skládá z prezentační,
 aplikační a datové vrstvy. Každá z těchto vrstev může framework využívat
-\textendash\xspace prezentační vrstva při validování vstupních polí formuláře, aplikační vrstva při
+-- prezentační vrstva při validování vstupních polí formuláře, aplikační vrstva při
 aplikaci byzynsových pravidel v byznysových operacích a datová vrstva při aplikaci post-conditions pro
 filtrování dat při jejich získávání z databáze.
 
@@ -431,7 +431,7 @@ Aby framework mohl distribuovat byznysové kontexty mezi službami, musí služb
 znát adresu služby, od které ho vyžaduje. Adresy služeb mohou podléhat různým konfiguracím,
 které se mohou lišit systém od systému. Framework proto nesmí být závislý na způsobu,
 jakým se adresování služeb provádí. Nejlepším řešením je přenechat na uživateli frameworku, aby sám
-získal a předal adresy služeb ve chvíli, kdy je framework potřebuje \textendash\xspace tedy
+získal a předal adresy služeb ve chvíli, kdy je framework potřebuje -- tedy
 ve chvíli, kdy je potřeba načíst lokálně nedostupné kontexty.
 
 \section{Shrnutí}
