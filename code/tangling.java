@@ -1,10 +1,10 @@
-void createOrder(User user, Collection<Product> products, Address shipping,
-                   Address billing) {
+void createOrder(User user, Collection<Product> products,
+                   Address shipping, Address billing) {
     logger.info("Creating order"); // Logging aspect
     transaction.begin();           // Transaction aspect
     try {
-        validator.validateAddress(shipping); // Shipping business rules aspect
-        validator.validateAddress(billing);  // Billing business rules aspect
+        validator.validateAddress(shipping); // Shipping business rule
+        validator.validateAddress(billing);  // Billing business rule
         Order order = new Order(user, product, shipping, billing);
         database.save(order);
         transaction.commit();                      // Transaction aspect
