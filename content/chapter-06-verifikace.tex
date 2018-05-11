@@ -120,7 +120,7 @@ identifikátoru na textov\'y řetězec.
 Tendence ve světě modern\'{\i}ho JavaScriptu je vytvářet knihovny s co nejmenš\'{\i}m polem působnosti,
 které jdou kombinovat do větš\'{\i}ho celku. Prototyp knihovny pro platformu Node.js byl proto testován pomoc\'{\i}
 kombinace dvou nástrojů. Spouštěn\'{\i} testů obstarává knihovna \textit{Mocha}\footnote{https://mochajs.org/}, zat\'{\i}mco
-o ověřován\'{\i} a zápis testů ve stylu \textit{Behaviour Driven Development} (\gls{BDD})~\cite{solis2011study}
+o ověřován\'{\i} a zápis testů ve stylu \textit{Behaviour Driven Development} (\gls{BDD})
 se stará knihovna \textit{Chai}\footnote{http://www.chaijs.com/}.
 
 \lstinputlisting[
@@ -403,8 +403,8 @@ V sekci \code{ports} deklarujeme, že služba má m\'{\i}t z vnějšku př\'{\i}
 na Product, Billing, Shipping a User service, což explicitně specifikujeme v sekci \code{depends\_on},
 aby Docker Compose mohl spustit služby ve správném pořad\'{\i}. Nakonec pomoc\'{\i} \code{links} deklarujeme,
 že pro kontejner, ve kterém Order Service poběž\'{\i}, maj\'{\i} b\'yt na s\'{\i}ti př\'{\i}stupné služby \code{product}, \code{user},
-\code{billing} a \code{shipping}. Vše je popsáno ve formátu \gls{YAML}~\cite{ben2005yaml}, kter\'y je dnes běžně využ\'{\i}ván
-pro konfiguračn\'{\i} soubory, kvůli jeho snadné čitelnosti pro člověka a jednoduchému použ\'{\i}ván\'{\i}.
+\code{billing} a \code{shipping}. Vše je popsáno ve formátu \gls{YAML}, kter\'y je vhodný
+pro konfiguračn\'{\i} soubory díky jeho snadné čitelnosti pro člověka a jednoduchému použ\'{\i}ván\'{\i}.
 
 \lstinputlisting[
 caption={Ukázka zápisu v\'{\i}ce-kontejnerové aplikace pro Docker Compose},

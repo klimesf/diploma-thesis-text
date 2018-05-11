@@ -82,7 +82,7 @@ Pro realizaci architektury klient-server byl zvolen
 open-source framework gRPC\footnote{https://grpc.io/}, kter\'y stav\'{\i}
 na technologii Protocol Buffers a poskytuje v\'yvojáři
 možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i}
-protokolu \textit{\gls{RPC}}~\cite{nelson1981remote}.
+protokolu \textit{\gls{RPC}}.
 Zdrojov\'y kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
 kter\'y umožňuje volat metody \code{FetchContexts},
 \code{FetchAllContexts} a \code{UpdateOrSaveContext}.
@@ -124,8 +124,8 @@ kontextu. Tento jazyk však bude možno v produkční verzi knihovny nahradit ko
 %\goal{Důvody pro v\'yběr XML}
 Pro popis kontextů byl jako kompromis mezi jednoduchost\'{\i} implementace
 a př\'{\i}větivost\'{\i} pro koncového uživatele zvolen univerzáln\'{\i} formát Extensible
-Markup Language (\gls{XML})~\cite{bray1997extensible} doplněný o definici schematu dat
-pomocí \textit{XML Schema Definition} (\gls{XSD})~\cite{lee2000comparative}.
+Markup Language (\gls{XML}) doplněný o definici schematu dat
+pomocí \textit{XML Schema Definition} (\gls{XSD}).
 D\'{\i}ky formálně definovanému schématu lze popis byznys kontextu
 automaticky validovat a vyvarovat se tak př\'{\i}padn\'ych chyb.
 
@@ -214,7 +214,7 @@ engine pro weaving aspektů.
 %\goal{Proč jdom2 a co to um\'{\i}}
 Knihovna JDOM 2\footnote{http://www.jdom.org/} poskytuje
 kompletn\'{\i} sadu nástroju pro čten\'{\i} a zápis \gls{XML} dokumentů.
-Implementuje specifikaci \textit{Document Object Model} (\gls{DOM})~\cite{wood2004document},
+Implementuje specifikaci \textit{Document Object Model} (\gls{DOM})
 pomoc\'{\i} které lze automaticky sestavovat a č\'{\i}st \gls{XML} dokumenty.
 
 \section{Knihovna pro platformu Python}
@@ -266,8 +266,7 @@ language=Python,
 \section{Knihovna pro platformu Node.js}
 
 Knihovna pro platformu \textit{Node.js} byla implementována
-v jazyce JavaScript, konkrétně jeho verzi
-ECMAScript 6.0~\cite{ecma60}.
+v jazyce JavaScript, konkrétně jeho verzi \textit{ECMAScript 6.0}.
 Implementace odpov\'{\i}dá specifikaci návrhu, umožňuje
 instalaci pomoc\'{\i} bal\'{\i}čkovac\'{\i}ho nástroje a snadnou
 integraci do kódu v\'ysledné služby.
@@ -331,8 +330,8 @@ pravidel
 Systém pro centrální správu ...
 
 Pro komfortn\'{\i} obsluhu centráln\'{\i} administrace bylo naprogramováno
-uživatelské rozhran\'{\i} pomoc\'{\i} technologi\'{\i} Hypertext Markup Language~\cite{berners1995hypertext}
-(HTML) a Cascading Style Sheets~\cite{bos1998cascading} (\gls{CSS}).
+uživatelské rozhran\'{\i} pomoc\'{\i} technologi\'{\i} Hypertext Markup Language
+(HTML) a Cascading Style Sheets (\gls{CSS}).
 Detail byznysového kontextu v uživatelském rozhran\'{\i} je zobrazen
 na sn\'{\i}mku~\ref{fig:screenshot-context-detail} a formulář pro úpravu kontextu
 na sn\'{\i}mku~\ref{fig:screenshot-context-edit}.
