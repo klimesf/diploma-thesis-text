@@ -1,6 +1,5 @@
-const chai = require('chai');
-
-// Imports ...
+const chai = require('chai')
+// Other imports
 
 chai.should();
 
@@ -23,6 +22,4 @@ describe('IsNotNull', () => {
             result.should.equal(false)
         })
     })
-
-    // Other tests ...
 })

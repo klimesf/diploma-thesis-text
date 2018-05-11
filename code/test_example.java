@@ -3,8 +3,6 @@ import org.junit.Test;
 
 public class BusinessContextWeaverTest {
 
-    /* ... */
-
     $$@Test
     public void test() {
         BusinessContextWeaver evaluator =

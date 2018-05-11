@@ -30,6 +30,45 @@ To umožnilo v krátkém časovém horizontu identifikovat konkrétn\'{\i} změn
 v kódu, které do programu vnesly chybu. T\'{\i}m byla sn\'{\i}žena
 pravděpodobnost regrese a dlouhodobě se zv\'yšila celková kvalita kódu.
 
+\subsection{Testovací scénáře}
+
+Každá z knihoven byla testována stejnou sadou testovacích scénářů, které jsou shrnuty
+v tabulce~\ref{tbl:test-cases}. K implementaci a vyhodnocení testů byly pro jednotlivé
+knihovny použity různé technologie, které jsou popsány v následujícím textu.
+
+\begin{table}
+    \centering
+    \begin{tabular*}{\textwidth}{ l l }
+        \hline
+        \textbf{\#} & \textbf{Popis} \\ \hline \hline
+        \textbf{TC01} & \makecell[l]{Pouze identifikátor byzynsového kontextu obsahující alfanumerický prefix \\ a název je validní} \\ \hline
+        \textbf{TC02} & \makecell[l]{Precondition weaver zkontroluje všechny preconditions vztahující se \\ k aktuálnímu kontextu} \\ \hline
+        \textbf{TC03} & \makecell[l]{Precondition weaver nevyhodí výjimku, pokud jsou všechny preconditions \\ splněny} \\ \hline
+        \textbf{TC04} & \makecell[l]{Precondition weaver vyhodí výjimku, pokud alespoň jedna precondition \\ není splněna} \\ \hline
+        \textbf{TC05} & \makecell[l]{Post-condition weaver aplikuje všechny post-conditions vztahující se \\ k aktuálnímu kontextu} \\ \hline
+        \textbf{TC06} & Post-condition weaver správně filtruje atribut objektu \\ \hline
+        \textbf{TC07} & Post-condition weaver správně filtruje pole hodnot \\ \hline
+        \textbf{TC08} & Post-condition weaver správně filtruje atributy objektů v poli \\ \hline
+        \textbf{TC09} & Logický výraz \code{And} odpovídá logické konjunkci \\ \hline
+        \textbf{TC10} & Logický výraz \code{Equals} odpovídá logické ekvivalenci \\ \hline
+        \textbf{TC11} & Logický výraz \code{Negate} odpovídá logické negaci \\ \hline
+        \textbf{TC12} & Logický výraz \code{Or} odpovídá logické disjunkci \\ \hline
+        \textbf{TC13} & \makecell[l]{Výraz \code{Constant} správně doplňuje do pravidla konstantu} \\ \hline
+        \textbf{TC14} & \makecell[l]{Výraz \code{FunctionCall} správně volá externí funkci} \\ \hline
+        \textbf{TC15} & \makecell[l]{Výraz \code{IsNotNull} správně kontroluje, zda v jeho argumentu není prázdný výraz} \\ \hline
+        \textbf{TC16} & \makecell[l]{Výraz \code{IsNotBlank} správně kontroluje, zda v jeho argumentu není prázdný \\ řetězec} \\ \hline
+        \textbf{TC17} & \makecell[l]{Výraz \code{ObjectPropertyReference} správně vkládá do výrazu hodnotu atributu \\ objektu z kontextu} \\ \hline
+        \textbf{TC18} & \makecell[l]{Výraz \code{VariableReference} správně vkládá do výrazu hodnotu proměnné \\ z kontextu} \\ \hline
+        \textbf{TC19} & \makecell[l]{Byznysové kontexty jsou korektně inicializovány, jejich závislosti staženy \\ a spojeny} \\ \hline
+        \textbf{TC20} & Byznysové kontexty jsou správně a kompletně přenášeny mezi službami \\ \hline
+        \textbf{TC21} & Byznysové kontexty jsou správně deserializovány z \gls{XML} \\ \hline
+        \textbf{TC22} & Byznysové kontexty jsou správně serializovány do \gls{XML} \\ \hline
+        \hline
+    \end{tabular*}
+    \caption{Testovací scénáře prototypů knihoven}
+    \label{tbl:test-cases}
+\end{table}
+
 \subsection{Platforma Java}
 
 Prototyp knihovny pro platformu jazyka Java byl testován pomoc\'{\i}
@@ -38,7 +77,7 @@ jednotkové i integračn\'{\i} testován\'{\i}. Všechny testy byly spouštěny 
 při sestavován\'{\i} knihovny pomoc\'{\i} nástroje Maven\footnote{https://maven.apache.org/}.
 
 \lstinputlisting[
-caption={Př\'{\i}klad jednotkového testu knihovny pro jazyk Java s využit\'{\i}m nástroje JUnit 4},
+caption={Jednotkový test knihovny pro jazyk Java s využit\'{\i}m nástroje JUnit 4},
 label={lst:java-testing},
 language=Java,
 %frame=single,
@@ -46,9 +85,8 @@ language=Java,
 {code/test_example.java}
 
 Ve zdrojovém kódu~\ref{lst:java-testing} je znázorněn jednotkov\'y test
-tř\'{\i}dy \code{BusinessContextWeaver} ověřuj\'{\i}c\'{\i},
-že byly správně aplikovány post-conditions daného byznys kontextu, konkrétně
-zakrytí pole \code{email} objektu \code{user}. Anotace \code{@Test} metody \code{test()} znač\'{\i},
+tř\'{\i}dy \code{BusinessContextWeaver} odpovídající testovacímu scénáři \textit{TC06}, konkrétně
+filtrování pole \code{email} objektu \code{user}. Anotace \code{@Test} metody \code{test()} znač\'{\i},
 že metoda obsahuje \textit{test case} a framework JUnit zajist\'{\i}, že bude spuštěna
 a vyhodnocena. Statické metody tř\'{\i}dy \code{Assert} ověř\'{\i}, zda uživateli zůstalo
 vyplněno jméno, ale emailová adresa ne.
@@ -61,7 +99,7 @@ JUnit. Ačkoliv jméno obou nástrojů nasvědčuje, že slouž\'{\i} zejména p
 lze je plně využ\'{\i}t i pro integračn\'{\i} testy.
 
 \lstinputlisting[
-caption={Př\'{\i}klad jednotkového testu knihovny pro jazyk Python s využit\'{\i}m nástroje Unittest},
+caption={Jednotkový test knihovny pro jazyk Python s využit\'{\i}m nástroje Unittest},
 label={lst:python-testing},
 language=Python,
 %frame=single,
@@ -69,7 +107,7 @@ language=Python,
 {code/test_example.py}
 
 Ve zdrojovém kódu~\ref{lst:python-testing} je př\'{\i}klad jednotkového testu tř\'{\i}dy
-\code{Identifier} se třemi metodami ověřuj\'{\i}c\'{\i}mi jeho správnou funkcionalitu.
+\code{Identifier} se třemi metodami ověřuj\'{\i}c\'{\i}mi testovací scénář \textit{TC01}.
 Funkce \code{test\_split()} ověřuje, zda konstruktor správně přij\'{\i}má dva argumenty,
 kde prvn\'{\i} z nich je prefix identifikátoru a druh\'y je jméno identifikátoru.
 Funkce \code{test\_single()} naopak ověřuje, zda kontruktor správně přij\'{\i}má jeden
@@ -79,33 +117,33 @@ identifikátoru na textov\'y řetězec.
 
 \subsection{Platforma Node.js}
 
-Jelikož tendence ve světě modern\'{\i}ho JavaScriptu je vytvářet knihovny s co nejmenš\'{\i}m polem působnosti,
-které jdou kombinovat do větš\'{\i}ho celku, byl prototyp knihovny pro platformu Node.js testován pomoc\'{\i}
-kombinace několika nástrojů. Spouštěn\'{\i} testů obstarává knihovna \textit{Mocha}\footnote{https://mochajs.org/}, zat\'{\i}mco
+Tendence ve světě modern\'{\i}ho JavaScriptu je vytvářet knihovny s co nejmenš\'{\i}m polem působnosti,
+které jdou kombinovat do větš\'{\i}ho celku. Prototyp knihovny pro platformu Node.js byl proto testován pomoc\'{\i}
+kombinace dvou nástrojů. Spouštěn\'{\i} testů obstarává knihovna \textit{Mocha}\footnote{https://mochajs.org/}, zat\'{\i}mco
 o ověřován\'{\i} a zápis testů ve stylu \textit{Behaviour Driven Development} (\gls{BDD})~\cite{solis2011study}
 se stará knihovna \textit{Chai}\footnote{http://www.chaijs.com/}.
 
 \lstinputlisting[
-caption={Př\'{\i}klad jednotkového testu knihovny pro platformu Node.js s využit\'{\i}m nástroje Mocha a Chai},
+caption={Jednotkový test knihovny pro platformu Node.js s využit\'{\i}m nástroje Mocha a Chai},
 label={lst:nodejs-testing},
 language=JavaScript,
 %frame=single,
 ]
 {code/test_example.js}
 
-Zdrojov\'y kód~\ref{lst:nodejs-testing} znázorňuje použit\'{\i} knihoven k ověřen\'{\i} správné funkcionality v\'yrazu
-\code{IsNotNull}. Konkrétně je nejprve zkonstruován s konstantn\'{\i}m argumentem typu \code{boolean}
-s hodnotou \code{true} a je ověřeno, že v\'yraz se vyhodnot\'{\i} jako \code{true}. Následně je zkonstruován
-v\'yraz, kterému je předán argument \code{null} a je ověřeno, že v\'yraz se vyhodnot\'{\i} jako \code{false}.
+Zdrojov\'y kód~\ref{lst:nodejs-testing} znázorňuje použit\'{\i} testovacích knihoven k implementaci testovacího
+scénáře \textit{TC15} ověřující funkcionalitu výrazu \code{IsNotNull}. Konkrétně je výraz nejprve zkonstruován s
+konstantn\'{\i}m argumentem typu \code{boolean} s hodnotou \code{true} a je ověřeno, že v\'yraz se vyhodnot\'{\i}
+jako \code{true}. Následně je zkonstruován v\'yraz, kterému je předán argument \code{null} a je ověřeno,
+že v\'yraz se vyhodnot\'{\i} jako \code{false}.
 
 \section{Př\'{\i}padová studie: e-commerce systém}
 
-Abychom mohli navržen\'y a implementovan\'y framework pro centráln\'{\i} správu
-a automatickou integraci byznys pravidel verifikovat v praxi a validovat
-jeho myšlenku, bylo nutné vyzkoušet jeho nasazen\'{\i} při v\'yvoji aplikace.
-Pro tento účel vznikla v rámci této práce př\'{\i}padová studie na fiktivn\'{\i}m
+Pro praktickou verifikaci a validaci navrženého framwroeku bylo nutné vyzkoušet
+jeho nasazen\'{\i} při v\'yvoji aplikace. Pro tento účel vznikla v
+rámci této práce př\'{\i}padová studie na fiktivn\'{\i}m
 ukázkovém e-commerce systému využ\'{\i}vaj\'{\i}c\'{\i} architekturu orientovanou na služby.
-Na tomto př\'{\i}kladě demonstrujeme schopnost frameworku poradit si s průřezov\'ymi
+Na tomto př\'{\i}kladě je demonstrována schopnost frameworku poradit si s průřezov\'ymi
 problémy v rámci \gls{SOA} a také jeho schopnost plnit požadavky identifikované v
 sekci~\ref{sec:implementation-requirements}.
 
@@ -436,8 +474,9 @@ navržen\'ym způsobem.
 
 Tato kapitola popisuje, jak\'ym způsobem byly testovány prototypy knihoven
 pro platformy jazyků Java a Python a pro platformu Node.js. T\'{\i}m byla verifikována
-jejich správná fukcionalita. Dále kapitola specifikuje ukázkový systém, na kterém byla provedena př\'{\i}padová studie použit\'{\i} frameworku,
-a popisuje jeho implementaci. D\'{\i}ky studii bylo zvalidováno, že navržen\'y framework je funkčn\'{\i}
-a splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements}.
-Nakonec je na ukázkovém systému změřen počet duplikací pravidel a je srovnáno použit\'{\i} frameworku
-a konvenčn\'{\i}ho př\'{\i}stupu k návrhu a implementaci softwarov\'ych systému.
+jejich správná fukcionalita. Dále kapitola specifikuje ukázkový systém, na kterém byla
+provedena př\'{\i}padová studie použit\'{\i} frameworku, a popisuje jeho implementaci.
+D\'{\i}ky této studii bylo ověřeno, že navržen\'y framework je funkčn\'{\i},
+splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements}
+a prokazuje reálné snížení manuální duplikace byzynsových pravidel oproti
+konvenčn\'{\i}mu př\'{\i}stupu k návrhu a implementaci softwarov\'ych systému.
