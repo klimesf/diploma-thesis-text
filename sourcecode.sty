@@ -6,8 +6,8 @@
 \definecolor{super-gray}{gray}{0.4}
 \definecolor{my-green}{HTML}{06A606}
 
-\definecolor{javared}{rgb}{0.6,0,0} % for strings
-\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
+\definecolor{javared}{HTML}{AB3700} % for strings
+\definecolor{javagreen}{HTML}{AB8300} % comments
 \definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
 \definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
 
@@ -22,6 +22,7 @@
 
 \definecolor{bglightgray}{rgb}{.97,.97,.97}
 \definecolor{numberlightgray}{rgb}{.92,.92,.92}
+\definecolor{ctublue}{HTML}{005eb8}
 
 \lstset{
 basicstyle=\ttfamily,
@@ -40,14 +41,14 @@ frame=l,
 framesep=4.5mm,
 framexleftmargin=2.5mm,
 fillcolor=\color{numberlightgray},
-rulecolor=\color{NavyBlue},
+rulecolor=\color{ctublue},
 }
 
 \lstdefinelanguage{Java}
 {
 keywords={instanceof, new, true, false, catch, return, null, catch, switch, if, while, do, else, case, break, class, implements, extends, import, public, private, static, protected, void, int, float, double},
-keywordstyle=\color{NavyBlue},
-stringstyle=\color{darkgreen},
+keywordstyle=\color{ctublue},
+stringstyle=\color{javagreen},
 comment=[l]{//},
 commentstyle=\color{jsgray}\ttfamily,
 morecomment=[s][\color{javadocblue}]{/**}{*/},
@@ -63,14 +64,14 @@ morestring=[b]",
 morestring=[s]{>}{<},
 morecomment=[s]{<?}{?>},
 stringstyle=\color{black},
-identifierstyle=\color{NavyBlue},
+identifierstyle=\color{ctublue},
 keywordstyle=\color{javared},
 morekeywords={xmlns,version,prefix,name,objectName,propertyName,type,value}% list your attributes here
 }
 
 \lstdefinelanguage{JavaScript}{
 keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, const, let, try},
-keywordstyle=\color{NavyBlue}\bfseries,
+keywordstyle=\color{ctublue}\bfseries,
 ndkeywords={class, export, boolean, throw, implements, import, this},
 ndkeywordstyle=\color{jsdarkgray}\bfseries,
 identifierstyle=\color{black},
@@ -81,45 +82,45 @@ commentstyle=\color{jsgray}\ttfamily,
 stringstyle=\color{jsred}\ttfamily,
 morestring=[b]',
 morestring=[b]",
-stringstyle=\color{darkgreen}
+stringstyle=\color{javagreen}
 }
 
 \lstdefinelanguage{Yaml}{
 keywords={true,false,null,y,n},
 keywordstyle=\color{darkgray},
 sensitive=false,
-stringstyle=\color{darkgreen},
+stringstyle=\color{javagreen},
 comment=[l]{\#},
 morecomment=[s]{/*}{*/},
 commentstyle=\color{purple}\ttfamily,
 moredelim=[l][\color{orange}]{\&},
 moredelim=[l][\color{magenta}]{*},
-moredelim=**[is][\color{NavyBlue}]{\%\%}{\%\%},
+moredelim=**[is][\color{ctublue}]{\%\%}{\%\%},
 morestring=[b]',
 morestring=[b]",
 }
 
 \lstdefinelanguage{Dockerfile}{
 keywords={FROM,RUN,WORKDIR,COPY},
-keywordstyle=\color{NavyBlue},
+keywordstyle=\color{ctublue},
 sensitive=true,
 }
 
 \lstdefinelanguage{Python}{
 keywords={def,class,for,in,import,from,pass,return},
-keywordstyle=\color{NavyBlue},
+keywordstyle=\color{ctublue},
 sensitive=true,
 moredelim=[is][\textcolor{javapurple}]{\%\%}{\%\%},
 morestring=[b]',
 morestring=[b]",
-stringstyle=\color{darkgreen},
+stringstyle=\color{javagreen},
 }
 
 \lstdefinelanguage{Drools}{
 keywords={rule,dialect,when,then,end},
-keywordstyle=\color{NavyBlue},
+keywordstyle=\color{ctublue},
 sensitive=true,
 morestring=[b]',
 morestring=[b]",
-stringstyle=\color{darkgreen},
+stringstyle=\color{javagreen},
 }
