@@ -1,37 +1,37 @@
-%\usepackage[T1]{fontenc}
-%\usepackage[utf8]{inputenc}
-
 %!TEX ROOT=../diploma-thesis.tex
 
 \chapter{Obsah přiloženého CD}
 
-% TODO: přepsat na DP
-
-\begin{verbatim}
-    |-- nutfroms-example/       Ukázkov\'y systém využ\'{\i}vaj\'{\i}c\'{\i} knihovnu
-    |  |-- dist/                Zkompilované zdrojové soubory pro distribuci
-    |  |-- docs/                Dokumentace
-    |  |-- src/                 Zdrojov\'y kód aplikace
+\begin{Verbatim}[fontsize=\footnotesize]
+    |-- central-administration/      Systém centrální administrace byz. kontextů
     |
-    |-- nutforms-ios-client/    Klientská část knihovny pro platformu iOS
-    |  |-- client/              Zdrojové soubory knihovny
-    |  |-- clientTests/         Zdrojové soubory testů knihovny
-    |  |-- dist/                Zkompilované zdrojové soubory pro distribuci
-    |  |-- docs/                Dokumentace
+    |-- example/                     Ukázkový e-commerce systém
+    |  |-- billing/                  Fakturační služba
+    |  |-- order/                    Objednávková služba
+    |  |-- product/                  Produktová služba
+    |  |-- shipping/                 Doručovací služba
+    |  |-- ui/                       Uživatelské rozhraní
+    |  |-- user/                     Uživatelská služba
     |
-    |-- nutfroms-server/        Serverová část knihovny
-    |  |-- dist/                Zkompilované zdrojové soubory pro distribuci
-    |  |-- docs/                Dokumentace
-    |  |-- layout/              Layout servlet
-    |  |-- localization/        Localization servlet
-    |  |-- meta/                Metadata servlet
-    |  |-- widget/              Widget servlet
+    |-- java/                        Prototyp knihovny pro jazyk Java
+    |  |-- business-context/         Jádro knihovny
+    |  |-- business-context-aspectj/ Adaptér pro framework AspectJ
+    |  |-- business-context-grpc/    Knihovna pro síťovou komunikaci využívající gRPC
+    |  |-- business-context-xml/     Knihovna pro načítání a zápis byz. kontextů do XML
     |
-    |-- nutforms-web-client/    Klientská část knihovny pro webové aplikace
-    |  |-- dist/                Zkompilované zdrojové soubory pro distribuci
-    |  |-- docs/                Dokumentace
-    |  |-- src/                 Zdrojové soubory knihovny
-    |  |-- test/                Zdrojové soubory testů knihovny
+    |-- nodejs/                      Prototyp knihovny pro platformu Node.js
+    |  |-- business-context/         Jádro knihovny
+    |  |-- business-context-grpc/    Knihovna pro síťovou komunikaci využívající gRPC
+    |  |-- business-context-xml/     Knihovna pro načítání a zápis byz. kontextů do XML
     |
-    |-- text/                   Text bakalářské práce
-\end{verbatim}
+    |-- proto/                       Schéma síťové komunikace ve formátu Proto Buffers
+    |
+    |-- python/                      Prototyp knihovny pro jazyk Python
+    |  |-- business_context/         Jádro knihovny
+    |  |-- business_context-grpc/    Knihovna pro síťovou komunikaci využívající gRPC
+    |  |-- business_context-xml/     Knihovna pro načítání a zápis byz. kontextů do XML
+    |
+    |-- xml/                         Schéma XML pro zápis byz. kontextů
+    |
+    |-- text/                        Zdrojový kód bakalářské práce v jazyce LaTeX
+\end{Verbatim}
