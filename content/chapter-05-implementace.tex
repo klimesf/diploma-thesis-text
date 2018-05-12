@@ -84,7 +84,7 @@ open-source framework gRPC\footnote{\url{https://grpc.io/}}, kter\'y stav\'{\i}
 na technologii Protocol Buffers. Tento framework poskytuje v\'yvojáři
 možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i} protokolu \textit{\gls{RPC}}.
 Zdrojov\'y kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
-kter\'y umožňuje volat metody \code{FetchContexts},
+kter\'y umožňuje klientovi volat procedury \code{FetchContexts},
 \code{FetchAllContexts} a \code{UpdateOrSaveContext}.
 
 \lstinputlisting[
@@ -111,17 +111,15 @@ nad nimi mohly prob\'{\i}hat úpravy a anal\'yzy.
 
 \paragraph{UpdateOrSaveContext()} slouž\'{\i} pro uložen\'{\i} nového či
 editovaného pravidla, které je zasláno v serializované podobě
-jako jedin\'y argument typu \code{BusinessContextUpdateRequestMessage}.
-Tato procedura musí být volána pouze pokud byla spuštěna transakce.
+jako argument typu \code{BusinessContextUpdateRequestMessage}.
+Tato procedura může být volána pouze pokud byla nejprve spuštěna transakce.
 
 \paragraph{BeginTransaction()} spouští transakci, při které může proběhnout
 změna nebo uložení nového byznysového kontextu.
 
-\paragraph{CommitTransaction()} dokončuje transakci, která byla spuštěna pomocí \code{BeginTransaction()},
-a uloží všechny změny byznysových kontextů.
+\paragraph{CommitTransaction()} dokončí probíhající transakci a uloží všechny změny byznysových kontextů.
 
-\paragraph{RollbackTransaction()} zruší transakci, která byla spuštěna pomocí \code{BeginTransaction()}
-a neuloží žádnou z provedených změn.
+\paragraph{RollbackTransaction()} zruší transakci a neuloží žádnou z provedených změn byznysových kontextů.
 
 \section{Doménově specifick\'y jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
 
@@ -188,17 +186,18 @@ Jádro knihovny je nezávislé na konkrétních implementaci síťové komunikac
 
 \subsection{Správa závislostí projektu}
 
-Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i}
-všech těchto modulů byl zvolen projekt \textit{Maven}\footnote{\url{https://maven.apache.org/}}.
+Pro správu závislost\'{\i} a automatickou kompilaci a sestavován\'{\i} modulů knihovny byl zvolen
+projekt \textit{Maven}\footnote{\url{https://maven.apache.org/}}.
 Tento nástroj umožňuje v\'yvojáři komfortně a centrálně spravovat závislosti jeho projektu včetně
 detailn\'{\i}ho popisu jejich verze. Dále také umožňuje specifikovat a rozšiřovat kompilaci projektu.
 
 \subsection{Jádro knihovny}
 
 % Jádro knihovny
-Jádro knihovny obsahuje metamodel a registr byznysových kontextů, weaver byznysových pravidel
-a logické výrazy pravidel. Registr kontextů implementuje třída \code{BusinessContextRegistry},
-která kromě funkcí popsaných v sekci~\ref{sec:registry-design} umožňuje snadnou konfiguraci
+Jádro knihovny obsahuje třídy zajišťující základní funkci knihovny, tedy metamodel a registr
+byznysových kontextů, weaver byznysových pravidel a logické výrazy pravidel. Registr kontextů
+je implementován třídou \code{BusinessContextRegistry}, která kromě funkcí popsaných v
+sekci~\ref{sec:registry-design} umožňuje snadnou konfiguraci
 stahování vzdálených byznysových kontextů a načítání lokálních kontextů z \gls{DSL} pomocí
 návrhové vzoru Builder~\cite{fowler2002patterns}. Registr není závislý na konkrétních
 technologiích použitých pro síťovou komunikaci ani na použitém \gls{DSL}.
