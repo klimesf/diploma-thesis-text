@@ -42,14 +42,14 @@ je jednosměrný dopředný proces, kterým je výsledný kód generován.
 Pokud dojde ke změně požadavků, která se promítne do modelu, je potřeba přegenerovat
 kód celého systému. Kód, který bylo nutno doplnit či upravit ručně, může snadno zastarat a je tak
 potřeba ho manuálně projít a případně opravit. Další nevýhodou tohoto přístupu je jeho závislost na \gls{OOP},
-které samotné není schopné se efektivně vypořádat s průřezovými problémy~\cite{kennard2009separation}\cite{cemus2014aspect},
+které samotné není schopné se efektivně vypořádat s průřezovými problémy~\cite{kennard2009separation, cemus2014aspect},
 jak bude demonstrováno v sekci~\ref{sec:aop}.
 
 \section{Generativní programování}
 
 Generativní programování (\gls{GP}) je programovací paradigma, které je podobně jako
 tato práce motivováno snížením nákladů na vývoj software díky zvýšení znovupoužitelnosti
-jeho komponent. Narozdíl od \gls{MDA} se navíc přímo věnuje oddělení zodpovědností~\cite{czarnecki2000generative}\cite{cemus2017separation}.
+jeho komponent. Narozdíl od \gls{MDA} se navíc přímo věnuje oddělení zodpovědností~\cite{czarnecki2000generative, cemus2017separation}.
 
 \gls{GP} se zaměřuje na maximalizaci automatizace vývoje systému
 skrz generování a syntézu vysoce přizpůsobitelných komponent. Vývojář
@@ -68,7 +68,7 @@ byznysových pravidel za běhu systému, protože nezohledňuje exekuční konte
 Metaprogramování je alternativním paradigmatem, které vnímá kód programu
 zároveň jako data, se kterými program může pracovat. To programu umožňuje
 číst, vytvářet či upravovat jiné programy včetně sama sebe. Tyto činnosti
-lze provádět staticky, ale i za běhu daného programu~\cite{sheard2001accomplishments}\cite{czarnecki2000generative}.
+lze provádět staticky, ale i za běhu daného programu~\cite{sheard2001accomplishments, czarnecki2000generative}.
 Schopnost jazyka manipulovat s vlastním kódem se nazývá \textit{reflexe}~\cite{sobel1996introduction}.
 Ta je součástí mnoha moderních programovacích jazyků a je využívána moderními frameworky a
 knihovnami~\cite{vandevoorde2002c++}~\cite{forman2004java}.
@@ -208,7 +208,7 @@ Autoři \gls{ADDA} aplikovali tento koncept v několika oblastech \gls{EIS}.
 Mezi tyto oblasti patří automatické začleňování byznysových pravidel
 do datové vrstvy informačních systémů~\cite{cemus2015automated}, automatické
 generování uživatelských rozhraní citlivých na kontext uživatele~\cite{cemus2017separation},
-validaci vstupů formulářů v uživatelském rozhraní vůči byznysovým pravidlům~\cite{cemus2016context}\cite{cemus2017separation}
+validaci vstupů formulářů v uživatelském rozhraní vůči byznysovým pravidlům~\cite{cemus2016context, cemus2017separation}
 a automatické extrakci dokumentace~\cite{cemus2017automated}.
 
 Jednou z možných aplikací přístupu \gls{ADDA} je automatické začleňování
@@ -289,7 +289,7 @@ a také o zachycení byznysových operací a aplikaci těchto pravidel~\cite{ros
 v procesně orientovaném prostředí \gls{SOA}. Díky tomu výrazně zvyšuje kvalitu a snižuje
 náročnost vývoje. K tomu ale vynucuje využití orchestrace, od které nejnovější výzkum v oblasti \gls{SOA}
 a zejména Microservices ustupuje na úkor decentralizace a choreografie
-služeb~\cite{bakshi2017microservices}\cite{cerny2018contextual}. Tento fakt je zároveň
+služeb~\cite{bakshi2017microservices, cerny2018contextual}. Tento fakt je zároveň
 v rozporu s požadavky definovanými v sekci~\ref{sec:implementation-requirements}.
 
 \subsection{Drools}\label{sec:drools}
@@ -335,7 +335,7 @@ Díky tomu lze nejen vytvářet libovolné \gls{DSL}, ale také rozšiřovat exi
 
 Výhoda tohoto přístupu je vysoká úroveň abstrakce a možnost zapojit do vývoje doménové experty.
 \gls{DSL} zvyšuje expresivitu kódu a díky tomu se zmenšuje jeho objem.
-Nižší objem kódu vede ke snížení nákladů na jeho údržbu a vývoj~\cite{littman1987mental}\cite{soloway1986empirical}.
+Nižší objem kódu vede ke snížení nákladů na jeho údržbu a vývoj~\cite{littman1987mental, soloway1986empirical}.
 Významnou výhodou MPS, potažmo \gls{LOP}, je nezávislost na cílové platformě.
 Nástroj MPS by umožnil snadné znovupoužití pravidel a jejich transformaci do neomezeného počtu jazyků pro
 využití na mnoha platformách. Podobně jako u \gls{MDA} je však problém v dopředném

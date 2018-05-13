@@ -12,13 +12,14 @@ identifikovány požadavky, které by měl splňovat framework, jež bude v\'yst
 
 Podnikové informačn\'{\i} systémy (\gls{EIS} z anglického \textit{Enterprise Information System})
 maj\'{\i} za úkol ulehčit, automatizovat či poskytovat podporu pro byznysové procesy organizace,
-která je využívá~\cite{dumas2005process}. K tomuto účelu uchovávají a spravují data a měly by zaručit,
-že nedojde k jejich poškozen\'{\i} či narušen\'{\i} jejich integrity. Byznysové operace proto
-podléhají byznysov\'ym pravidlům, která zajišťuj\'{\i} konzistenci dat informačn\'{\i}ho systému a
-zabraňuj\'{\i} nepovolen\'ym operac\'{\i}m~\cite{cemus2015automated}.
+která je využívá~\cite{dumas2005process}. Byznysové procesy jsou souborem dílčích úkolů
+a aktivit, které naplňují cíle, jež organizaci přináší byznysovou hodnotu~\cite{weske2012business}.
+Jednotlivé kroky byznysového procesu jsou nazývány byznysové operace. Byznysové procesy a operace dohromady
+tvoří tzv. byznysovou logiku, která podléhá byznysov\'ym pravidlům. Ty zajišťuj\'{\i} konzistenci dat
+systému a zabraňuj\'{\i} nepovolen\'ym operac\'{\i}m~\cite{cemus2015automated}.
 
 \begin{definition}
-    Byznysové pravidlo je výraz, který definuje či omezuje některý z byznysových aspektů.
+    Byznysové pravidlo definuje či omezuje některý z byznysových aspektů informačního systému.
     Jeho úkolem je ověřovat byznysovou strukturu nebo ovlivňovat byznysové chování~\cite{morgan2002business}.
 \end{definition}
 
@@ -27,7 +28,7 @@ zabraňuj\'{\i} nepovolen\'ym operac\'{\i}m~\cite{cemus2015automated}.
 %a prezentačn\'{\i} vrstvu. Každá z vrstev realizuje jinou funkcionalitu a vzájemně komunikují
 %porstřednictvím jasně definovaného rozhraní. Tím se zjednodušuje vývoj a testování systému.
 %Byznysová logika je zachycena v aplikační vrstvě, ale byznysová pravidla je potřeba
-%zohledňovat ve všech vrstvách systému~\cite{cerny2011reduce}\cite{cemus2015automated}.
+%zohledňovat ve všech vrstvách systému~\cite{cerny2011reduce, cemus2015automated}.
 
 \gls{EIS} obsahují mnoho byznysových pravidel, typicky stovky či tisíce~\cite{morgan2002business}.
 Samotné pravidlo však bývá relativně krátké a lze shrnout do jedné věty. Díky tomu je pochopitelné
@@ -37,7 +38,7 @@ Byznysová pravidla jsou dělena do tř\'{\i} skupin~\cite{cemus2014aspect}:
 \begin{description}
     \item [Bezkontextová pravidla] jsou validačn\'{\i} pravidla, která musej\'{\i} b\'yt obecně platná
     v každé byznysové operaci, jinak by mohlo doj\'{\i}t k porušen\'{\i} integrity dat systému.
-    \item Př\'{\i}kladem může b\'yt pravidlo \uv{\textit{Adresa uživatele je platnou e-mailovou adresou}}.
+    Př\'{\i}kladem může b\'yt pravidlo \uv{\textit{Adresa uživatele je platnou e-mailovou adresou}}.
     \item [Kontextová pravidla] jsou pravidla, která musej\'{\i} b\'yt zohledněna v daném kontextu
     byznysové operace, např\'{\i}klad \uv{\textit{Při přidán\'{\i} produktu do koš\'{\i}ku nesm\'{\i} součet položek
     v koš\'{\i}ku přesahovat částku milion korun}}
@@ -47,7 +48,7 @@ Byznysová pravidla jsou dělena do tř\'{\i} skupin~\cite{cemus2014aspect}:
 \end{description}
 
 Pravidla lze také rozdělit do dvou skupin podle jejich vztahu k byznysové operaci, a těmi jsou
-\textit{preconditions} a \textit{post-conditions}~\cite{cemus2015automated}.
+\textit{preconditions} a \textit{post-conditions}~\cite{morgan2002business, cemus2015automated}.
 
 \subsection{Precondition}
 
@@ -73,9 +74,8 @@ musí všechny vypsané objednávky patřit danému zákazn\'{\i}kovi.
 
 Informačn\'{\i} systém zpravidla implementuje v\'{\i}ce byznysov\'ych procesů, které se vážou
 na jeden či v\'{\i}ce uživatelsk\'ych scénářů~\cite{larman2001patterns}. Uživatelsk\'y scénář se
-pak děl\'{\i} na jednotlivé kroky, např\'{\i}klad zaslán\'{\i} potvrzovac\'{\i}ho e-mailu k objednávce, či uložen\'{\i} objednávky
-do databáze. Tyto kroky naz\'yváme \textit{byznysové operace} -- tedy operace, které maj\'{\i}
-byznysovou hodnotu.
+pak děl\'{\i} na jednotlivé kroky, např\'{\i}klad zaslán\'{\i} potvrzovac\'{\i}ho e-mailu k objednávce,
+či uložen\'{\i} objednávky do databáze. Tyto kroky odpovídají byznysovým operacím.
 
 Jak již bylo uvedeno, vykonávání byznysové operace je podmíněno byznysovými pravidly, která se k ní vztahují. Před spuštěním operace musejí
 být splněny všechny preconditions, jinak není možné operaci vykonat. Po jejím dokončení musejí být splněny všechny post-conditions.
@@ -139,7 +139,7 @@ a shrnuje výhody a nevýhody jednotlivých přístupů.
 
 \begin{definition}
     Služba je znovupoužitelný, soudržný, spravovatelný, nasaditelný a nezávislý proces komunikující
-    pomocí zpráv~\cite{papazoglou2003service}\cite{dragoni2017microservices}.
+    s ostatními službami pomocí zpráv~\cite{papazoglou2003service, dragoni2017microservices}.
 \end{definition}
 
 \subsection{Common Object Request Broker Architecture}\label{sec:corba}
@@ -148,7 +148,7 @@ Prvn\'{\i}m historick\'ym předchůdcem architektury orientované na služby
 byla tzv. \textit{Common Object Request Broker Architecture}
 (\gls{CORBA})~\cite{siegel2000corba}. Ta umožňuje vzájemnou komunikaci aplikací
 implementovan\'ych v různ\'ych technologi\'{\i}ch. Její základní komponentou je
-je \textit{Object Request Broker} (\gls{ORB}), kter\'y emuluje objekty,
+je \textit{Object Request Broker} (\gls{ORB}), kter\'y simuluje vzdálené objekty,
 na kter\'ych může klient volat jejich metody. Při zavolán\'{\i} metody
 na objektu, kter\'y se fyzicky nacház\'{\i} na vzdáleném stroji,
 zprostředkovává \gls{ORB} veškerou komunikaci a poskytuje kompletn\'{\i} rozhran\'{\i}
@@ -167,13 +167,6 @@ Protocol}~\cite{box2000simple}, kter\'y v kombinaci s
 umožňuje kompletn\'{\i} definici rozhran\'{\i} pro komunikaci mezi službami.
 
 \subsection{Message Queue}
-
-%\begin{figure}
-%    \centering
-%    \includegraphics[keepaspectratio=true, width=0.5\linewidth]{figures/message-queue.pdf}
-%    \caption{Komunikace služeb pomoc\'{\i} Message Queue}
-%    \label{fig:message-queue}
-%\end{figure}
 
 Dalš\'{\i}m z konceptů, kter\'y v rámci \gls{SOA} vznikl, je tzv. \textit{Message Queue}.
 Jeho základn\'{\i} myšlenkou je asynchronn\'{\i} komunikace služeb pomoc\'{\i} zpráv nezávisl\'ych
@@ -203,15 +196,17 @@ veškerou komunikaci v systému.
 %\goal{Microservices a budoucnost SOA}
 Microservices je moderní architekturou, která podobně jako \gls{SOA} přináší řešení
 problémů pramenících z vysoké komplexity současných \gls{EIS}.
-Tato architektura se dá chápat jako podmnožina \gls{SOA}, ačkoliv existují i názory,
-že jde o odlišné architektury~\cite{richards2015microservices}\cite{cerny2017disambiguation}.
-Vzhledem k její vzrůstající adopci v posledních letech je nutno ji v rámci této práce zohlednit~\cite{xiao2016reflections}.
-Základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho systému jako množiny mal\'ych oddělen\'ych služeb,
+Tato architektura se dá chápat jako podmnožina \gls{SOA}~\cite{richards2015microservices, cerny2017disambiguation},
+ačkoliv existují i názory, že jde o odlišné architektury. V poslední době postupně nahrazuje standardní
+\gls{SOA}~\cite{lewis2014microservices, xiao2016reflections} a vzhledem k její vzrůstající
+adopci je nutno ji v rámci této práce zohlednit.
+
+Její základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho systému jako množiny mal\'ych oddělen\'ych služeb,
 které jsou spouštěny v samostatn\'ych procesech a komunikuj\'{\i} spolu pomoc\'{\i} jednoduch\'ych
 protokolů nezávislých na platformě~\cite{lewis2014microservices}. Microservices preferuje decentralizaci a samostatnost služeb
 a zaměřuje se na jejich organizaci kolem byznysov\'ych schopnost\'{\i} systému, nam\'{\i}sto horizontáln\'{\i}ho
-dělen\'{\i} systému podle jeho vrstev. Hlavní výhodou tohoto přístupu je flexibilní nasazování a škálování, které je vhodné
-pro stále populárnější nasazení v cloudu~\cite{kratzke2017understanding}\cite{cerny2018contextual}\cite{xiao2016reflections}.
+dělen\'{\i} systému podle jeho vrstev. Hlavní výhodou tohoto přístupu je flexibilita nasazení a škálování, které je vhodné
+pro stále populárnější nasazení v cloudu~\cite{kratzke2017understanding, cerny2018contextual, xiao2016reflections}.
 
 \subsection{Orchestrace a choreografie služeb}
 
@@ -252,7 +247,7 @@ při sdílení byznysových pravidel, která je rozebrána v následující sekc
     \gls{SOA} je soubor návrhových principů, který organizuje komponenty software
     kolem byznysové funkcionality a spojuje je pomocí rozhraní a komunikačních protokolů.
     Každá komponenta je soběstačná a izolovaná, okolnímu světu poskytuje pouze
-    své rozhraní~\cite{papazoglou2003service}\cite{lewis2014microservices}.
+    své rozhraní~\cite{papazoglou2003service, lewis2014microservices}.
 \end{definition}
 
 \section{Nedostatky současného př\'{\i}stupu}\label{sec:shortcomings}
@@ -267,8 +262,7 @@ by neměly vzájemně znát svoji interní strukturu. Tato skutečnost
 vede k nutnosti duplikace byznysových pravidel v kompozitních službách~\cite{cerny2016survey}.
 
 \begin{definition}
-    Kompozitní služba získává a kombinuje informace a funkce existujících poskytovatelné
-    služeb~\cite{papazoglou2003service}.
+    Kompozitní služba získává a kombinuje informace a funkce z ostatních služeb~\cite{papazoglou2003service}.
 \end{definition}
 
 %\goal{Nast\'{\i}něn\'{\i} konkrétn\'{\i}ho př\'{\i}kladu}
