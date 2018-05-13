@@ -42,7 +42,7 @@ Identifikované join-points tedy jsou:
 
 \subsection{Pointcuts}
 
-V join-pointu~\ref{itm:initialization} by služba měla načíst všechna byznysová pravidla, která
+V join-pointu~\ref{itm:initialization} služba načte všechna byznysová pravidla, která
 bude potřebovat ke své činnosti, a nejsou pro ni lokálně dostupná. Služba tedy musí zjistit,
 která pravidla je potřeba získat, a následně si je vyžádat od ostatních služeb.
 V join-pointech~\ref{itm:before}~a~\ref{itm:after} musejí být aplikována byznysová pravidla každého
@@ -70,7 +70,7 @@ zapouzdřuje byznysová pravidla, a byznysová operace se na něj může explici
 kontextu by přitom mohl být dynamicky změněn za běhu programu.
 
 Sdílení pravidel mezi byznysovými kontexty, potažmo byznysovými operacemi a mezi jednotlivými službami,
-by lze realizovat pomocí dědičnosti kontextů. Každý kontext, který by potřeboval validovat fakturační
+lze realizovat pomocí dědičnosti kontextů. Každý kontext, který by potřeboval validovat fakturační
 adresu, by tak mohl pouze dědit od kontextu vytváření faktury. Na obrázku~\ref{fig:context-extension}
 je dědičnost kontextů znázorněna. Kontext vytváření objednávky dědí od kontextu vytváření faktury
 a znovupoužívá jeho byznysová pravidla. Byznysové operace se odkazují na byznysové kontexty, které mají
@@ -150,104 +150,10 @@ administraci byznysových pravidel.
 Sekce~\ref{sec:business-rules} uvádí, že pravidla obsahují logické podmínky. V případě preconditions je to
 ověření podmínky, která musí být platná před spuštěním byznysové operace v~\ref{itm:before}. V případě
 post-condition může filtrování návratové hodnotry podléhat splnění určité podmínky, která musí být
-vyhodnocena v~\ref{itm:after}.
-
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression.pdf}
-    \caption{Použití vzoru Intepreter pro vyhodnocování logických výrazů}
-    \label{fig:expression}
-\end{figure}
-
-Podmínky byznysových pravidel se skládají z jednotlivých výrazů, které tvoří
-orientovaný acyklický graf, tzv. \textit{derivační strom}.
-Výrazy se dělí na \textit{terminály} a \textit{neterminály}~\cite{melichar2003jazyky}.
-Terminál znamená, že z daného výrazu již nevychází žádná hrana do jiného výrazu.
-Neterminál je opak terminálu. Pro reprezentaci stromu bude využit návrhový vzor
-\textit{Composite}~\cite{fowler2002patterns}. K vyhodnocování podmínek popsaných v byznysovém
-pravidle je vhodný návrhový vzor \textit{Interpreter}~\cite{fowler2002patterns}, jehož
-použití je demonstrováno na obrázku~\ref{fig:expression}.
-
-Framework bude disponovat základní sadou výrazů pro zápis byznysových pravidel.
-Mezi ně budou patřit logické operace \code{and}, \code{or}, \code{equals} a \code{negate}.
-Dále výraz \code{VariableReference}, který získá hodnotu proměnné či konstanty z kontextu.
-Pokud bude v kontextu uložen objekt, je potřeba přistupovat i k jeho
-veřejným atributům, což bude zajišťovat výraz \code{ObjectPropertyReference}.
-K ověření přítomnosti hodnoty v proměnné bude sloužit výraz \code{IsNotNull}. Výraz \code{IsNotBlank} ověří,
-zda je v proměnné řetězec nenulové délky. Pro vložení konstantní hodnoty přímo do byznysového pravidla bude
-sloužit terminál \code{Constant}. Pro zvýšený komfort budou přidány i výrazi realizující základní matematické operace sčítání, odečítání,
-násobení a dělení. Pro volání uživatelských funkcí definovaných v operačním kontextu bude sloužit speciální výraz
-\code{FunctionCall}. V jeho případě je nutno zohlednit skutečnost, že funkce může přijímat libovolný počet argumentů.
-Protože volaná funkce může potřebovat přistupovat k operačnímu kontextu, musejí být argumenty také interpretovány.
-Bohužel nelze u uživatelem definovaných funkcí ověřit, že bude při jejich volání odpovídat počet a typ argumentů.
-Přehled všech výrazů, které bude framework podporovat, je v tabulce~\ref{tbl:expressions},
-
-\afterpage{%
-\clearpage% Flush earlier floats (otherwise order might not be correct)
-\begin{landscape}
-    \begin{table}
-        \centering
-        \begin{tabular}{ l l l c c }
-            \hline
-            \textbf{Název} & \textbf{Argumenty} & \textbf{Atributy} & \textbf{Návratový typ} & \textbf{Typ výrazu} \\ \hline \hline
-            \textbf{Constant} & - & Hodnota a typ konstanty & \code{?} & Terminál \\
-            \textbf{FunctionCall} & Libovolný počet argumentů & Návratový typ funkce & \code{?} & Terminál \\
-            \textbf{IsNotNull} & Jeden argument libovolného typu & - & \code{BOOL} & Neterminál \\
-            \textbf{IsNotBlank} & Jeden argument typu \code{STRING} & - & \code{BOOL} & Neterminál \\
-            \textbf{LogicalAnd} & 2 argumenty typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
-            \textbf{LogicalEquals} & 2 argumenty libovolného typu & - & \code{BOOL} & Neterminál \\
-            \textbf{LogicalNegate} & 1 argument typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
-            \textbf{LogicalOr} & 2 argumenty typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
-            \textbf{NumericAdd} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
-            \textbf{NumericSubtract} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
-            \textbf{NumericMultiply} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
-            \textbf{NumericDivide} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
-            \textbf{ObjectReference} & - & Název objektu a název a typ proměnné & \code{?} & Terminál \\
-            \textbf{VariableReference} & - & Název a typ proměnné & \code{?} & Terminál \\
-            \hline
-        \end{tabular}
-        \caption{Přehled výrazů pro zápis byznysového pravidla}
-        \label{tbl:expressions}
-    \end{table}
-\end{landscape}
-\clearpage% Flush page
-}
-
-%\goal{Typované výrazy}
-Pro snažší implementaci na více platformách a prevenci sémantických chyb v pravidlech budou výrazy
-obsahovat i explicitní definici svého návratového typu. Výraz byznysového pravidla může nabývat logických hodnot,
-může vracet číslo, textový řetězec a také objekt. Je potřeba počítat také s tím, že výraz nevrací žádnou
-hodnotu.
-
-\begin{itemize}
-    \item \code{BOOL} je logický typ, který nabývá hodnoty \code{true} a \code{false}.
-    \item \code{NUMBER} je reálné číslo zapsáno ve tvaru s desetinnou tečkou a neomezeným počtem číslic.
-    \item \code{OBJECT} je objekt libovolného typu.
-    \item \code{STRING} je textový řetězec.
-    \item \code{VOID} je pseudotyp značící, že výraz nemá návratovou hodnotu.
-\end{itemize}
-
-%\goal{Atributy pravidel}
-Kromě argumentů neterminálů je v některých případech potřeba k výrazu uložit i dodatečné informace --
-\textit{atributy}. Jedním z atributů je typ návratové hotnoty výrazu, pokud není přímo implikována.
-V případě výrazu \code{Constant} je potřeba uložit hodnotu a typ konstanty. Reference na proměnnou
-musí obsahovat její název a typ, reference na pole objektu navíc musí obsahovat název odkazovaného pole.
-Volání funkce musí obsahovat její název a návratový typ.
-
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/simple-rule.pdf}
-    \caption{Syntaktický strom jednoduchého validačního pravidla}
-    \label{fig:simple-rule}
-\end{figure}
-
-%\goal{Příklad AST pravidla}
-Na obrázku~\ref{fig:simple-rule} je znázorněn syntaktický strom, který zachycuje jednoduché
-validační pravidlo validující fakturační adresu. Jedná se o ekvivalent validačních pravidel
-zachycených ve zdrojovém kódu~\ref{lst:jsr303} pomocí anotací standardu \gls{JSR} 303.
-Pravidlo je tvořeno čtyřmi teminály, které se odkazují na proměnné operačního kontextu.
-Hodnoty proměnných jsou validovány výrazem \code{IsNotBlank} a jednotlivé validace
-jsou spojeny pomocí binárních výrazu \code{LogicalAnd} odpovídajících logické konjunkci.
+vyhodnocena v~\ref{itm:after}. Zápis logických výrazů bude závislý na konkrétní implementaci \gls{DSL}.
+Nicméně návrh frameworku bude předpokládat, že po načtení z \gls{DSL} budou výrazy v paměti uloženy
+jako strom samostatných objektů podle návrhové vzoru Composite~\cite{fowler2002patterns}. Díky tomu
+bude framework moci využít k jejich vyhodnocování návrhový vzor Interpreter~\cite{fowler2002patterns}.
 
 \section{Filtrování návratových hodnot byznysové operace}
 
@@ -286,7 +192,7 @@ na obrázku~\ref{fig:business-context-metamodel}.
 Př\'{\i}stup \gls{ADDA} doporučuje popsat byznysová pravidla pomoc\'{\i}
 vlastn\'{\i}ho, na m\'{\i}ru šitého, doménově specifického jazyka~\cite{cemus2015automated}.
 Pro účely frameworku bude popsán pomocí \gls{DSL} celý byznysový kontext.
-Jak bylo popsáno v sekci~\ref{sec:business-rule-dsl}, vlastnosti nástrojů Drools a JetBrains MPS,
+Jak bylo popsáno v sekci~\ref{sec:business-rule-dsl}, vlastnosti nástrojů Drools a JetBrains MPS
 nejsou optimální pro dosažení vytyčených cílů. Pro účely frameworku je tedy nutné specifikovat vlastnosti,
 které by \gls{DSL} mělo nést. Konkrétní podoba DSL bude přenechána na implementaci frameworku.
 
@@ -296,7 +202,12 @@ systému upravovat, je vzhledem k reprezentaci logických výrazů vhodný návr
 výrazy pomocí metody \textit{double-dispatch}. Jeho volbou je zároveň zajištěna rozšiřitelnost
 frameworku pro libovolné \gls{DSL} -- bude stačit implementovat konkrétní
 visitor pro zvolený jazyk, aniž by bylo nutno zasahovat přímo do implementace frameworku.
+
 Princip použití vzoru Visitor je znázorněn na obrázku~\ref{fig:expression-visitor}.
+Rozhraní \code{Expression} je implementováno dvěma výrazy -- \code{VariableReferece}
+a \code{IsNotNull} -- které po zavolání metody \code{accept()} zavolají na visitorovi
+příslušnou metodu \code{visit()}. Visitor tak může oddělit logiku, která obstarává
+převod jednotlivých výrazů do \gls{DSL}.
 
 \begin{figure}
     \centering
@@ -355,6 +266,13 @@ které budou spravovat jejich aktuální a jediný stav a poskytovat je jiným s
 možno pravidla centrálně spravovat, musí framework poskytovat proces, kterým je bude moci ze
 služeb získat a při úpravě je do nich znovu uložit.
 
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=\linewidth]{figures/business-context-management.pdf}
+    \caption{Proces centráln\'{\i} správy byznysov\'ych kontextů}
+    \label{fig:business-context-management}
+\end{figure}
+
 \subsection{Uložen\'{\i} rozšířeného pravidla}\label{sec:saving-context}
 
 Při ukládání byznysového kontextu je potřeba jeho změnu propagovat také do všech kontextů, které od něj dědí.
@@ -366,13 +284,6 @@ přenášených dat v systému významná. Při implementaci by bylo vhodné vyb
 veškeré síťové komunikace týkající se distribuce byznysových pravidel.
 
 \subsection{Proces úpravy kontextu}
-
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=\linewidth]{figures/business-context-management.pdf}
-    \caption{Proces centráln\'{\i} správy byznysov\'ych kontextů}
-    \label{fig:business-context-management}
-\end{figure}
 
 Nástroj pro centrální administraci nejprve načte všechny byznysové kontexty všech služeb v systému.
 Následně zobrazí administrátorovi formulář pro úpravu pravidla.

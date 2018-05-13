@@ -121,6 +121,108 @@ změna nebo uložení nového byznysového kontextu.
 
 \paragraph{RollbackTransaction()} zruší transakci a neuloží žádnou z provedených změn byznysových kontextů.
 
+\section{Logické výrazy byznysových pravidel}
+
+Návrh frameworku vyžaduje, aby logické výrazy byzynsových pravidel byly reprezentovány
+v paměti jako strom objektů, jak je popsáno v sekci~\ref{sec:expressions-design}.
+V rámci implementace byla specifikována konkrétní podoba logických výrazů, která je společná
+pro jednotlivé knihovny.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression.pdf}
+    \caption{Použití vzoru Intepreter pro vyhodnocování logických výrazů}
+    \label{fig:expression}
+\end{figure}
+
+Podmínky byznysových pravidel se skládají z jednotlivých výrazů, které tvoří
+orientovaný acyklický graf, tzv. \textit{derivační strom}.
+Výrazy se dělí na \textit{terminály} a \textit{neterminály}~\cite{melichar2003jazyky}.
+Terminál znamená, že z daného výrazu již nevychází žádná hrana do jiného výrazu.
+Neterminál je opak terminálu. Použití návrhového vzoru \textit{Interpreter}~\cite{fowler2002patterns}
+je demonstrováno na obrázku~\ref{fig:expression}.
+
+Prototypy knihoven disponují základní sadou výrazů pro zápis byznysových pravidel.
+Mezi ně patří logické operace \code{and}, \code{or}, \code{equals} a \code{negate}.
+Knihovny dále obsahují výraz \code{VariableReference}, který získá hodnotu proměnné či
+konstanty z kontextu. Pokud bude v kontextu uložen objekt, je potřeba přistupovat i k jeho
+veřejným atributům, což zajišťuje výraz \code{ObjectPropertyReference}.
+K ověření přítomnosti hodnoty v proměnné slouží výraz \code{IsNotNull}. Výraz \code{IsNotBlank} ověří,
+zda je v proměnné řetězec nenulové délky. Pro vložení konstantní hodnoty přímo do byznysového pravidla
+slouží terminál \code{Constant}. Pro zvýšený komfort byly přidány i výrazy realizující základní matematické operace
+sčítání, odečítání, násobení a dělení. Pro volání uživatelských funkcí definovaných v operačním kontextu slouží speciální výraz
+\code{FunctionCall}. V jeho případě je nutno zohlednit skutečnost, že funkce může přijímat libovolný počet argumentů.
+Protože volaná funkce může potřebovat přistupovat k operačnímu kontextu, musejí být argumenty také interpretovány.
+Bohužel nelze u uživatelem definovaných funkcí ověřit, že bude při jejich volání odpovídat počet a typ argumentů.
+Přehled všech výrazů, které knihovny podporují, je v tabulce~\ref{tbl:expressions},
+
+\afterpage{%
+\clearpage% Flush earlier floats (otherwise order might not be correct)
+\begin{landscape}
+    \begin{table}
+        \centering
+        \begin{tabular}{ l l l c c }
+            \hline
+            \textbf{Název} & \textbf{Argumenty} & \textbf{Atributy} & \textbf{Návratový typ} & \textbf{Typ výrazu} \\ \hline \hline
+            \textbf{Constant} & - & Hodnota a typ konstanty & \code{?} & Terminál \\
+            \textbf{FunctionCall} & Libovolný počet argumentů & Návratový typ funkce & \code{?} & Terminál \\
+            \textbf{IsNotNull} & Jeden argument libovolného typu & - & \code{BOOL} & Neterminál \\
+            \textbf{IsNotBlank} & Jeden argument typu \code{STRING} & - & \code{BOOL} & Neterminál \\
+            \textbf{LogicalAnd} & 2 argumenty typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
+            \textbf{LogicalEquals} & 2 argumenty libovolného typu & - & \code{BOOL} & Neterminál \\
+            \textbf{LogicalNegate} & 1 argument typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
+            \textbf{LogicalOr} & 2 argumenty typu \code{BOOL} & - & \code{BOOL} & Neterminál \\
+            \textbf{NumericAdd} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
+            \textbf{NumericSubtract} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
+            \textbf{NumericMultiply} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
+            \textbf{NumericDivide} & 2 argumenty typu \code{NUMBER} & - & \code{NUMBER} & Neterminál \\
+            \textbf{ObjectReference} & - & Název objektu a název a typ proměnné & \code{?} & Terminál \\
+            \textbf{VariableReference} & - & Název a typ proměnné & \code{?} & Terminál \\
+            \hline
+        \end{tabular}
+        \caption{Přehled výrazů pro zápis byznysového pravidla}
+        \label{tbl:expressions}
+    \end{table}
+\end{landscape}
+\clearpage% Flush page
+}
+
+%\goal{Typované výrazy}
+Pro snažší implementaci na více platformách a prevenci sémantických chyb v pravidlech výrazy
+obsahují i explicitní definici svého návratového typu. Výraz byznysového pravidla může nabývat logických hodnot,
+může vracet číslo, textový řetězec a také objekt. Je potřeba počítat také s tím, že výraz nevrací žádnou
+hodnotu.
+
+\begin{itemize}
+    \item \code{BOOL} je logický typ, který nabývá hodnoty \code{true} a \code{false}.
+    \item \code{NUMBER} je reálné číslo zapsáno ve tvaru s desetinnou tečkou a neomezeným počtem číslic.
+    \item \code{OBJECT} je objekt libovolného typu.
+    \item \code{STRING} je textový řetězec.
+    \item \code{VOID} je pseudotyp značící, že výraz nemá návratovou hodnotu.
+\end{itemize}
+
+%\goal{Atributy pravidel}
+Kromě argumentů neterminálů je v některých případech potřeba k výrazu uložit i dodatečné informace --
+\textit{atributy}. Jedním z atributů je typ návratové hotnoty výrazu, pokud není přímo implikována.
+V případě výrazu \code{Constant} je potřeba uložit hodnotu a typ konstanty. Reference na proměnnou
+musí obsahovat její název a typ, reference na pole objektu navíc musí obsahovat název odkazovaného pole.
+Volání funkce musí obsahovat její název a návratový typ.
+
+%\goal{Příklad AST pravidla}
+Na obrázku~\ref{fig:simple-rule} je znázorněn syntaktický strom, který zachycuje jednoduché
+validační pravidlo validující fakturační adresu. Jedná se o ekvivalent validačních pravidel
+zachycených ve zdrojovém kódu~\ref{lst:jsr303} pomocí anotací standardu \gls{JSR} 303.
+Pravidlo je tvořeno čtyřmi teminály, které se odkazují na proměnné operačního kontextu.
+Hodnoty proměnných jsou validovány výrazem \code{IsNotBlank} a jednotlivé validace
+jsou spojeny pomocí binárních výrazu \code{LogicalAnd} odpovídajících logické konjunkci.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/simple-rule.pdf}
+    \caption{Syntaktický strom jednoduchého validačního pravidla}
+    \label{fig:simple-rule}
+\end{figure}
+
 \section{Doménově specifick\'y jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
 
 %\goal{Popsat proč a jak jsme tvořili DSL}
@@ -205,7 +307,7 @@ technologiích použitých pro síťovou komunikaci ani na použitém \gls{DSL}.
 % popis expressions
 Logické výrazy byznysových pravidel jsou implementovány samostatnými třídami, které rozšiřují
 jednotné rozhraní \code{Expression}. Toto rozhraní podporuje návrhový vzor Interpreter, který umožňuje
-vyhodnocení výrazů, jak bylo popsáno v sekci~\ref{sec:expressions-design}. Zároveň je tím usnadněno
+vyhodnocení výrazů, jak bylo popsáno v předchozím textu. Zároveň je tím usnadněno
 rozšíření knihovny o nové výrazy. Toto rozhraní navíc poskytuje metody, které usnadňují serializaci
 výrazů.
 
