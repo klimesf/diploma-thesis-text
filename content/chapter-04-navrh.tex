@@ -350,23 +350,20 @@ navržený proces inicializace.
 
 \section{Centráln\'{\i} správa byznysových kontextů}\label{sec:central-administration-design}
 
-Vzhledem k nutnosti centralizovat správu byznysových kontextů se
-architektura \gls{P2P} představená v sekci~\ref{sec:p2p} nehodí.
-Při úpravě kotextů by totiž v systému mohly existovat najednou staré i nové verze
-byznysových pravidel, což je pro správnou funkci systému nepřijatelné.
-Framework tedy využije architektury klient-server s více servery.
-Byznysové kontexty budou podle prefixu přideleny službám, které budou
-spravovat jejich aktuální a jediný stav a poskytovat je jiným službám.
+Jak bylo popsáno v předchozím textu, byznysové kontexty budou podle prefixu přideleny službám,
+které budou spravovat jejich aktuální a jediný stav a poskytovat je jiným službám. Aby bylo
+možno pravidla centrálně spravovat, musí framework poskytovat proces, kterým je bude moci ze
+služeb získat a při úpravě je do nich znovu uložit.
 
 \subsection{Uložen\'{\i} rozšířeného pravidla}\label{sec:saving-context}
 
-Při ukládání byznysového kontextu je potřeba změnu propagovat do všech ostatních kontextů, které od něj dědí.
+Při ukládání byznysového kontextu je potřeba jeho změnu propagovat také do všech kontextů, které od něj dědí.
 Při změně rozšířeného kontextu budou všechny služby, které ho využívají, informovány pomocí nástroje pro
 centrální správu byznysových pravidel. Ten má informaci o všech závislostech v systému a zároveň zná i adresu všech
 služeb. Nevýhodou tohoto přístupu je zvýšená komunikační zátěž kvůli většímu objemu přenesených informací, stejný kontext
 je totiž potřeba rozeslat mezi více služeb. Při implementaci je nutno zvážit, zda je tato zátěž vůči absolutnímu objemu
-přenášených dat v systému významná. Bylo by vhodné vybrat vhodný přenosový formát, který minimalizuje dopad veškeré síťové
-komunikace týkající se distribuce byznysových pravidel.
+přenášených dat v systému významná. Při implementaci by bylo vhodné vybrat vhodný přenosový formát, který minimalizuje dopad
+veškeré síťové komunikace týkající se distribuce byznysových pravidel.
 
 \subsection{Proces úpravy kontextu}
 
@@ -377,8 +374,8 @@ komunikace týkající se distribuce byznysových pravidel.
     \label{fig:business-context-management}
 \end{figure}
 
-Proces úpravy byznysového kontextu pomocí nástroje pro centrální administraci nejprve načte všechny
-byznysové kontexty všech služeb v systému. Následně zobrazí administrátorovi formulář pro úpravu pravidla.
+Nástroj pro centrální administraci nejprve načte všechny byznysové kontexty všech služeb v systému.
+Následně zobrazí administrátorovi formulář pro úpravu pravidla.
 Pravidlo je pro účely formuláře převedeno z metamodelu do \gls{DSL}. Po odeslání formuláře bude pravidlo
 převedeno zpět do metamodelu. Nástroj pro administraci poté analyzuje, na které služby bude
 mít změna pravidla dopad. Následně je s těmito službami zahájena transakce, při které v nich

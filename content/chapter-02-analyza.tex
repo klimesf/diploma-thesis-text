@@ -100,7 +100,7 @@ definovat široké spektrum podmínek, které se mohou přizpůsobit aktuálním
     konkrétn\'{\i} byznysovou operaci~\cite{cemus2015automated}
 \end{definition}
 
-\subsection{Reprezentace byznysového pravidla}
+\subsection{Reprezentace byznysového pravidla}\label{sec:business-rule-representation}
 
 Existuje několik možnost\'{\i}, jak v rámci \gls{EIS} zachytit a reprezentovat byznysová
 pravidla~\cite{cemus2015automated}. Těmi jsou:
@@ -118,10 +118,10 @@ Language}~\cite{nemuraite2008representation}. Tato metoda poskytuje dobrou možn
 Navíc je potřeba meta-instrukce vázat na existující prvky systému, což může být pro některé případy použití omezující~\cite{cemus2015automated}.
 
 \ref{itm:dsl} je nejpokročilejš\'{\i} metodou. \gls{DSL} jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
-Navíc mohou b\'yt typově bezpečné. Mezi jejich nev\'yhody ale patř\'{\i} vysoká počátečn\'{\i} investice v podobě návrhu jazyka, nutnosti
+Navíc mohou b\'yt typově bezpečné. Mezi jejich nev\'yhody patř\'{\i} vysoká počátečn\'{\i} investice v podobě návrhu jazyka, nutnost
 jeho kompilace nebo interpretace a také proškolení vývojářů, kteří s ním budou pracovat. Kvůli tomu může být vhodné využít
-existující řešení~\cite{cemus2015automated}. Tím může být například Object Constraint Language~\cite{warmer1998object},
-který je často využívaný ve výzkumu, nebo některé průmyslové řešení, jako je framework Drools\footnote{\url{https://www.drools.org/}},
+existující řešení~\cite{cemus2015automated}, jako například jazyk Object Constraint Language~\cite{warmer1998object},
+který je často využívaný ve výzkumu, nebo některé z průmyslových řešení, jako je framework Drools\footnote{\url{https://www.drools.org/}},
 který je popsaný v sekci~\ref{sec:drools}.
 
 \section{Architektura orientovaná na služby}\label{sec:soa}
@@ -313,6 +313,8 @@ konkrétní platformě, bude poskytovat možnost automatické inspekce a bude sr
 Úprava pravidel by navíc neměla vyžadovat změnu kódu služby a její opětovné nasazování.
 Administrátoři systému by měly mít možnost byznysová pravidla spravovat centrálně a bez
 přerušení provozu systému, aby mohli co nejrychleji a flexibilně reagovat na změnové požadavky.
+Vzhledem k různému chápání \gls{SOA} a postupné adopci Microservices by framework neměl klást
+nároky na způsob organizace služeb, tj. měl by umožňovat orchestraci i choreografii.
 
 Framework, který bude výstupem této práce, by tedy měl splňovat následující vlastnosti:
 
@@ -321,6 +323,7 @@ Framework, který bude výstupem této práce, by tedy měl splňovat následuj�
     \item{Možnost centrálně spravovat byznysová pravidla, včetně úpravy stávaj\'{\i}c\'{\i}ch a vytvářen\'{\i} nov\'ych dynamicky za běhu systému}
     \item{Automatická distribuce a integrace byznysových pravidel včetně vyhodnocován\'{\i} preconditions a aplikace post-conditions}
     \item{Možnost využ\'{\i}vat framework na v\'{\i}ce plaformách}
+    \item{Nezávislost na organizaci služeb}
 \end{itemize}
 
 \section{Shrnut\'{\i}}

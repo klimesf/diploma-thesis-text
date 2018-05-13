@@ -2,55 +2,66 @@
 
 \chapter{Rešerše existujících řešení}\label{ch:reserse}
 
-Tato kapitola se věnuje rešerši existujících řešení
-a výzkumu relevantnímu k tématu této práce. Díky tomu bude umožněno
-dosáhnout kvalitního a efektivního návrhu frameworku pro centrální správu a automatickou
-distribuci byznysových pravidel.
+Tato kapitola se věnuje rešerši existujících řešení a výzkumu relevantnímu k tématu této práce.
+Provedená rešerše je rozdelěna do následujících částí:
+
+\begin{enumerate}
+    \item Architektury a paradigmata umožňující snížení nákladů na vývoj software
+    \item Stávající řešení správy a reprezentace byznysových pravidel
+    \item Síťové architektury umožňující sdílení a distribuci byznysových pravidel mezi službami
+\end{enumerate}
+
+Díky provedené rešerši bude možno dosáhnout kvalitního a efektivního návrhu
+frameworku pro centrální správu a automatickou distribuci byznysových pravidel.
 
 \section{Modelem ř\'{\i}zená architektura}
 
 Modelem řízená architektura (\gls{MDA} z anglického \textit{Model-Driven
 Architecture}) se zaměřuje na návrh \gls{EIS} s využitím modelů a jejich
 následnou transformaci do spustitelného kódu pomocí generativních nástrojů~\cite{soley2000model}.
-Hlavní výhodou \gls{MDA} je vysoká úroveň abstrakce, která zbavuje vývojáře nutnosti
-manuálně duplikovat informace. Další výhodou je nezávislost na platformě a zvýšení
-kvality kódu díky jeho automatickému generování.
+Hlavní výhodou \gls{MDA} je vysoká úroveň abstrakce, která zbavuje vývojáře potřeby
+manuálně duplikovat informace napříč systémem. Další výhodou je možnost sdílení modelů
+mezi více platformami.
 
-\gls{MDA} v první fázi vývoje využívá Computation Independent Model (\gls{CIM}), který reprezentuje
+\gls{MDA} využívá více druhů modelů a rozděluje je podle jejich úrovně abstrakce.
+Při vývoji se pak postupuje od nejabstraktnějšího modelu postupným přidáváním detailů.
+V první fázi vývoje je využit Computation Independent Model (\gls{CIM}), který reprezentuje
 řešení nezávislé na použitých výpočetních metodách a algoritmech. Z \gls{CIM} je
 následně model převeden do Platform Independent Model (\gls{PIM}),
-který popisuje koncepci systému bez ohledu na implementační detaily, typicky k popisu
+který popisuje koncepci systému bez ohledu na implementační detaily a typicky
 využívá jazyk \gls{UML}. \gls{PIM} je následně převeden do
 Platform Specific Model (\gls{PSM}), tedy do modelu využívajícího
 specifických aspektů platformy, pro kterou má být systém postaven.
-\gls{PIM} může být převeden na jeden či více \gls{PSM}.
+\gls{PIM} může být převeden do více \gls{PSM}, pokud má být výsledný systém využíván pro více platforem.
 Nakonec je \gls{PSM} transformován do spustitelného kódu~\cite{kleppe2003model}.
+Převod mezi jednotlivými modely bývá automatizován, ale zejména poslední krok
+často vyžaduje manuální zásah.
 
-Hlavní nevýhodou \gls{MDA}, která zabraňuje jejímu využití
-pro účel této práce, je jednosměrný dopředný proces, kterým je výsledný kód generován.
+Hlavní nevýhodou \gls{MDA}, která zabraňuje jejímu využití pro účel této práce,
+je jednosměrný dopředný proces, kterým je výsledný kód generován.
 Pokud dojde ke změně požadavků, která se promítne do modelu, je potřeba přegenerovat
-kód celého systému. Kód, který bylo nutno doplnit ručně, může snadno zastarat a je tak
-potřeba ho manuálně projít a opravit.
-Další nevýhodou tohoto přístupu je jeho závislost na \gls{OOP},
-které samotné není schopné se efektivně vypořádat s průřezovými
-problémy~\cite{kennard2009separation}\cite{cemus2014aspect},
+kód celého systému. Kód, který bylo nutno doplnit či upravit ručně, může snadno zastarat a je tak
+potřeba ho manuálně projít a případně opravit. Další nevýhodou tohoto přístupu je jeho závislost na \gls{OOP},
+které samotné není schopné se efektivně vypořádat s průřezovými problémy~\cite{kennard2009separation}\cite{cemus2014aspect},
 jak bude demonstrováno v sekci~\ref{sec:aop}.
 
 \section{Generativní programování}
 
-Generativní programování (\gls{GP}) je dalším příkladem paradigmatu, který
-využívá vyšší úroveň abstrakce a díky tomu zvyšuje znovupoužitelnost
-kódu. \gls{GP} se zaměřuje na maximalizaci automatizace vývoje systému
+Generativní programování (\gls{GP}) je programovací paradigma, které je podobně jako
+tato práce motivováno snížením nákladů na vývoj software díky zvýšení znovupoužitelnosti
+jeho komponent. Narozdíl od \gls{MDA} se navíc přímo věnuje oddělení zodpovědností~\cite{czarnecki2000generative}\cite{cemus2017separation}.
+
+\gls{GP} se zaměřuje na maximalizaci automatizace vývoje systému
 skrz generování a syntézu vysoce přizpůsobitelných komponent. Vývojář
 popíše komponentu v abstraktním jazyce přizpůsobeném doméně řešeného
 problému a generátor se postará o její automatické vytvoření~\cite{czarnecki2000generative}.
 Díky tomu je možné oddělit popis jednotlivých vlastností systému a dosáhnout tak
 jejich vysoké znovupoužitelnosti.
 
-\gls{GP} by mohlo být využito pro abstrakci bynysových pravidel a jejich automatickému
-začleňování do kódu služeb v systému stavějícím na \gls{SOA}.
+\gls{GP} by tak mohlo být využito pro abstrakci bynysových pravidel a jejich
+automatickému začleňování do služeb v systému stavějícím na \gls{SOA}.
 Statické generování komponent však nesplňuje požadavek na dynamickou správu
-byznysových pravidel za běhu systému.
+byznysových pravidel za běhu systému, protože nezohledňuje exekuční kontext.
 
 \section{Metaprogramování}
 
@@ -58,67 +69,29 @@ Metaprogramování je alternativním paradigmatem, které vnímá kód programu
 zároveň jako data, se kterými program může pracovat. To programu umožňuje
 číst, vytvářet či upravovat jiné programy včetně sama sebe. Tyto činnosti
 lze provádět staticky, ale i za běhu daného programu~\cite{sheard2001accomplishments}\cite{czarnecki2000generative}.
-Program, který manipuluje s kódem, se nazývá \textit{metaprogram}. Programovací
-jazyk, který umožňuje programování, se nazývá \textit{metajazyk} (z anglického
-\textit{metalanguage})~\cite{visser2002meta}. Schopnost programovacího jazyka
-být sám sobě metajazykem se nazývá \textit{reflexe}~\cite{sobel1996introduction}.
+Schopnost jazyka manipulovat s vlastním kódem se nazývá \textit{reflexe}~\cite{sobel1996introduction}.
+Ta je součástí mnoha moderních programovacích jazyků a je využívána moderními frameworky a
+knihovnami~\cite{vandevoorde2002c++}~\cite{forman2004java}.
 
 Tento přístup přináší vysokou úroveň abstrakce a zvýšenou efektivitu
 vývojářů, kteří jsou schopni automaticky provádět inspekci, generovat a upravovat
-programy. Reflexe je součástí moderních programovacích jazyků a je
-využívána mnoha frameworky a knihovnami~\cite{vandevoorde2002c++}~\cite{forman2004java}.
-Jedním z vhodných využití metaprogramování je implementace \gls{DSL}~\cite{sheard2001accomplishments}.
+programy~\cite{sheard2001accomplishments}.
 
-\section{Business Process Execution Language}
-
-Technologie Business Process Execution Language (\gls{BPEL}) využívá speciálního \gls{DSL}
-postaveného na jazyku \gls{XML} k popisu byznysových procesů realizovaných webovými
-službami~\cite{andrews2003business}. Umožňuje \textit{top-down} realizaci \gls{SOA}
-skrz kompozici, orchestraci a koordinaci služeb~\cite{oraclebpel}.
-Přístup \gls{BPEL} využívá meta-služby, které se starají o uložení a transformaci byznysových pravidel
-a také o zachycení byznysových operací a aplikaci těchto pravidel~\cite{rosenberg2005business}.
-
-\gls{BPEL} přináší možnost využít byznysová pravidla spravovaná doménovými experty
-v procesně orientovaném prostředí \gls{SOA}. Díky tomu výrazně zvyšuje kvalitu a snižuje
-náročnost vývoje. Nejnovější výzkum v oblasti \gls{SOA} a zejména Microservices
-však od orchestrace ustupuje na úkor decentralizace a choreografie
-služeb~\cite{bakshi2017microservices}\cite{cerny2018contextual}.
-
-\section{Objektově orientované programování}\label{sec:oop}
-
-%\goal{OOP a jeho popis}
-Jedn\'{\i}m z nejpoužívanějších paradigmat používaných k
-v\'yvoji modern\'{\i}ch \gls{EIS} je objektově orientované programován\'{\i} (\gls{OOP}).
-To používá koncept tzv. objektů, které zapouzdřují data a funkcionalitu do
-malých funkčních celků odpov\'{\i}daj\'{\i}c\'{\i} struktuře reálného světa~\cite{rentsch1982object}.
-Objekty se rozum\'{\i} jak konkrétn\'{\i} koncepty, např\'{\i}klad auto nebo člověk, tak i
-abstraktn\'{\i} koncepty, jako je bankovn\'{\i} transakce nebo objednávka v obchodě.
-Podoba objektů se pak prom\'{\i}tá do kódu programu i do reprezentace struktur v paměti
-poč\'{\i}tače. Tento př\'{\i}stup je velmi snadn\'y pro pochopen\'{\i},
-vede k lepš\'{\i}mu návrhu a organizaci programu a snižuje
-tak náklady na jeho v\'yvoj a údržbu.
-
-Vlastnosti \gls{OOP}, jako je zapouzdření, dědičnost a polymorfismus, přináší
-vysokou znovupoužitelnost kódu, nižší riziko lidské chyby, zjednodušení
-návrhu systému a nižší náklady na vývoj a údržbu software.
+Jak již bylo zmiňováno v sekci~\ref{sec:business-rule-representation}, zachycení byzynsových
+pravidel v obecném programovacícm jazyce neposkytuje dostatečné moznosti pro jejich extrakci
+a sdílení. Metaprogramování však může být využito pro extrakci informací o probíhající
+byznysové operaci a jejím byzynsovém kontextu.
 
 \section{Aspektově orientované programován\'{\i}}\label{sec:aop}
 
-\subsection{Motivace}
-
-%\goal{Nedostatky OOP}
-Ačkoliv je \gls{OOP} velmi siln\'ym nástrojem, existuj\'{\i} problémy,
-které nelze v jeho rámci efektivně řešit.
-Příkladem takového problému jsou obecné požadavky na systém,
-které musej\'{\i} b\'yt konzistentně dodržovány na v\'{\i}ce
-m\'{\i}stech systému, které spolu zdánlivě nesouvis\'{\i},
-tzv. \textit{průřezové problémy} (z anglického \textit{cross-cutting concerns}).
-V rámci \gls{OOP} je programátor nucen v ojektech manuálně opakovat
-kód, kter\'y zodpov\'{\i}dá za jejich realizaci. Duplikace kódu
-vede k větš\'{\i} náchylnosti na lidskou chybu a k vyšš\'{\i}m nárokům na v\'yvoj
-a údržbu daného softwarového systému~\cite{fowler1999refactoring}.
-Obrázek~\ref{fig:cross-cutting} znázorňuje vzájemné postavení průřezových
-problémů a komponent informačního systému.
+%\goal{OOP a jeho popis}
+%Jedn\'{\i}m z nejpoužívanějších paradigmat pro v\'yvoj modern\'{\i}ch \gls{EIS} je objektově
+%orientované programován\'{\i} (\gls{OOP}). To přináší koncept tzv. objektů, které zapouzdřují data
+%společně s funkcionalitou do malých funkčních celků odpov\'{\i}daj\'{\i}c\'{\i} struktuře
+%reálného světa~\cite{rentsch1982object}. Vlastnosti \gls{OOP}, jako je zapouzdření, dědičnost
+%a polymorfismus, přináší vysokou znovupoužitelnost kódu, nižší riziko lidské chyby, zjednodušení
+%návrhu systému a nižší náklady na vývoj a údržbu software. Bohužel existuj\'{\i} problémy, které nelze
+%v jeho rámci efektivně řešit.
 
 \begin{figure}[t]
     \centering
@@ -126,6 +99,19 @@ problémů a komponent informačního systému.
     \caption{Průřezové problémy v informačních systémech}
     \label{fig:cross-cutting}
 \end{figure}
+
+Při implementaci informačních systémů se osvědčilo členit systém do komponent, které
+zapouzdřují funkcionalitu a umožňují její snadné znovupoužití. Kromě \gls{SOA} tento koncept
+využívá například i velmi rozšířené objektově-orientované programování (\gls{OOP})~\cite{rentsch1982object}.
+Tento přístup ale neumožňuje se efektivně vypořádat s některými požadavky.
+Těmi jsou tzv.~\textit{průřezové problémy} (z anglického \textit{cross-cutting concerns}),
+které typicky ovlivňují více komponent systému, kde vyžadují konzistentní zpracování.
+Kvůli izolaci komponent je programátor nucen manuálně opakovat
+kód, kter\'y zodpov\'{\i}dá za realizaci průřezové funkcionality. Duplikace kódu
+vede k větš\'{\i} náchylnosti na lidskou chybu a k vyšš\'{\i}m nárokům na v\'yvoj
+a údržbu daného softwarového systému~\cite{fowler1999refactoring}.
+Obrázek~\ref{fig:cross-cutting} znázorňuje vzájemné postavení průřezových
+problémů a komponent informačního systému.
 
 \begin{definition}
     Průřezový problém je vlastnost systému, která ovlivňuje více jeho komponent
@@ -154,19 +140,16 @@ floatplacement=t
 ]
 {code/tangling.java}
 
-\subsection{Vlastnosti}
 Aspektově orientované programován\'{\i} (\gls{AOP}) přináš\'{\i} řešen\'{\i}
-v\'yše zmiňovaných problémů. Využívá k tomu \textit{separation of concerns} --
-extrahuje kód zachycující průřezové problémy, tzv. \textit{aspekty}, do jednoho bodu, tzv. (\textit{single focal point}).
+v\'yše zmiňovaných problémů. Využívá k tomu princip oddělení zodpovědností (z anglického \textit{separation
+of concerns}) -- extrahuje kód zachycující průřezové problémy do jednoho bodu, tzv. (\textit{single focal point}).
 Pomoc\'{\i} procesu zvaného \textit{weaving} je poté tento kód automaticky distribuován.
 Weaving může proběhnout staticky při kompilaci programu nebo dynamicky
 při jeho běhu. V obou př\'{\i}padech ale programátorovi ulehčuje práci,
 protože k definici i změně aspektu docház\'{\i} centrálně, a t\'{\i}m je eliminována
 potřeba manuáln\'{\i} duplikace kódu. \gls{AOP} nen\'{\i} paradigmatem poskytuj\'{\i}c\'{\i}m
 kompletn\'{\i} framework pro návrh programu. V ideáln\'{\i}m př\'{\i}padě je tedy k návrhu
-systému využita kombinace \gls{AOP} s jin\'ym paradigmatem.
-
-\subsection{Názvosloví}
+systému využita kombinace \gls{AOP} s jin\'ym paradigmatem či architekturou.
 
 %\paragraph{Aspekt}
 Základním pojmem v rámci \gls{AOP} je \textit{aspekt},
@@ -178,7 +161,7 @@ a jeden \textit{pointcut}.
 Místo v kódu, na které může být aplikována funkcionalita aspektu, se nazývá
 \textit{join-point}. Typů join-pointů je více a závisí na použitém paradigmatu,
 na který je \gls{AOP} aplikováno, a také na programovacím jazyce. V případě
-kombinace s \gls{OOP} a klasickým víceúčelovým jazykem jako je například Java,
+kombinace s \gls{OOP} a klasickým víceúčelovým jazykem, jako je například Java,
 mohou jako join-pointy sloužit konstruktory tříd, volání metod, zápis a čtení
 z atributu objektu, inicializace třídy nebo objektu a mnoho dalších.
 
@@ -192,7 +175,7 @@ za vyšší flexibilitu.
 Funkcionalita, kterou aspekt přidává v jeho pointcutu, se nazývá
 \textit{advice}. Existuje více typů advice, podle toho, kam je
 daná funkcionalita přidána. Například při volání metody může
-být funkcionalita přidána před, za, nebo kolem metody.
+být funkcionalita přidána před, za, nebo místo metody.
 
 %\paragraph{Weaving}
 Proces, kterým jsou advice začleňovány podle pointcutu do
@@ -209,18 +192,14 @@ weaving se nazývá \textit{aspect weaver}.
     \label{fig:aspect-weaving}
 \end{figure}
 
-\section{Aspect-driven Design Approach}\label{sec:adda}
-
-\subsection{Vlastnosti}
+\subsection{Aspect-driven Design Approach}\label{sec:adda}
 
 Alternativním způsobem návrhu informačních systémů, který staví na principech \gls{AOP},
-je Aspect-driven Design Approach\footnote{Autoři nejprve používali termín \textit{Aspect-Oriented
-Design Approach} (AODA), který byl později změněn. Oba tyto pojmy jsou vzájemně zaměnitelné.}
-(\gls{ADDA})~\cite{cemus2014aspect}, představený v roce 2014.
-Tento přístup se zaměřuje na formalizaci jednotlivých komponent informačních systémů identifikování aspektů
-v informačních systémech a jejich separaci do \textit{single focal point}.
-Následně přístup využívá weaving pro automatickou distribuci aspektů do systému.
-K popisu aspektu doporučuje využití doménově specifického jazyka, který bude navržen na
+je Aspect-Driven Design Approach\footnote{Autoři historicky používali termín \textit{Aspect-Oriented
+Design Approach} (AODA), který byl později změněn. Oba tyto názvy jsou vzájemně zaměnitelné.}
+(\gls{ADDA})~\cite{cemus2014aspect}. Tento přístup se zaměřuje na identifikování aspektů v informačních systémech,
+jejich separaci do \textit{single focal point} a využití weavingu pro jejich automatickou distribuci.
+K popisu aspektu přístup doporučuje využití doménově specifického jazyka (\gls{DSL}), který bude navržen na
 míru danému průřezovému problému.
 
 \subsection{Možnosti aplikace}
@@ -235,17 +214,23 @@ a automatické extrakci dokumentace~\cite{cemus2017automated}.
 Jednou z možných aplikací přístupu \gls{ADDA} je automatické začleňování
 byznysových pravidel do datové vrstvy \gls{EIS}\footnote{Předpokládáme standardní
 třívrstvou architekturu informačních systémů~\cite{fowler2002patterns}}.
-Byznysová pravidla jsou nejprve vhodně popsána pomocí \gls{DSL} a následně jsou
+Byznysová pravidla jsou nejprve popsána pomocí \gls{DSL} a následně jsou
 extrahována do jednoho bodu, ze kterého jsou automaticky distribuována.
 Pomocí specializovaného weaveru jsou pravidla překládána do podmínek
 jazyka \gls{JPQL}, potažmo \gls{SQL}, který je využíván k získávání dat
 z databázových systémů. To vede ke snížení manuální duplikace byznysových
 pravidel.
 
-Uživatelská rozhraní tvoří až 48 \% kódu informačních systému
-a zabírají až 50 \% jejich vývojového času~\cite{kennard2009separation}.
+\begin{definition}
+    \gls{DSL} je programovací jazyk určený k popisu specifické vlastnosti či funkce systému v
+    rámci dané domény~\cite{fowler2010domain}.
+\end{definition}
+
+Další oblastí, kde je možné tento přístup aplikovat, jsou uživatelská rozhraní,
+která tvoří až 48 \% kódu informačních systému a zabírají až 50 \%
+jejich vývojového času~\cite{kennard2009separation}.
 Do \gls{UI} se přitom typicky promítá mnoho aspektů, které jsou
-již v systému obsaženy. Například byznysová pravidla jsou promítána do \gls{UI}
+v systému obsaženy. Například byznysová pravidla jsou promítána do \gls{UI}
 při validaci vstupních dat formulářů na straně klienta~\cite{cemus2017separation}.
 Autoři přístupu \gls{ADDA} přicházejí s řešením v podobě
 využití několika \gls{DSL} pro popis jednotlivých aspektů
@@ -256,8 +241,8 @@ displeje, na kterém je rozhraní zobrazováno.
 Díky tomu je dosaženo významné redukce kódu~\cite{cemus2016context}
 potřebného pro popis adaptibilního uživatelského rozhraní.
 
-Další oblastí informačních systému, do které se promítají jeho aspekty,
-je dokumentace~\cite{cemus2017automated}. Autoři \gls{ADDA}
+Dokumentace je také částí informačního systému, do které se promítají
+jeho aspekty~\cite{cemus2017automated}. Autoři \gls{ADDA}
 využívají data mining pro získání metainformací o byznysových operacích,
 datovém modelu systému a o byznysových pravidlech. Díky tomu mohou
 automaticky vygenerovat seznam byznysových operací, potažmo implementovaných
@@ -267,7 +252,7 @@ který může sloužit pro verifikaci jejich správnosti.
 \subsection{Výhody a nevýhody}
 
 \gls{ADDA} poskytuje vývojářům způsob jakým výrazně snížit náklady na vývoj a údržbu
-systému díky deduplikaci, která je dosažena extrakcí aspektů
+systému díky deduplikaci kódu, která je dosažena extrakcí aspektů
 do \textit{single focal point} a jejich automatickou distribucí do
 příslušných komponent systému. Tento přístup však nese vysokou počáteční investici v
 podobě vývoje specializovaných \gls{DSL} a dynamických aspect weaverů.
@@ -275,33 +260,39 @@ Ačkoliv autoři tohoto přístupu implementovali prototypy knihoven umožňují
 požadovanou funkcionalitu, pro nasazení do reálného systému
 nejsou tyto knihovny připraveny.
 
-Přístup \gls{ADDA} splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements},
-zejména využití speciálních \gls{DSL} pro popis aspektů a
-jejich automatickou distribuci za běhu systému. Pro popis byznysových pravidel
-využívá \gls{ADDA} nástroj \textit{Drools}, který je popsán v následující sekci.
+I přes to přístup \gls{ADDA} splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements},
+zejména využití speciálních \gls{DSL} pro popis aspektů a jejich automatickou distribuci za běhu systému.
+Pro popis byznysových pravidel využívá \gls{ADDA} nástroj \textit{Drools}, který je popsán v následující sekci.
 
-\section{Stávaj\'{\i}c\'{\i} řešen\'{\i} reprezentace business pravidel}\label{sec:business-rule-dsl}
+\section{Stávaj\'{\i}c\'{\i} řešen\'{\i} správy a reprezentace business pravidel}\label{sec:business-rule-dsl}
 
-Tato kapitola se zaměřuje i na současné možnosti zachycení
-byznysových pravidel ve specializovaných jazycích a vhodnost jejich použití
-pro účel frameworku, který bude výstupem této práce.
-Ačkoliv existuje relativně velké množství knihoven poskytujících
-\gls{DSL} pro popis byznysových pravidel a umožňující automatickou
-distribuci byznys pravidel, žádný z nich nepodporuje dostatečně velké množství
-platforem, ve kterých by mohl být jazyk použit. Příkladem může být projekt \textit{business-ruless}
-pro jazyk Python\footnote{\url{https://pypi.org/project/business-rules/}}, projekt
-FlexRule\footnote{\url{http://www.flexrule.com/archives/business-rule-language/}} pro platformy .NET a
+Tato sekce se zaměřuje na současné možnosti správy a zachycení byznysových pravidel
+ve specializovaných jazycích a vhodnost jejich použití pro účel této práce.
+Ačkoliv existuje relativně velké množství knihoven umožňujících automatickou distribuci
+byznysových pravidel a poskytujících \gls{DSL} pro jejich popis, žádný z nich nepodporuje dostatečně velké množství platforem.
+Příkladem může být projekt FlexRule\footnote{\url{http://www.flexrule.com/archives/business-rule-language/}} pro platformy .NET a
 JavaScript nebo \gls{BRMS} JRules~\cite{boyer2011ibm} od společnosti \textit{IBM} pro platformu \gls{Java EE}.
-Tato sekce se proto zaměřuje zejména na framework Drools, který používají autoři přístupu \gls{ADDA},
-a také na moderní nástroj JetBrains MPS, který umožňuje vytvářet vlastní \gls{DSL} a transformovat
-ho do dalších jazyků.
+Tato sekce se proto zaměřuje zejména na framework \gls{BPEL}, který se věnuje byznysovým pravidlům v prostředí \gls{SOA}, a na
+framework Drools, který využívají autoři přístupu \gls{ADDA}. Pozornost je věnována také nástroji JetBrains MPS,
+který umožňuje vytvářet vlastní \gls{DSL} a transformovat ho do dalších jazyků.
 
-\begin{definition}
-    \gls{DSL} je programovací jazyk určený k popisu specifické vlastnosti či funkce systému v
-    rámci dané domény~\cite{fowler2010domain}.
-\end{definition}
+\subsection{Business Process Execution Language}
 
-\subsection{Drools DSL}\label{sec:drools}
+Technologie Business Process Execution Language (\gls{BPEL}) využívá speciálního \gls{DSL}
+postaveného na jazyku \gls{XML} k popisu byznysových procesů realizovaných webovými
+službami~\cite{andrews2003business}. Umožňuje \textit{top-down} realizaci \gls{SOA}
+skrz kompozici, orchestraci a koordinaci služeb~\cite{oraclebpel}.
+Přístup \gls{BPEL} využívá meta-služby, které se starají o uložení a transformaci byznysových pravidel
+a také o zachycení byznysových operací a aplikaci těchto pravidel~\cite{rosenberg2005business}.
+
+\gls{BPEL} přináší možnost využít byznysová pravidla spravovaná doménovými experty
+v procesně orientovaném prostředí \gls{SOA}. Díky tomu výrazně zvyšuje kvalitu a snižuje
+náročnost vývoje. K tomu ale vynucuje využití orchestrace, od které nejnovější výzkum v oblasti \gls{SOA}
+a zejména Microservices ustupuje na úkor decentralizace a choreografie
+služeb~\cite{bakshi2017microservices}\cite{cerny2018contextual}. Tento fakt je zároveň
+v rozporu s požadavky definovanými v sekci~\ref{sec:implementation-requirements}.
+
+\subsection{Drools}\label{sec:drools}
 
 Framework Drools\footnote{\url{https://www.drools.org/}} je open-source projekt realizující
 \textit{business rule management engine} (\gls{BRMS}), tedy nástroj pro vývoj a správu byznysových
@@ -328,13 +319,13 @@ požadavkům na platformovou nezávislost.
 
 \subsection{JetBrains MPS}
 
-Moderním nástrojem pro tvorbu doménově specifických jazyků
-je \textit{JetBrains MPS} (Meta Programming System)\footnote{\url{https://www.jetbrains.com/mps/}}.
+Moderním nástrojem pro tvorbu doménově specifických jazyků je \textit{JetBrains MPS}
+(Meta Programming System)\footnote{\url{https://www.jetbrains.com/mps/}}.
 Staví na konceptu \textit{language-oriented programming} (\gls{LOP})~\cite{ward1994language} zaměřujícího
 se na vývoj specifického abstraktního jazyka a jeho použití pro implementaci programu. Pro překlad ze specifického
-jazyka do spustitelného kódu je použit automatický překladač. Příkladem jazyka, který využívá koncept \gls{LOP}
+jazyka do spustitelného kódu je použit automatický překladač. Příkladem jazyka, který využívá koncept \gls{LOP},
 je \LaTeX\xspace, který byl využit pro sazbu této diplomové práce. Ten totiž pomocí maker jazyka \TeX\xspace
-sestavuje abstraktnější jazyk, který umožňuje autorovi soustředit se hlavně na strukturu textu, aniž by
+sestavuje abstraktnější jazyk, který umožňuje autorovi soustředit se na strukturu textu, aniž by
 se musel příliš detailně zaobírat samotnou sazbou.
 
 MPS umožňuje uživateli nadefinovat gramatiku speciálního \gls{DSL} a následně poskytuje
@@ -359,26 +350,23 @@ distribuci byznysových pravidel v systému stavějícímu na \gls{SOA}.
 
 Model klient-server popisuje vztah mezi komponentami systému, klienty a serverem.
 Klient zašle požadavek serveru a ten mu vrátí odpověď~\cite{berson1992client}.
-Schéma komunikace je znázorněno na obrázku ~\ref{fig:client-server}.
+%Schéma komunikace je znázorněno na obrázku ~\ref{fig:client-server}.
 Tento model může být použit obecně i v rámci jednoho počítače,
 nejčastěji je však využíván v síťové komunikaci mezi více počítači.
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[keepaspectratio=true, width=0.6\linewidth]{figures/client-server.pdf}
-    \caption{Architektura klient-server}
-    \label{fig:client-server}
-\end{figure}
+%\begin{figure}[t]
+%    \centering
+%    \includegraphics[keepaspectratio=true, width=0.6\linewidth]{figures/client-server.pdf}
+%    \caption{Architektura klient-server}
+%    \label{fig:client-server}
+%\end{figure}
 
-Tento přístup má několik zásadních výhod, díky kterým se stal
-široce využívaným. Díky svojí velmi obecné myšlence je nezávislý
-na jakékoliv platformě.
-Zároveň tato architektura přesouvá byznysovou logiku a
-ukládání dat na server a díky tomu umožňuje
-snadnější kontrolu nad systémem a jeho centrální administraci. S tím
-je spojena i snažší škálovatelnost systému. V neposlední řadě
-přináší model klient-server díky centralizaci i lepší zabezpečení,
-kdy server může jasně definovat a vynucovat přístupová pravidla.
+Tento přístup má několik zásadních výhod. Díky svojí obecnosti je nezávislý
+na jakékoliv platformě. Zároveň tato architektura přesouvá byznysovou logiku a
+ukládání dat na server a umožňuje snadnější kontrolu nad systémem a jeho centrální
+administraci. S tím je spojena i snažší škálovatelnost systému. Model klient-server
+přináší díky centralizaci i lepší zabezpečení, kdy server může snadno definovat a
+vynucovat přístupová pravidla.
 
 Hlavní nevýhodu této architektury je vytvoření jednoho centrálního bodu,
 jehož výpadek ochromí funkci celého systému (v angličtině
@@ -386,13 +374,13 @@ jehož výpadek ochromí funkci celého systému (v angličtině
 Pokud na serveru nastane chyba či výpadek, žádný z klientů není schopen využívat
 jeho služeb.
 
-\subsection{Architektura Peer-to-peer}\label{sec:p2p}
-
-Opakem modelu klient-server je síťová architektura zvaná \textit{Peer-to-peer (\gls{P2P})}.
-Jednotlivé počítače v síti spolu komunikují přímo, bez centrální autority.
-Všechny počítače v síti jsou si vzájemně rovnocenné~\cite{fox2001peer}.
-%Na obrázku~\ref{fig:peer-to-peer} je tato architektura znázorněna.
-Hlavním cílem \gls{P2P} sítí je distribuce dat nebo výpočetních operací.
+%\subsection{Architektura Peer-to-peer}\label{sec:p2p}
+%
+%Opakem modelu klient-server je síťová architektura zvaná \textit{Peer-to-peer (\gls{P2P})}.
+%Jednotlivé počítače v síti spolu komunikují přímo, bez centrální autority.
+%Všechny počítače v síti jsou si vzájemně rovnocenné~\cite{fox2001peer}.
+%%Na obrázku~\ref{fig:peer-to-peer} je tato architektura znázorněna.
+%Hlavním cílem \gls{P2P} sítí je distribuce dat nebo výpočetních operací.
 
 %\begin{figure}[t]
 %    \centering
@@ -401,11 +389,11 @@ Hlavním cílem \gls{P2P} sítí je distribuce dat nebo výpočetních operací.
 %    \label{fig:peer-to-peer}
 %\end{figure}
 
-Vysoká datová propustnost a robustnost \gls{P2P} by mohla být vhodná pro
-sdílení byznysových pravidel. Absence centrální správy by však mohla způsobit
-nekonzistenci při úpravě či přidání byznysového pravidla. Změna pravidla by se
-musela šířit postupně napříč systémem, přičemž některé uzly by stále využívaly starou
-verzi pravidla.
+%Vysoká datová propustnost a robustnost \gls{P2P} by mohla být vhodná pro
+%sdílení byznysových pravidel. Absence centrální správy by však mohla způsobit
+%nekonzistenci při úpravě či přidání byznysového pravidla. Změna pravidla by se
+%musela šířit postupně napříč systémem, přičemž některé uzly by stále využívaly starou
+%verzi pravidla.
 
 \subsection{Representational state transfer}\label{sec:rest}
 
@@ -439,9 +427,9 @@ síťovou komunikaci a serializaci či deserializaci argumentů, resp. návratov
 \section{Shrnut\'{\i}}
 
 V této kapitole byla provedena rešerše architektur, paradigmat a frameworků, které by mohly být vhodné
-pro řešení sdílení byznysových pravidel v \gls{SOA}, a shrnula jejich v\'yhody a nev\'yhody.
-Nejvíce se kapitola věnovala inovativnímu přístupu k návrhu softwarov\'ych systémů \textit{ADDA},
-ze kterého bude vycházet návrh frameworku, který bude výstupem této práce.
-Kapitola také shrnula rešerši stávaj\'{\i}c\'{\i}ch řešen\'{\i} reprezentace byznys pravidel
+pro řešení sdílení byznysových pravidel v \gls{SOA}, a byly shrnuty jejich v\'yhody a nev\'yhody.
+Velká část kapitoly byla věnována inovativnímu přístupu k návrhu softwarov\'ych systémů \textit{ADDA},
+ze kterého bude vycházet návrh frameworku, jež bude výstupem této práce.
+Kapitola dále shrnula rešerši stávaj\'{\i}c\'{\i}ch řešen\'{\i} správy a reprezentace byznys pravidel
 a zhodnotila jejich vhodnost pro použití v této práci. Nakonec kapitola studovala existující
 síťové architektury, které by mohly být využity pro distribuci byznysových pravidel v rámci \gls{SOA}.
