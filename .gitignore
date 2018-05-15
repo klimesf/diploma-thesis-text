@@ -12,6 +12,13 @@
 *-blx.bib
 *.run.xml
 *.ilg
+*.acn
+*.acr
+*.glsdefs
+*.ist
+*.nlo
+*.nls
+*.alg
 
 # IDE
 *.iml
