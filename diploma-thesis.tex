@@ -58,6 +58,7 @@ unicode=true,
 \usepackage{afterpage}
 \usepackage{amsthm}
 \usepackage{fancyvrb}
+\usepackage{pdfpages}
 
 \theoremstyle{definition}
 \newtheorem*{definition}{Definice}
@@ -102,13 +103,8 @@ unicode=true,
 % oficialnim zadanim vasi prace.
 {
 \pagenumbering{roman} \cleardoublepage \thispagestyle{empty}
-\chapter*{Na tomto místě bude oficiální zadání vaší práce}
-\begin{itemize}
-\item Toto zadání je podepsané děkanem a vedoucím katedry,
-\item musíte si ho vyzvednout na studijním oddělení Katedry počítačů na Karlově náměstí,
-\item v jedné odevzdané práci bude originál tohoto zadání (originál zůstává po obhajobě na katedře),
-\item ve druhé bude na stejném místě neověřená kopie tohoto dokumentu (tato se vám vrátí po obhajobě).
-\end{itemize}
+\includepdf[pages=1,pagecommand={}]{figures/zadani-front.pdf}
+\includepdf[pages=1,pagecommand={}]{figures/zadani-back.pdf}
 \newpage
 }
 
