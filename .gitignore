@@ -11,6 +11,7 @@
 *.blg
 *-blx.bib
 *.run.xml
+*.ilg
 
 # IDE
 *.iml
