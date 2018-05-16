@@ -162,10 +162,10 @@ přehled je v tabulce~\ref{tbl:use-cases}.
         \textbf{\#} & \textbf{Use-case} \\
         \hline \hline
         \textbf{UC01} & Nepřihlášen\'y uživatel si může vytvořit zákazn\'{\i}ck\'y účet \\
-        \textbf{UC02} & Zákazn\'{\i}k může prohl\'{\i}žet produkty \\
+        \textbf{UC02} & Zákazn\'{\i}k může prohl\'{\i}žet seznam produktů \\
         \textbf{UC03} & Zákazn\'{\i}k může vkládat produkty do koš\'{\i}ku \\
         \textbf{UC04} & Zákazn\'{\i}k může vytvořit objednávku \\
-        \textbf{UC05} & Skladn\'{\i}k si může prohl\'{\i}žet produkty \\
+        \textbf{UC05} & Skladn\'{\i}k může prohl\'{\i}žet detail produktu \\
         \textbf{UC06} & Skladn\'{\i}k může do systému zadávat nové produkty \\
         \textbf{UC07} & Skladn\'{\i}k může upravovat u produktů stav skladov\'ych zásob \\
         \textbf{UC08} & Skladn\'{\i}k si může zobrazovat objednávky \\
@@ -222,12 +222,12 @@ vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je 
         \textbf{BR04} & UC04 & \makecell[c]{Uživatel mus\'{\i} řádně vyplnit doručovac\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
         \textbf{BR05} & UC04 & \makecell[c]{Uživatel mus\'{\i} řádně vyplnit fakturačn\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
         \textbf{BR06} & UC01, UC04 & Zákazn\'{\i}k mus\'{\i} m\'{\i}t vyplněnou emailovou adresu & pre \\ \hline
-        \textbf{BR07} & UC04 & Položky objednávky mus\'{\i} m\'{\i}t počet kusů větš\'{\i} než 0 & pre \\ \hline
+        \textbf{BR07} & UC03 & Nákupní košík může obsahovat maximálně 10 položek & pre \\ \hline
         \textbf{BR08} & UC04 & \makecell[c]{Položky objednávky mus\'{\i} m\'{\i}t počet kusů menš\'{\i}, \\ než je aktuáln\'{\i} stav skladov\'ych zásob produktu} & pre \\ \hline
         \textbf{BR09} & UC04 & \makecell[c]{Stát mus\'{\i} b\'yt v seznamu zem\'{\i}, \\ do kter\'ych firma doručuje} & pre \\ \hline
         \textbf{BR10} & UC04 & Zákazn\'{\i}k mus\'{\i} b\'yt přihlášen & pre \\ \hline
         \textbf{BR11} & UC05 až UC09 & \makecell[c]{Skladn\'{\i}k mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Skladn\'{\i}k"} & pre \\ \hline
-        \textbf{BR12} & UC05 & \makecell[c]{Skladn\'{\i}k u produktu nesm\'{\i} vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
+        \textbf{BR12} & UC02, UC05 & \makecell[c]{Skladn\'{\i}k u produktu nesm\'{\i} vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
         \textbf{BR13} & UC06 & Produkt mus\'{\i} m\'{\i}t jméno s délkou >5 & pre \\ \hline
         \textbf{BR14} & UC07 & Stav zásob produktů mus\'{\i} b\'yt č\'{\i}slo větš\'{\i} nebo rovno 0 & pre \\ \hline
         \textbf{BR15} & UC08 & Skladn\'{\i}k nesm\'{\i} vidět celkov\'y součet cen objednávek & post \\ \hline
