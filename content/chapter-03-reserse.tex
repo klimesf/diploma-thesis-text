@@ -131,15 +131,6 @@ Aspekt logování je zohledněn na třech místech, stejně jako aspekt transakc
 Navíc jsou zde zohledněna i byznysová pravidla pro validaci doručovací
 a fakturační adresy objednávky.
 
-\lstinputlisting[
-caption={Příklad průřezových problémů zohledněných při vytváření objednávky},
-label={lst:tangling},
-language=Java,
-float,
-floatplacement=t
-]
-{code/tangling.java}
-
 Aspektově orientované programován\'{\i} (\gls{AOP}) přináš\'{\i} řešen\'{\i}
 v\'yše zmiňovaných problémů. Využívá k tomu princip oddělení zodpovědností (z anglického \textit{separation
 of concerns}) -- extrahuje kód zachycující průřezové problémy do jednoho bodu, tzv. (\textit{single focal point}).
@@ -150,6 +141,15 @@ protože k definici i změně aspektu docház\'{\i} centrálně, a t\'{\i}m je e
 potřeba manuáln\'{\i} duplikace kódu. \gls{AOP} nen\'{\i} paradigmatem poskytuj\'{\i}c\'{\i}m
 kompletn\'{\i} framework pro návrh programu. V ideáln\'{\i}m př\'{\i}padě je tedy k návrhu
 systému využita kombinace \gls{AOP} s jin\'ym paradigmatem či architekturou.
+
+\lstinputlisting[
+caption={Příklad průřezových problémů zohledněných při vytváření objednávky},
+label={lst:tangling},
+language=Java,
+float,
+floatplacement=t
+]
+{code/tangling.java}
 
 %\paragraph{Aspekt}
 Základním pojmem v rámci \gls{AOP} je \textit{aspekt},
