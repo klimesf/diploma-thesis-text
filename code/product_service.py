@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from model import ProductRepository
 
 app = Flask(__name__)
 product_repository = ProductRepository()
