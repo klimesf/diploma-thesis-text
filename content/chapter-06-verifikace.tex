@@ -162,18 +162,18 @@ přehled je v tabulce~\ref{tbl:use-cases}.
         \textbf{\#} & \textbf{Use-case} \\
         \hline \hline
         \textbf{UC01} & Nepřihlášen\'y uživatel si může vytvořit zákaznick\'y účet \\
-        \textbf{UC02} & Zákazn\'{\i}k může prohl\'{\i}žet seznam produktů \\
+        \textbf{UC02} & Zákazn\'{\i}k může prohl\'{\i}žet produkty \\
         \textbf{UC03} & Zákazn\'{\i}k může vkládat produkty do koš\'{\i}ku \\
         \textbf{UC04} & Zákazn\'{\i}k může vytvořit objednávku \\
-        \textbf{UC05} & Skladn\'{\i}k může prohl\'{\i}žet detail produktu \\
-        \textbf{UC06} & Skladn\'{\i}k může do systému zadávat nové produkty \\
-        \textbf{UC07} & Skladn\'{\i}k může upravovat u produktů stav skladov\'ych zásob \\
-        \textbf{UC08} & Skladn\'{\i}k si může zobrazovat objednávky \\
-        \textbf{UC09} & Skladn\'{\i}k může upravovat stav objednávek \\
-        \textbf{UC10} & Administrátor si může prohl\'{\i}žet objednávky \\
-        \textbf{UC11} & Administrátor může upravovat cenu produktů \\
-        \textbf{UC12} & Administrátor může vytvářet uživatele (skladn\'{\i}ky) \\
-        \textbf{UC13} & Administrátor může mazat uživatele (skladn\'{\i}ky i zákazn\'{\i}ky) \\
+        \textbf{UC05} & Skladn\'{\i}k může do systému zadávat nové produkty \\
+        \textbf{UC06} & Skladn\'{\i}k může upravovat u produktů stav skladov\'ych zásob \\
+        \textbf{UC07} & Skladn\'{\i}k si může zobrazovat objednávky \\
+        \textbf{UC08} & Skladn\'{\i}k může upravovat stav objednávek \\
+        \textbf{UC09} & Administrátor si může prohl\'{\i}žet objednávky \\
+        \textbf{UC10} & Administrátor může upravovat cenu produktů \\
+        \textbf{UC11} & Administrátor může vytvářet uživatele (skladn\'{\i}ky) \\
+        \textbf{UC12} & Administrátor může mazat uživatele (skladn\'{\i}ky i zákazn\'{\i}ky) \\
+        \textbf{UC12} & Administrátor může vystavit fakturu \\
         \hline
     \end{tabular*}
     \caption{Případy použití ukázkového e-commerce systému}
@@ -220,22 +220,22 @@ vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je 
         \textbf{BR02} & UC02, UC03 & \makecell[c]{Uživatel nesm\'{\i} zobrazovat ani manipulovat \\ s produkty, které nejsou aktivn\'{\i}} & post \\ \hline
         \textbf{BR03} & UC02 až UC04 & \makecell[c]{Uživatel nesm\'{\i} u produktu vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
         \textbf{BR04} & UC04 & \makecell[c]{Uživatel mus\'{\i} řádně vyplnit doručovac\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
-        \textbf{BR05} & UC04 & \makecell[c]{Uživatel mus\'{\i} řádně vyplnit fakturačn\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
+        \textbf{BR05} & UC04, UC13 & \makecell[c]{Uživatel mus\'{\i} řádně vyplnit fakturačn\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
         \textbf{BR06} & UC01, UC04 & Zákazn\'{\i}k mus\'{\i} m\'{\i}t vyplněnou emailovou adresu & pre \\ \hline
         \textbf{BR07} & UC03 & Nákupní košík může obsahovat maximálně 10 položek & pre \\ \hline
         \textbf{BR08} & UC04 & \makecell[c]{Položky objednávky mus\'{\i} m\'{\i}t počet kusů menš\'{\i}, \\ než je aktuáln\'{\i} stav skladov\'ych zásob produktu} & pre \\ \hline
         \textbf{BR09} & UC04 & \makecell[c]{Stát mus\'{\i} b\'yt v seznamu zem\'{\i}, \\ do kter\'ych firma doručuje} & pre \\ \hline
         \textbf{BR10} & UC04 & Zákazn\'{\i}k mus\'{\i} b\'yt přihlášen & pre \\ \hline
-        \textbf{BR11} & UC05 až UC09 & \makecell[c]{Skladn\'{\i}k mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Skladn\'{\i}k"} & pre \\ \hline
-        \textbf{BR12} & UC02, UC05 & \makecell[c]{Skladn\'{\i}k u produktu nesm\'{\i} vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
-        \textbf{BR13} & UC06 & Produkt mus\'{\i} m\'{\i}t jméno s délkou >5 & pre \\ \hline
-        \textbf{BR14} & UC07 & Stav zásob produktů mus\'{\i} b\'yt č\'{\i}slo větš\'{\i} nebo rovno 0 & pre \\ \hline
-        \textbf{BR15} & UC08 & Skladn\'{\i}k nesm\'{\i} vidět celkov\'y součet cen objednávek & post \\ \hline
-        \textbf{BR16} & UC09 & \makecell[c]{Stav objednávky mus\'{\i} b\'yt pouze "přijato", \\ "expedováno" a "doručeno"} & pre \\ \hline
-        \textbf{BR17} & UC10 až UC13 & \makecell[c]{Administrátor mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Administrátor"} & pre \\ \hline
-        \textbf{BR18} & UC11 & \makecell[c]{V\'ysledná cena produktu mus\'{\i} b\'yt větš\'{\i} \\ než jeho nákupn\'{\i} cena} & pre \\ \hline
-        \textbf{BR19} & UC12 & Skladn\'{\i}k mus\'{\i} m\'{\i}t jméno delš\'{\i} než 2 znaky & pre \\ \hline
-        \textbf{BR20} & UC12 & Skladn\'{\i}k mus\'{\i} m\'{\i}t emailovou adresu v platném formátu & pre \\
+        \textbf{BR11} & UC05 až UC08 & \makecell[c]{Skladn\'{\i}k mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Skladn\'{\i}k"} & pre \\ \hline
+        \textbf{BR12} & UC02 & \makecell[c]{Skladn\'{\i}k u produktu nesm\'{\i} vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
+        \textbf{BR13} & UC05 & Produkt mus\'{\i} m\'{\i}t jméno s délkou >5 & pre \\ \hline
+        \textbf{BR14} & UC06 & Stav zásob produktů mus\'{\i} b\'yt č\'{\i}slo větš\'{\i} nebo rovno 0 & pre \\ \hline
+        \textbf{BR15} & UC07 & Skladn\'{\i}k nesm\'{\i} vidět celkov\'y součet cen objednávek & post \\ \hline
+        \textbf{BR16} & UC08 & \makecell[c]{Stav objednávky mus\'{\i} b\'yt pouze "přijato", \\ "expedováno" a "doručeno"} & pre \\ \hline
+        \textbf{BR17} & UC09 až UC12 & \makecell[c]{Administrátor mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Administrátor"} & pre \\ \hline
+        \textbf{BR18} & UC10 & \makecell[c]{V\'ysledná cena produktu mus\'{\i} b\'yt větš\'{\i} \\ než jeho nákupn\'{\i} cena} & pre \\ \hline
+        \textbf{BR19} & UC11 & Skladn\'{\i}k mus\'{\i} m\'{\i}t jméno delš\'{\i} než 2 znaky & pre \\ \hline
+        \textbf{BR20} & UC11 & Skladn\'{\i}k mus\'{\i} m\'{\i}t emailovou adresu v platném formátu & pre \\
         \hline
     \end{tabular}
     \caption{Byznysová pravidla ukázkového e-commerce systému}
@@ -257,6 +257,7 @@ jsou podle domén děleny i jednotlivé služby systému.
         \textbf{auth.employeeLoggedIn} & - & BR11 \\ \hline
         \textbf{auth.userLoggedIn} & - & BR10 \\ \hline
         \textbf{billing.correctAddress} & - & BR05 \\ \hline
+        \textbf{billing.createInvoice} & - & BR05 \\ \hline
         \textbf{order.addToBasket} & UC03 & BR02, BR08, BR10 \\ \hline
         \textbf{order.changeState} & UC09 & \makecell[l]{BR04, BR05, BR06, BR08, BR09, BR11, \\ BR16} \\ \hline
         \textbf{order.create} & UC04 & \makecell[l]{BR03, BR04, BR05, BR06, BR07, BR08, \\ BR09, BR10, BR16} \\ \hline
@@ -268,7 +269,6 @@ jsou podle domén děleny i jednotlivé služby systému.
         \textbf{product.create} & UC06 & BR10, BR11, BR13 \\ \hline
         \textbf{product.hidden} & - & BR02 \\ \hline
         \textbf{product.listAll} & UC02, UC05 & BR02, BR03, BR12 \\ \hline
-        \textbf{product.stock} & - & BR08 \\ \hline
         \textbf{shipping.correctAddress} & - & BR04, BR09 \\ \hline
         \textbf{user.createCustomer} & UC01 & BR01, BR06 \\ \hline
         \textbf{user.createEmployee} & UC12 & BR06, BR17, BR19, BR20 \\ \hline
@@ -419,7 +419,7 @@ language=Yaml,
 \section{Srovnán\'{\i} s konvenčn\'{\i}m př\'{\i}stupem}
 
 %\goal{Ukázka na konkrétn\'{\i}m př\'{\i}kladě}
-Z tabulky~\ref{tbl:business-contexts} plyne, že 60 \% byznysov\'ych pravidel v ukázkovém systému je
+Z tabulky~\ref{tbl:business-contexts} plyne, že 55 \% byznysov\'ych pravidel v ukázkovém systému je
 využ\'{\i}váno ve v\'{\i}ce kontextech, a polovina je využ\'{\i}vána např\'{\i}č v\'{\i}ce službami.
 V tabulce~\ref{tbl:duplication} je přehledně shrnuto, která pravidla jsou využ\'{\i}vána ve kter\'ych službách.
 Při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu by tato pravidla bylo nutné implementovat alespoň
@@ -439,7 +439,7 @@ Manuáln\'{\i} duplikace nav\'{\i}c přináš\'{\i} nutnost synchronizovat podob
         \textbf{BR05} & billing, order & \textbf{BR15} & order \\
         \textbf{BR06} & order, user & \textbf{BR16} & order \\
         \textbf{BR07} & order & \textbf{BR17} & (auth), product, user \\
-        \textbf{BR08} & order, product & \textbf{BR18} & product \\
+        \textbf{BR08} & order & \textbf{BR18} & product \\
         \textbf{BR09} & order, shipping & \textbf{BR19} & user \\
         \textbf{BR10} & (auth), order, product & \textbf{BR20} & user \\
         \hline
