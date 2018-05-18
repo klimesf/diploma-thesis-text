@@ -219,9 +219,9 @@ vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je 
         \textbf{BR01} & UC01 & Uživatel nesm\'{\i} b\'yt přihlášen\'y & pre \\ \hline
         \textbf{BR02} & UC02, UC03 & \makecell[c]{Uživatel nesm\'{\i} zobrazovat ani manipulovat \\ s produkty, které nejsou aktivn\'{\i}} & post \\ \hline
         \textbf{BR03} & UC02 až UC04 & \makecell[c]{Uživatel nesm\'{\i} u produktu vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
-        \textbf{BR04} & UC04 & \makecell[c]{Uživatel mus\'{\i} řádně vyplnit doručovac\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
-        \textbf{BR05} & UC04, UC13 & \makecell[c]{Uživatel mus\'{\i} řádně vyplnit fakturačn\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
-        \textbf{BR06} & UC01, UC04 & Zákazn\'{\i}k mus\'{\i} m\'{\i}t vyplněnou emailovou adresu & pre \\ \hline
+        \textbf{BR04} & UC04 & \makecell[c]{Zákazník mus\'{\i} řádně vyplnit doručovac\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
+        \textbf{BR05} & UC04, UC13 & \makecell[c]{Zákazník mus\'{\i} řádně vyplnit fakturačn\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
+        \textbf{BR06} & UC01, UC04, UC11 & Uživatel mus\'{\i} m\'{\i}t vyplněnou emailovou adresu & pre \\ \hline
         \textbf{BR07} & UC03 & Nákupní košík může obsahovat maximálně 10 položek & pre \\ \hline
         \textbf{BR08} & UC04 & \makecell[c]{Položky objednávky mus\'{\i} m\'{\i}t počet kusů menš\'{\i}, \\ než je aktuáln\'{\i} stav skladov\'ych zásob produktu} & pre \\ \hline
         \textbf{BR09} & UC04 & \makecell[c]{Stát mus\'{\i} b\'yt v seznamu zem\'{\i}, \\ do kter\'ych firma doručuje} & pre \\ \hline
@@ -230,12 +230,11 @@ vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je 
         \textbf{BR12} & UC02 & \makecell[c]{Skladn\'{\i}k u produktu nesm\'{\i} vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
         \textbf{BR13} & UC05 & Produkt mus\'{\i} m\'{\i}t jméno s délkou >5 & pre \\ \hline
         \textbf{BR14} & UC06 & Stav zásob produktů mus\'{\i} b\'yt č\'{\i}slo větš\'{\i} nebo rovno 0 & pre \\ \hline
-        \textbf{BR15} & UC07 & Skladn\'{\i}k nesm\'{\i} vidět celkov\'y součet cen objednávek & post \\ \hline
-        \textbf{BR16} & UC08 & \makecell[c]{Stav objednávky mus\'{\i} b\'yt pouze "přijato", \\ "expedováno" a "doručeno"} & pre \\ \hline
-        \textbf{BR17} & UC09 až UC12 & \makecell[c]{Administrátor mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Administrátor"} & pre \\ \hline
-        \textbf{BR18} & UC10 & \makecell[c]{V\'ysledná cena produktu mus\'{\i} b\'yt větš\'{\i} \\ než jeho nákupn\'{\i} cena} & pre \\ \hline
-        \textbf{BR19} & UC11 & Skladn\'{\i}k mus\'{\i} m\'{\i}t jméno delš\'{\i} než 2 znaky & pre \\ \hline
-        \textbf{BR20} & UC11 & Skladn\'{\i}k mus\'{\i} m\'{\i}t emailovou adresu v platném formátu & pre \\
+        \textbf{BR15} & UC08 & \makecell[c]{Stav objednávky mus\'{\i} b\'yt pouze "přijato", \\ "expedováno" a "doručeno"} & pre \\ \hline
+        \textbf{BR16} & UC09 až UC13 & \makecell[c]{Administrátor mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Administrátor"} & pre \\ \hline
+        \textbf{BR17} & UC10 & \makecell[c]{V\'ysledná cena produktu mus\'{\i} b\'yt větš\'{\i} \\ než jeho nákupn\'{\i} cena} & pre \\ \hline
+        \textbf{BR18} & UC11 & Skladn\'{\i}k mus\'{\i} m\'{\i}t jméno delš\'{\i} než 2 znaky & pre \\ \hline
+        \textbf{BR19} & UC12 & Smazaný uživatel nesmí být administrátor & pre \\ \hline
         \hline
     \end{tabular}
     \caption{Byznysová pravidla ukázkového e-commerce systému}
@@ -253,26 +252,26 @@ jsou podle domén děleny i jednotlivé služby systému.
     \begin{tabular*}{\textwidth}{ l c l }
         \hline
         \textbf{Identifikátor} & \textbf{Use-cases} & \textbf{Byznysová pravidla} \\ \hline \hline
-        \textbf{auth.adminLoggedIn} & - & BR17 \\ \hline
+        \textbf{auth.adminLoggedIn} & - & BR16 \\ \hline
         \textbf{auth.employeeLoggedIn} & - & BR11 \\ \hline
         \textbf{auth.userLoggedIn} & - & BR10 \\ \hline
         \textbf{billing.correctAddress} & - & BR05 \\ \hline
-        \textbf{billing.createInvoice} & - & BR05 \\ \hline
-        \textbf{order.addToBasket} & UC03 & BR02, BR08, BR10 \\ \hline
-        \textbf{order.changeState} & UC09 & \makecell[l]{BR04, BR05, BR06, BR08, BR09, BR11, \\ BR16} \\ \hline
-        \textbf{order.create} & UC04 & \makecell[l]{BR03, BR04, BR05, BR06, BR07, BR08, \\ BR09, BR10, BR16} \\ \hline
-        \textbf{order.listAll} & UC08, UC10 & BR11, BR15 \\ \hline
-        \textbf{order.valid} & - & BR04, BR05, BR06, BR09, BR16 \\ \hline
-        \textbf{product.buyingPrice} & - & BR03 \\ \hline
-        \textbf{product.changePrice} & UC11 & BR17, BR18 \\ \hline
-        \textbf{product.changeStock} & UC07 & BR08, BR11, BR14 \\ \hline
-        \textbf{product.create} & UC06 & BR10, BR11, BR13 \\ \hline
+        \textbf{billing.createInvoice} & UC13 & BR05 \\ \hline
+        \textbf{order.addToShippingCart} & UC03 & BR02, BR07, BR08, BR10 \\ \hline
+        \textbf{order.changeStatus} & UC08 & \makecell[l]{BR04, BR05, BR06, BR08, BR09, BR11, \\ BR15} \\ \hline
+        \textbf{order.create} & UC04 & \makecell[l]{BR03, BR04, BR05, BR06, BR07, BR08, \\ BR09, BR10, BR15} \\ \hline
+        \textbf{order.listAll} & UC07, UC09 & BR11 \\ \hline
+        \textbf{order.valid} & - & BR04, BR05, BR06, BR09, BR15 \\ \hline
+        \textbf{product.changePrice} & UC10 & BR16, BR17 \\ \hline
+        \textbf{product.changeStock} & UC06 & BR08, BR11, BR14 \\ \hline
+        \textbf{product.create} & UC05 & BR10, BR11, BR13, BR14 \\ \hline
+        \textbf{product.detail} & UC02 & BR02, BR03, BR10, BR12 \\ \hline
         \textbf{product.hidden} & - & BR02 \\ \hline
-        \textbf{product.listAll} & UC02, UC05 & BR02, BR03, BR12 \\ \hline
+        \textbf{product.listAll} & UC02 & BR02, BR03, BR12 \\ \hline
         \textbf{shipping.correctAddress} & - & BR04, BR09 \\ \hline
         \textbf{user.createCustomer} & UC01 & BR01, BR06 \\ \hline
-        \textbf{user.createEmployee} & UC12 & BR06, BR17, BR19, BR20 \\ \hline
-        \textbf{user.delete} & UC13 & BR17, BR21 \\ \hline
+        \textbf{user.createEmployee} & UC11 & BR06, BR16, BR18 \\ \hline
+        \textbf{user.delete} & UC12 & BR16, BR19 \\ \hline
         \textbf{user.validEmail} & - & BR06 \\ \hline
         \hline
     \end{tabular*}
@@ -437,11 +436,11 @@ Manuáln\'{\i} duplikace nav\'{\i}c přináš\'{\i} nutnost synchronizovat podob
         \textbf{BR03} & order, product & \textbf{BR13} & product \\
         \textbf{BR04} & order, shipping & \textbf{BR14} & product \\
         \textbf{BR05} & billing, order & \textbf{BR15} & order \\
-        \textbf{BR06} & order, user & \textbf{BR16} & order \\
-        \textbf{BR07} & order & \textbf{BR17} & (auth), product, user \\
-        \textbf{BR08} & order & \textbf{BR18} & product \\
+        \textbf{BR06} & order, user & \textbf{BR16} & (auth), product, user \\
+        \textbf{BR07} & order & \textbf{BR17} & product \\
+        \textbf{BR08} & order & \textbf{BR18} & user \\
         \textbf{BR09} & order, shipping & \textbf{BR19} & user \\
-        \textbf{BR10} & (auth), order, product & \textbf{BR20} & user \\
+        \textbf{BR10} & (auth), order, product & \\
         \hline
     \end{tabularx}
     \caption{Využit\'{\i} byznysov\'ych pravidel ve službách ukázkového systému}
