@@ -7,10 +7,4 @@ service BusinessContextServer {
 
     rpc UpdateOrSaveContext (BusinessContextUpdateRequestMessage)
         returns (Empty) {}
-
-    rpc BeginTransaction (Empty) returns (Empty) {}
-
-    rpc CommitTransaction (Empty) returns (Empty) {}
-
-    rpc RollbackTransaction (Empty) returns (Empty) {}
 }

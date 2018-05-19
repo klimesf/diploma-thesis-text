@@ -114,13 +114,6 @@ editovaného pravidla, které je zasláno v serializované podobě
 jako argument typu \code{BusinessContextUpdateRequestMessage}.
 Tato procedura může být volána pouze pokud byla nejprve spuštěna transakce.
 
-\paragraph{BeginTransaction()} spouští transakci, při které může proběhnout
-změna nebo uložení nového byznysového kontextu.
-
-\paragraph{CommitTransaction()} dokončí probíhající transakci a uloží všechny změny byznysových kontextů.
-
-\paragraph{RollbackTransaction()} zruší transakci a neuloží žádnou z provedených změn byznysových kontextů.
-
 \section{Logické výrazy byznysových pravidel}
 
 Návrh frameworku vyžaduje, aby logické výrazy byznysových pravidel byly reprezentovány
@@ -154,7 +147,7 @@ sčítání, odečítání, násobení a dělení. Pro volání uživatelských 
 \code{FunctionCall}. V jeho případě je nutno zohlednit skutečnost, že funkce může přijímat libovolný počet argumentů.
 Protože volaná funkce může potřebovat přistupovat k operačnímu kontextu, musejí být argumenty také interpretovány.
 Bohužel nelze u uživatelem definovaných funkcí ověřit, že bude při jejich volání odpovídat počet a typ argumentů.
-Přehled všech výrazů, které knihovny podporují, je v tabulce~\ref{tbl:expressions},
+Přehled všech výrazů, které knihovny podporují, je v tabulce~\ref{tbl:expressions}.
 
 \afterpage{%
 \clearpage% Flush earlier floats (otherwise order might not be correct)
@@ -229,14 +222,10 @@ jsou spojeny pomocí binárních výrazu \code{LogicalAnd} odpovídajících log
 Ačkoliv nen\'{\i} specifikace a implementace \gls{DSL} pro popis byznysových kontextů
 úkolem této práce, pro ověřen\'{\i} konceptu je nutné nadefinovat alespoň jeho zjednodušenou
 verzi a implementovat část knihovny, která bude umět jazyk zpracovat a sestavit metamodel popsaného
-kontextu. Tento jazyk však bude možno v produkční verzi knihovny nahradit komplexnejším.
-
-%\goal{Důvody pro v\'yběr XML}
-Pro popis kontextů byl zvolen univerzáln\'{\i} formát Extensible
-Markup Language (\gls{XML}) doplněný o definici schématu dat
-pomocí \textit{XML Schema Definition}.
-D\'{\i}ky formálně definovanému schématu lze popis byznys kontextu
-automaticky validovat a vyvarovat se tak př\'{\i}padn\'ych chyb.
+kontextu. Pro popis kontextů byl zvolen univerzáln\'{\i} formát Extensible
+Markup Language (\gls{XML}) doplněný o definici schématu dat pomocí \textit{XML Schema Definition}.
+D\'{\i}ky formálně definovanému schématu lze popis byznys kontextu automaticky validovat a vyvarovat se tak
+př\'{\i}padn\'ych chyb. Tento jazyk bude možno v produkční verzi knihovny nahradit komplexnejším.
 
 %\goal{Popis formátu}
 Ve zdrojovém kódu~\ref{lst:business-context-xml} je znázorněn
@@ -249,8 +238,7 @@ definovány uvnitř entity \code{<preconditions>} a podobně
 jsou definovány \code{<postconditions>}. Obsažená data odpov\'{\i}daj\'{\i}
 navrženému metamodelu byznysového kontextu v sekci~\ref{sec:metamodel}.
 Pro zápis podm\'{\i}nek jednotliv\'ych preconditions a post-conditions byl zvolen
-opis derivačního stromu. Toto rozhodnut\'{\i} vycház\'{\i} z předpokladu,
-že lze vzhledem k povaze prototypu relaxovat podm\'{\i}nku
+opis derivačního stromu. Vzhledem k povaze prototypu byla relaxována podm\'{\i}nka
 na čitelnost zápisu pravidel ve prospěch jednodušš\'{\i}ho zpracován\'{\i}.
 
 \lstinputlisting[
@@ -259,7 +247,7 @@ label={lst:business-context-xml},
 language=XML,
 %frame=single,
 %float,
-%floatplacement=H
+%floatplacement=T
 ]
 {code/business_context.xml}
 
@@ -307,9 +295,8 @@ technologiích použitých pro síťovou komunikaci ani na použitém \gls{DSL}.
 % popis expressions
 Logické výrazy byznysových pravidel jsou implementovány samostatnými třídami, které rozšiřují
 jednotné rozhraní \code{Expression}. Toto rozhraní podporuje návrhový vzor Interpreter, který umožňuje
-vyhodnocení výrazů, jak bylo popsáno v předchozím textu. Zároveň je tím usnadněno
-rozšíření knihovny o nové výrazy. Toto rozhraní navíc poskytuje metody, které usnadňují serializaci
-výrazů.
+vyhodnocení výrazů, jak bylo popsáno v předchozím textu. Zároveň je tím usnadněno rozšíření knihovny o
+nové výrazy. Toto rozhraní navíc poskytuje metody, které jsou využity při serializaci výrazů.
 
 \subsection{Weaving}
 
