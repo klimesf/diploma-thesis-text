@@ -147,7 +147,7 @@ na objektu, kter\'y se fyzicky nacház\'{\i} na vzdáleném stroji,
 zprostředkovává \gls{ORB} veškerou komunikaci a poskytuje kompletn\'{\i} rozhran\'{\i}
 volaného objektu. Komunikace se vzdálen\'ym objektem s sebou však nese celou řadu problémů,
 např\'{\i}klad vyšš\'{\i} latenci při komunikaci nebo v\'yjimečné stavy, které je potřeba
-ošetřit, či obížnou optimalizaci kódu využívající \gls{ORB}.
+ošetřit, či obtížnou optimalizaci kódu využívající \gls{ORB}.
 
 \subsection{Web Services}
 
@@ -298,12 +298,12 @@ obsahuje kompozitní služby, je nutné umožnit sdílení byznysových pravidel
 Ta by měla být zachycena mimo samotnou implementaci služby, ideálně ve formátu, který bude nezávislý na
 konkrétní platformě, bude poskytovat možnost automatické inspekce a bude srozumitelný doménovým expertům.
 Úprava pravidel by navíc neměla vyžadovat změnu kódu služby a její opětovné nasazování.
-Administrátoři systému by měly mít možnost byznysová pravidla spravovat centrálně a bez
+Administrátoři systému by měli mít možnost byznysová pravidla spravovat centrálně a bez
 přerušení provozu systému, aby mohli co nejrychleji a flexibilně reagovat na změnové požadavky.
 Vzhledem k různému chápání \gls{SOA} a postupné adopci Microservices by framework neměl klást
 nároky na způsob organizace služeb, tj. měl by umožňovat orchestraci i choreografii.
 
-Framework, který bude výstupem této práce, by tedy měl splňovat následující vlastnosti:
+Framework, který bude výstupem této práce, musí splňovat následující vlastnosti:
 
 \begin{itemize}
     \item{Možnost definovat byznysová pravidla pomoc\'{\i} platformově nezávislého \gls{DSL} srozumitelného pro doménové experty}
