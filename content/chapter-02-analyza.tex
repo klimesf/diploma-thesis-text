@@ -23,13 +23,6 @@ systému a zabraňuj\'{\i} nepovolen\'ym operac\'{\i}m~\cite{cemus2015automated}
     Jeho úkolem je ověřovat byznysovou strukturu nebo ovlivňovat byznysové chování~\cite{morgan2002business}.
 \end{definition}
 
-%Většina stávajících \gls{EIS} využívá tř\'{\i}vrstvou architekturu~\cite{fowler2002patterns}
-%rozděluj\'{\i}c\'{\i} systém na datovou vrstvu, aplikačn\'{\i} vrstvu
-%a prezentačn\'{\i} vrstvu. Každá z vrstev realizuje jinou funkcionalitu a vzájemně komunikují
-%porstřednictvím jasně definovaného rozhraní. Tím se zjednodušuje vývoj a testování systému.
-%Byznysová logika je zachycena v aplikační vrstvě, ale byznysová pravidla je potřeba
-%zohledňovat ve všech vrstvách systému~\cite{cerny2011reduce, cemus2015automated}.
-
 \gls{EIS} obsahují mnoho byznysových pravidel, typicky stovky či tisíce~\cite{morgan2002business}.
 Samotné pravidlo však bývá relativně krátké a lze shrnout do jedné věty. Díky tomu je pochopitelné
 pro všechny zainteresované strany, které se podílejí na návrhu a vývoji systému.
@@ -83,8 +76,8 @@ Aby \gls{EIS} mohl tyto podmínky ověřit dynamicky za běhu systému, využív
 \textit{execution context}), který se skládá z několika dílčích kontextů~\cite{cemus2017separation}:
 
 \begin{description}
-    \item[Aplikační kontext] drží stav globáln\'{\i}ch proměnn\'ych systému, jako například nastaven\'{\i}
-    produkčn\'{\i}ho režimu, nebo př\'{\i}znak o tom, zda právě prob\'{\i}há obchodn\'{\i} uzávěrka.
+    \item[Aplikační kontext] drží stav globáln\'{\i}ch proměnn\'ych systému, jako například stav databáze,
+    nastaven\'{\i} produkčn\'{\i}ho režimu, nebo př\'{\i}znak o tom, zda právě prob\'{\i}há obchodn\'{\i} uzávěrka.
     \item[Uživatelský kontext] obsahuje informace o aktuálně přihlášeném uživateli.
     \item[Kontext požadavku] (z anglického \textit{Request context}) se váže zejména na webové služby a obsahuje
     informace o aktuáln\'{\i}m požadavku, jako IP adresa uživatele či jeho geolokace.
@@ -96,8 +89,8 @@ Všechny proměnné, které jsou dostupné v exekučním kontextu, jsou dostupn�
 definovat široké spektrum podmínek, které se mohou přizpůsobit aktuálnímu stavu systému.
 
 \begin{definition}
-    Byznysový kontext je množina preconditions a post-conditions s byznysovou hodnotou, která se váže na
-    konkrétn\'{\i} byznysovou operaci~\cite{cemus2015automated}
+    Byznysový kontext je množina preconditions a post-conditions, která se váže na konkrétn\'{\i} byznysovou
+    operaci~\cite{cemus2015automated}
 \end{definition}
 
 \subsection{Reprezentace byznysového pravidla}\label{sec:business-rule-representation}
@@ -139,7 +132,7 @@ a shrnuje výhody a nevýhody jednotlivých přístupů.
 
 \begin{definition}
     Služba je znovupoužitelný, soudržný, spravovatelný, nasaditelný a nezávislý proces komunikující
-    s ostatními službami pomocí zpráv~\cite{papazoglou2003service, dragoni2017microservices}.
+    s ostatními službami pomocí zpráv~\cite{dragoni2017microservices, papazoglou2003service}.
 \end{definition}
 
 \subsection{Common Object Request Broker Architecture}\label{sec:corba}
@@ -196,7 +189,7 @@ veškerou komunikaci v systému.
 %\goal{Microservices a budoucnost SOA}
 Microservices je moderní architekturou, která podobně jako \gls{SOA} přináší řešení
 problémů pramenících z vysoké komplexity současných \gls{EIS}.
-Tato architektura se dá chápat jako podmnožina \gls{SOA}~\cite{richards2015microservices, cerny2017disambiguation},
+Tato architektura se dá chápat jako podmnožina \gls{SOA}~\cite{cerny2017disambiguation, richards2015microservices},
 ačkoliv existují i názory, že jde o odlišné architektury. V poslední době postupně nahrazuje standardní
 \gls{SOA}~\cite{lewis2014microservices, xiao2016reflections} a vzhledem k její vzrůstající
 adopci je nutno ji v rámci této práce zohlednit.
@@ -206,7 +199,7 @@ které jsou spouštěny v samostatn\'ych procesech a komunikuj\'{\i} spolu pomoc
 protokolů nezávislých na platformě~\cite{lewis2014microservices}. Microservices preferuje decentralizaci a samostatnost služeb
 a zaměřuje se na jejich organizaci kolem byznysov\'ych schopnost\'{\i} systému, nam\'{\i}sto horizontáln\'{\i}ho
 dělen\'{\i} systému podle jeho vrstev. Hlavní výhodou tohoto přístupu je flexibilita nasazení a škálování, které je vhodné
-pro stále populárnější nasazení v cloudu~\cite{kratzke2017understanding, cerny2018contextual, xiao2016reflections}.
+pro stále populárnější nasazení v cloudu~\cite{cerny2018contextual, kratzke2017understanding, xiao2016reflections}.
 
 \subsection{Orchestrace a choreografie služeb}
 
@@ -247,7 +240,7 @@ při sdílení byznysových pravidel, která je rozebrána v následující sekc
     \gls{SOA} je soubor návrhových principů, který organizuje komponenty software
     kolem byznysové funkcionality a spojuje je pomocí rozhraní a komunikačních protokolů.
     Každá komponenta je soběstačná a izolovaná, okolnímu světu poskytuje pouze
-    své rozhraní~\cite{papazoglou2003service, lewis2014microservices}.
+    své rozhraní~\cite{lewis2014microservices, papazoglou2003service}.
 \end{definition}
 
 \section{Nedostatky současného př\'{\i}stupu}\label{sec:shortcomings}

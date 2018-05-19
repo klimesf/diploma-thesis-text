@@ -42,14 +42,14 @@ je jednosměrný dopředný proces, kterým je výsledný kód generován.
 Pokud dojde ke změně požadavků, která se promítne do modelu, je potřeba přegenerovat
 kód celého systému. Kód, který bylo nutno doplnit či upravit ručně, může snadno zastarat a je tak
 potřeba ho manuálně projít a případně opravit. Další nevýhodou tohoto přístupu je jeho závislost na \gls{OOP},
-které samotné není schopné se efektivně vypořádat s průřezovými problémy~\cite{kennard2009separation, cemus2014aspect},
+které samotné není schopné se efektivně vypořádat s průřezovými problémy~\cite{cemus2014aspect, kennard2009separation},
 jak bude demonstrováno v sekci~\ref{sec:aop}.
 
 \section{Generativní programování}
 
 Generativní programování (\gls{GP}) je programovací paradigma, které je podobně jako
 tato práce motivováno snížením nákladů na vývoj software díky zvýšení znovupoužitelnosti
-jeho komponent. Narozdíl od \gls{MDA} se navíc přímo věnuje oddělení zodpovědností~\cite{czarnecki2000generative, cemus2017separation}.
+jeho komponent. Narozdíl od \gls{MDA} se navíc přímo věnuje oddělení zodpovědností~\cite{cemus2017separation, czarnecki2000generative}.
 
 \gls{GP} se zaměřuje na maximalizaci automatizace vývoje systému
 skrz generování a syntézu vysoce přizpůsobitelných komponent. Vývojář
@@ -68,10 +68,10 @@ byznysových pravidel za běhu systému, protože nezohledňuje exekuční konte
 Metaprogramování je alternativním paradigmatem, které vnímá kód programu
 zároveň jako data, se kterými program může pracovat. To programu umožňuje
 číst, vytvářet či upravovat jiné programy včetně sama sebe. Tyto činnosti
-lze provádět staticky, ale i za běhu daného programu~\cite{sheard2001accomplishments, czarnecki2000generative}.
+lze provádět staticky, ale i za běhu daného programu~\cite{czarnecki2000generative, sheard2001accomplishments}.
 Schopnost jazyka manipulovat s vlastním kódem se nazývá \textit{reflexe}~\cite{sobel1996introduction}.
 Ta je součástí mnoha moderních programovacích jazyků a je využívána moderními frameworky a
-knihovnami~\cite{vandevoorde2002c++}~\cite{forman2004java}.
+knihovnami~\cite{forman2004java, vandevoorde2002c++}.
 
 Tento přístup přináší vysokou úroveň abstrakce a zvýšenou efektivitu
 vývojářů, kteří jsou schopni automaticky provádět inspekci, generovat a upravovat
@@ -83,15 +83,6 @@ a sdílení. Metaprogramování však může být využito pro extrakci informac
 byznysové operaci a jejím byznysovém kontextu.
 
 \section{Aspektově orientované programován\'{\i}}\label{sec:aop}
-
-%\goal{OOP a jeho popis}
-%Jedn\'{\i}m z nejpoužívanějších paradigmat pro v\'yvoj modern\'{\i}ch \gls{EIS} je objektově
-%orientované programován\'{\i} (\gls{OOP}). To přináší koncept tzv. objektů, které zapouzdřují data
-%společně s funkcionalitou do malých funkčních celků odpov\'{\i}daj\'{\i}c\'{\i} struktuře
-%reálného světa~\cite{rentsch1982object}. Vlastnosti \gls{OOP}, jako je zapouzdření, dědičnost
-%a polymorfismus, přináší vysokou znovupoužitelnost kódu, nižší riziko lidské chyby, zjednodušení
-%návrhu systému a nižší náklady na vývoj a údržbu software. Bohužel existuj\'{\i} problémy, které nelze
-%v jeho rámci efektivně řešit.
 
 \begin{figure}[t]
     \centering
