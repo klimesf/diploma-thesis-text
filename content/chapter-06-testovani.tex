@@ -3,10 +3,10 @@
 
 %!TEX ROOT=../diploma-thesis.tex
 
-\chapter{Verifikace a validace frameworku}\label{ch:verifikace}
+\chapter{Testování a validace frameworku}\label{ch:testovani}
 
-Tato kapitola popisuje, jak\'y způsobem byla provedena
-verifikace naprogramovan\'ych knihoven pomoc\'{\i}
+Tato kapitola popisuje, jak\'y způsobem bylo provedeno
+tetování naprogramovan\'ych knihoven pomoc\'{\i}
 jednotkov\'ych a integračn\'{\i}ch testů.
 Kapitola se dále věnuje popisu ukázkového systému, na kterém
 byla demonstrována správná funkčnost navrženého frameworku
@@ -17,7 +17,7 @@ byznysových pravidel.
 
 Prototypy knihoven, jejichž implementaci je popsána v kapitole~\ref{ch:implementace},
 byly důkladně otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch testů~\cite{luo2001software}
-a t\'{\i}m byla verifikována jejich správná funkcionalita. Způsob
+a t\'{\i}m byla otestována jejich správná funkcionalita. Způsob
 testován\'{\i} knihoven je popsán zvlášť pro každou platformu.
 
 V rámci konceptu \textit{continous integration} (\gls{CI})~\cite{fowler2006continuous}
@@ -29,6 +29,14 @@ Systém zároveň okamžitě informoval v\'yvojáře o v\'ysledc\'{\i}ch.
 To umožnilo v krátkém časovém horizontu identifikovat konkrétn\'{\i} změny
 v kódu, které do programu vnesly chybu. T\'{\i}m byla sn\'{\i}žena
 pravděpodobnost regrese a dlouhodobě se zv\'yšila celková kvalita kódu.
+
+\subsection{Jednotkové testy}
+
+% TODO: popsat co to je
+
+\subsection{Integrační testy}
+
+% TODO: popsat co to je
 
 \subsection{Testovací scénáře}
 
@@ -148,6 +156,8 @@ e-commerce systému využ\'{\i}vaj\'{\i}c\'{\i}m architekturu orientovanou na sl
 Na tomto př\'{\i}kladě je demonstrována schopnost frameworku poradit si s průřezov\'ymi
 problémy v rámci \gls{SOA} a také jeho schopnost plnit požadavky identifikované v
 sekci~\ref{sec:implementation-requirements}.
+
+% TODO: motivace a účel systému
 
 \subsection{Use-cases}
 
@@ -474,7 +484,7 @@ navržen\'ym způsobem.
 \section{Shrnut\'{\i}}
 
 Tato kapitola popisuje, jak\'ym způsobem byly testovány prototypy knihoven
-pro platformy jazyků Java a Python a pro platformu Node.js. T\'{\i}m byla verifikována
+pro platformy jazyků Java a Python a pro platformu Node.js. T\'{\i}m byla otestována
 jejich správná fukcionalita. Dále kapitola specifikuje ukázkový systém, na kterém byla
 provedena demonstrace použit\'{\i} frameworku, a popisuje jeho implementaci.
 Tím bylo otestováno, že navržen\'y framework je funkčn\'{\i},
