@@ -3,10 +3,10 @@
 
 %!TEX ROOT=../diploma-thesis.tex
 
-\chapter{Implementace prototypů knihoven frameworku}\label{ch:implementace}
+\chapter{Implementace prototypu frameworku}\label{ch:implementace}
 
 %\goal{Uveden\'{\i} kapitoly a nast\'{\i}něn\'{\i} obsahu}
-Součást\'{\i} zadán\'{\i} této práce je implementace prototypů
+Jedním z cílů této práce je implementace prototypů
 knihoven frameworku navrženého v kapitole~\ref{ch:navrh}
 pro tři rozd\'{\i}lné platformy, z nichž jedna mus\'{\i} b\'yt \textit{Java}.
 Tato kapitola popisuje výběr plaforem a konkrétní implementace
@@ -62,7 +62,7 @@ style=protobuf,
 ]{code/protobuffer_example.proto}
 
 Zdrojov\'y kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
-síťových zpráv pro distribucu byznys kontexty ve formátu Protobuffer.
+síťových zpráv pro distribuci byznys kontexty ve formátu Protobuffer.
 Schéma zpráv pro v\'yměnu kontextů dodržuje strukturu metamodelu navrženého
 v sekci~\ref{sec:metamodel}.
 
@@ -123,7 +123,7 @@ změna nebo uložení nového byznysového kontextu.
 
 \section{Logické výrazy byznysových pravidel}
 
-Návrh frameworku vyžaduje, aby logické výrazy byzynsových pravidel byly reprezentovány
+Návrh frameworku vyžaduje, aby logické výrazy byznysových pravidel byly reprezentovány
 v paměti jako strom objektů, jak je popsáno v sekci~\ref{sec:expressions-design}.
 V rámci implementace byla specifikována konkrétní podoba logických výrazů, která je společná
 pro jednotlivé knihovny.
@@ -233,7 +233,7 @@ kontextu. Tento jazyk však bude možno v produkční verzi knihovny nahradit ko
 
 %\goal{Důvody pro v\'yběr XML}
 Pro popis kontextů byl zvolen univerzáln\'{\i} formát Extensible
-Markup Language (\gls{XML}) doplněný o definici schematu dat
+Markup Language (\gls{XML}) doplněný o definici schématu dat
 pomocí \textit{XML Schema Definition}.
 D\'{\i}ky formálně definovanému schématu lze popis byznys kontextu
 automaticky validovat a vyvarovat se tak př\'{\i}padn\'ych chyb.
@@ -277,7 +277,7 @@ její funkcionalitu:
 
 Moduly knihovny a jejich vzájemné závislosti jsou znázorněny na obrázku~\ref{fig:modules}.
 Jádro knihovny je nezávislé na konkrétních implementaci síťové komunikace a zvoleném
-\gls{DSL}, ale využívá rozhraní, které jsou těmito moduly implementovány.
+\gls{DSL}, ale využívá rozhraní, která jsou těmito moduly implementována.
 
 \begin{figure}
     \centering
@@ -315,7 +315,7 @@ výrazů.
 
 % popis weaveru
 Weaver byznysových pravidel musí být schopen extrahovat informace o kontextu probíhající byznysové
-operace, aby mohl správně zvolit příslušný byznysový kontext. V knihovne pro jazyk Java
+operace, aby mohl správně zvolit příslušný byznysový kontext. V knihovně pro jazyk Java
 byla pro tento účel zvolena anotace \code{BusinessOperation}, která umožňuje uživateli
 knihovny označit metodu vykonávající byznysovou operaci. Parametry této metody mohou být
 označeny anotací \code{BusinessContextParameter}. Weaver takto oanotované parametry vloží
@@ -337,11 +337,11 @@ language=Java,
 \subsection{Serializace a deserializace XML}
 
 % DSL XML
-Pro serializaci a deserializici \gls{DSL} byznysových kontextů byly implementovány třídy
+Pro serializaci a deserializaci \gls{DSL} byznysových kontextů byly implementovány třídy
 \code{BusinessContextXmlWriter} a \code{BusinessContextXmlLoader}. Ty využívají knihovnu
 JDOM~2\footnote{\url{http://www.jdom.org/}}, která poskytuje
 kompletn\'{\i} sadu nástroju pro čten\'{\i} a zápis \gls{XML} dokumentů.
-Implementuje specifikaci \textit{Document Object Model}
+Implementuje specifikaci \textit{Document Object Model},
 pomoc\'{\i} které lze automaticky sestavovat a č\'{\i}st \gls{XML} dokumenty.
 
 \subsection{Distribuce byznysových pravidel}
@@ -392,9 +392,9 @@ třídy knihovny a názvy jejich metod se liší od těch v jazyce Java.
 
 \subsection{Použité technologie}
 
-Jazyk Python poskytuje na rozdíl od jazyka Java téměř všechny nástroje, které byly pro implementaci
+Jazyk Python poskytuje ve své standardní knihovně téměř všechny nástroje, které byly pro implementaci
 prototypu knihovny potřeba. Jedinou výjimkou byl modul pro obsluhu frameworku gRPC.
-Ze standardní knihovny jazyka byly využity moduly \code{typing} pro statické typování,
+Ze standardní knihovny byly využity moduly \code{typing} pro statické typování,
 \code{re} pro regulární výrazy, \code{enum} pro implementaci výčtových hodnot, \code{copy} pro
 kopírování objektů, \code{fs} pro práci se soubory, \code{thrading} pro práci s vlákny a zámky,
 \code{itertools} pro práci s iterátory, \code{inspect} pro využití reflexe
@@ -433,7 +433,7 @@ pro registraci uživatele, pracovat s dekorovanou funkc\'{\i}.
 
 \paragraph{Využit\'{\i} gRPC} Narozd\'{\i}l od implementac\'{\i} knihovny
 v jazyc\'{\i}ch Java a Python um\'{\i} knihovna obsluhuj\'{\i}c\'{\i} gRPC
-fungovat i bez předgenerovaného kódu. To poněkud usnadnilo
+fungovat i bez předgenerovaného kódu. To usnadnilo
 práci při serializaci byznys kontextů do přenosového formátu
 i při deserializaci a ukládán\'{\i} kontextů do paměti. Úspora
 kódu je ale na úkor typové kontroly a tak může b\'yt kód náchylnějš\'{\i}
@@ -494,7 +494,7 @@ na sn\'{\i}mku~\ref{fig:screenshot-context-edit}.
 %\goal{Problémy způsobené rozšiřován\'{\i}m kontextů}
 Sekce~\ref{sec:context-inheritance} identifikuje problémy, které
 mohou nastat při úpravě nebo vytvářen\'{\i} nového byznysového kontextu.
-Kromě syntaktick\'ych chyb, které jsou detekovány automaticky pomoc\'{\i} definovaného schematu,
+Kromě syntaktick\'ych chyb, které jsou detekovány automaticky pomoc\'{\i} definovaného schématu,
 je potřeba detekovat následující sémantické chyby, které mohou b\'yt způsobeny rozšiřován\'{\i}m kontextů:
 \begin{enumerate}[label=\alph*)]
     \item Neunikátní identifikátory byznysových pravidel
@@ -532,7 +532,7 @@ byznysov\'ych kontextů, včetně vyhodnocován\'{\i} jejich pravidel, za
 použit\'{\i} aspektově orientovaného př\'{\i}stupu.
 V rámci této kapitoly byl specifikován \gls{DSL}, kter\'ym lze popsat
 byznys kontext nezávisle na platformě.
-Implementované protoypy knihoven lze využ\'{\i}t k implementaci služeb a k sestaven\'{\i}
+Implementované prototypy knihoven lze využ\'{\i}t k implementaci služeb a k sestaven\'{\i}
 funkčn\'{\i}ho systému, jak je popisáno v následuj\'{\i}c\'{\i} kapitole.
 
 %\goal{Hostován\'{\i} na GitHubu + licence}

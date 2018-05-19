@@ -118,7 +118,7 @@ obrázku~\ref{fig:business-rules-weaver}.
 V předchozím textu byl představen koncept dědičnosti byznysových kontextů.
 Každý kontext díky němu může rozšiřovat libovolné množství jiných kontextů, a sdílet jejich
 byznysová pravidla. Byznysové operace pak mohou samy určit, který byznysový kontext se k ním váže.
-Tento kontext však přináší několik problémů, které jsou rozebrány v následujících odstavcích.
+Tento koncept však přináší několik problémů, které jsou rozebrány v následujících odstavcích.
 
 Může nastat situace, kdy je potřeba sdílet pouze některá byznysová pravidla
 daného kontextu. Při mapování kontextů jedna ku jedné s operacemi by to ale
@@ -135,9 +135,8 @@ aby kontext \code{user.register} zdědil pravidlo vyžadující přihlášení u
 \end{figure}
 
 Kvůli dědičnosti může vzniknout v grafu závislostí kontextů cyklus, který by způsobil zacyklení
-procesu inicializace v~\ref{itm:initialization}. Tuto situaci nelze z hlediska frameworku vyřešit,
-ale dá se jí předejít. K prevenci by mohl sloužit validátor vestavěný do nástroje pro správu
-byznysových kontextů.
+procesu inicializace v~\ref{itm:initialization}. Řešením je validátor vestavěný do nástroje pro
+správu byznysových kontextů, který bude případné cykly detekovat a reportovat uživateli.
 
 Vícenásobná dědičnosti může přinést problém, kdy jeden kontext zdědí více stejných pravidel z
 různých zdrojů, tzv. \textit{diamond problem}~\cite{boyen1994generalized}. Tomu lze předejít tak, že
@@ -149,7 +148,7 @@ administraci byznysových pravidel.
 
 Sekce~\ref{sec:business-rules} uvádí, že pravidla obsahují logické podmínky. V případě preconditions je to
 ověření podmínky, která musí být platná před spuštěním byznysové operace v~\ref{itm:before}. V případě
-post-condition může filtrování návratové hodnotry podléhat splnění určité podmínky, která musí být
+post-condition může filtrování návratové hodnoty podléhat splnění určité podmínky, která musí být
 vyhodnocena v~\ref{itm:after}. Zápis logických výrazů bude závislý na konkrétní implementaci \gls{DSL}.
 Nicméně návrh frameworku bude předpokládat, že po načtení z \gls{DSL} budou výrazy v paměti uloženy
 jako strom samostatných objektů podle návrhové vzoru Composite~\cite{fowler2002patterns}. Díky tomu
@@ -162,7 +161,7 @@ obsahující číslo, text, objekt, či jejich kolekce. Filtrování jednoduchý
 V případě objektu lze filtrovat jeho atributy, například skrýt e-mailovou adresu uživatele.
 V případě kolekce lze filtrovat jejich prvky, například skrýt objednávky, které uživateli nepatří.
 Pokud se v kolekci nachází objekty, lze požadovat, aby byly zakryty atributy jednotlivých objektů,
-například filtrování e-mailových adres v kolekci více uživatelů. Itentifikovanými typy post-conditions tedy jsou:
+například filtrování e-mailových adres v kolekci více uživatelů. Identifikovanými typy post-conditions jsou:
 
 \begin{itemize}
     \item \code{FILTER\_OBJECT\_FIELD} filtruje atribut objektu, který je výstupem operace.

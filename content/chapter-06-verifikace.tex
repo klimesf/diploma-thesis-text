@@ -139,12 +139,12 @@ konstantn\'{\i}m argumentem typu \code{boolean} s hodnotou \code{true} a je ově
 jako \code{true}. Následně je zkonstruován v\'yraz, kterému je předán argument \code{null} a je ověřeno,
 že v\'yraz se vyhodnot\'{\i} jako \code{false}.
 
-\section{Př\'{\i}padová studie: e-commerce systém}
+\section{Ukázkový příklad: e-commerce systém}
 
-Pro praktickou verifikaci a validaci navrženého frameworku bylo nutné vyzkoušet
-jeho nasazen\'{\i} při v\'yvoji aplikace. Pro tento účel vznikla v
-rámci této práce př\'{\i}padová studie na fiktivn\'{\i}m
-ukázkovém e-commerce systému využ\'{\i}vaj\'{\i}c\'{\i} architekturu orientovanou na služby.
+Pro praktické testování a validaci navrženého frameworku bylo nutné vyzkoušet
+jeho nasazen\'{\i} při v\'yvoji aplikace. Pro tento účel vznikl v
+rámci této práce ukázkový příklad na fiktivn\'{\i}m
+e-commerce systému využ\'{\i}vaj\'{\i}c\'{\i}m architekturu orientovanou na služby.
 Na tomto př\'{\i}kladě je demonstrována schopnost frameworku poradit si s průřezov\'ymi
 problémy v rámci \gls{SOA} a také jeho schopnost plnit požadavky identifikované v
 sekci~\ref{sec:implementation-requirements}.
@@ -213,26 +213,26 @@ vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je 
 
 \begin{table}
     \centering
-    \begin{tabular}{ l l c r }
+    \begin{tabular}{ l l l r }
         \hline
         \textbf{\#} & \textbf{Use-cases} & \textbf{Pravidlo} & \textbf{Typ} \\ \hline \hline
         \textbf{BR01} & UC01 & Uživatel nesm\'{\i} b\'yt přihlášen\'y & pre \\ \hline
-        \textbf{BR02} & UC02, UC03 & \makecell[c]{Uživatel nesm\'{\i} zobrazovat ani manipulovat \\ s produkty, které nejsou aktivn\'{\i}} & post \\ \hline
-        \textbf{BR03} & UC02 až UC04 & \makecell[c]{Uživatel nesm\'{\i} u produktu vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
-        \textbf{BR04} & UC04 & \makecell[c]{Zákazník mus\'{\i} řádně vyplnit doručovac\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
-        \textbf{BR05} & UC04, UC13 & \makecell[c]{Zákazník mus\'{\i} řádně vyplnit fakturačn\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
+        \textbf{BR02} & UC02, UC03 & \makecell[l]{Uživatel nesm\'{\i} zobrazovat ani manipulovat \\ s produkty, které nejsou aktivn\'{\i}} & post \\ \hline
+        \textbf{BR03} & UC02 až UC04 & \makecell[l]{Uživatel nesm\'{\i} u produktu vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
+        \textbf{BR04} & UC04 & \makecell[l]{Zákazník mus\'{\i} řádně vyplnit doručovac\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
+        \textbf{BR05} & UC04, UC13 & \makecell[l]{Zákazník mus\'{\i} řádně vyplnit fakturačn\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
         \textbf{BR06} & UC01, UC04, UC11 & Uživatel mus\'{\i} m\'{\i}t vyplněnou emailovou adresu & pre \\ \hline
         \textbf{BR07} & UC03 & Nákupní košík může obsahovat maximálně 10 položek & pre \\ \hline
-        \textbf{BR08} & UC04 & \makecell[c]{Položky objednávky mus\'{\i} m\'{\i}t počet kusů menš\'{\i}, \\ než je aktuáln\'{\i} stav skladov\'ych zásob produktu} & pre \\ \hline
-        \textbf{BR09} & UC04 & \makecell[c]{Stát mus\'{\i} b\'yt v seznamu zem\'{\i}, \\ do kter\'ych firma doručuje} & pre \\ \hline
+        \textbf{BR08} & UC04 & \makecell[l]{Položky objednávky mus\'{\i} m\'{\i}t počet kusů menš\'{\i}, \\ než je aktuáln\'{\i} stav skladov\'ych zásob produktu} & pre \\ \hline
+        \textbf{BR09} & UC04 & \makecell[l]{Stát mus\'{\i} b\'yt v seznamu zem\'{\i}, \\ do kter\'ych firma doručuje} & pre \\ \hline
         \textbf{BR10} & UC04 & Zákazn\'{\i}k mus\'{\i} b\'yt přihlášen & pre \\ \hline
-        \textbf{BR11} & UC05 až UC08 & \makecell[c]{Skladn\'{\i}k mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Skladn\'{\i}k"} & pre \\ \hline
-        \textbf{BR12} & UC02 & \makecell[c]{Skladn\'{\i}k u produktu nesm\'{\i} vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
+        \textbf{BR11} & UC05 až UC08 & \makecell[l]{Skladn\'{\i}k mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Skladn\'{\i}k"} & pre \\ \hline
+        \textbf{BR12} & UC02 & \makecell[l]{Skladn\'{\i}k u produktu nesm\'{\i} vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
         \textbf{BR13} & UC05 & Produkt mus\'{\i} m\'{\i}t jméno s délkou >5 & pre \\ \hline
         \textbf{BR14} & UC06 & Stav zásob produktů mus\'{\i} b\'yt č\'{\i}slo větš\'{\i} nebo rovno 0 & pre \\ \hline
-        \textbf{BR15} & UC08 & \makecell[c]{Stav objednávky mus\'{\i} b\'yt pouze "přijato", \\ "expedováno" a "doručeno"} & pre \\ \hline
-        \textbf{BR16} & UC09 až UC13 & \makecell[c]{Administrátor mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Administrátor"} & pre \\ \hline
-        \textbf{BR17} & UC10 & \makecell[c]{V\'ysledná cena produktu mus\'{\i} b\'yt větš\'{\i} \\ než jeho nákupn\'{\i} cena} & pre \\ \hline
+        \textbf{BR15} & UC08 & \makecell[l]{Stav objednávky mus\'{\i} b\'yt pouze "přijato", \\ "expedováno" a "doručeno"} & pre \\ \hline
+        \textbf{BR16} & UC09 až UC13 & \makecell[l]{Administrátor mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Administrátor"} & pre \\ \hline
+        \textbf{BR17} & UC10 & \makecell[l]{V\'ysledná cena produktu mus\'{\i} b\'yt větš\'{\i} \\ než jeho nákupn\'{\i} cena} & pre \\ \hline
         \textbf{BR18} & UC11 & Skladn\'{\i}k mus\'{\i} m\'{\i}t jméno delš\'{\i} než 2 znaky & pre \\ \hline
         \textbf{BR19} & UC12 & Smazaný uživatel nesmí být administrátor & pre \\ \hline
         \hline
@@ -290,8 +290,8 @@ Pro ověřen\'{\i} schopnosti podporovat v\'{\i}ce platforem byly pro implementa
 jazyky Java, Python a JavaScript v kombinaci s běhov\'ym prostřed\'{\i}m Node.js.
 Komunikace služeb prob\'{\i}há pomoc\'{\i} \gls{REST} \gls{API} využ\'{\i}vaj\'{\i}c\'{\i} formát \gls{JSON}.
 Specifikace jednotliv\'ych rozhran\'{\i} služeb nen\'{\i} pro tuto kapitolu podstatná a proto se
-j\'{\i} nebudeme dále věnovat. Pro demonstrativn\'{\i} účely byly s\'{\i}ťové adresy nastaveny př\'{\i}mo v kódu jednotliv\'ych
-služeb. Nicméně, navržen\'y framework nevynucuje tento př\'{\i}stup, a tud\'{\i}ž by složitějš\'{\i}
+j\'{\i} text dále nevěnuje. Pro demonstrativn\'{\i} účely byly s\'{\i}ťové adresy nastaveny př\'{\i}mo v kódu jednotliv\'ych
+služeb. Nicméně, navržen\'y framework nevynucuje tento př\'{\i}stup, a tud\'{\i}ž by komplexnější
 způsob \textit{service discovery} nebylo problém do systému integrovat.
 
 \begin{figure}
@@ -326,7 +326,7 @@ language=Java,
 Služba \textit{Product service} realizuje \gls{UC} t\'ykaj\'{\i}c\'{\i} se
 prohl\'{\i}žen\'{\i} a administrac\'{\i} nab\'{\i}zen\'ych
 produktů a jejich skladov\'ych zásob. Služba byla implementována v jazyce Python.
-Pro vytvořen\'{\i} \gls{REST} \gls{API} služby byl využit populárn\'{\i}
+Pro vytvořen\'{\i} \gls{REST} \gls{API} služby byl využit
 light-weight framework \textit{Flask}\footnote{\url{http://flask.pocoo.org/}}.
 Ve zdrojovém kódu~\ref{lst:product-service-flask} je znázorněno použit\'{\i}
 tohoto frameworku pro obsluhu požadavku na v\'ypis všech produktů.
@@ -372,7 +372,7 @@ v\'{\i}ce než 10 položek.
 
 Do ukázkového systému byl nasazen také systém pro centráln\'{\i} správu byznysov\'ych kontextů,
 kter\'y je popsan\'y v sekci~\ref{sec:central-administration}. Systém byl napojen na všechny
-služby systému, kromě webového \gls{UI}, a bylo úspěšně prokázáno, že lze za běhu systému
+služby systému, kromě webového \gls{UI}, a bylo úspěšně demonstrováno, že lze za běhu systému
 dynamicky upravovat byznysové kontexty, resp. jejich byznysová pravidla.
 
 \paragraph{Běhové prostřed\'{\i} služeb}
@@ -459,7 +459,7 @@ Jako nev\'yhodu použit\'{\i} frameworku lze považovat počátečn\'{\i} invest
 podobě integrace knihoven do služeb systému. Zvážit mus\'{\i}me i cenu popisu byznysov\'ych pravidel
 v \gls{DSL}, kter\'y se musej\'{\i} v\'yvojáři systému naučit nav\'{\i}c oproti programovac\'{\i}mu jazyku,
 ve kterém popisuj\'{\i} služby. Dále je při návrhu systému potřeba identifikovat byznysové kontexty, jejich
-hirearchii a vzájemnou vazbu s byznysov\'mi pravidly, aby bylo možno framework efektivně využ\'{\i}vat.
+hirearchii a vzájemnou vazbu s byznysov\'ymi pravidly, aby bylo možno framework efektivně využ\'{\i}vat.
 To může vyžadovat v\'{\i}ce času, než klasick\'y návrh.
 
 %\goal{Závěr}
@@ -476,8 +476,8 @@ navržen\'ym způsobem.
 Tato kapitola popisuje, jak\'ym způsobem byly testovány prototypy knihoven
 pro platformy jazyků Java a Python a pro platformu Node.js. T\'{\i}m byla verifikována
 jejich správná fukcionalita. Dále kapitola specifikuje ukázkový systém, na kterém byla
-provedena př\'{\i}padová studie použit\'{\i} frameworku, a popisuje jeho implementaci.
-D\'{\i}ky této studii bylo ověřeno, že navržen\'y framework je funkčn\'{\i},
+provedena demonstrace použit\'{\i} frameworku, a popisuje jeho implementaci.
+Tím bylo otestováno, že navržen\'y framework je funkčn\'{\i},
 splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements}
 a prokazuje reálné snížení manuální duplikace byznysových pravidel oproti
 konvenčn\'{\i}mu př\'{\i}stupu k návrhu a implementaci softwarov\'ych systému.
