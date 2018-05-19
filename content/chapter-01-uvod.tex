@@ -6,7 +6,7 @@
 Informační systémy se ve 21. století staly neodmyslitelnou součástí našich každodenních životů.
 Do styku s nimi přicházíme jak při výkonu našich povolání, tak ve volném čase. Usnadňují
 řadu našich činností, od vzdělání a vědy, kde umožňují snadný přístup ke studijním materiálům,
-přes zdravotnictví, kde pomáhají zvyšovat efektivitu a úroveň péče o pacienty~\cite{fichman2011editorial},
+přes zdravotnictví, kde pomáhají zvyšovat efektivitu a úroveň péče o pacienty,
 až po sociální sítě, kde umožňují lidem globálně komunikovat a sdílet své myšlenky, pocity a zážitky.
 Očekávání na kvalitu a množství funkcí informačních systémů se zvyšuje každým rokem.
 Jedním z úkolů výzkumu v oblasti softwarového inženýrství je zjednodušení a zefektivnění
@@ -30,19 +30,26 @@ To při použití konvenčního přístupu přináší nutnost manuální duplik
 kódu a tím jsou zvýšeny náklady na vývoj systému a riziko lidské chyby.
 
 %\goal{Motivace a cíle}
-Cílem této práce je prozkoumat myšlenku inovativního přístupu k centrální správě a automatické
-integraci byznysových pravidel v systémech využívajících architekturu orientovanou na služby
-a navrhnout framework, který by umožnil tento přístup uplatnit v praxi.
-Tento koncept pomocí aspektově orientovaného programování usnadní práci vývojářů
-a doménových expertů. Díky tomu přinese snížení nákladů na vývoj a údržbu informačních systémů
-a tím zvýší jejich kvalitu a sníží náklady na jejich vývoj.
+Pomocí popisu byznysových pravidel na jednom místě a jejich následné automatické distribuce
+a integrace do systému by mohly být sníženy náklady na vývoj a údržbu informačních systémů.
+Cílem této práce je prozkoumat myšlenku inovativního přístupu k centrální správě
+a automatické integraci byznysových pravidel v systémech využívajících architekturu orientovanou na služby
+a navrhnout framework, který by umožnil uplatnit tento koncept v praxi. K dosažení tohoto cíle musí práce splnit
+následující dílčí úkoly:
+\begin{enumerate}
+    \item Analyzovat problematiku byznysových pravidel v architektuře orientované na služby a provést rešerši stávajících řešení
+    \item Navrhnout framework, který umožní centrální správu a automatickou distribuci byznysových pravidel v architektuře orientované na služby
+    \item Implementovat a otestovat prototypy knihoven navrženého frameworku pro tři rozdílné platformy a vyhodnotit dopad jejich použití na ukázkovém příkladu
+\end{enumerate}
+
+\section{Struktura práce}
 
 %\goal{Popis struktury DP a obsah kapitol}
 Kapitola~\ref{ch:analyza} se věnuje detailn\'{\i} anal\'yze problematiky byznysov\'ych pravidel a
 architektury orientované na služby, včetně jej\'{\i}ho historického v\'yvoje až po nejnovějš\'{\i} trendy,
 a v závěru identifikuje požadavky kladené na framework pro centráln\'{\i} správu a
 automatickou integraci byznysov\'ych pravidel v této architektuře. Kapitola~\ref{ch:reserse}
-se zab\'yvá rešerš\'{\i} stávaj\'{\i}c\'{\i}ch př\'{\i}stupů k v\'yvoji informačn\'{\i}ch systémů a speciálně se zaměřuje
+se zab\'yvá rešerš\'{\i} stávaj\'{\i}c\'{\i}ch př\'{\i}stupů k v\'yvoji informačn\'{\i}ch systémů a zaměřuje se zejména
 na koncepty aspektově orientovaného programován\'{\i} a modern\'{\i}ho aspekty ř\'{\i}zeného př\'{\i}stupu k návrhu
 systémů. Dále se kapitola věnuje průzkumu existuj\'{\i}c\'{\i}ch nástrojů pro správu byznysov\'ych pravidel a existujícím
 síťovým architekturám, které slouží pro distribuci byznysových pravidel mezi službami.
@@ -51,7 +58,7 @@ aspektově orientovaného programován\'{\i} a na základě této formalizace na
 kter\'y realizuje centráln\'{\i} správu a automatickou integraci byznysov\'ych pravidel.
 V kapitole~\ref{ch:implementace} je detailně probrána implementace knihoven pro navržen\'y framework
 na platformách jazyků Java a Python a frameworku Node.js. Následuj\'{\i}c\'{\i} kapitola~\ref{ch:testovani}
-popisuje, jak\'ym způsobem byly tyto knihovny otestovány a jak byla prokázána jejich funkčnost. Zároveň
-je zde popsána validace a vyhodnocen\'{\i} konceptu frameworku jeho nasazen\'{\i}m při v\'yvoji
+popisuje, jak\'ym způsobem byly tyto knihovny otestovány. Zároveň je zde popsána validace a
+vyhodnocen\'{\i} konceptu frameworku jeho nasazen\'{\i}m při v\'yvoji
 jednoduchého ukázkového e-commerce systému. V posledn\'{\i} kapitole~\ref{ch:zaver} je shrnuto, jak\'ych
 c\'{\i}lů bylo v práci dosáhnuto a jak\'ym dalš\'{\i}m směrem se může v\'yzkum v této oblasti ub\'{\i}rat.
