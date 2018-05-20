@@ -4,29 +4,29 @@
 
 Tato kapitola analyzuje problematiku byznysov\'ych pravidel v informačn\'{\i}ch systémech
 a detailně popisuje architekturu orientovanou na služby, včetně jej\'{\i}ho historického
-v\'yvoje a modern\'{\i}ch trendů. Na základě toho kapitola popisuje nedostatky
+v\'yvoje a modern\'{\i}ch trendů. Na základě toho kapitola identifikuje nedostatky
 současn\'ych př\'{\i}stupů při sdílení byznysových pravidel. V závěru kapitoly jsou
-identifikovány požadavky, které by měl splňovat framework, jež bude v\'ystupem této diplomové práce.
+specifikovány požadavky, které by měl splňovat framework, jež bude v\'ystupem této diplomové práce.
 
 \section{Byznysová pravidla}\label{sec:business-rules}
 
 Podnikové informačn\'{\i} systémy (\gls{EIS} z anglického \textit{Enterprise Information System})
 maj\'{\i} za úkol ulehčit, automatizovat či poskytovat podporu pro byznysové procesy organizace,
 která je využívá~\cite{dumas2005process}. Byznysové procesy jsou souborem dílčích úkolů
-a aktivit, které naplňují cíle, jež organizaci přináší byznysovou hodnotu~\cite{weske2012business}.
+a aktivit, které naplňují cíle přinášející organizaci byznysovou hodnotu~\cite{weske2012business}.
 Jednotlivé kroky byznysového procesu jsou nazývány byznysové operace. Byznysové procesy a operace dohromady
-tvoří tzv. byznysovou logiku, která podléhá byznysov\'ym pravidlům. Ty zajišťuj\'{\i} konzistenci dat
+tvoří tzv. byznysovou logiku, která podléhá byznysov\'ym pravidlům. Ta zajišťuj\'{\i} konzistenci dat
 systému a zabraňuj\'{\i} nepovolen\'ym operac\'{\i}m~\cite{cemus2015automated}.
 
 \begin{definition}
-    Byznysové pravidlo definuje či omezuje některý z byznysových aspektů informačního systému.
-    Jeho úkolem je ověřovat byznysovou strukturu nebo ovlivňovat byznysové chování~\cite{morgan2002business}.
+    Byznysové pravidlo je logická rozhodovací podmínka, která definuje či omezuje byznysové chování informačního systému,
+    je specifické pro konkrétní byznysovou doménu, a je atomické, tj. nelze dále rozdělit na dílčí pravidla~\cite{cemus2015automated, morgan2002business}.
 \end{definition}
 
 \gls{EIS} obsahují mnoho byznysových pravidel, typicky stovky či tisíce~\cite{morgan2002business}.
 Samotné pravidlo však bývá relativně krátké a lze shrnout do jedné věty. Díky tomu je pochopitelné
 pro všechny zainteresované strany, které se podílejí na návrhu a vývoji systému.
-Byznysová pravidla jsou dělena do tř\'{\i} skupin~\cite{cemus2014aspect}:
+Byznysová pravidla jsou podle jedné z klasifikací dělena do tř\'{\i} skupin~\cite{cemus2014aspect}:
 
 \begin{description}
     \item [Bezkontextová pravidla] jsou validačn\'{\i} pravidla, která musej\'{\i} b\'yt obecně platná
@@ -41,7 +41,7 @@ Byznysová pravidla jsou dělena do tř\'{\i} skupin~\cite{cemus2014aspect}:
 \end{description}
 
 Pravidla lze také rozdělit do dvou skupin podle jejich vztahu k byznysové operaci, a těmi jsou
-\textit{preconditions} a \textit{post-conditions}~\cite{morgan2002business, cemus2015automated}.
+\textit{preconditions} a \textit{post-conditions}~\cite{cemus2015automated, morgan2002business}.
 
 \subsection{Precondition}
 
@@ -58,17 +58,12 @@ dosud v systému neexistuje žádn\'y uživatel se stejnou emailovou adresou.
 Na byznysovou operaci mohou b\'yt kladeny požadavky, které
 musej\'{\i} b\'yt splněny po jej\'{\i}m úspěšném vykonán\'{\i}~\cite{cemus2015automated}.
 Př\'{\i}kladem může b\'yt anonymizace uživatelů při vytvářen\'{\i} statistického
-reportu e-commerce společnosti -- vygenerováný report
-nesmí obsahovat citlivé údaje. Dalš\'{\i}m př\'{\i}padem může b\'yt filtrován\'{\i}
+reportu e-commerce společnosti, který nesmí obsahovat citlivé údaje
+zákazníků. Dalš\'{\i}m př\'{\i}padem může b\'yt filtrován\'{\i}
 v\'ystupu byznysové operace, např\'{\i}klad při v\'ypisu objednávek pro zákazn\'{\i}ka
 musí všechny vypsané objednávky patřit danému zákazn\'{\i}kovi.
 
 \subsection{Byznysov\'y kontext}
-
-Informačn\'{\i} systém zpravidla implementuje v\'{\i}ce byznysov\'ych procesů, které se vážou
-na jeden či v\'{\i}ce uživatelsk\'ych scénářů~\cite{larman2001patterns}. Uživatelsk\'y scénář se
-pak děl\'{\i} na jednotlivé kroky, např\'{\i}klad zaslán\'{\i} potvrzovac\'{\i}ho e-mailu k objednávce,
-či uložen\'{\i} objednávky do databáze. Tyto kroky odpovídají byznysovým operacím.
 
 Jak již bylo uvedeno, vykonávání byznysové operace je podmíněno byznysovými pravidly, která se k ní vztahují. Před spuštěním operace musejí
 být splněny všechny preconditions, jinak není možné operaci vykonat. Po jejím dokončení musejí být splněny všechny post-conditions.
@@ -80,55 +75,55 @@ Aby \gls{EIS} mohl tyto podmínky ověřit dynamicky za běhu systému, využív
     nastaven\'{\i} produkčn\'{\i}ho režimu, nebo př\'{\i}znak o tom, zda právě prob\'{\i}há obchodn\'{\i} uzávěrka.
     \item[Uživatelský kontext] obsahuje informace o aktuálně přihlášeném uživateli.
     \item[Kontext požadavku] (z anglického \textit{Request context}) se váže zejména na webové služby a obsahuje
-    informace o aktuáln\'{\i}m požadavku, jako IP adresa uživatele či jeho geolokace.
+    informace o aktuáln\'{\i}m požadavku, jako je IP adresa či geolokace uživatele.
     \item[Byznysov\'y kontext] obsahuje informace o probíhající byznysové operaci včetně byznysových pravidel.
 \end{description}
 
 Byznysový kontext je tedy důležitým prvkem při výkonu byznysové operace, který umožňuje vyhodnocování byznysových pravidel.
 Všechny proměnné, které jsou dostupné v exekučním kontextu, jsou dostupné při vyhodnocování pravidel. Díky tomu je možné
-definovat široké spektrum podmínek, které se mohou přizpůsobit aktuálnímu stavu systému.
+definovat široké spektrum logických podmínek, které se mohou přizpůsobit aktuálnímu stavu systému.
 
 \begin{definition}
     Byznysový kontext je množina preconditions a post-conditions, která se váže na konkrétn\'{\i} byznysovou
-    operaci~\cite{cemus2015automated}
+    operaci~\cite{cemus2015automated}.
 \end{definition}
 
 \subsection{Reprezentace byznysového pravidla}\label{sec:business-rule-representation}
 
 Existuje několik možnost\'{\i}, jak v rámci \gls{EIS} zachytit a reprezentovat byznysová
-pravidla~\cite{cemus2015automated}. Těmi jsou:
+pravidla~\cite{cemus2015automated}. Nejběžnější metodou zachycení byznysových pravidel je zápis
+v obecném programovacím jazyce. Ačkoliv většina současných obecných programovacích
+jazyků poskytuje reflexi, nepřináší dostatečné možnosti inspekce a extrakce pravidel pro jejich další
+využití. Tento způsob však umožňuje snadno definovat i velmi komplikovaná pravidla.
 
-\benum[label=\circledAlph]
-    \item\label{itm:gpl} Zápis v obecném programovacím jazyce
-    \item\label{itm:meta} Zápis pomocí meta-instrukcí
-    \item\label{itm:dsl} Zápis pomocí doménově specifických jazyků
-\eenum
+Pokročilejš\'{\i} metodou je pro zachycení pravidel pomocí meta-instrukcí.
+Těmi mohou být např\'{\i}klad anotace, případně speciální jazyk, tzv. \textit{Expression
+Language}~\cite{nemuraite2008representation}. Tento způsob poskytuje dostatečnou možnost inspekce, ale nen\'{\i}
+typově bezpečný a kvůli tomu je náchylnější na chybu. Anotace je navíc potřeba vázat na existující komponenty
+systému, což může být pro některá byznysová pravidla nevhodné~\cite{cemus2015automated}.
+Příkladem je průřezové pravidlo, které zamyká systém pro úpravy po dobu účetní uzávěrky. Takové pravidlo se
+nevztahuje k žádné konkrétní komponentě systému a musí tak být zachyceno v každé komponentě zvlášť.
 
-\ref{itm:gpl} je nejběžnějš\'{\i} metodou, umožňující použití stejného jazyka pro popis byznysových pravidel jako
-pro popis ostatních částí systému. Bohužel, tato metoda nepřináší možnosti inspekce a extrakce pravidel pro jejich další využití.
-\ref{itm:meta} je pokročilejš\'{\i} metodou, která může využívat např\'{\i}klad anotac\'{\i}, nebo tzv. \textit{Expression
-Language}~\cite{nemuraite2008representation}. Tato metoda poskytuje dobrou možnost inspekce, ale zpravidla nen\'{\i} typově bezpečná.
-Navíc je potřeba meta-instrukce vázat na existující prvky systému, což může být pro některé případy použití omezující~\cite{cemus2015automated}.
-
-\ref{itm:dsl} je nejpokročilejš\'{\i} metodou. \gls{DSL} jsou snadno srozumitelné nejen pro programátory, ale i pro doménové experty.
-Navíc mohou b\'yt typově bezpečné. Mezi jejich nev\'yhody patř\'{\i} vysoká počátečn\'{\i} investice v podobě návrhu jazyka, nutnost
-jeho kompilace nebo interpretace a také proškolení vývojářů, kteří s ním budou pracovat. Kvůli tomu může být vhodné využít
-existující řešení~\cite{cemus2015automated}, jako například jazyk Object Constraint Language~\cite{warmer1998object},
-který je často využívaný ve výzkumu, nebo některé z průmyslových řešení, jako je framework Drools\footnote{\url{https://www.drools.org/}},
-který je popsaný v sekci~\ref{sec:drools}.
+Nejpokročilejš\'{\i} metodou zachycení pravidla je využití \gls{DSL}, které jsou snadno srozumitelné a
+poskytují snadnou inspekci a typovou bezpečnost. Mezi jejich nev\'yhody patř\'{\i} vysoká počátečn\'{\i} investice
+v podobě návrhu jazyka, nutnost jeho kompilace nebo interpretace a také proškolení personálu, který s ním bude pracovat.
+Kvůli tomu může být vhodné využít existující řešení~\cite{cemus2015automated}, jako například formální jazyk
+\textit{Object Constraint Language}~\cite{warmer1998object}. Ten umožňuje snadné automatické zpracování a transformaci,
+ale i formální matematické operace nad jeho výrazy. Jeho nevýhodou je pracnost zápisu. Využít lze i některé z průmyslových
+řešení, jako je framework Drools\footnote{\url{https://www.drools.org/}}, který je popsaný v sekci~\ref{sec:drools}.
 
 \section{Architektura orientovaná na služby}\label{sec:soa}
 
 \textit{Architektura orientovaná na služby} (\gls{SOA}) je odpovědí na stále se zvyšující
-nároky na informační systémy a jejich rostoucí velikost. Na rozd\'{\i}l od \textit{monolitické architektury},
-děl\'{\i} \gls{SOA} systém na samostatné nezávislé celky, zvané \textit{služby}, které jsou
-poskytují d\'{\i}lč\'{\i} části požadované funkcionality systému.
+nároky na informační systémy a jejich rostoucí velikost a komplexitu. Na rozd\'{\i}l od \textit{monolitické architektury},
+děl\'{\i} \gls{SOA} systém na samostatné nezávislé celky, zvané \textit{služby}, které
+poskytují d\'{\i}lč\'{\i} části požadované funkcionality.
 Historicky byl term\'{\i}n \gls{SOA} vykládán několika způsoby a představoval
 několik rozd\'{\i}ln\'ych, nekompatibiln\'{\i}ch konceptů~\cite{fowler2005serviceorientedambiguity}.
-Absence kvalitn\'{\i}ch definic služby a obecně \gls{SOA} vedla k v posledn\'{\i} době i ke snahám
+Absence kvalitn\'{\i}ch definic služby a obecně \gls{SOA} vedla v posledn\'{\i} době i ke snahám
 o opuštěn\'{\i} tohoto konceptu~\cite{cerny2017disambiguation}.
 Pro lepší porozumění se tato kapitola věnuje stručnému historickému přehledu \gls{SOA}
-a shrnuje výhody a nevýhody jednotlivých přístupů.
+a shrnuje vlastnosti a z nich vyplývající výhody a nevýhody jednotlivých přístupů.
 
 \begin{definition}
     Služba je znovupoužitelný, soudržný, spravovatelný, nasaditelný a nezávislý proces komunikující
@@ -140,7 +135,7 @@ a shrnuje výhody a nevýhody jednotlivých přístupů.
 Prvn\'{\i}m historick\'ym předchůdcem architektury orientované na služby
 byla tzv. \textit{Common Object Request Broker Architecture}
 (\gls{CORBA})~\cite{siegel2000corba}. Ta umožňuje vzájemnou komunikaci aplikací
-implementovan\'ych v různ\'ych technologi\'{\i}ch. Její základní komponentou je
+implementovan\'ych v různ\'ych technologi\'{\i}ch. Její základní komponentou
 je \textit{Object Request Broker} (\gls{ORB}), kter\'y simuluje vzdálené objekty,
 na kter\'ych může klient volat jejich metody. Při zavolán\'{\i} metody
 na objektu, kter\'y se fyzicky nacház\'{\i} na vzdáleném stroji,
@@ -161,7 +156,7 @@ umožňuje kompletn\'{\i} definici rozhran\'{\i} pro komunikaci mezi službami.
 
 \subsection{Message Queue}
 
-Dalš\'{\i}m z konceptů, kter\'y v rámci \gls{SOA} vznikl, je tzv. \textit{Message Queue}.
+Dalš\'{\i}m z konceptů, kter\'y v rámci \gls{SOA} vznikl, je tzv. \textit{Message Queue} (\gls{MQ}).
 Jeho základn\'{\i} myšlenkou je asynchronn\'{\i} komunikace služeb pomoc\'{\i} zpráv nezávisl\'ych
 na platformě. Komunikaci zprostředkovává fronta, která přij\'{\i}má a rozes\'{\i}lá
 zprávy mezi službami. To přináš\'{\i} vyšš\'{\i} škálovatelnost a menš\'{\i} provázanost
@@ -173,13 +168,15 @@ Ačkoliv zm\'{\i}něné modely usnadňuj\'{\i} komunikaci služeb a zvyšuj\'{\i
 spolehlivost, integrace služeb může b\'yt obt\'{\i}žná, pokud služby použ\'{\i}vaj\'{\i}
 navzájem různé komunikačn\'{\i} protokoly a formáty. Tento problém řeší \textit{Enterprise Service
 Bus} (\gls{ESB})~\cite{chappell2004enterprise}, znázorněn\'y na obrázku~\ref{fig:enterprise-service-bus},
-kter\'y má za úkol propojit heterogenn\'{\i} služby a sestavit mezi nimi komunikačn\'{\i} kanály.
-T\'{\i}m na sebe \gls{ESB} přeb\'{\i}rá zodpovědnost za překlad jednotliv\'ych zpráv a centralizuje
-veškerou komunikaci v systému.
+kter\'y má za úkol propojit heterogenn\'{\i} služby využívající různé technologie a sestavit mezi nimi
+komunikačn\'{\i} kanály. T\'{\i}m na sebe \gls{ESB} přeb\'{\i}rá zodpovědnost za překlad jednotliv\'ych zpráv
+a centralizuje veškerou komunikaci v systému. Kvůli tomu musí poskytovat routing síťových zpráv a překlad mezi
+jednotlivými formáty. \gls{ESB} navíc umožňuje zabezpečení komunikace a může sloužit i pro orchestraci služeb,
+jak je popsáno v sekci~\ref{sec:orchestration-vs-choreography}.
 
 \begin{figure}
     \centering
-    \includegraphics[keepaspectratio=true, width=0.6\linewidth]{figures/enterprise-service-bus.pdf}
+    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/enterprise-service-bus.pdf}
     \caption{Komunikace služeb pomocí Enterprise Service Bus}
     \label{fig:enterprise-service-bus}
 \end{figure}
@@ -188,8 +185,8 @@ veškerou komunikaci v systému.
 
 %\goal{Microservices a budoucnost SOA}
 Microservices je moderní architekturou, která podobně jako \gls{SOA} přináší řešení
-problémů pramenících z vysoké komplexity současných \gls{EIS}.
-Tato architektura se dá chápat jako podmnožina \gls{SOA}~\cite{cerny2017disambiguation, richards2015microservices},
+problémů pramenících z vysoké komplexity současných \gls{EIS}. Tato architektura se dá
+chápat jako podmnožina \gls{SOA}~\cite{cerny2017disambiguation, richards2015microservices},
 ačkoliv existují i názory, že jde o odlišné architektury. V poslední době postupně nahrazuje standardní
 \gls{SOA}~\cite{lewis2014microservices, xiao2016reflections} a vzhledem k její vzrůstající
 adopci je nutno ji v rámci této práce zohlednit.
@@ -198,31 +195,35 @@ Její základn\'{\i} myšlenkou je v\'yvoj informačn\'{\i}ho systému jako mno�
 které jsou spouštěny v samostatn\'ych procesech a komunikuj\'{\i} spolu pomoc\'{\i} jednoduch\'ych
 protokolů nezávislých na platformě~\cite{lewis2014microservices}. Microservices preferuje decentralizaci a samostatnost služeb
 a zaměřuje se na jejich organizaci kolem byznysov\'ych schopnost\'{\i} systému, nam\'{\i}sto horizontáln\'{\i}ho
-dělen\'{\i} systému podle jeho vrstev. Hlavní výhodou tohoto přístupu je flexibilita nasazení a škálování, které je vhodné
+dělen\'{\i} systému podle jeho vrstev. Hlavní výhodou tohoto přístupu je flexibilita nasazení a škálování, která je vhodná
 pro stále populárnější nasazení v cloudu~\cite{cerny2018contextual, kratzke2017understanding, xiao2016reflections}.
 
-\subsection{Orchestrace a choreografie služeb}
+\subsection{Orchestrace a choreografie služeb}\label{sec:orchestration-vs-choreography}
 
-Základní podmínkou pro funkci systému stavějícímu na \gls{SOA} je komunikace a spolupráce jednotlivých služeb.
-K tomu slouží principy \textit{orchestrace služeb} a \textit{choreografie služeb}.
+Základní podmínkou pro funkci systému využívajícího \gls{SOA} je komunikace a spolupráce jednotlivých služeb.
+K tomu slouží principy \textit{orchestrace služeb} a \textit{choreografie služeb}. Porovnán\'{\i} obou př\'{\i}stupů
+je graficky znázorněno na obrázku~\ref{fig:choreography-orchestration}.
 
 \paragraph{Orchestrace}
 Orchestrace služeb má za úkol zajistit, že komunikace mezi službami
 proběhne úspěšně a ve správném časovém sledu~\cite{orchestration},
 za použití centráln\'{\i} komponenty -- tzv. \textit{dirigenta}.
-Typicky je jako dirigent využ\'{\i}ván \gls{ESB}.
+Typicky je dirigent implementován jako součást \gls{ESB}.
+Orchestrace implikuje centrální řízení a koordinaci služeb při
+vykonávání byznysových procesů.
 
 \paragraph{Choreografie}
-Př\'{\i}m\'ym opakem orchestrace je tzv. \textit{choreografie služeb} a znamená
+Opakem orchestrace je tzv. \textit{choreografie služeb} a znamená
 vykonáván\'{\i} byznysov\'ych operac\'{\i} autonomně a asynchronně, bez centráln\'{\i}
-autority. Tento př\'{\i}stup je preferován zejména v rámci microservices~\cite{dragoni2017microservices},
-protože orchestrace vede k vyšš\'{\i}mu provázán\'{\i} služeb a nerovnoměrnému rozložen\'{\i}
-zodpovědnost\'{\i} v systémů. Porovnán\'{\i} obou př\'{\i}stupů je graficky
-znázorněno na obrázku~\ref{fig:choreography-orchestration}.
+autority. Choreografie popisuje zejména pravidla a podobu komunikace jednotlivých služeb.
+K tomu zpravidla využívá \gls{MQ} a zasílání zpráv o událostech v systému. Každá služba
+při vykonávání byznysových operací plní svoji roli bez centrálního řízení~\cite{cerny2017disambiguation}.
+Tento př\'{\i}stup je využíván zejména v rámci Microservices~\cite{dragoni2017microservices},
+protože umožňuje nižší provázán\'{\i} služeb a rovnoměrnější rozložen\'{\i} zodpovědnost\'{\i} v systémů.
 
 \begin{figure}
     \centering
-    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/choreography-orchestration.pdf}
+    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/choreography-orchestration.pdf}
     \caption{Porovnán\'{\i} orchestrace a choreografie služeb}
     \label{fig:choreography-orchestration}
 \end{figure}
@@ -233,25 +234,26 @@ Z předchozího textu vyplývá, že přístupy k realizaci \gls{SOA} vychází 
 myšlenky členění systémů do dílčích izolovaných služeb poskytujících byznysovou funkcionalitu.
 Přístupy se liší zejména v řešení komunikace služeb a v centralizaci jejich správy.
 Historické přístupy využívají komplexní komunikační technologie a umožňují centrální
-správu systému, zatímco moderní přístupy od těchto vlastností upouštění. To přináší výzvu
-při sdílení byznysových pravidel, která je rozebrána v následující sekci.
+správu a orchestraci systému, zatímco moderní přístup Microservices se zaměřuje zejména
+na nízké provázání služeb a využití jednoduchých komunikačních kanálů.
+To přináší výzvu při sdílení byznysových pravidel, která je rozebrána v následující sekci.
 
 \begin{definition}
     \gls{SOA} je soubor návrhových principů, který organizuje komponenty software
     kolem byznysové funkcionality a spojuje je pomocí rozhraní a komunikačních protokolů.
     Každá komponenta je soběstačná a izolovaná, okolnímu světu poskytuje pouze
-    své rozhraní~\cite{lewis2014microservices, papazoglou2003service}.
+    své komunikační rozhraní~\cite{lewis2014microservices, papazoglou2003service}.
 \end{definition}
 
 \section{Nedostatky současného př\'{\i}stupu}\label{sec:shortcomings}
 
-Některá složitější byznysová funkcionalita vyžaduje kompozici více služeb
-najednou~\cite{papazoglou2003service}. Kompozitní služby by měly zohlednit
-byznysová pravidla služeb, které ke své funkci využívají, aby zabránily
-nekonzistentním stavům v systému a zbytečným spouštěním byznysových operací,
-jejichž preconditions nejsou splněny~\cite{cerny2017disambiguation}.
-To je však s přímým rozporem s požadavkem na nízkou provázanost služeb, které
-by neměly vzájemně znát svoji interní strukturu. Tato skutečnost
+Některá složitější byznysová funkcionalita vyžaduje spolupráci více služeb
+najednou~\cite{papazoglou2003service}. K tomuto účelu slouží tzv. kompozitní
+služby, které využívají funkcionalitu ostatních služeb. Při kompozici služeb je nutné
+zohlednit jejich byznysová pravidla, aby bylo zabráněno nekonzistentním stavům v systému
+a zbytečným spouštěním byznysových operací, jejichž preconditions nejsou
+splněny~\cite{cerny2017disambiguation}. To je však v přímém rozporu s požadavkem na nízkou
+provázanost služeb, které by neměly vzájemně znát svoji interní strukturu. Tato skutečnost
 vede k nutnosti duplikace byznysových pravidel v kompozitních službách~\cite{cerny2016survey}.
 
 \begin{definition}
@@ -259,26 +261,25 @@ vede k nutnosti duplikace byznysových pravidel v kompozitních službách~\cite
 \end{definition}
 
 %\goal{Nast\'{\i}něn\'{\i} konkrétn\'{\i}ho př\'{\i}kladu}
-Pro lepší představu tohoto problému uvažme e-commerce systém
-skládaj\'{\i}c\'{\i} se z několika služeb naprogramovan\'ych v různ\'ych technologi\'{\i}ch,
-a procesy vytváření faktury a vytváření objednávky, každý z nich implementovaný jinou službou.
-Systém navíc obsahuje službu poskytující webové uživatelské rozhraní.
-Při vytvářen\'{\i} faktury za objednávku mus\'{\i} b\'yt nejprve zvalidována fakturačn\'{\i} adresa.
-Protože by mohla nastat situace, kdy by v př\'{\i}padě nevalidn\'{\i} adresy museli zaměstnanci
-společnosti kontaktovat zákazn\'{\i}ka -- pokud vůbec takovou možnost maj\'{\i}
--- musí být adresa validována již při vytvářen\'{\i} objednávky.
-V ideáln\'{\i}m př\'{\i}padě by navíc měl zákazn\'{\i}k být upozorněn na nevalidn\'{\i} fakturačn\'{\i}
-adresu co nejdříve, ještě před odeslán\'{\i}m objednávkového formuláře, př\'{\i}mo v uživatelském
-rozhran\'{\i}~\cite{cemus2017separation}. Pro ilustraci je problém znázorněn na obrázku~\ref{fig:service-cutting},
+Pro lepší představu je problém znázorněn na obrázku~\ref{fig:service-cutting}. Uvažme e-commerce
+systém skládaj\'{\i}c\'{\i} se z několika služeb naprogramovan\'ych v různ\'ych technologi\'{\i}ch, a
+procesy vytváření faktury a vytváření objednávky. Při dokončení objednávky je potřeba vytvořit fakturu,
+objednávková služba k tomu využívá fakturační službu. Podmínkou pro vytvořen\'{\i} faktury je platná fakturačn\'{\i} adresa,
+která je zadána již při vytváření objednávky. Nevalidn\'{\i} adresa by však při vytváření faktury
+mohla způsobit řadu problémů vyžadujících manuální řešení. Proto musí být tato adresa validována
+již při vytvářen\'{\i} objednávky. V ideáln\'{\i}m př\'{\i}padě by navíc měl zákazn\'{\i}k být upozorněn
+na nevalidn\'{\i} fakturačn\'{\i} adresu co nejdříve, ještě před odeslán\'{\i}m objednávkového formuláře,
+př\'{\i}mo v uživatelském rozhran\'{\i}~\cite{cemus2017separation}. To bývá často implementováno samostatnou
+kompozitní službou, která agreguje funkcionalitu celého systému.
 
 %\goal{Náročná údržba a reakce na změnu požadavku}
-Na příkladu lze pozorovat, že stejná funkcionalita se prom\'{\i}tá
+Na příkladu lze pozorovat, že jedno byznysové pravidlo se prom\'{\i}tá
 do tř\'{\i} služeb, z nichž každá má zodpovědnost za jiné byznysové operace.
-Stejn\'y kód, kter\'y realizuje validaci fakturačn\'{\i} adresy,
-mus\'{\i} b\'yt implementován v každé ze zmiňovaných služeb, navíc v různých technologiích.
+Stejná logika, která realizuje validaci fakturačn\'{\i} adresy,
+mus\'{\i} b\'yt implementována v každé ze zmiňovaných služeb, navíc v různých technologiích.
 Pokud by vzešel změnový požadavek na validaci fakturačn\'{\i} adresy, změnu by bylo nutno
 provést konzistentně na třech různ\'ych m\'{\i}stech, všechny tři služby znovu
-sestavit a nasadit ve správném pořad\'{\i} tak, aby nedošlo k nekonzistení validaci adresy
+sestavit a nasadit ve správném pořad\'{\i} tak, aby nedošlo k nekonzistentní validaci adresy
 při provádění jednotlivých byznysových operací. Změny byznysových pravidel se dějí častěji,
 než změny kódu a struktury samotných služeb v \gls{SOA}~\cite{rosenberg2005business}.
 Pokud je potřeba s každou změnou byznysového pravidla sestavit a nasadit jednu či více služeb,
@@ -286,7 +287,7 @@ dramaticky se zvyšuje náročnost na údržbu takového systému.
 
 \begin{figure}
     \centering
-    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/service-cutting.pdf}
+    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/service-cutting.pdf}
     \caption{Př\'{\i}klad funkcionality zasahující do v\'{\i}ce služeb}
     \label{fig:service-cutting}
 \end{figure}
@@ -295,12 +296,15 @@ dramaticky se zvyšuje náročnost na údržbu takového systému.
 
 Pro usnadnění vývoje a údržby systému stavějícího na \gls{SOA}, který
 obsahuje kompozitní služby, je nutné umožnit sdílení byznysových pravidel.
-Ta by měla být zachycena mimo samotnou implementaci služby, ideálně ve formátu, který bude nezávislý na
-konkrétní platformě, bude poskytovat možnost automatické inspekce a bude srozumitelný doménovým expertům.
-Úprava pravidel by navíc neměla vyžadovat změnu kódu služby a její opětovné nasazování.
+Ta by měla být zachycena mimo samotnou implementaci služby, ideálně ve formátu,
+který bude nezávislý na konkrétní platformě, bude poskytovat možnost automatické
+inspekce a bude srozumitelný doménovým expertům. Framework nesmí vynucovat
+manuální duplikaci byznysových pravidel. Díky tomu framework sníží náklady
+na vývoj a údržbu systému a riziko lidské chyby. Úprava pravidel navíc nesmí
+vyžadovat změnu kódu služby a její opětovné nasazování.
 Administrátoři systému by měli mít možnost byznysová pravidla spravovat centrálně a bez
 přerušení provozu systému, aby mohli co nejrychleji a flexibilně reagovat na změnové požadavky.
-Vzhledem k různému chápání \gls{SOA} a postupné adopci Microservices by framework neměl klást
+Vzhledem k různému chápání \gls{SOA} a postupné adopci Microservices framework nesmí klást
 nároky na způsob organizace služeb, tj. měl by umožňovat orchestraci i choreografii.
 
 Framework, který bude výstupem této práce, musí splňovat následující vlastnosti:
