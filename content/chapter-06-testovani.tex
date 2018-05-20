@@ -410,7 +410,7 @@ Pro samotné spuštěn\'{\i} byla využita funkce \textit{Compose}, která umož
 definovat a spouštět v\'{\i}ce-kontejnerové aplikace. Ve zdrojovém kódu~\ref{lst:docker-compose}
 můžeme vidět zápis Order service. Pro jej\'{\i} image je použit \code{filipklimes-diploma/example-order-service}.
 V sekci \code{ports} deklarujeme, že služba má m\'{\i}t z vnějšku př\'{\i}stupn\'y port \code{5501}, na kterém poskytuje své
-\gls{REST} \gls{API}, a port \code{5551}, nak terém poskytuje své gRPC \gls{API} pro sd\'{\i}lené byznysov\'ych kontextů. Order service je závislá
+\gls{REST} \gls{API}, a port \code{5551}, na kterém poskytuje své gRPC \gls{API} pro sd\'{\i}lené byznysov\'ych kontextů. Order service je závislá
 na Product, Billing, Shipping a User service, což explicitně specifikujeme v sekci \code{depends\_on},
 aby Docker Compose mohl spustit služby ve správném pořad\'{\i}. Nakonec pomoc\'{\i} \code{links} deklarujeme,
 že pro kontejner, ve kterém Order Service poběž\'{\i}, maj\'{\i} b\'yt na s\'{\i}ti př\'{\i}stupné služby \code{product}, \code{user},
