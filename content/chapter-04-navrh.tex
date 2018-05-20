@@ -17,7 +17,7 @@ zachyceny \textit{pointcuts} a nakonec navrhnout proces \textit{weavingu} pravid
 
 Identifikace join-points vychází ze životního cyklu služby, který je znázorněn
 na obrázku~\ref{fig:join-points}. První fází v životě instance služby je její inicializace,
-konkrétně načtení aplikačního kontextu. V tomto bodě je potřeba získat veškerá pravidla, která
+konkrétně načtení exekučního kontextu. V tomto bodě je potřeba získat veškerá pravidla, která
 bude služba potřebovat ke své funkci.
 Po inicializaci vstupuje služba do fáze, ve které může přijímat požadavky
 na vykonání byznysových operací. Při přijmutí požadavku je nejprve nutno určit
@@ -71,7 +71,7 @@ kontextu by přitom mohl být dynamicky změněn za běhu programu.
 
 Sdílení pravidel mezi byznysovými kontexty, potažmo byznysovými operacemi a mezi jednotlivými službami,
 lze realizovat pomocí dědičnosti kontextů. Každý kontext, který by potřeboval validovat fakturační
-adresu, by tak mohl pouze dědit od kontextu vytváření faktury. Na obrázku~\ref{fig:context-extension}
+adresu, by tak mohl dědit od kontextu vytváření faktury. Na obrázku~\ref{fig:context-extension}
 je dědičnost kontextů znázorněna. Kontext vytváření objednávky dědí od kontextu vytváření faktury
 a znovupoužívá jeho byznysová pravidla. Byznysové operace se odkazují na byznysové kontexty, které mají
 být při jejich vykonávání použity. Před spuštěním a po dokončení operace vytváření
