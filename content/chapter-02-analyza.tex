@@ -169,11 +169,13 @@ navzájem různé komunikačn\'{\i} protokoly a formáty. Tento problém řeší
 Bus} (\gls{ESB})~\cite{chappell2004enterprise}, znázorněn\'y na obrázku~\ref{fig:enterprise-service-bus},
 kter\'y má za úkol propojit heterogenn\'{\i} služby využívající různé technologie a sestavit mezi nimi
 komunikačn\'{\i} kanály. T\'{\i}m na sebe \gls{ESB} přeb\'{\i}rá zodpovědnost za překlad jednotliv\'ych zpráv
-a centralizuje veškerou komunikaci v systému.
+a centralizuje veškerou komunikaci v systému. Kvůli tomu musí poskytovat routování síťových zpráv a překlad mezi
+jednotlivými formáty. \gls{ESB} navíc umožňuje zabezpečení komunikace a může sloužit i pro orchestraci služeb,
+jak je popsáno v sekci~\ref{sec:orchestration-vs-choreography}.
 
 \begin{figure}
     \centering
-    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/enterprise-service-bus.pdf}
+    \includegraphics[keepaspectratio=true, width=0.65\linewidth]{figures/enterprise-service-bus.pdf}
     \caption{Komunikace služeb pomocí Enterprise Service Bus}
     \label{fig:enterprise-service-bus}
 \end{figure}
@@ -220,7 +222,7 @@ protože umožňuje nižší provázán\'{\i} služeb a rovnoměrnější rozlo�
 
 \begin{figure}
     \centering
-    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/choreography-orchestration.pdf}
+    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/choreography-orchestration.pdf}
     \caption{Porovnán\'{\i} orchestrace a choreografie služeb}
     \label{fig:choreography-orchestration}
 \end{figure}
