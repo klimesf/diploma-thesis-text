@@ -251,6 +251,27 @@ language=XML,
 ]
 {code/business_context.xml}
 
+% TODO: toto někam upíchnout
+Pro uložení kontextu z metamodelu do \gls{DSL}, aby ho mohl vývojář či administrátor
+systému upravovat, je vzhledem k reprezentaci logických výrazů vhodný návrhový vzor
+\textit{Visitor}~\cite{fowler2002patterns}. Ten umožní převádět libovolně složité logické
+výrazy pomocí metody \textit{double-dispatch}. Jeho volbou je zároveň zajištěna rozšiřitelnost
+frameworku pro libovolné \gls{DSL} -- bude stačit implementovat konkrétní
+visitor pro zvolený jazyk, aniž by bylo nutno zasahovat přímo do implementace frameworku.
+
+Princip použití vzoru Visitor je znázorněn na obrázku~\ref{fig:expression-visitor}.
+Rozhraní \code{Expression} je implementováno dvěma výrazy -- \code{VariableReferece}
+a \code{IsNotNull} -- které po zavolání metody \code{accept()} zavolají na visitorovi
+příslušnou metodu \code{visit()}. Visitor tak může oddělit logiku, která obstarává
+převod jednotlivých výrazů do \gls{DSL}.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression-visitor.pdf}
+    \caption{Využití vzoru Visitor pro převod logických výrazů do doménově specifického jazyka}
+    \label{fig:expression-visitor}
+\end{figure}
+
 \section{Knihovna pro platformu Java}
 
 Knihovna pro platformu Java se skládá ze čtyř modulů, které zajišťují

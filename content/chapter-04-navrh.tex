@@ -2,14 +2,25 @@
 
 \chapter{Návrh frameworku}\label{ch:navrh}
 
-V této kapitole je diskutován návrh frameworku pro centrální správu
-a automatickou integraci business pravidel vyhovující požadavkům identifikovaným
-v sekci~\ref{sec:implementation-requirements}. Tento návrh staví na znalostech získaných
-v předchozí kapitole~\ref{ch:reserse}, zejména na paradigmatu \gls{AOP} a přístupu \gls{ADDA}.
+V této kapitole je diskutován návrh frameworku pro centrální správu a automatickou integraci
+business pravidel v prostředí architektury orientované na služby. Tento návrh staví na znalostech
+získaných v předchozí kapitole~\ref{ch:reserse}, zejména na paradigmatu \gls{AOP} a přístupu \gls{ADDA},
+a vyhovuje požadavkům identifikovaným v sekci~\ref{sec:implementation-requirements}
+
+\section{Vize frameworku}
+
+Navrhovaný framework vychází z přístupu \gls{ADDA} představeného v sekci~\ref{sec:adda}
+a jeho cílem je umožnit zápis byznysových pravidel v \textit{single-focal point}, ze kterého
+budou pravidla automaticky integrována do jednotlivých služeb systému. Pro zápis pravidel
+framework bude využívat speciální \gls{DSL}, které umožní jejich snadný zápis a inspekci.
+Díky tomu bude možné redukovat manuální duplikaci pravidel, která jsou sdílena mezi jednotlivými
+službami a tím snížit náklady na vývoj a údržbu systému a zmírnit riziko lidské chyby,
+které je spojeno s manuální synchronizací duplikované logiky.
 
 \section{Formalizace architektury orientované na služby}
 
-Pro formalizaci problému byznysových pravidel v \gls{SOA} do termínů \gls{AOP} je nutno
+Využítí přístupu \gls{ADDA} vyžaduje formalizaci problematiky byznysových pravidel v \gls{SOA}
+do termínů \gls{AOP}. Za aspekt bude framework považovat byznysové pravidlo. Dále je nutno
 identifikovat \textit{join-points}, určit podobu \textit{advices}, popsat způsob jakým budou
 zachyceny \textit{pointcuts} a nakonec navrhnout proces \textit{weavingu} pravidel.
 
@@ -42,12 +53,6 @@ Identifikované join-points tedy jsou:
 
 \subsection{Pointcuts}
 
-V join-pointu~\ref{itm:initialization} služba načte všechna byznysová pravidla, která
-bude potřebovat ke své činnosti, a nejsou pro ni lokálně dostupná. Služba tedy musí zjistit,
-která pravidla je potřeba získat, a následně si je vyžádat od ostatních služeb.
-V join-pointech~\ref{itm:before}~a~\ref{itm:after} musejí být aplikována byznysová pravidla každého
-kontextu vztahujícího se k dané operaci.
-
 \lstinputlisting[
 caption={Ukázka zápisu validačních pravidel pomocí anotací v jazyku Java},
 label={lst:jsr303},
@@ -58,32 +63,49 @@ language=Java,
 ]
 {code/jsr303.java}
 
-Pro zápis selektoru poincutu byznysového pravidla se lze inspirovat standardem \gls{JSR}
+V join-pointech~\ref{itm:before}~a~\ref{itm:after} musejí být aplikována všechna byznysová pravidla
+vztahující se k prováděné byznysové operaci.
+Pro zápis poincutu byznysového pravidla pro tyto join-pointy se lze inspirovat standardem \gls{JSR}
 303~\cite{bernard2009jsr}, který umožňuje validovat data byznysových objektů vstupujících do
 byznysových operací pomocí anotací atributů těchto objektů. Příklad validačních anotací je znázorněn
-ve zdrojovém kódu~\ref{lst:jsr303}, kde je pomocí anotace \code{$@$NotNull} zajištěno, že fakturační
-adresa bude mít vyplněna všechna pole (v kontextu našeho frameworku se jedná o paralelu preconditions).
+ve zdrojovém kódu~\ref{lst:jsr303}, kde je pomocí anotace \code{$@$NotBlank} zajištěno, že fakturační
+adresa bude mít vyplněno pole \code{country} (v kontextu navrhovaného frameworku se jedná o paralelu preconditions).
 Podobným způsobem by každá byznysová operace mohla pomocí metainstrukcí specifikovat, která byznysová
 pravidla bude využívat. Toto řešení však neposkytuje možnost dynamicky při běhu programu změnit sadu
-byznysových pravidel. Tento problém lze řešit zavedením konceptu byznysového kontextu, který
-zapouzdřuje byznysová pravidla, a byznysová operace se na něj může explicitně odkázat. Obsah byznysového
-kontextu by přitom mohl být dynamicky změněn za běhu programu.
+byznysových pravidel, ani sdílení pravidel mezi jednotlivými operacemi. Tento problém lze řešit využitím
+konceptu byznysového kontextu, který zapouzdřuje byznysová pravidla, a byznysová operace se na něj může
+explicitně odkázat. Obsah byznysového kontextu přitom může být dynamicky změněn za běhu programu.
+
+\lstinputlisting[
+caption={Příklad provázání byznysové operace a byznysového kontextu pomocí anotací v jazyce Java},
+label={lst:business-operation-context},
+language=Java,
+%frame=single,
+%float,
+%floatplacement=t
+]
+{code/business_operation_context.java}
 
 Sdílení pravidel mezi byznysovými kontexty, potažmo byznysovými operacemi a mezi jednotlivými službami,
 lze realizovat pomocí dědičnosti kontextů. Každý kontext, který by potřeboval validovat fakturační
-adresu, by tak mohl dědit od kontextu vytváření faktury. Na obrázku~\ref{fig:context-extension}
-je dědičnost kontextů znázorněna. Kontext vytváření objednávky dědí od kontextu vytváření faktury
-a znovupoužívá jeho byznysová pravidla. Byznysové operace se odkazují na byznysové kontexty, které mají
-být při jejich vykonávání použity. Před spuštěním a po dokončení operace vytváření
-objednávky jsou aplikována pravidla obou kontextů, zatímco při vytváření faktury jsou zohledněna
-pouze pravidla jednoho kontextu.
+adresu, by tak mohl dědit od kontextu vytváření faktury. Uvažme příklad uvedený v sekci~\ref{sec:shortcomings}.
+Vytváření objednávky sdílí byznysová pravidla operace vytváření faktury. Byznysové operace se mohou odkazovat
+na své byznysové kontexty, které mají být při jejich vykonávání použity. Pokud by kontext vytváření objednávky
+dědil od kontextu vytváření faktury, mohl by sdílet jeho pravidla, včeatně validace fakturační adresy. Pokud by bylo
+potřeba upravit, přidat či sdílet další pravidla, nebylo by nutné zasahovat do kódu služeb. Příklad provázání
+byznysové operace a byznysového kontextu v jazyce Java je znázorněn ve zdrojovém kódu~\ref{lst:business-operation-context}.
+Implementace byznysové operace pomocí anotace \code{$@$BusinessContext} definuje, který byznysový kontext má být
+při jejím vykonávání využit. Kontext je definován separátně pomocí \gls{DSL} a lze ho měnit bez zásahu do implementace
+operace.
 
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/context-extension.pdf}
-    \caption{Dědičnost kontextů ve vztahu k join-pointům a pointcuts}
-    \label{fig:context-extension}
-\end{figure}
+V join-pointu~\ref{itm:initialization} načte služba všechna byznysová pravidla, která
+bude potřebovat ke své činnosti. V případě kompozitní služby je nutno načíst i sdílená pravidla
+definovaná v jiných službách. Kompozitní služba tedy musí zjistit, která pravidla je potřeba získat,
+a následně si je vyžádat od ostatních služeb. Pointcut byznysových pravidel v tomto join-pointu vychází
+z dědičnosti byznysových kontextů, která určuje, která pravidla budou mezi službami přenesena.
+V příkladu ze sekce~\ref{sec:shortcomings} je pointcut pravidla validujícího fakturační adresu
+určen dědičností kontextu vytváření objednávky od kontextu vytváření faktury.
+
 
 \subsection{Advices}
 
@@ -94,37 +116,48 @@ post-conditions na návratovou hodnotu operace.
 
 \subsection{Weaving}
 
-Weaving v případě join-pointu~\ref{itm:initialization} bude provádět komponenta frameworku, která
-analyzuje lokálně dostupná pravidla služby, vyhodnotí, která pravidla je potřeba stáhnout,
-a vyžádá tato pravidla od příslušných služeb.
-V případě join-pointů~\ref{itm:before}~a~\ref{itm:after} je k weavingu potřeba využít speciální aspect
-weaver. Ten zachytí volání byznysové operace a získá informace o aktuálním stavu aplikačního kontextu.
-Následně zjistí, který byznysový kontext má být aplikován, shromaždí všechny preconditions
-a každou z nich vyhodnotí. Pokud některá precondition není splněna, byznysová operace je zastavena
-a je vyhozena výjimka, kterou služba zpracuje. V opačném případě je kontrola vrácena zpět
-službě, která vykoná byznysovou operaci. Po dokončení operace aspect weaver zachytí výstup byznysové
-operace a aplikuje post-conditions daného byznysového kontextu. Proces weavingu je zachycen na
-obrázku~\ref{fig:business-rules-weaver}.
-
 \begin{figure}
     \centering
-    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/business-rules-weaver.pdf}
+    \includegraphics[keepaspectratio=true, width=0.9\linewidth]{figures/business-rules-weaver.pdf}
     \caption{Proces weavingu byznysov\'ych pravidel}
     \label{fig:business-rules-weaver}
 \end{figure}
 
-\section{Dědičnost byznysových kontextů}\label{sec:context-inheritance}
+Proces weavingu je zachycen na obrázku~\ref{fig:business-rules-weaver}. Weaving v případě
+join-pointu~\ref{itm:initialization} bude provádět komponenta frameworku, která
+analyzuje lokálně dostupná pravidla služby, vyhodnotí, která pravidla je potřeba stáhnout,
+a vyžádá tato pravidla od příslušných služeb. V případě join-pointů~\ref{itm:before}~a~\ref{itm:after}
+je k weavingu potřeba využít speciální aspect weaver. Ten zachytí volání byznysové operace a získá
+informace o aktuálním stavu aplikačního kontextu. Následně zjistí, který byznysový kontext má být aplikován,
+shromaždí všechny preconditions a každou z nich vyhodnotí. Pokud některá precondition není splněna, byznysová
+operace je zastavena a je vyhozena výjimka, kterou služba zpracuje. V opačném případě je kontrola vrácena zpět
+službě, která vykoná byznysovou operaci. Po dokončení operace aspect weaver zachytí výstup byznysové
+operace a aplikuje post-conditions daného byznysového kontextu.
+
+\section{Popis byznysových kontextů}
+
+Př\'{\i}stup \gls{ADDA} doporučuje popsat byznysová pravidla pomoc\'{\i}
+vlastn\'{\i}ho, na m\'{\i}ru šitého, doménově specifického jazyka~\cite{cemus2015automated}.
+Pro účely frameworku bude popsán pomocí \gls{DSL} celý byznysový kontext.
+Jak bylo popsáno v sekci~\ref{sec:business-rule-dsl}, vlastnosti nástrojů Drools a JetBrains MPS
+nejsou pro použití v této práci optimální. Pro účely frameworku budou specifikovány vlastnosti,
+kterými by \gls{DSL} mělo disponovat, a jeho konkrétní podoba bude přenechána na implementaci
+frameworku.
+
+\subsection{Dědičnost byznysových kontextů}\label{sec:context-inheritance}
 
 V předchozím textu byl představen koncept dědičnosti byznysových kontextů.
-Každý kontext díky němu může rozšiřovat libovolné množství jiných kontextů, a sdílet jejich
-byznysová pravidla. Byznysové operace pak mohou samy určit, který byznysový kontext se k ním váže.
-Tento koncept však přináší několik problémů, které jsou rozebrány v následujících odstavcích.
+Každý kontext díky němu může dědit od libovolného množství jiných kontextů,
+a sdílet tak jejich byznysová pravidla. Byznysové operace pak mohou samy určit,
+který byznysový kontext se k ním váže. \gls{DSL} pro popis pravidel musí umožňovat
+dědičnost zachytit. Tento koncept však přináší několik problémů, které jsou rozebrány
+v následujících odstavcích.
 
 Může nastat situace, kdy je potřeba sdílet pouze některá byznysová pravidla
 daného kontextu. Při mapování kontextů jedna ku jedné s operacemi by to ale
 nebylo možné. Řešením je využití tzv. \textit{abstraktních kontextů},
-které přímo nevyužívá žádná byznysová operace.
-Příklad znázorněný na obrázku~\ref{fig:abstract-context} popisuje situaci, kdy je nežádoucí,
+které přímo nevyužívá žádná byznysová operace. Příklad znázorněný na
+obrázku~\ref{fig:abstract-context} popisuje situaci, kdy je nežádoucí,
 aby kontext \code{user.register} zdědil pravidlo vyžadující přihlášení uživatele.
 
 \begin{figure}
@@ -142,9 +175,10 @@ Vícenásobná dědičnosti může přinést problém, kdy jeden kontext zdědí
 různých zdrojů, tzv. \textit{diamond problem}~\cite{boyen1994generalized}. Tomu lze předejít tak, že
 každé pravidlo bude mít unikátní identifikátor v rámci celého systému a při dědění budou zohledněna
 pouze unikátní pravidla. Zajištění unikátního identifikátoru lze zajistit díky nástroji pro centrální
-administraci byznysových pravidel.
+administraci byznysových pravidel, který má přehled o všech pravidlech. Díky tomu může administrátora
+upozornit na případnou duplikaci.
 
-\section{Logické výrazy byznysových pravidel}\label{sec:expressions-design}
+\subsection{Logické výrazy byznysových pravidel}\label{sec:expressions-design}
 
 Sekce~\ref{sec:business-rules} uvádí, že pravidla obsahují logické podmínky. V případě preconditions je to
 ověření podmínky, která musí být platná před spuštěním byznysové operace v~\ref{itm:before}. V případě
@@ -154,7 +188,7 @@ Nicméně návrh frameworku bude předpokládat, že po načtení z \gls{DSL} bu
 jako strom samostatných objektů podle návrhové vzoru Composite~\cite{fowler2002patterns}. Díky tomu
 bude framework moci využít k jejich vyhodnocování návrhový vzor Interpreter~\cite{fowler2002patterns}.
 
-\section{Filtrování návratových hodnot byznysové operace}
+\subsection{Filtrování návratových hodnot byznysové operace}
 
 Při aplikování post-conditions je filtrována návratová hodnota byznysové operace. Tou může být proměnná
 obsahující číslo, text, objekt, či jejich kolekce. Filtrování jednoduchých hodnot nemá pro byznysová pravidla reálný přínos.
@@ -169,6 +203,19 @@ například filtrování e-mailových adres v kolekci více uživatelů. Identif
     \item \code{FILTER\_LIST\_OF\_OBJECTS\_FIELDS} filtruje atributy objektů v kolekci, která je výstupem operace.
 \end{itemize}
 
+\subsection{Shrnutí}
+
+Na základě textu této kapitoly lze vyvodit specifikaci, kterou musí implementace \gls{DSL} pro zápis
+byznysových kontextů splňovat. Požadované vlastnosti jsou:
+
+\begin{itemize}
+    \item Označení byznysových kontextů unikátními identifikátory, které se skládají z prefixu a jména
+    \item Podpora dědičnosti byznysových kontextů včetně abstraktních konceptů
+    \item Zápis preconditions a jejich označení unikátním identifikátorem
+    \item Zápis post-conditions, jejich označení unikátním identifikátorem a zápis jejich typu
+    \item Zápis logických výrazů byznysových pravidel a možnost jejich transformace do návrhového vzoru Composite
+\end{itemize}
+
 \section{Metamodel byznysového kontextu}\label{sec:metamodel}
 
 \begin{figure}
@@ -178,42 +225,18 @@ například filtrování e-mailových adres v kolekci více uživatelů. Identif
     \label{fig:business-context-metamodel}
 \end{figure}
 
-Z předchozího textu vyplývá podoba metamodelu byznysových pravidel, resp. byznysových kontextů.
-Kromě samotných logických výrazů musí pravidlo nést informace o tom, zda
-se jedná o precondition nebo post-condition, a také jeho identifikátor.
+Z předchozího textu vyplývá podoba metamodelu byznysových kontextů, pomocí které
+budou reprezentovány v paměti počítače. Kromě samotných logických výrazů musí pravidlo nést
+informace o tom, zda se jedná o precondition nebo post-condition, a také jeho identifikátor.
 Post-condition navíc potřebuje uložit informaci o jejím typu a názvu. Pravidla jsou uskupována
 do byznysových kontextů, z nichž každý má svůj unikátní identifikátor skládající se z prefixu
-a samotného jména a seznam rozšířených kontextů. Diagram tříd navrženého kontextu je znázorněn
-na obrázku~\ref{fig:business-context-metamodel}.
-
-\section{Popis byznysových kontextů}
-
-Př\'{\i}stup \gls{ADDA} doporučuje popsat byznysová pravidla pomoc\'{\i}
-vlastn\'{\i}ho, na m\'{\i}ru šitého, doménově specifického jazyka~\cite{cemus2015automated}.
-Pro účely frameworku bude popsán pomocí \gls{DSL} celý byznysový kontext.
-Jak bylo popsáno v sekci~\ref{sec:business-rule-dsl}, vlastnosti nástrojů Drools a JetBrains MPS
-nejsou optimální pro dosažení vytyčených cílů. Pro účely frameworku je tedy nutné specifikovat vlastnosti,
-které by \gls{DSL} mělo nést. Konkrétní podoba DSL bude přenechána na implementaci frameworku.
-
-Pro uložení kontextu z metamodelu do \gls{DSL}, aby ho mohl vývojář či administrátor
-systému upravovat, je vzhledem k reprezentaci logických výrazů vhodný návrhový vzor
-\textit{Visitor}~\cite{fowler2002patterns}. Ten umožní převádět libovolně složité logické
-výrazy pomocí metody \textit{double-dispatch}. Jeho volbou je zároveň zajištěna rozšiřitelnost
-frameworku pro libovolné \gls{DSL} -- bude stačit implementovat konkrétní
-visitor pro zvolený jazyk, aniž by bylo nutno zasahovat přímo do implementace frameworku.
-
-Princip použití vzoru Visitor je znázorněn na obrázku~\ref{fig:expression-visitor}.
-Rozhraní \code{Expression} je implementováno dvěma výrazy -- \code{VariableReferece}
-a \code{IsNotNull} -- které po zavolání metody \code{accept()} zavolají na visitorovi
-příslušnou metodu \code{visit()}. Visitor tak může oddělit logiku, která obstarává
-převod jednotlivých výrazů do \gls{DSL}.
-
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression-visitor.pdf}
-    \caption{Využití vzoru Visitor pro převod logických výrazů do doménově specifického jazyka}
-    \label{fig:expression-visitor}
-\end{figure}
+a samotného jména a seznam kontextů, od kterých dědí. Diagram tříd navrženého kontextu je znázorněn
+na obrázku~\ref{fig:business-context-metamodel}. Abstraktní třída \code{BusinessRule} reprezentuje
+byznysové pravidlo a je rozšířena třidami \code{Precondition} a \code{PostCondition}. Typ
+postcondition je reprezentován enumerací \code{PostConditionType}. Logické podmínky
+byznysových pravidel budou rozšiřovat rozhraní \code{Expression}, které podporuje návrhový vzor
+Interpreter. Byznysová pravidla jsou uskupena do byznysových kontextů, které jsou reprezentovány
+třídou \code{BusinessContext}. Identifikátory kontextů jsou reprezentovány třídou \code{BusinessContextIdentifier}.
 
 \section{Organizace byznysových kontextů}
 
@@ -227,9 +250,20 @@ označeny prefixem \code{billing}.
 
 Cílem frameworku je popsat byznysové kontexty v jednom místě, ze kterého budou
 automaticky distribuovány. Pro tento účel bude každá služba disponovat registrem byznysových pravidel
-(\code{BusinessContextRegistry}), který bude mít za úkol kontexty načítat z \gls{DSL} do metamodelu,
+(třída \code{BusinessContextRegistry}), který bude mít za úkol kontexty načítat z \gls{DSL} do metamodelu,
 stahovat lokálně nedostupné kontexty z ostatních služeb a načtené kontexty uchovávat pro použití při weavingu.
 Při inicializaci kontextů spolu budou registry jednotlivých služeb komunikovat a vyměňovat si sdílené kontexty.
+
+Postavení byznysových registrů vůči jednotlivým službám je ilustrováno na obrázku~\ref{fig:layers-vs-framework}.
+Registry kompozitních služeb budou využívat rozhraní registrů ostatních služeb, jejichž byznysová
+pravidla sdílejí.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/layers-vs-framework.pdf}
+    \caption{Postavení registrů byznysových kontextů vůči jednotlivým službám}
+    \label{fig:layers-vs-framework}
+\end{figure}
 
 \subsection{Uložení kontextů}
 
@@ -238,6 +272,36 @@ databázi. Navrhovaný framework by na způsobu uložení neměl být závislý 
 pro načtení či případně uložení kontextu se postará konkrétní implementace. Pro tento účel
 je tedy vhodné, aby registr pracoval s nekonkrétními rozhraními, na jejichž implementaci
 nebude nijak záviset.
+
+\section{Distribuce sdílených byznysových kontextů mezi službami}
+
+Navržený framework má za úkol automaticky integrovat byznysová pravidla, potažmo byznysové kontexty,
+do jednotlivých služeb systému. V případě, že je byznysový kontext sdílen mezi více službami, je
+nutné ho distribuovat ze služby, ve které je definován. K tomu framework využije síťovou komunikaci.
+
+\subsection{Formát pro síťový přenos}
+
+Pro přenos kontextů po síti lze využít přímo \gls{DSL}, ve kterém jsou pravidla uložena. Takové
+řešení by ale mohlo být neefektivní kvůli velikosti přenášených dat. Implementace proto může zvolit
+specializovaný síťový formát. Framework umožňuje využít oba tyto způsoby.
+
+\subsection{Architektura síťové komunikace}
+
+Architektura pro síťový přenos musí stavět na modelu klient-server. Framework předpokládá, že kompozitní
+služba bude zastávat roli klienta, a služba, která sdílí svá pravidla, bude zastávat roli serveru.
+Konkrétní podoba je stejně jako přenosový formát přenechána na implementaci. Lze využít přístup \gls{RPC},
+který umožní volání procedur vracejících požadované byznysové kontexty. Stejně tak může implementace
+využít architekturu \gls{REST}, kdy budou byznysové kontexty vnímány jako jednotlivé resources a budou
+dostupné na unikátní \gls{URI}.
+
+\subsection{Service discovery}
+
+Aby framework mohl distribuovat byznysové kontexty mezi službami, musí služba vyžadující kontext
+znát adresu služby, od které ho vyžaduje. Adresy služeb mohou podléhat různým konfiguracím,
+které se mohou lišit systém od systému. Framework proto nesmí být závislý na způsobu,
+jakým se adresování služeb provádí. Nejlepším řešením je přenechat na uživateli frameworku,
+aby sám získal a předal adresy služeb ve chvíli, kdy je framework potřebuje -- tedy
+ve chvíli, kdy je potřeba načíst lokálně nedostupné kontexty.
 
 \section{Inicializace byznysových kontextů}
 
@@ -248,33 +312,36 @@ nebude nijak záviset.
     \label{fig:business-context-loading}
 \end{figure}
 
-Při inicializiaci byznysových kontextů jsou nejprve načteny lokálně dostupné kontexty popsané pomocí \gls{DSL}.
-Po převedení kontextů z \gls{DSL} do metamodelu je shromážděn seznam rozšířených kontextů a z nich jsou vybrány ty,
-které nejsou lokálně dostupné. Následně jsou tyto vzdálené kontexty vyžádány od příslušných služeb
-a po obdržení jsou převedeny ze síťového formátu do metamodelu. Nakonec jsou sdílená pravidla rozšířených kontextů začleněna
+Jak bylo uvedeno v předchozím textu, v join-pointu~\ref{itm:initialization} je potřeba inicializovat byznysové
+kontexty, které bude služba ke své funkci potřebovat.
+Na obrázku~\ref{fig:business-context-loading} je znázorněn navržený proces inicializace.
+Na obrázku~\ref{fig:business-context-loading} je znázorněn navržený proces inicializace.
+Při něm jsou nejprve načteny lokálně dostupné kontexty popsané pomocí \gls{DSL}.
+Po převedení kontextů z \gls{DSL} do metamodelu je shromážděn seznam kontextů, od kterých ostatní kontexty dědí,
+a z nich jsou vybrány ty, které nejsou lokálně dostupné. Následně jsou tyto vzdálené kontexty vyžádány od příslušných služeb
+a po obdržení jsou převedeny ze síťového formátu do metamodelu. Nakonec jsou sdílená pravidla kontextů začleněna
 do kontextů, které od nich dědí. Celou inicializaci bude zastřešovat komponenta \code{BusinessContextRegistry}, která
 má znalost o všech subsystémech, které jsou k tomuto procesu potřeba. Tato komponenta implementuje
-návrhový vzor \textit{Facade}~\cite{fowler2002patterns}. Na obrázku~\ref{fig:business-context-loading} je znázorněn
-navržený proces inicializace.
+návrhový vzor \textit{Facade}~\cite{fowler2002patterns}.
 
 \section{Centráln\'{\i} správa byznysových kontextů}\label{sec:central-administration-design}
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/business-context-management.pdf}
+    \caption{Proces centráln\'{\i} správy byznysov\'ych kontextů}
+    \label{fig:business-context-management}
+\end{figure}
 
 Jak bylo popsáno v předchozím textu, byznysové kontexty budou podle prefixu přideleny službám,
 které budou spravovat jejich aktuální a jediný stav a poskytovat je jiným službám. Aby bylo
 možno pravidla centrálně spravovat, musí framework poskytovat proces, kterým je bude moci ze
 služeb získat a při úpravě je do nich znovu uložit.
 
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=\linewidth]{figures/business-context-management.pdf}
-    \caption{Proces centráln\'{\i} správy byznysov\'ych kontextů}
-    \label{fig:business-context-management}
-\end{figure}
-
-\subsection{Uložen\'{\i} rozšířeného pravidla}\label{sec:saving-context}
+\subsection{Uložen\'{\i} sdíleného kontextu}\label{sec:saving-context}
 
 Při ukládání byznysového kontextu je potřeba jeho změnu propagovat také do všech kontextů, které od něj dědí.
-Při změně rozšířeného kontextu budou všechny služby, které ho využívají, informovány pomocí nástroje pro
+Při změně sdíleného kontextu budou všechny služby, které ho využívají, informovány pomocí nástroje pro
 centrální správu byznysových pravidel. Ten má informaci o všech závislostech v systému a zároveň zná i adresu všech
 služeb. Nevýhodou tohoto přístupu je zvýšená komunikační zátěž kvůli většímu objemu přenesených informací, stejný kontext
 je totiž potřeba rozeslat mezi více služeb. Při implementaci je nutno zvážit, zda je tato zátěž vůči absolutnímu objemu
@@ -296,7 +363,7 @@ rozeslání požadavku na aktualizaci závislých kontextů, která není u nov�
 
 V této sekci je popsána obecná architektura navrženého frameworku v rámci služby využívající
 klasickou třívrstvou architekturu~\cite{fowler2002patterns}, která se skládá z prezentační,
-aplikační a datové vrstvy. Každá z těchto vrstev může framework využívat
+aplikační a datové vrstvy. Každá z těchto vrstev může framework využívat pro weaving byznysových pravidel
 -- prezentační vrstva při validování vstupních polí formuláře, aplikační vrstva při
 aplikaci byznysových pravidel v byznysových operacích a datová vrstva při aplikaci post-conditions pro
 filtrování dat při jejich získávání z databáze.
@@ -308,15 +375,16 @@ filtrování dat při jejich získávání z databáze.
     \label{fig:business-context-registry}
 \end{figure}
 
+Architektura frameworku je zachycena na obrázku~\ref{fig:business-context-registry}.
 Základem frameworku je komponenta \code{BusinessContextRegistry}, tedy registr
 byznysových kontextů, který je zodpovědný za inicializaci a uchovávání byznysových kontextů.
 Načítání kontextů lze rozdělit na lokální a vzdálené. Při načítání lokálně dostupných kontextů
 je potřeba získat \gls{DSL} kontextu ze souboru či databáze a převést ho do metamodelu.
 K tomu bude využito rozhraní \code{LocalBusinessContextLoader}. Implementace rozhraní může být libovolná
 a záviset na použitém \gls{DSL} či místu uložení pravidel. Naopak při načítání vzdálených
-kontextů je potřeba vyžádat kontexty od vzdálené služby. O to se postará třída \code{RemoteBusinessContextLoader},
-která požadované kontexty zorganizuje podle prefixu a poté pomocí rozhraní \code{RemoteLoaderClient} načte
-pravidla od jednotlivých služeb. Implementace rozhraní \code{RemoteLoaderClient} bude záviset na použité
+kontextů je potřeba vyžádat kontexty od vzdálené služby. Třída \code{RemoteBusinessContextLoader} požadované
+kontexty zorganizuje podle prefixu a poté pomocí rozhraní \code{RemoteLoaderClient} načte
+pravidla od jednotlivých služeb. Implementace tohoto rozhraní bude záviset na použité
 technologii a zajistí síťovou komunikaci a převod do a z formátu pro síťový přenos.
 Aby mohl framework poskytovat lokální byznysové kontexty dané služby ke stažení, musí zastřešit
 i serverovou funkcionalitu. K tomu slouží rozhraní \code{BusinessContextServer}. To bude využívat
@@ -325,17 +393,6 @@ Implementace serveru bude opět závislá na konkrétní technologii.
 Nakonec bude framework obsahovat sadu aspect weaverů, které umožní weaving byznysových pravidel do
 jednotlivých vrstev systému. Pro účely této práce bude framework poskytovat weavery pro využití v
 aplikační vrstvě pro weaving preconditions a post-conditions do byznysových operací.
-Architektura je zachycena na obrázku~\ref{fig:business-context-registry}.
-
-\subsection{Service discovery}
-
-% TODO: tohle možné nezmiňovat v samostatné kapitole, ale jen to zmínit při procesu načítání
-Aby framework mohl distribuovat byznysové kontexty mezi službami, musí služba vyžadující kontext
-znát adresu služby, od které ho vyžaduje. Adresy služeb mohou podléhat různým konfiguracím,
-které se mohou lišit systém od systému. Framework proto nesmí být závislý na způsobu,
-jakým se adresování služeb provádí. Nejlepším řešením je přenechat na uživateli frameworku, aby sám
-získal a předal adresy služeb ve chvíli, kdy je framework potřebuje -- tedy
-ve chvíli, kdy je potřeba načíst lokálně nedostupné kontexty.
 
 \section{Shrnutí}
 

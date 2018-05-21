@@ -48,7 +48,8 @@ kennard2009separation}, jak bude naznačeno v sekci~\ref{sec:aop}.
 
 Generativní programování (\gls{GP}) je programovací paradigma, které je podobně jako
 tato práce motivováno snížením nákladů na vývoj software díky zvýšení znovupoužitelnosti
-jeho komponent. Narozdíl od \gls{MDD} se navíc přímo věnuje oddělení zodpovědností~\cite{cemus2017separation, czarnecki2000generative}.
+jeho komponent. Narozdíl od \gls{MDD} se navíc přímo věnuje oddělení
+zodpovědností~\cite{cemus2017separation, czarnecki2000generative}.
 
 \gls{GP} se zaměřuje na maximalizaci automatizace vývoje systému
 skrz generování a syntézu vysoce přizpůsobitelných komponent. Vývojář
@@ -235,25 +236,26 @@ potřebného pro popis adaptibilního uživatelského rozhraní.
 Dokumentace je také částí informačního systému, do které se promítají
 jeho aspekty~\cite{cemus2017automated}. Autoři \gls{ADDA}
 využívají data mining pro získání metainformací o byznysových operacích,
-datovém modelu systému a o byznysových pravidlech. Díky tomu mohou
-automaticky vygenerovat seznam byznysových operací, potažmo implementovaných
+datovém modelu systému a o byznysových pravidlech. To je umožněno
+díky soustředění těchto aspektů v \textit{single-focal point} a použití \gls{DSL} pro jejich popis.
+Díky tomu lze automaticky vygenerovat seznam byznysových operací, potažmo implementovaných
 use-cases, strukturu doménového modelu a formální popis byznysových pravidel,
-který může sloužit pro verifikaci jejich správnosti.
+který slouží pro verifikaci jejich správnosti.
 
 \subsection{Výhody a nevýhody}
 
 \gls{ADDA} poskytuje vývojářům způsob jakým výrazně snížit náklady na vývoj a údržbu
-systému díky deduplikaci kódu, která je dosažena extrakcí aspektů
-do \textit{single focal point} a jejich automatickou distribucí do
-příslušných komponent systému. Tento přístup však nese vysokou počáteční investici v
-podobě vývoje specializovaných \gls{DSL} a dynamických aspect weaverů.
-Ačkoliv autoři tohoto přístupu implementovali prototypy knihoven umožňující
-požadovanou funkcionalitu, pro nasazení do reálného systému
-nejsou tyto knihovny připraveny.
+systému díky snížení duplikace byznysové logiky, které je dosaženo extrakcí aspektů
+do \textit{single focal point} a jejich automatickou distribucí do příslušných komponent
+systému. Tento přístup však nese vysokou počáteční investici v podobě vývoje specializovaných
+\gls{DSL} a dynamických aspect weaverů. Ačkoliv autoři tohoto přístupu implementovali prototypy
+knihoven poskytující zmiňovanou funkcionalitu, pro nasazení do reálného systému nejsou tyto
+knihovny připraveny. Pro popis byznysových pravidel využívá \gls{ADDA} nástroj \textit{Drools},
+který je popsán v následující sekci.
 
-I přes to přístup \gls{ADDA} splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements},
-zejména využití speciálních \gls{DSL} pro popis aspektů a jejich automatickou distribuci za běhu systému.
-Pro popis byznysových pravidel využívá \gls{ADDA} nástroj \textit{Drools}, který je popsán v následující sekci.
+Využití přístupu \gls{ADDA} však umožňuje splnění požadavků této práce, které jsou identifikovány
+v sekci~\ref{sec:implementation-requirements}.
+
 
 \section{Stávaj\'{\i}c\'{\i} řešen\'{\i} správy a reprezentace business pravidel}\label{sec:business-rule-dsl}
 
@@ -344,13 +346,6 @@ Klient zašle požadavek serveru a ten mu vrátí odpověď~\cite{berson1992clie
 Tento model může být použit obecně i v rámci jednoho počítače,
 nejčastěji je však využíván v síťové komunikaci mezi více počítači.
 
-%\begin{figure}[t]
-%    \centering
-%    \includegraphics[keepaspectratio=true, width=0.6\linewidth]{figures/client-server.pdf}
-%    \caption{Architektura klient-server}
-%    \label{fig:client-server}
-%\end{figure}
-
 Tento přístup má několik zásadních výhod. Díky svojí obecnosti je nezávislý
 na jakékoliv platformě. Zároveň tato architektura přesouvá byznysovou logiku a
 ukládání dat na server a umožňuje snadnější kontrolu nad systémem a jeho centrální
@@ -364,26 +359,15 @@ jehož výpadek ochromí funkci celého systému (v angličtině
 Pokud na serveru nastane chyba či výpadek, žádný z klientů není schopen využívat
 jeho služeb.
 
-%\subsection{Architektura Peer-to-peer}\label{sec:p2p}
-%
-%Opakem modelu klient-server je síťová architektura zvaná \textit{Peer-to-peer (\gls{P2P})}.
-%Jednotlivé počítače v síti spolu komunikují přímo, bez centrální autority.
-%Všechny počítače v síti jsou si vzájemně rovnocenné~\cite{fox2001peer}.
-%%Na obrázku~\ref{fig:peer-to-peer} je tato architektura znázorněna.
-%Hlavním cílem \gls{P2P} sítí je distribuce dat nebo výpočetních operací.
+\subsection{Remote procedure call}\label{sec:rpc}
 
-%\begin{figure}[t]
-%    \centering
-%    \includegraphics[keepaspectratio=true, width=0.4\linewidth]{figures/peer-to-peer.pdf}
-%    \caption{Architektura peer-to-peer}
-%    \label{fig:peer-to-peer}
-%\end{figure}
-
-%Vysoká datová propustnost a robustnost \gls{P2P} by mohla být vhodná pro
-%sdílení byznysových pravidel. Absence centrální správy by však mohla způsobit
-%nekonzistenci při úpravě či přidání byznysového pravidla. Změna pravidla by se
-%musela šířit postupně napříč systémem, přičemž některé uzly by stále využívaly starou
-%verzi pravidla.
+Architektura \gls{RPC} staví na modelu klient-server a umožňuje jednomu procesu (klientovi)
+zavolat proceduru na druhém, vzdáleném procesu (serveru).
+\gls{RPC} zapouzdřuje síťovou komunikaci a v programu samotném
+je vzdálená procedura volána stejným způsobem jako lokální procedury~\cite{nelson1981remote}. Základním
+prvkem architektury na klientovi i na serveru je tzv. \textit{stub}. Tato komponenta
+umožňuje volat, resp. obsloužit, vzdálenou proceduru lokálně a zapozdřuje veškerou
+síťovou komunikaci a serializaci či deserializaci argumentů, resp. návratových hodnot.
 
 \subsection{Representational state transfer}\label{sec:rest}
 
@@ -403,16 +387,6 @@ transakce. To může být problém v \gls{SOA} zejména pokud je vyžadována ko
 najednou při vykonávání byznysové operace. Existují však koncepty, které využívají model
 Try-Cancel/Confirm~\cite{pardon2011towards}, umožňující zajistit atomické transakce nad
 \gls{REST} architekturou.
-
-\subsection{Remote procedure call}\label{sec:rpc}
-
-Architektura \gls{RPC} staví na modelu klient-server a umožňuje jednomu procesu (klientovi)
-zavolat proceduru na druhém, vzdáleném procesu (serveru).
-\gls{RPC} zapouzdřuje síťovou komunikaci a v programu samotném
-je vzdálená procedura volána stejným způsobem jako lokální procedury~\cite{nelson1981remote}. Základním
-prvkem architektury na klientovi i na serveru je tzv. \textit{stub}. Tato komponenta
-umožňuje volat, resp. obsloužit, vzdálenou proceduru lokálně a zapozdřuje veškerou
-síťovou komunikaci a serializaci či deserializaci argumentů, resp. návratových hodnot.
 
 \section{Shrnut\'{\i}}
 
