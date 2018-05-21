@@ -140,9 +140,8 @@ je \textit{Object Request Broker} (\gls{ORB}), kter\'y simuluje vzdálené objek
 na kter\'ych může klient volat jejich metody. Při zavolán\'{\i} metody
 na objektu, kter\'y se fyzicky nacház\'{\i} na vzdáleném stroji,
 zprostředkovává \gls{ORB} veškerou komunikaci a poskytuje kompletn\'{\i} rozhran\'{\i}
-volaného objektu. Komunikace se vzdálen\'ym objektem s sebou však nese celou řadu problémů,
-např\'{\i}klad vyšš\'{\i} latenci při komunikaci nebo v\'yjimečné stavy, které je potřeba
-ošetřit, či obtížnou optimalizaci kódu využívající \gls{ORB}.
+volaného objektu. Stejný způsob komunikace s lokálním jako se vzdáleným objektem je však
+problematický kvůli nižší robusnosti a vyšší latenci síťového přenosu.
 
 \subsection{Web Services}
 
@@ -170,13 +169,11 @@ navzájem různé komunikačn\'{\i} protokoly a formáty. Tento problém řeší
 Bus} (\gls{ESB})~\cite{chappell2004enterprise}, znázorněn\'y na obrázku~\ref{fig:enterprise-service-bus},
 kter\'y má za úkol propojit heterogenn\'{\i} služby využívající různé technologie a sestavit mezi nimi
 komunikačn\'{\i} kanály. T\'{\i}m na sebe \gls{ESB} přeb\'{\i}rá zodpovědnost za překlad jednotliv\'ych zpráv
-a centralizuje veškerou komunikaci v systému. Kvůli tomu musí poskytovat routing síťových zpráv a překlad mezi
-jednotlivými formáty. \gls{ESB} navíc umožňuje zabezpečení komunikace a může sloužit i pro orchestraci služeb,
-jak je popsáno v sekci~\ref{sec:orchestration-vs-choreography}.
+a centralizuje veškerou komunikaci v systému.
 
 \begin{figure}
     \centering
-    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/enterprise-service-bus.pdf}
+    \includegraphics[keepaspectratio=true, width=0.7\linewidth]{figures/enterprise-service-bus.pdf}
     \caption{Komunikace služeb pomocí Enterprise Service Bus}
     \label{fig:enterprise-service-bus}
 \end{figure}
