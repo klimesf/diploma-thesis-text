@@ -5,7 +5,7 @@
 
 \chapter{Testování a validace frameworku}\label{ch:testovani}
 
-Tato kapitola popisuje, jak\'y způsobem bylo provedeno
+Tato kapitola popisuje, jak\'ym způsobem bylo provedeno
 testování naprogramovan\'ych knihoven pomoc\'{\i}
 jednotkov\'ych a integračn\'{\i}ch testů.
 Kapitola se dále věnuje popisu ukázkového systému, na kterém
@@ -20,11 +20,11 @@ a vývoje, které pomáhají odhalit chyby a zvýšit kvalitu výsledného softw
 
 \subsection{Jednotkové testy}
 
-Jednotkové testy jsou nejnížší úrovní testování, která má za úkol ověřit správnou
+Jednotkové testy jsou nejnižší úrovní testování, která má za úkol ověřit správnou
 funkčnost dílčích částí systémů -- tzv. \textit{jednotek}. Jejich důležitou vlastností je
 izolace testované jednotky od ostatních částí systémů. Jednotkové testy umožňují
 odhalit chyby v dřívějších fázích vývoje, snáze refaktorovat kód a usnadňují
-integraci komponent.
+integraci komponent~\cite{luo2001software}.
 
 \subsection{Integrační testy}
 
@@ -35,11 +35,17 @@ lze inkrementálně postupovat od nejmenších jednotek směrem vzhůru, tzv. \t
 celku k jednotkám, tzv. \textit{top-down}~\cite{graham2008foundations}. Integrovat lze i celý systém najednou,
 tato metoda se nazývá \textit{big-bang}. V tomto případě je ale těžké detekovat původ nalezených chyb.
 
+\subsection{Systémové testy}
+
+Systémové testy jsou poslední fází testování software a mají za úkol ověřit, že výsledný
+software splňuje specifikaci a funguje jako celek. Tato metoda se věnuje jak funkčním,
+tak nefunkčním vlastnostem~\cite{graham2008foundations}.
+
 \subsection{Průběžná integrace}
 
-Průběžné integrace (z anglického \textit{continous integration} -- \gls{CI})~\cite{fowler2006continuous}
+Průběžné integrace (z anglického \textit{continuous integration} -- \gls{CI})~\cite{fowler2006continuous}
 slouží k urychlení nalezení defektů software ve fázi vývoje. Nové verze zdrojového kódu jsou do projektu pravidelně
-integrovány v krátkých časových intevalech a jejich funkčnost je ověřována automatickými testy. K tomu je
+integrovány v krátkých časových intervalech a jejich funkčnost je ověřována automatickými testy. K tomu je
 zpravidla využíván tzv. \textit{integrační server}. Díky \gls{CI} je sn\'{\i}žena pravděpodobnost regrese
 a dlouhodobě zv\'yšena celková kvalita kódu.
 
@@ -47,8 +53,9 @@ a dlouhodobě zv\'yšena celková kvalita kódu.
 
 Prototypy knihoven, jejichž implementace je popsána v kapitole~\ref{ch:implementace},
 byly důkladně otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch
-testů~\cite{luo2001software} a t\'{\i}m byla ověřena jejich správná funkcionalita. Způsob
-testován\'{\i} knihoven je popsán zvlášť pro každou platformu.
+testů a t\'{\i}m byla ověřena jejich správná funkcionalita. Způsob
+testován\'{\i} knihoven je popsán zvlášť pro každou platformu. Jako systémový test pak
+sloužil ukázkový příklad, který je popsaný v následující sekci~\ref{sec:casestudy}.
 
 V rámci \gls{CI} byl kód knihoven po celou dobu v\'yvoje verzován systémem
 Git\footnote{\url{https://git-scm.com/}}, zas\'{\i}lán do centráln\'{\i}ho repozitáře a
@@ -140,7 +147,7 @@ Ve zdrojovém kódu~\ref{lst:python-testing} je př\'{\i}klad jednotkového test
 \code{Identifier} se třemi metodami ověřuj\'{\i}c\'{\i}mi testovací scénář \textit{TC01}.
 Funkce \code{test\_split()} ověřuje, zda konstruktor správně přij\'{\i}má dva argumenty,
 kde prvn\'{\i} z nich je prefix identifikátoru a druh\'y je jméno identifikátoru.
-Funkce \code{test\_single()} naopak ověřuje, zda kontruktor správně přij\'{\i}má jeden
+Funkce \code{test\_single()} naopak ověřuje, zda konstruktor správně přij\'{\i}má jeden
 argument a rozděl\'{\i} ho na prefix a jméno identifikátoru.
 Nakonec funkce \code{test\_str()} ověřuje správnou funkcionalitu převeden\'{\i}
 identifikátoru na textov\'y řetězec.
@@ -161,12 +168,11 @@ language=JavaScript,
 {code/test_example.js}
 
 Zdrojov\'y kód~\ref{lst:nodejs-testing} znázorňuje použit\'{\i} testovacích knihoven k implementaci testovacího
-scénáře \textit{TC15} ověřující funkcionalitu výrazu \code{IsNotNull}. Konkrétně je výraz nejprve zkonstruován s
+scénáře \textit{TC15} ověřující funkcionalitu výrazu \code{IsNotNull}. Konkrétně je výraz zkonstruován s
 konstantn\'{\i}m argumentem typu \code{boolean} s hodnotou \code{true} a je ověřeno, že v\'yraz se vyhodnot\'{\i}
-jako \code{true}. Následně je zkonstruován v\'yraz, kterému je předán argument \code{null} a je ověřeno,
-že v\'yraz se vyhodnot\'{\i} jako \code{false}.
+jako \code{true}.
 
-\section{Ukázkový příklad: e-commerce systém}
+\section{Ukázkový příklad: e-commerce systém}\label{sec:casestudy}
 
 Pro akceptační testování a validaci navrženého frameworku bylo nutné vyzkoušet
 jeho nasazen\'{\i} při v\'yvoji aplikace. Pro tento účel vznikl v rámci
@@ -254,14 +260,14 @@ vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je 
         \textbf{BR04} & UC04 & \makecell[l]{Zákazník mus\'{\i} řádně vyplnit doručovac\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
         \textbf{BR05} & UC04, UC13 & \makecell[l]{Zákazník mus\'{\i} řádně vyplnit fakturačn\'{\i} \\ adresu (č.p., ulice, město, PSČ, stát)} & pre \\ \hline
         \textbf{BR06} & UC01, UC04, UC11 & Uživatel mus\'{\i} m\'{\i}t vyplněnou emailovou adresu & pre \\ \hline
-        \textbf{BR07} & UC03 & Nákupní košík může obsahovat maximálně 10 položek & pre \\ \hline
+        \textbf{BR07} & UC03 & \makecell[l]{Nákupní košík může obsahovat maximálně \\ 10 položek} & pre \\ \hline
         \textbf{BR08} & UC04 & \makecell[l]{Položky objednávky mus\'{\i} m\'{\i}t počet kusů menš\'{\i}, \\ než je aktuáln\'{\i} stav skladov\'ych zásob produktu} & pre \\ \hline
         \textbf{BR09} & UC04 & \makecell[l]{Stát mus\'{\i} b\'yt v seznamu zem\'{\i}, \\ do kter\'ych firma doručuje} & pre \\ \hline
         \textbf{BR10} & UC04 & Zákazn\'{\i}k mus\'{\i} b\'yt přihlášen & pre \\ \hline
         \textbf{BR11} & UC05 až UC08 & \makecell[l]{Skladn\'{\i}k mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Skladn\'{\i}k"} & pre \\ \hline
         \textbf{BR12} & UC02 & \makecell[l]{Skladn\'{\i}k u produktu nesm\'{\i} vidět nákupn\'{\i} cenu, \\ pouze v\'yslednou cenu} & post \\ \hline
         \textbf{BR13} & UC05 & Produkt mus\'{\i} m\'{\i}t jméno s délkou >5 & pre \\ \hline
-        \textbf{BR14} & UC06 & Stav zásob produktů mus\'{\i} b\'yt č\'{\i}slo větš\'{\i} nebo rovno 0 & pre \\ \hline
+        \textbf{BR14} & UC06 & \makecell[l]{Stav zásob produktů mus\'{\i} b\'yt č\'{\i}slo větš\'{\i} nebo \\ rovno 0} & pre \\ \hline
         \textbf{BR15} & UC08 & \makecell[l]{Stav objednávky mus\'{\i} b\'yt pouze "přijato", \\ "expedováno" a "doručeno"} & pre \\ \hline
         \textbf{BR16} & UC09 až UC13 & \makecell[l]{Administrátor mus\'{\i} b\'yt do systému přihlášen \\ a m\'{\i}t roli "Administrátor"} & pre \\ \hline
         \textbf{BR17} & UC10 & \makecell[l]{V\'ysledná cena produktu mus\'{\i} b\'yt větš\'{\i} \\ než jeho nákupn\'{\i} cena} & pre \\ \hline
@@ -276,7 +282,7 @@ vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je 
 Dále jsou v tabulce~\ref{tbl:business-contexts} vypsány všechny byznysové kontexty v ukázkové aplikaci.
 Některé z nich jsou konkrétn\'{\i} a jsou namapovány na jeden nebo v\'{\i}ce \gls{UC},
 jiné jsou abstraktn\'{\i} a slouž\'{\i} ostatn\'{\i} kontexty je rozšiřuj\'{\i}.
-Prefixy byly vybrány na základě byznysové domény, ke které se kontext vzahuje, stajně jako
+Prefixy byly vybrány na základě byznysové domény, ke které se kontext vztahuje, stejně jako
 jsou podle domén děleny i jednotlivé služby systému.
 
 \begin{table}
@@ -321,10 +327,10 @@ Na obrázku~\ref{fig:example-system} jsou zobrazeny komponenty systému a jejich
 Pro ověřen\'{\i} schopnosti podporovat v\'{\i}ce platforem byly pro implementaci systému využity
 jazyky Java, Python a JavaScript v kombinaci s běhov\'ym prostřed\'{\i}m Node.js.
 Komunikace služeb prob\'{\i}há pomoc\'{\i} \gls{REST} \gls{API} využ\'{\i}vaj\'{\i}c\'{\i} formát \gls{JSON}.
-Specifikace jednotliv\'ych rozhran\'{\i} služeb nen\'{\i} pro tuto kapitolu podstatná a proto se
+Specifikace jednotliv\'ych rozhran\'{\i} služeb nen\'{\i} pro tuto kapitolu podstatná, a proto se
 j\'{\i} text dále nevěnuje. Pro demonstrativn\'{\i} účely byly s\'{\i}ťové adresy nastaveny př\'{\i}mo v kódu jednotliv\'ych
-služeb. Nicméně, navržen\'y framework nevynucuje tento př\'{\i}stup, a tud\'{\i}ž by komplexnější
-způsob \textit{service discovery} nebylo problém do systému integrovat.
+služeb. Nicméně, navržen\'y framework nevynucuje tento př\'{\i}stup, a tud\'{\i}ž by bylo možné komplexnější
+způsob \textit{service discovery} do systému integrovat.
 
 \begin{figure}
     \centering
@@ -429,7 +435,7 @@ language=Dockerfile,
 
 \paragraph{Spouštěn\'{\i} služeb}
 Pro samotné spuštěn\'{\i} byla využita funkce \textit{Compose}, která umožňuje
-definovat a spouštět v\'{\i}ce-kontejnerové aplikace. Ve zdrojovém kódu~\ref{lst:docker-compose}
+definovat a spouštět aplikace s více kontejnery. Ve zdrojovém kódu~\ref{lst:docker-compose}
 můžeme vidět zápis Order service. Pro jej\'{\i} image je použit \code{filipklimes-diploma/example-order-service}.
 V sekci \code{ports} deklarujeme, že služba má m\'{\i}t z vnějšku př\'{\i}stupn\'y port \code{5501}, na kterém poskytuje své
 \gls{REST} \gls{API}, a port \code{5551}, na kterém poskytuje své gRPC \gls{API} pro sd\'{\i}lené byznysov\'ych kontextů. Order service je závislá
@@ -440,7 +446,7 @@ aby Docker Compose mohl spustit služby ve správném pořad\'{\i}. Nakonec pomo
 pro konfiguračn\'{\i} soubory díky jeho snadné čitelnosti pro člověka a jednoduchému použ\'{\i}ván\'{\i}.
 
 \lstinputlisting[
-caption={Ukázka zápisu v\'{\i}ce-kontejnerové aplikace pro Docker Compose},
+caption={Ukázka zápisu aplikace s více kontejnery pro Docker Compose},
 label={lst:docker-compose},
 language=Yaml,
 %frame=single,
@@ -489,7 +495,7 @@ sn\'{\i}žen\'{\i} nároků na v\'yvoj a sn\'{\i}žené riziko lidské chyby.
 %\goal{Nev\'yhody použit\'{\i}}
 Jako nev\'yhodu použit\'{\i} frameworku lze považovat počátečn\'{\i} investici v podobě integrace knihoven do služeb systému.
 Zvážit mus\'{\i}me i cenu popisu byznysov\'ych pravidel v \gls{DSL}, kter\'y se musej\'{\i} v\'yvojáři systému naučit nav\'{\i}c
-oproti programovac\'{\i}mu jazyku, ve kterém popisuj\'{\i} služby. Tento jazyk však mohou používat i doménoví experti a tak
+oproti programovac\'{\i}mu jazyku, ve kterém popisuj\'{\i} služby. Tento jazyk však mohou používat i doménoví experti, a tak
 ulehčit práci vývojářů.
 
 %\goal{Závěr}
@@ -497,15 +503,15 @@ Navržen\'y framework tedy oproti konvenčn\'{\i}mu př\'{\i}stupu nab\'{\i}z\'{
 nižš\'{\i} náklady na v\'yvoj za cenu počátečn\'{\i} investice. Architekt softwarového systému mus\'{\i} př\'{\i}padné nasazen\'{\i}
 frameworku zvážit z několika úhlů pohledu a posoudit, zda bude životnost systému dostatečně dlouhá a systém
 dostatečně velk\'y. Dalš\'{\i}m podstatn\'ym bodem ke zvážen\'{\i} je reálná m\'{\i}ra znovupoužit\'{\i} byznysov\'ych pravidel.
-Mohou existovat domény, ve kter\'ych bude nasazen\'{\i} frameworku jistě mnohem vhodnějš\'{\i}, než v jin\'ych.
-D\'{\i}ky provedené př\'{\i}padové studii bylo prokázáno, že v \gls{SOA} lze efektivně řešit sdílení byznysov\'ych pravidel
+Mohou existovat domény, ve kter\'ych bude nasazen\'{\i} frameworku mnohem vhodnějš\'{\i} než v jin\'ych.
+D\'{\i}ky provedené př\'{\i}padové studii bylo ukázáno, že v \gls{SOA} lze efektivně řešit sdílení byznysov\'ych pravidel
 navržen\'ym způsobem.
 
 \section{Shrnut\'{\i}}
 
 Tato kapitola popisuje, jak\'ym způsobem byly testovány prototypy knihoven
 pro platformy jazyků Java a Python a pro platformu Node.js. T\'{\i}m byla otestována
-jejich správná fukcionalita. Dále kapitola specifikuje ukázkový systém, na kterém byla
+jejich správná funkcionalita. Dále kapitola specifikuje ukázkový systém, na kterém byla
 provedena demonstrace použit\'{\i} frameworku, a popisuje jeho implementaci.
 Tím bylo otestováno, že navržen\'y framework je funkčn\'{\i},
 splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements}
