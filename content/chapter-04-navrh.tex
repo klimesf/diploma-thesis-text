@@ -70,7 +70,7 @@ Pro zápis poincutu byznysového pravidla pro tyto join-pointy se lze inspirovat
 byznysových operací pomocí anotací atributů těchto objektů. Příklad validačních anotací je znázorněn
 ve zdrojovém kódu~\ref{lst:jsr303}, kde je pomocí anotace \code{$@$NotBlank} zajištěno, že fakturační
 adresa bude mít vyplněno pole \code{country} (v kontextu navrhovaného frameworku se jedná o paralelu preconditions).
-Podobným způsobem by každá byznysová operace mohla pomocí metainstrukcí specifikovat, která byznysová
+Podobným způsobem by každá byznysová operace mohla pomocí meta-instrukcí specifikovat, která byznysová
 pravidla bude využívat. Toto řešení však neposkytuje možnost dynamicky při běhu programu změnit sadu
 byznysových pravidel, ani sdílení pravidel mezi jednotlivými operacemi. Tento problém lze řešit využitím
 konceptu byznysového kontextu, který zapouzdřuje byznysová pravidla, a byznysová operace se na něj může
@@ -91,7 +91,7 @@ lze realizovat pomocí dědičnosti kontextů. Každý kontext, který by potře
 adresu, by tak mohl dědit od kontextu vytváření faktury. Uvažme příklad uvedený v sekci~\ref{sec:shortcomings}.
 Vytváření objednávky sdílí byznysová pravidla operace vytváření faktury. Byznysové operace se mohou odkazovat
 na své byznysové kontexty, které mají být při jejich vykonávání použity. Pokud by kontext vytváření objednávky
-dědil od kontextu vytváření faktury, mohl by sdílet jeho pravidla, včeatně validace fakturační adresy. Pokud by bylo
+dědil od kontextu vytváření faktury, mohl by sdílet jeho pravidla, včetně validace fakturační adresy. Pokud by bylo
 potřeba upravit, přidat či sdílet další pravidla, nebylo by nutné zasahovat do kódu služeb. Příklad provázání
 byznysové operace a byznysového kontextu v jazyce Java je znázorněn ve zdrojovém kódu~\ref{lst:business-operation-context}.
 Implementace byznysové operace pomocí anotace \code{$@$BusinessContext} definuje, který byznysový kontext má být
@@ -129,7 +129,7 @@ analyzuje lokálně dostupná pravidla služby, vyhodnotí, která pravidla je p
 a vyžádá tato pravidla od příslušných služeb. V případě join-pointů~\ref{itm:before}~a~\ref{itm:after}
 je k weavingu potřeba využít speciální aspect weaver. Ten zachytí volání byznysové operace a získá
 informace o aktuálním stavu aplikačního kontextu. Následně zjistí, který byznysový kontext má být aplikován,
-shromaždí všechny preconditions a každou z nich vyhodnotí. Pokud některá precondition není splněna, byznysová
+shromáždí všechny preconditions a každou z nich vyhodnotí. Pokud některá precondition není splněna, byznysová
 operace je zastavena a je vyhozena výjimka, kterou služba zpracuje. V opačném případě je kontrola vrácena zpět
 službě, která vykoná byznysovou operaci. Po dokončení operace aspect weaver zachytí výstup byznysové
 operace a aplikuje post-conditions daného byznysového kontextu.
@@ -149,7 +149,7 @@ frameworku.
 V předchozím textu byl představen koncept dědičnosti byznysových kontextů.
 Každý kontext díky němu může dědit od libovolného množství jiných kontextů,
 a sdílet tak jejich byznysová pravidla. Byznysové operace pak mohou samy určit,
-který byznysový kontext se k ním váže. \gls{DSL} pro popis pravidel musí umožňovat
+který byznysový kontext se k nim váže. \gls{DSL} pro popis pravidel musí umožňovat
 dědičnost zachytit. Tento koncept však přináší několik problémů, které jsou rozebrány
 v následujících odstavcích.
 
@@ -241,7 +241,7 @@ třídou \code{BusinessContext}. Identifikátory kontextů jsou reprezentovány 
 \section{Organizace byznysových kontextů}
 
 Každá služba bude mít lokálně uložen popis byznysových kontextů, které se sémanticky vztahují
-k její doméně. Pro snažší přidělení byznysových kontextů ke službám bude v identifikátoru kontextu sloužit
+k její doméně. Pro snazší přidělení byznysových kontextů ke službám bude v identifikátoru kontextu sloužit
 tzv. \textit{prefix}. Kontexty se stejným prefixem pak budou spravovány výhradně jednou službou. Například kontexty
 služby spravující objednávky budou označeny prefixem \code{order}, zatímco kontexty služby zajišťující fakturaci budou
 označeny prefixem \code{billing}.
@@ -333,7 +333,7 @@ návrhový vzor \textit{Facade}~\cite{fowler2002patterns}.
     \label{fig:business-context-management}
 \end{figure}
 
-Jak bylo popsáno v předchozím textu, byznysové kontexty budou podle prefixu přideleny službám,
+Jak bylo popsáno v předchozím textu, byznysové kontexty budou podle prefixu přiděleny službám,
 které budou spravovat jejich aktuální a jediný stav a poskytovat je jiným službám. Aby bylo
 možno pravidla centrálně spravovat, musí framework poskytovat proces, kterým je bude moci ze
 služeb získat a při úpravě je do nich znovu uložit.
