@@ -225,12 +225,11 @@ označeny prefixem \code{billing}.
 
 \subsection{Registr byznysových kontextů}\label{sec:registry-design}
 
-Cílem frameworku je soustředit byznysové kontexty na jedno místo, ze kterého budou
-automaticky distribuovány. Pro tento účel bude využit registr byznysových pravidel
+Cílem frameworku je popsat byznysové kontexty v jednom místě, ze kterého budou
+automaticky distribuovány. Pro tento účel bude každá služba disponovat registrem byznysových pravidel
 (\code{BusinessContextRegistry}), který bude mít za úkol kontexty načítat z \gls{DSL} do metamodelu,
 stahovat lokálně nedostupné kontexty z ostatních služeb a načtené kontexty uchovávat pro použití při weavingu.
-Každá služba pak bude disponovat svým registrem. Při inicializaci kontextů spolu budou registry komunikovat
-a vyměňovat si sdílené kontexty.
+Při inicializaci kontextů spolu budou registry jednotlivých služeb komunikovat a vyměňovat si sdílené kontexty.
 
 \subsection{Uložení kontextů}
 
@@ -284,17 +283,14 @@ veškeré síťové komunikace týkající se distribuce byznysových pravidel.
 
 \subsection{Proces úpravy kontextu}
 
-Nástroj pro centrální administraci nejprve načte všechny byznysové kontexty všech služeb v systému.
-Následně zobrazí administrátorovi formulář pro úpravu pravidla.
-Pravidlo je pro účely formuláře převedeno z metamodelu do \gls{DSL}. Po odeslání formuláře bude pravidlo
-převedeno zpět do metamodelu. Nástroj pro administraci poté analyzuje, na které služby bude
-mít změna pravidla dopad. Následně je s těmito službami zahájena transakce, při které v nich
-nesmí probíhat žádná byznysová operace. Když všechny ovlivněné služby zahájí transakci, je možno
-jim rozeslat novou podobu pravidla. Pokud vše proběhne v pořádku, je možno transakci dokončit
-a služby otevřít byznysovým transakcím. Pokud naopak některý z kroků transakce selže, je nutno
-informovat všechny zúčastněné služby o zrušení transakce a změnu inkriminovaného pravidla zrušit.
-Na obrázku~\ref{fig:business-context-management} je celý proces znázorněn. Proces pro uložení
-nového kontextu je analogický.
+Na obrázku~\ref{fig:business-context-management} je znázorněn proces úpravy kontextu. Nástroj pro
+centrální administraci nejprve načte všechny byznysové kontexty všech služeb v systému. Administrátor
+si vybere konkrétní pravidlo, a nástroj mu následně zobrazí formulář pro úpravu pravidla.
+Pravidlo je pro účely formuláře převedeno z metamodelu do \gls{DSL}. Po odeslání formuláře je pravidlo
+převedeno zpět do metamodelu. Nástroj pro administraci poté analyzuje, na které služby bude mít změna pravidla
+dopad. Následně zašle upravené pravidlo službě, která ho spravuje, a ostatním službám, jejichž kontexty upravené
+pravidlo rozšiřují, rozešle požadavek na jejich aktualizaci. Proces uložení nového kontextu je analogický, až na
+rozeslání požadavku na aktualizaci závislých kontextů, která není u nového pravidla potřeba.
 
 \section{Architektura frameworku}\label{sec:architecture}
 
