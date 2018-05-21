@@ -503,9 +503,9 @@ jednotlivé hrany grafu kontextů a je ověřeno, zda existuj\'{\i} oba kontexty
 nálež\'{\i}c\'{\i} dané hraně. Díky zvolen\'{\i} vhodn\'ych datov\'ych struktur
 bylo dosaženo lineárn\'{\i} časové složitosti v závislosti na počtu hran grafu.
 Pro detekci cyklů v grafu závislosti pravidel popsanou v sekci~\ref{sec:context-inheritance} byl
-zvolen Tarjanův algoritmus~\cite{tarjan1971depth}. Ten umožňuje detekci souvisl\'ych
-komponent a má lineárn\'{\i} složitost závislou na součtu počtu hran a
-počtu uzlů grafu. V př\'{\i}padě, že zápis nového či upraveného kontextu obsahuje syntaktické
+zvolen modifikovaný algoritmus prohledávání do hloubky (z anglického \textit{depth-first search}).
+Ten umožňuje detekci zpětných hran a má lineárn\'{\i} složitost závislou na součtu počtu
+hran a počtu uzlů grafu. V př\'{\i}padě, že zápis nového či upraveného kontextu obsahuje syntaktické
 nebo sémantické chyby, administrace nedovol\'{\i} uživateli změnu provést a vyp\'{\i}še informativn\'{\i}
 chybovou hlášku.
 
