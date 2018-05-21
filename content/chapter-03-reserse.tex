@@ -14,16 +14,16 @@ Provedená rešerše je rozdelěna do následujících částí:
 Díky provedené rešerši bude možno dosáhnout kvalitního a efektivního návrhu
 frameworku pro centrální správu a automatickou distribuci byznysových pravidel.
 
-\section{Modelem ř\'{\i}zená architektura}
+\section{Modelem ř\'{\i}zený vývoj}
 
-Modelem řízená architektura (\gls{MDA} z anglického \textit{Model-Driven
-Architecture}) se zaměřuje na návrh \gls{EIS} s využitím modelů a jejich
-následnou transformaci do spustitelného kódu pomocí generativních nástrojů~\cite{soley2000model}.
-Hlavní výhodou \gls{MDA} je vysoká úroveň abstrakce, která zbavuje vývojáře potřeby
-manuálně duplikovat informace napříč systémem. Další výhodou je možnost sdílení modelů
-mezi více platformami.
+Modelem řízený vývoj (\gls{MDD} z anglického \textit{Model-Driven
+Development}) se zaměřuje na návrh \gls{EIS} s využitím modelů a jejich
+následnou transformaci do spustitelného kódu pomocí nástrojů pro jeho automatickou
+generaci~\cite{selic2003pragmatics, soley2000model}. Hlavní výhodou \gls{MDD} je vysoká
+úroveň abstrakce, která snižuje potřebu manuální duplikace informací napříč systémem.
+Další výhodou je možnost sdílení modelů mezi více platformami.
 
-\gls{MDA} využívá více druhů modelů a rozděluje je podle jejich úrovně abstrakce.
+\gls{MDD} využívá více druhů modelů a rozděluje je podle jejich úrovně abstrakce.
 Při vývoji se pak postupuje od nejabstraktnějšího modelu postupným přidáváním detailů.
 V první fázi vývoje je využit Computation Independent Model (\gls{CIM}), který reprezentuje
 řešení nezávislé na použitých výpočetních metodách a algoritmech. Z \gls{CIM} je
@@ -37,19 +37,18 @@ Nakonec je \gls{PSM} transformován do spustitelného kódu~\cite{kleppe2003mode
 Převod mezi jednotlivými modely bývá automatizován, ale zejména poslední krok
 často vyžaduje manuální zásah.
 
-Hlavní nevýhodou \gls{MDA}, která zabraňuje jejímu využití pro účel této práce,
-je jednosměrný dopředný proces, kterým je výsledný kód generován.
-Pokud dojde ke změně požadavků, která se promítne do modelu, je potřeba přegenerovat
-kód celého systému. Kód, který bylo nutno doplnit či upravit ručně, může snadno zastarat a je tak
-potřeba ho manuálně projít a případně opravit. Další nevýhodou tohoto přístupu je jeho závislost na \gls{OOP},
-které samotné není schopné se efektivně vypořádat s průřezovými problémy~\cite{cemus2014aspect, kennard2009separation},
-jak bude demonstrováno v sekci~\ref{sec:aop}.
+Hlavní nevýhodou \gls{MDD}, která zabraňuje jeho využití pro účel této práce,
+je jednosměrný dopředný proces, kterým je výsledný kód generován. Pokud dojde ke změně v
+některém z modelů, je potřeba znovu vygenerovat všechny navazující modely a zdrojový kód.
+Manuálně vytvořený nebo upravený kód je potřeba doplnit znovu. Navíc je tento přístup odvozen od
+\gls{OOP}, které není schopné se efektivně vypořádat s průřezovými problémy~\cite{cemus2014aspect,
+kennard2009separation}, jak bude naznačeno v sekci~\ref{sec:aop}.
 
 \section{Generativní programování}
 
 Generativní programování (\gls{GP}) je programovací paradigma, které je podobně jako
 tato práce motivováno snížením nákladů na vývoj software díky zvýšení znovupoužitelnosti
-jeho komponent. Narozdíl od \gls{MDA} se navíc přímo věnuje oddělení zodpovědností~\cite{cemus2017separation, czarnecki2000generative}.
+jeho komponent. Narozdíl od \gls{MDD} se navíc přímo věnuje oddělení zodpovědností~\cite{cemus2017separation, czarnecki2000generative}.
 
 \gls{GP} se zaměřuje na maximalizaci automatizace vývoje systému
 skrz generování a syntézu vysoce přizpůsobitelných komponent. Vývojář
@@ -60,8 +59,8 @@ jejich vysoké znovupoužitelnosti.
 
 \gls{GP} by tak mohlo být využito pro abstrakci bynysových pravidel a jejich
 automatickému začleňování do služeb v systému stavějícím na \gls{SOA}.
-Statické generování komponent však nesplňuje požadavek na dynamickou správu
-byznysových pravidel za běhu systému, protože nezohledňuje exekuční kontext.
+Statické generování pro každý z možných stavů systému je však neúnosné. Tento
+přístup proto neumožňuje zohleďnovat exekuční, potažmo byznysový kontext aplikace.
 
 \section{Metaprogramování}
 
@@ -92,9 +91,10 @@ byznysové operaci a jejím byznysovém kontextu.
 \end{figure}
 
 Při implementaci informačních systémů se osvědčilo členit systém do komponent, které
-zapouzdřují funkcionalitu a umožňují její snadné znovupoužití. Kromě \gls{SOA} tento koncept
-využívá například i velmi rozšířené objektově-orientované programování (\gls{OOP})~\cite{rentsch1982object}.
-Tento přístup ale neumožňuje se efektivně vypořádat s některými požadavky.
+zapouzdřují funkcionalitu a umožňují její snadné znovupoužití. Na tomto konceptu
+staví velmi rozšířené objektově-orientované programování (\gls{OOP})~\cite{rentsch1982object},
+které v současné době dominuje návrh a vývoj \gls{EIS}. Tento přístup ale neumožňuje se
+efektivně vypořádat s některými požadavky.
 Těmi jsou tzv.~\textit{průřezové problémy} (z anglického \textit{cross-cutting concerns}),
 které typicky ovlivňují více komponent systému, kde vyžadují konzistentní zpracování.
 Kvůli izolaci komponent je programátor nucen manuálně opakovat
@@ -154,16 +154,16 @@ Místo v kódu, na které může být aplikována funkcionalita aspektu, se naz�
 na který je \gls{AOP} aplikováno, a také na programovacím jazyce. V případě
 kombinace s \gls{OOP} a klasickým víceúčelovým jazykem, jako je například Java,
 mohou jako join-pointy sloužit konstruktory tříd, volání metod, zápis a čtení
-z atributu objektu, inicializace třídy nebo objektu a mnoho dalších.
+z atributu objektu, inicializace třídy nebo objektu a mnoho dalších~\cite{laddad2003aspectj}.
 
 %\paragraph{Pointcut}
-Množina join-pointů, na které je jeden konkrétní aspekt aplikován, se nazývá \textit{pointcut}.
-Tato množina může být určena staticky, a být tak známá při kompilaci programu, nebo
+\textit{Pointcut} vybírá podmnožinu join-pointů, na které je aplikován konkrétní aspekt.
+Tato podmnožina může být určena staticky, a být tak známá při kompilaci programu, nebo
 dynamicky za běhu programu, což přináší výpočetní složitost navíc výměnou
 za vyšší flexibilitu.
 
 %\paragraph{Advice}
-Funkcionalita, kterou aspekt přidává v jeho pointcutu, se nazývá
+Funkcionalita, kterou aspekt přidává v konkrétním join-pointu, se nazývá
 \textit{advice}. Existuje více typů advice, podle toho, kam je
 daná funkcionalita přidána. Například při volání metody může
 být funkcionalita přidána před, za, nebo místo metody.
@@ -328,7 +328,7 @@ Výhodou tohoto přístupu je vysoká úroveň abstrakce a možnost zapojit do v
 Nižší objem kódu vede ke snížení nákladů na jeho údržbu a vývoj~\cite{littman1987mental, soloway1986empirical}.
 Významnou výhodou MPS, potažmo \gls{LOP}, je nezávislost na cílové platformě.
 Nástroj MPS umožňuje snadné znovupoužití pravidel a jejich transformaci do neomezeného počtu jazyků pro
-využití na mnoha platformách. Podobně jako u \gls{MDA} je však problém v dopředném
+využití na mnoha platformách. Podobně jako u \gls{MDD} je však problém v dopředném
 generování -- editor MPS totiž neumožňuje načíst víceúčelový jazyk zpět do \gls{DSL}.
 
 \section{Síťové architektury}

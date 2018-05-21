@@ -6,43 +6,62 @@
 \chapter{Testování a validace frameworku}\label{ch:testovani}
 
 Tato kapitola popisuje, jak\'y způsobem bylo provedeno
-tetování naprogramovan\'ych knihoven pomoc\'{\i}
+testování naprogramovan\'ych knihoven pomoc\'{\i}
 jednotkov\'ych a integračn\'{\i}ch testů.
 Kapitola se dále věnuje popisu ukázkového systému, na kterém
 byla demonstrována správná funkčnost navrženého frameworku
 a provedena analýza vlivu jeho nasazení na duplikaci
 byznysových pravidel.
 
-\section{Testován\'{\i} prototypů knihoven}
+\section{Techniky testování}
 
-Prototypy knihoven, jejichž implementaci je popsána v kapitole~\ref{ch:implementace},
-byly důkladně otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch testů~\cite{luo2001software}
-a t\'{\i}m byla otestována jejich správná funkcionalita. Způsob
-testován\'{\i} knihoven je popsán zvlášť pro každou platformu.
-
-V rámci konceptu \textit{continous integration} (\gls{CI})~\cite{fowler2006continuous}
-byl kód po celou dobu v\'yvoje verzován systémem Git\footnote{\url{https://git-scm.com/}},
-zas\'{\i}lán do centráln\'{\i}ho repozitáře a s pomoc\'{\i}
-nástroje Travis \gls{CI}\footnote{\url{https://travis-ci.org/}}
-bylo automaticky spouštěno jeho sestaven\'{\i} a otestován\'{\i}.
-Systém zároveň okamžitě informoval v\'yvojáře o v\'ysledc\'{\i}ch.
-To umožnilo v krátkém časovém horizontu identifikovat konkrétn\'{\i} změny
-v kódu, které do programu vnesly chybu. T\'{\i}m byla sn\'{\i}žena
-pravděpodobnost regrese a dlouhodobě se zv\'yšila celková kvalita kódu.
+Pro testování prototypů knihoven bylo využito několik technik testování
+a vývoje, které pomáhají odhalit chyby a zvýšit kvalitu výsledného software.
 
 \subsection{Jednotkové testy}
 
-% TODO: popsat co to je
+Jednotkové testy jsou nejnížší úrovní testování, která má za úkol ověřit správnou
+funkčnost dílčích částí systémů -- tzv. \textit{jednotek}. Jejich důležitou vlastností je
+izolace testované jednotky od ostatních částí systémů. Jednotkové testy umožňují
+odhalit chyby v dřívějších fázích vývoje, snáze refaktorovat kód a usnadňují
+integraci komponent.
 
 \subsection{Integrační testy}
 
-% TODO: popsat co to je
+Integrační testy se soustřeďují na ověření správné kompozice jednotek systému. Testují chování celku
+složeného z jednotlivých komponent a mají za úkol odhalit nekonzistence v jejich spolupráci, komunikaci
+a v jejich rozhraních. Existuje více strategií integračního testování. Při integraci
+lze inkrementálně postupovat od nejmenších jednotek směrem vzhůru, tzv. \textit{bottom-up}, nebo směrem od
+celku k jednotkám, tzv. \textit{top-down}~\cite{graham2008foundations}. Integrovat lze i celý systém najednou,
+tato metoda se nazývá \textit{big-bang}. V tomto případě je ale těžké detekovat původ nalezených chyb.
+
+\subsection{Průběžná integrace}
+
+Průběžné integrace (z anglického \textit{continous integration} -- \gls{CI})~\cite{fowler2006continuous}
+slouží k urychlení nalezení defektů software ve fázi vývoje. Nové verze zdrojového kódu jsou do projektu pravidelně
+integrovány v krátkých časových intevalech a jejich funkčnost je ověřována automatickými testy. K tomu je
+zpravidla využíván tzv. \textit{integrační server}. Díky \gls{CI} je sn\'{\i}žena pravděpodobnost regrese
+a dlouhodobě zv\'yšena celková kvalita kódu.
+
+\section{Testován\'{\i} prototypů knihoven}
+
+Prototypy knihoven, jejichž implementace je popsána v kapitole~\ref{ch:implementace},
+byly důkladně otestovány pomoc\'{\i} sady jednotkov\'ych a integračn\'{\i}ch
+testů~\cite{luo2001software} a t\'{\i}m byla ověřena jejich správná funkcionalita. Způsob
+testován\'{\i} knihoven je popsán zvlášť pro každou platformu.
+
+V rámci \gls{CI} byl kód knihoven po celou dobu v\'yvoje verzován systémem
+Git\footnote{\url{https://git-scm.com/}}, zas\'{\i}lán do centráln\'{\i}ho repozitáře a
+s pomoc\'{\i} nástroje Travis \gls{CI}\footnote{\url{https://travis-ci.org/}}
+bylo automaticky spouštěno jeho sestaven\'{\i} a testován\'{\i}.
+Tento nástroj zároveň okamžitě informoval o v\'ysledc\'{\i}ch tohoto procesu.
 
 \subsection{Testovací scénáře}
 
-Každá z knihoven byla testována stejnou sadou testovacích scénářů, které jsou shrnuty
-v tabulce~\ref{tbl:test-cases}. K implementaci a vyhodnocení testů byly pro jednotlivé
-knihovny použity různé technologie, které jsou popsány v následujícím textu.
+Každá z knihoven byla testována stejnou sadou testovacích scénářů, skládající se z
+jednotkových i integračních testů. Scénáře jsou shrnuty v tabulce~\ref{tbl:test-cases}.
+K implementaci a vyhodnocení testů byly pro jednotlivé knihovny použity různé technologie,
+které jsou popsány v následujícím textu.
 
 \begin{table}
     \centering
@@ -149,15 +168,18 @@ jako \code{true}. Následně je zkonstruován v\'yraz, kterému je předán argu
 
 \section{Ukázkový příklad: e-commerce systém}
 
-Pro praktické testování a validaci navrženého frameworku bylo nutné vyzkoušet
-jeho nasazen\'{\i} při v\'yvoji aplikace. Pro tento účel vznikl v
-rámci této práce ukázkový příklad na fiktivn\'{\i}m
-e-commerce systému využ\'{\i}vaj\'{\i}c\'{\i}m architekturu orientovanou na služby.
+Pro akceptační testování a validaci navrženého frameworku bylo nutné vyzkoušet
+jeho nasazen\'{\i} při v\'yvoji aplikace. Pro tento účel vznikl v rámci
+této práce ukázkový příklad na fiktivn\'{\i}m e-commerce systému využ\'{\i}vaj\'{\i}c\'{\i}m
+architekturu orientovanou na služby.
 Na tomto př\'{\i}kladě je demonstrována schopnost frameworku poradit si s průřezov\'ymi
 problémy v rámci \gls{SOA} a také jeho schopnost plnit požadavky identifikované v
 sekci~\ref{sec:implementation-requirements}.
 
-% TODO: motivace a účel systému
+Ukázkový systém simuluje reálný e-shop, který se skládá z několika služeb a umožňuje
+zákazníkovi prohlížet a objednávat zboží online. Zaměstnancům umožňuje spravovat produkty
+a jejich skladové zásoby a vystavovat faktury k objednávkám. Administrátorům systém umožňuje
+nastavovat cenovou politiku produktů a vytvářet a mazat uživatele.
 
 \subsection{Use-cases}
 
