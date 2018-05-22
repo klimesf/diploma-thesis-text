@@ -78,11 +78,10 @@ programy~\cite{sheard2001accomplishments}.
 
 Jak již bylo zmiňováno v sekci~\ref{sec:business-rule-representation}, zachycení byznysových
 pravidel v obecném programovacím jazyce neposkytuje dostatečné možnosti pro jejich extrakci
-a sdílení. Proto nelze metaprogramování přímo využít pro extrakci a sdílení byznysových pravidel.
-Lze však využít pro extrakci informací o struktuře programu a pro identifikaci míst,
-ve kterých mají být byznysová pravidla aplikována. Využitím tohoto přístupu ve spojení s
-aspektově orientovaným programováním, které bude popsáno v následující sekci, je možné
-realizovat automatickou integraci sdílených byznysových pravidel.
+a sdílení. Metaprogramování ale umožňuje získat informace o struktuře programu a
+identifikovat místa, ve kterých mají být byznysová pravidla aplikována. Využitím tohoto
+přístupu ve spojení s aspektově orientovaným programováním, které bude popsáno v následující sekci,
+je možné realizovat automatickou integraci sdílených byznysových pravidel.
 
 \section{Aspektově orientované programován\'{\i}}\label{sec:aop}
 
@@ -121,21 +120,21 @@ Ve zdrojovém kódu~\ref{lst:tangling} je znázorněno, jak průřezové
 problémy zasahují do kódu metody imaginární třídy implementované v
 jazyce Java, která slouží pro vytváření objednávek v e-commerce
 systému popsaném v sekci~\ref{sec:shortcomings}.
-Logování akcí je zpravidla zohledněno v celém systému velmi podobným
-způsobem, jako při vytváření objednávky. Aspekt transakce je stejným
+Logování akcí je zohledněno v celém systému  stejně jako při vytváření
+objednávky, liší se pouze text logovacích hlášek. Aspekt transakce je stejným
 způsobem zachycen v každé třídě, která implementuje byznysovou operaci
 pracující s databází. Byznysové pravidlo validující doručovací a fakturační
 adresu musí být aplikováno i v metodách implementujících úpravu objednávky,
-vystavení faktury a logistiku objednávek. Konvenční přístup přináší
-manuální duplikaci logiky, která zohledňuje tyto aspekty.
+vystavení faktury a logistiku objednávek. Konvenční přístup vyžaduje
+manuální duplikaci logiky těchto aspektů.
 
 Aspektově orientované programován\'{\i} (\gls{AOP}) přináš\'{\i} řešen\'{\i}
 v\'yše zmiňovaných problémů. Využívá k tomu princip oddělení zodpovědností (z anglického \textit{separation
-of concerns}) -- extrahuje kód zachycující průřezové problémy do jednoho bodu, tzv. (\textit{single focal point}).
-Pomoc\'{\i} procesu zvaného \textit{weaving} je poté tento kód automaticky distribuován.
+of concerns}) -- extrahuje logiku zachycující průřezové problémy do jednoho bodu, tzv. (\textit{single focal point}).
+Pomoc\'{\i} procesu zvaného \textit{weaving} je poté tato logika automaticky integrována.
 Weaving může proběhnout staticky při kompilaci programu nebo dynamicky
 při jeho běhu. V obou př\'{\i}padech ale programátorovi ulehčuje práci,
-protože k definici i změně aspektu docház\'{\i} centrálně, a t\'{\i}m je eliminována
+protože k definici i změně aspektu docház\'{\i} na jednom místě, a t\'{\i}m je eliminována
 potřeba manuáln\'{\i} duplikace a synchronizace kódu. V uvedeném případě by tedy byly aspekty
 logování, transakcí a byznysových pravidel zachyceny mimo metodu \code{createOrder},
 a pomocí weavingu by byly do této metody automaticky integrovány.
@@ -250,7 +249,7 @@ potřebného pro popis adaptibilního uživatelského rozhraní.
     \label{fig:adda-architecture}
 \end{figure}
 
-Přístup \gls{ADDA} implikuje speciální úpravu standardní třívrstvé architektury.
+Přístup \gls{ADDA} přináší speciální úpravu standardní třívrstvé architektury.
 Pro zachycení aspektů v \textit{single-focal point} tento přístup využívá
 speciálních registrů, ze kterých jsou aspekty automaticky distribuovány
 a začleňovány pomocí aspect-weaverů. Architektura distribuovaného systému
