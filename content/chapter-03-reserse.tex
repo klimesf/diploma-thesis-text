@@ -3,7 +3,7 @@
 \chapter{Rešerše existujících řešení}\label{ch:reserse}
 
 Tato kapitola se věnuje rešerši existujících řešení a výzkumu relevantnímu k tématu této práce.
-Provedená rešerše je rozdelěna do následujících částí:
+Provedená rešerše je rozdělena do následujících částí:
 
 \begin{enumerate}
     \item Architektury a paradigmata umožňující snížení nákladů na vývoj software
@@ -61,32 +61,34 @@ jejich vysoké znovupoužitelnosti.
 \gls{GP} by tak mohlo být využito pro abstrakci bynysových pravidel a jejich
 automatickému začleňování do služeb v systému stavějícím na \gls{SOA}.
 Statické generování pro každý z možných stavů systému je však neúnosné. Tento
-přístup proto neumožňuje zohleďnovat exekuční, potažmo byznysový kontext aplikace.
+přístup proto neumožňuje zohledňovat exekuční, potažmo byznysový kontext aplikace.
 
-\section{Metaprogramování}
+\section{Metaprogramování}\label{sec:metaprogramming}
 
-Metaprogramování je alternativním paradigmatem, které vnímá kód programu
-zároveň jako data, se kterými program může pracovat. To programu umožňuje
+Metaprogramování je alternativním paradigmatem, který vnímá kód programu
+zároveň jako data, se kterými program může pracovat. To mu umožňuje
 číst, vytvářet či upravovat jiné programy včetně sama sebe. Tyto činnosti
 lze provádět staticky, ale i za běhu daného programu~\cite{czarnecki2000generative, sheard2001accomplishments}.
 Schopnost jazyka manipulovat s vlastním kódem se nazývá \textit{reflexe}~\cite{sobel1996introduction}.
 Ta je součástí mnoha moderních programovacích jazyků a je využívána moderními frameworky a
 knihovnami~\cite{forman2004java, vandevoorde2002c++}.
-
 Tento přístup přináší vysokou úroveň abstrakce a zvýšenou efektivitu
 vývojářů, kteří jsou schopni automaticky provádět inspekci, generovat a upravovat
 programy~\cite{sheard2001accomplishments}.
 
 Jak již bylo zmiňováno v sekci~\ref{sec:business-rule-representation}, zachycení byznysových
 pravidel v obecném programovacím jazyce neposkytuje dostatečné možnosti pro jejich extrakci
-a sdílení. Metaprogramování však může být využito pro extrakci informací o probíhající
-byznysové operaci a jejím byznysovém kontextu.
+a sdílení. Proto nelze metaprogramování přímo využít pro extrakci a sdílení byznysových pravidel.
+Lze však využít pro extrakci informací o struktuře programu a pro identifikaci míst,
+ve kterých mají být byznysová pravidla aplikována. Využitím tohoto přístupu ve spojení s
+aspektově orientovaným programováním, které bude popsáno v následující sekci, je možné
+realizovat automatickou integraci sdílených byznysových pravidel.
 
 \section{Aspektově orientované programován\'{\i}}\label{sec:aop}
 
 \begin{figure}[t]
     \centering
-    \includegraphics[keepaspectratio=true, width=0.35\linewidth]{figures/cross-cutting.pdf}
+    \includegraphics[keepaspectratio=true, width=0.30\linewidth]{figures/cross-cutting.pdf}
     \caption{Průřezové problémy v informačních systémech}
     \label{fig:cross-cutting}
 \end{figure}
@@ -135,7 +137,7 @@ Weaving může proběhnout staticky při kompilaci programu nebo dynamicky
 při jeho běhu. V obou př\'{\i}padech ale programátorovi ulehčuje práci,
 protože k definici i změně aspektu docház\'{\i} centrálně, a t\'{\i}m je eliminována
 potřeba manuáln\'{\i} duplikace a synchronizace kódu. V uvedeném případě by tedy byly aspekty
-logování, transakcí a byzynsových pravidel zachyceny mimo metodu \code{createOrder},
+logování, transakcí a byznysových pravidel zachyceny mimo metodu \code{createOrder},
 a pomocí weavingu by byly do této metody automaticky integrovány.
 
 \lstinputlisting[
@@ -149,7 +151,7 @@ floatplacement=t
 
 %\paragraph{Aspekt}
 Základním pojmem v rámci \gls{AOP} je \textit{aspekt},
-který zapozdřuje průřezovou funkcionalitu a zároveň adresuje místa, kde má být
+který zapouzdřuje průřezovou funkcionalitu a zároveň adresuje místa, kde má být
 funkcionalita aplikována. Aspekt vždy obsahuje alespoň jeden \textit{advice}
 a jeden \textit{pointcut}.
 
@@ -180,6 +182,8 @@ probíhat již při kompilaci nebo dynamicky za běhu programu,
 tzv. \textit{run-time weaving}. Proces weavingu je ilustrován
 na obrázku~\ref{fig:aspect-weaving}. Komponenta zodpovědná za
 weaving se nazývá \textit{aspect weaver}.
+Pro weaving je často využito metaprogramování, která bylo popsané
+v předchozí sekci~\ref{sec:metaprogramming}.
 
 \begin{figure}[t]
     \centering
@@ -246,21 +250,25 @@ potřebného pro popis adaptibilního uživatelského rozhraní.
     \label{fig:adda-architecture}
 \end{figure}
 
-Přístup \gls{ADDA} má implikace na architekturu systému, který ho využívá.
+Přístup \gls{ADDA} implikuje speciální úpravu standardní třívrstvé architektury.
 Pro zachycení aspektů v \textit{single-focal point} tento přístup využívá
 speciálních registrů, ze kterých jsou aspekty automaticky distribuovány
 a začleňovány pomocí aspect-weaverů. Architektura distribuovaného systému
 využívajícího \gls{ADDA} pro implementaci aspektově orientovaného uživatelského rozhraní
-je znázorněna na obrázku~\ref{fig:adda-architecture}~\cite{cemus2017separation}. Kromě
-standardních tří vrstev jsou součástí systému i registry aspektů. Pomocí \gls{REST}
-\gls{API} jsou aspekty ze \textit{single-focal point} distribuovány do uživatelských
-rozhraní na různých platformách.
+je znázorněna na obrázku~\ref{fig:adda-architecture}. Zatímco datová a aplikační vrstva zůstává
+zachována, prezentační vrstva je distribuována na koncová zařízení, které poskytují
+různé platformy. Pomocí \gls{REST} \gls{API} jsou pak aspekty ze \textit{single-focal point}
+distribuovány ze serveru do koncových zařízení. Registry jsou navíc
+rozlišeny podle toho, zda obsahují platformově závislé nebo nezávislé aspekty~\cite{cemus2017separation}.
+Mezi platformově nezávislé aspekty patří například struktura datového modelu, která se promítá
+do formulářů uživatelského rozhraní. Mezi platformově závislé aspekty patří například
+jednotlivé widgety, ze kterých je uživatelské rozhraní složeno, a které se liší podle cílové platformy.
 
 \subsection{Výhody a nevýhody}
 
-Využití přístupu \gls{ADDA} umožňuje splnění požadavků této práce,
+Využití přístupu \gls{ADDA} poskytuje nástroje, které umožní splnění požadavků,
 které jsou identifikovány v sekci~\ref{sec:implementation-requirements}.
-\gls{ADDA} poskytuje vývojářům způsob jakým výrazně snížit náklady na vývoj a údržbu
+\gls{ADDA} poskytuje vývojářům způsob, jakým mohou výrazně snížit náklady na vývoj a údržbu
 systému díky snížení duplikace byznysové logiky, které je dosaženo extrakcí aspektů
 do \textit{single focal point} a jejich automatickou distribucí do příslušných komponent
 systému.
@@ -363,7 +371,7 @@ nejčastěji je však využíván v síťové komunikaci mezi více počítači.
 Tento přístup má několik zásadních výhod. Díky svojí obecnosti je nezávislý
 na jakékoliv platformě. Zároveň tato architektura přesouvá byznysovou logiku a
 ukládání dat na server a umožňuje snadnější kontrolu nad systémem a jeho centrální
-administraci. S tím je spojena i snažší škálovatelnost systému. Model klient-server
+administraci. S tím je spojena i snazší škálovatelnost systému. Model klient-server
 přináší díky centralizaci i lepší zabezpečení, kdy server může snadno definovat a
 vynucovat přístupová pravidla.
 
@@ -385,7 +393,7 @@ Alternativou k \gls{RPC} je architektura Representational state transfer
 lepšího výkonu, vyšší škálovatelnosti, jednoduchému používání
 a lepší odolnosti vůči chybám~\cite{fielding2000rest}. Principy architektury
 \gls{REST} zahrnují využití architektury klient-server, bezestavovost a kešování požadavků,
-vrsvení systému, zdrojový kód na vyžádání a jednotné rozhraní.
+vrstvení systému, zdrojový kód na vyžádání a jednotné rozhraní.
 \gls{REST} modeluje systém jako množinu zdrojů (z anglického \textit{resources}),
 nad kterými jsou prováděny operace pomocí \gls{HTTP} požadavků.
 
