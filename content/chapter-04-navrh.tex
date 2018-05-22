@@ -12,7 +12,7 @@ a vyhovuje požadavkům identifikovaným v sekci~\ref{sec:implementation-require
 Navrhovaný framework vychází z přístupu \gls{ADDA} představeného v sekci~\ref{sec:adda}
 a jeho cílem je umožnit zápis byznysových pravidel v \textit{single-focal point}, ze kterého
 budou pravidla automaticky integrována do jednotlivých služeb systému. Pro zápis pravidel
-framework bude využívat speciální \gls{DSL}, které umožní jejich snadný zápis a inspekci.
+bude framework využívat speciální \gls{DSL}, které umožní jejich snadný zápis a inspekci.
 Díky tomu bude možné redukovat manuální duplikaci pravidel, která jsou sdílena mezi jednotlivými
 službami a tím snížit náklady na vývoj a údržbu systému a zmírnit riziko lidské chyby,
 které je spojeno s manuální synchronizací duplikované logiky.
@@ -27,7 +27,7 @@ zachyceny \textit{pointcuts} a nakonec navrhnout proces \textit{weavingu} pravid
 \subsection{Join-points}
 
 Identifikace join-points vychází ze životního cyklu služby, který je znázorněn
-na obrázku~\ref{fig:join-points}. První fází v životě instance služby je její inicializace,
+na obrázku~\ref{fig:join-points}. První fází v životním cyklu služby je její inicializace,
 konkrétně načtení exekučního kontextu. V tomto bodě je potřeba získat veškerá pravidla, která
 bude služba potřebovat ke své funkci.
 Po inicializaci vstupuje služba do fáze, ve které může přijímat požadavky
@@ -69,12 +69,16 @@ Pro zápis poincutu byznysového pravidla pro tyto join-pointy se lze inspirovat
 303~\cite{bernard2009jsr}, který umožňuje validovat data byznysových objektů vstupujících do
 byznysových operací pomocí anotací atributů těchto objektů. Příklad validačních anotací je znázorněn
 ve zdrojovém kódu~\ref{lst:jsr303}, kde je pomocí anotace \code{$@$NotBlank} zajištěno, že fakturační
-adresa bude mít vyplněno pole \code{country} (v kontextu navrhovaného frameworku se jedná o paralelu preconditions).
+adresa bude mít vyplněno pole \code{country} -- v kontextu navrhovaného frameworku se jedná o paralelu preconditions.
 Podobným způsobem by každá byznysová operace mohla pomocí meta-instrukcí specifikovat, která byznysová
 pravidla bude využívat. Toto řešení však neposkytuje možnost dynamicky při běhu programu změnit sadu
 byznysových pravidel, ani sdílení pravidel mezi jednotlivými operacemi. Tento problém lze řešit využitím
 konceptu byznysového kontextu, který zapouzdřuje byznysová pravidla, a byznysová operace se na něj může
-explicitně odkázat. Obsah byznysového kontextu přitom může být dynamicky změněn za běhu programu.
+explicitně odkázat. Obsah byznysového kontextu přitom může být dynamicky změněn za běhu programu. Příklad provázání
+byznysové operace a byznysového kontextu v jazyce Java je znázorněn ve zdrojovém kódu~\ref{lst:business-operation-context}.
+Implementace byznysové operace pomocí anotace \code{$@$BusinessContext} definuje, který byznysový kontext má být
+při jejím vykonávání využit. Kontext je definován separátně pomocí \gls{DSL} a lze ho měnit bez zásahu do implementace
+operace.
 
 \lstinputlisting[
 caption={Příklad provázání byznysové operace a byznysového kontextu pomocí anotací v jazyce Java},
@@ -92,17 +96,13 @@ adresu, by tak mohl dědit od kontextu vytváření faktury. Uvažme příklad u
 Vytváření objednávky sdílí byznysová pravidla operace vytváření faktury. Byznysové operace se mohou odkazovat
 na své byznysové kontexty, které mají být při jejich vykonávání použity. Pokud by kontext vytváření objednávky
 dědil od kontextu vytváření faktury, mohl by sdílet jeho pravidla, včetně validace fakturační adresy. Pokud by bylo
-potřeba upravit, přidat či sdílet další pravidla, nebylo by nutné zasahovat do kódu služeb. Příklad provázání
-byznysové operace a byznysového kontextu v jazyce Java je znázorněn ve zdrojovém kódu~\ref{lst:business-operation-context}.
-Implementace byznysové operace pomocí anotace \code{$@$BusinessContext} definuje, který byznysový kontext má být
-při jejím vykonávání využit. Kontext je definován separátně pomocí \gls{DSL} a lze ho měnit bez zásahu do implementace
-operace.
+potřeba upravit, přidat či sdílet další pravidla, nebylo by nutné zasahovat do kódu služeb.
 
 V join-pointu~\ref{itm:initialization} načte služba všechna byznysová pravidla, která
 bude potřebovat ke své činnosti. V případě kompozitní služby je nutno načíst i sdílená pravidla
 definovaná v jiných službách. Kompozitní služba tedy musí zjistit, která pravidla je potřeba získat,
 a následně si je vyžádat od ostatních služeb. Pointcut byznysových pravidel v tomto join-pointu vychází
-z dědičnosti byznysových kontextů, která určuje, která pravidla budou mezi službami přenesena.
+z dědičnosti byznysových kontextů, která určuje, jaká pravidla budou mezi službami přenesena.
 V příkladu ze sekce~\ref{sec:shortcomings} je pointcut pravidla validujícího fakturační adresu
 určen dědičností kontextu vytváření objednávky od kontextu vytváření faktury.
 
