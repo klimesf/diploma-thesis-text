@@ -249,7 +249,7 @@ označeny prefixem \code{billing}.
 
 \subsection{Registr byznysových kontextů}\label{sec:registry-design}
 
-Cílem frameworku je popsat byznysové kontexty v jednom místě, ze kterého budou
+Cílem frameworku je popsat byznysové kontexty v jednom místě, tzv. \textit{single-focal point}, ze kterého budou
 automaticky distribuovány. Pro tento účel bude každá služba disponovat registrem byznysových pravidel
 (třída \code{BusinessContextRegistry}), který bude mít za úkol kontexty načítat z \gls{DSL} do metamodelu,
 stahovat lokálně nedostupné kontexty z ostatních služeb a načtené kontexty uchovávat pro použití při weavingu.
@@ -257,7 +257,7 @@ Při inicializaci kontextů spolu budou registry jednotlivých služeb komunikov
 
 Postavení byznysových registrů vůči jednotlivým službám je ilustrováno na obrázku~\ref{fig:layers-vs-framework}.
 Registry kompozitních služeb budou využívat rozhraní registrů ostatních služeb, jejichž byznysová
-pravidla sdílejí.
+pravidla sdílejí. Tento koncept vychází z architektury \gls{ADDA} systémů, která byla popsána v sekci~\ref{sec:adda-architecture}.
 
 \begin{figure}
     \centering

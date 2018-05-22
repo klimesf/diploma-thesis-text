@@ -116,12 +116,16 @@ systémov\'ych akc\'{\i}, optimalizace správy paměti
 nebo jednotné zpracován\'{\i} v\'yjimek~\cite{kiczales1997aspect},
 ale i aplikace byznysových pravidel~\cite{cemus2014aspect}.
 Ve zdrojovém kódu~\ref{lst:tangling} je znázorněno, jak průřezové
-problémy zasahují do kódu imaginární třídy implementované v
+problémy zasahují do kódu metody imaginární třídy implementované v
 jazyce Java, která slouží pro vytváření objednávek v e-commerce
 systému popsaném v sekci~\ref{sec:shortcomings}.
-Aspekt logování je zohledněn na třech místech, stejně jako aspekt transakcí.
-Navíc jsou zde zohledněna i byznysová pravidla pro validaci doručovací
-a fakturační adresy objednávky.
+Logování akcí je zpravidla zohledněno v celém systému velmi podobným
+způsobem, jako při vytváření objednávky. Aspekt transakce je stejným
+způsobem zachycen v každé třídě, která implementuje byznysovou operaci
+pracující s databází. Byznysové pravidlo validující doručovací a fakturační
+adresu musí být aplikováno i v metodách implementujících úpravu objednávky,
+vystavení faktury a logistiku objednávek. Konvenční přístup přináší
+manuální duplikaci logiky, která zohledňuje tyto aspekty.
 
 Aspektově orientované programován\'{\i} (\gls{AOP}) přináš\'{\i} řešen\'{\i}
 v\'yše zmiňovaných problémů. Využívá k tomu princip oddělení zodpovědností (z anglického \textit{separation
@@ -130,9 +134,9 @@ Pomoc\'{\i} procesu zvaného \textit{weaving} je poté tento kód automaticky di
 Weaving může proběhnout staticky při kompilaci programu nebo dynamicky
 při jeho běhu. V obou př\'{\i}padech ale programátorovi ulehčuje práci,
 protože k definici i změně aspektu docház\'{\i} centrálně, a t\'{\i}m je eliminována
-potřeba manuáln\'{\i} duplikace kódu. \gls{AOP} nen\'{\i} paradigmatem poskytuj\'{\i}c\'{\i}m
-kompletn\'{\i} framework pro návrh programu. V ideáln\'{\i}m př\'{\i}padě je tedy k návrhu
-systému využita kombinace \gls{AOP} s jin\'ym paradigmatem či architekturou.
+potřeba manuáln\'{\i} duplikace a synchronizace kódu. V uvedeném případě by tedy byly aspekty
+logování, transakcí a byzynsových pravidel zachyceny mimo metodu \code{createOrder},
+a pomocí weavingu by byly do této metody automaticky integrovány.
 
 \lstinputlisting[
 caption={Příklad průřezových problémů zohledněných při vytváření objednávky},
@@ -233,14 +237,24 @@ displeje, na kterém je rozhraní zobrazováno.
 Díky tomu je dosaženo významné redukce kódu~\cite{cemus2016context}
 potřebného pro popis adaptibilního uživatelského rozhraní.
 
-Dokumentace je také částí informačního systému, do které se promítají
-jeho aspekty~\cite{cemus2017automated}. Autoři \gls{ADDA}
-využívají data mining pro získání meta-informací o byznysových operacích,
-datovém modelu systému a o byznysových pravidlech. To je umožněno
-díky soustředění těchto aspektů v \textit{single-focal point} a použití \gls{DSL} pro jejich popis.
-Díky tomu lze automaticky vygenerovat seznam byznysových operací, potažmo implementovaných
-use-cases, strukturu doménového modelu a formální popis byznysových pravidel,
-který slouží pro verifikaci jejich správnosti.
+\subsection{Architektura systému využívajícího ADDA}\label{sec:adda-architecture}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[keepaspectratio=true, width=0.8\linewidth]{figures/adda-architecture.pdf}
+    \caption{Architektura systému využívajícího ADDA}
+    \label{fig:adda-architecture}
+\end{figure}
+
+Přístup \gls{ADDA} má implikace na architekturu systému, který ho využívá.
+Pro zachycení aspektů v \textit{single-focal point} tento přístup využívá
+speciálních registrů, ze kterých jsou aspekty automaticky distribuovány
+a začleňovány pomocí aspect-weaverů. Architektura distribuovaného systému
+využívajícího \gls{ADDA} pro implementaci aspektově orientovaného uživatelského rozhraní
+je znázorněna na obrázku~\ref{fig:adda-architecture}~\cite{cemus2017separation}. Kromě
+standardních tří vrstev jsou součástí systému i registry aspektů. Pomocí \gls{REST}
+\gls{API} jsou aspekty ze \textit{single-focal point} distribuovány do uživatelských
+rozhraní na různých platformách.
 
 \subsection{Výhody a nevýhody}
 
