@@ -178,15 +178,16 @@ pouze unikátní pravidla. Zajištění unikátního identifikátoru lze zajisti
 administraci byznysových pravidel, který má přehled o všech pravidlech. Díky tomu může administrátora
 upozornit na případnou duplikaci.
 
-\subsection{Logické výrazy byznysových pravidel}\label{sec:expressions-design}
+\subsection{Logické podmínky byznysových pravidel}\label{sec:expressions-design}
 
 Sekce~\ref{sec:business-rules} uvádí, že pravidla obsahují logické podmínky. V případě preconditions je to
 ověření podmínky, která musí být platná před spuštěním byznysové operace v~\ref{itm:before}. V případě
 post-condition může filtrování návratové hodnoty podléhat splnění určité podmínky, která musí být
-vyhodnocena v~\ref{itm:after}. Zápis logických výrazů bude závislý na konkrétní implementaci \gls{DSL}.
-Nicméně návrh frameworku bude předpokládat, že po načtení z \gls{DSL} budou výrazy v paměti uloženy
-jako strom samostatných objektů podle návrhové vzoru Composite~\cite{fowler2002patterns}. Díky tomu
+vyhodnocena v~\ref{itm:after}. Zápis logických podmínek bude závislý na konkrétní implementaci \gls{DSL}.
+Nicméně návrh frameworku bude předpokládat, že po načtení z \gls{DSL} budou jednotlivé výrazy podmínek v paměti
+uloženy jako strom samostatných objektů podle návrhové vzoru Composite~\cite{fowler2002patterns}. Díky tomu
 bude framework moci využít k jejich vyhodnocování návrhový vzor Interpreter~\cite{fowler2002patterns}.
+\gls{DSL} tedy musí umožňovat takový zápis logických podmínek, který půjde převést do této podoby.
 
 \subsection{Filtrování návratových hodnot byznysové operace}
 

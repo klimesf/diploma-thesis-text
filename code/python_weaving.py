@@ -7,9 +7,7 @@ def business_operation(name, weaver):
             operation_context.set_output(output)
             weaver.apply_post_conditions(operation_context)
             return operation_context.get_output()
-
         return func_wrapper
-
     return wrapper
 
 
@@ -20,8 +18,4 @@ class ProductRepository:
 
     @business_operation("product.listAll", weaver)
     def get_all(self) -> List[Product]:
-        pass
-
-    @business_operation("product.detail", weaver)
-    def get(self, id: int) -> Optional[Product]:
         pass

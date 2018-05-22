@@ -9,7 +9,8 @@
 Jedním z cílů této práce je implementace prototypů
 knihoven frameworku navrženého v kapitole~\ref{ch:navrh}
 pro tři rozd\'{\i}lné platformy, z nichž jedna mus\'{\i} b\'yt \textit{Java}.
-Tato kapitola popisuje výběr plaforem a konkrétní implementace
+Prototypy slouží pro demonstraci toho, že navržený framework lze realizovat.
+Tato kapitola popisuje výběr platforem a konkrétní implementace
 knihoven pro tyto platformy. Jelikož jednotlivé implementace
 vycházejí ze stejného návrhu, kompletní implementace
 je popsána pouze pro platformu Java. Ostatní implementace jsou
@@ -27,106 +28,52 @@ inžen\'yrstv\'{\i}~\cite{octoverse, githut, stackoverflowsurvey}.
 Tyto jazyky se v posledních letech stabilně umísťují na prvních příčkách
 nejpopulárnějš\'{\i}ch programovacích jazyků pro obecné použit\'{\i}.
 
-\section{Sd\'{\i}len\'{\i} byznys kontextů mezi službami}
+\section{Doménově specifick\'y jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
 
-%\goal{Formát pro přenos pravidel po s\'{\i}ti a jeho v\'yhody}
-Pro sd\'{\i}lení byznysových kontextů a jejich pravidel
-mezi jednotliv\'ymi službami je využita s\'{\i}ťová komunikace.
-Ta musí probíhat ve formátu nezávislém na platformě, ideálně s vysokou
-efektivitou přenosu. Návrh frameworku je však nezávislý na použité technologii.
+%\goal{Popsat proč a jak jsme tvořili DSL}
+Pro popis byznysových pravidel v \textit{single-focal point} navrhuje framework
+využít speciální \gls{DSL}. Ačkoliv nen\'{\i} implementace \gls{DSL} pro popis byznysových kontextů
+cílem této práce, pro ověřen\'{\i} konceptu je nutné nadefinovat alespoň jeho zjednodušenou
+verzi a implementovat část knihovny, která bude umět jazyk zpracovat a sestavit metamodel popsaného
+kontextu.
 
-\subsection{Protocol Buffers}
+Pro popis kontextů byl zvolen univerzáln\'{\i} formát Extensible
+Markup Language (\gls{XML}) doplněný o definici schématu dat pomocí \textit{XML Schema Definition}.
+D\'{\i}ky formálně definovanému schématu lze popis byznys kontextu automaticky validovat a vyhnout se
+tak př\'{\i}padn\'ym chybám v zápisu. Tento jazyk bude možno v produkční verzi knihovny nahradit komplexnějším.
 
-%\goal{Proč jsme použili Protobuf}
-Pro prototypy knihoven byl pro přenos byznysových kontextů zvolen open-source formát
-\textit{Protocol Buffers}\footnote{\url{https://developers.google.com/protocol-buffers/}}\cite{varda2008protocol}
-vyvinut\'y společnost\'{\i} Google\footnote{\url{https://www.google.com/}}.
-Ten umožňuje explicitně definovat a vynucovat schéma dat,
-která jsou přenášena po s\'{\i}ti, bez vazby na konkrétn\'{\i} programovac\'{\i}
-jazyk. Zároveň poskytuje obslužné knihovny pro vybrané platformy.
-D\'{\i}ky binárn\'{\i} reprezentaci dat je v přenosu velmi efektivn\'{\i},
-oproti formátům jako je \gls{JSON} nebo \gls{XML}~\cite{maeda2012performance}.
-Na rozdíl od protokolů \textit{Apache Thrift}\footnote{\url{https://thrift.apache.org/}}
-a \textit{Apache Avro}\footnote{\url{https://avro.apache.org/}}, které poskytuj\'{\i}
-velmi srovnatelnou funkcionalitu, má zvolený protokol kvalitnějš\'{\i} a lépe
-srozumitelnou dokumentaci.
-
-\lstinputlisting[
-caption={Část definice schématu zpráv byznys kontextů ve formátu Protocol Buffers},
-label={lst:protobuf-example},
-language=protobuf2,
-style=protobuf,
-%frame=single,
-%float,
-%floatplacement=H
-]{code/protobuffer_example.proto}
-
-Zdrojov\'y kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
-síťových zpráv pro distribuci byznys kontexty ve formátu Protobuffer.
-Schéma zpráv pro v\'yměnu kontextů dodržuje strukturu metamodelu navrženého
-v sekci~\ref{sec:metamodel}.
-
-\begin{description}
-    \item [ExpressionMessage] obsahuje jméno, atributy a argumenty \code{Expression}
-    \item [ExpressionPropertyMessage] je enumerace obsahuj\'{\i}c\'{\i} typy atributu \code{Expression}
-    \item [PreconditionMessage] obsahuje název a podm\'{\i}nku precondition pravidla
-    \item [PostConditionMessage] obsahuje název, typ, název odkazovaného pole a podm\'{\i}nku post-condition pravidla
-    \item [PostConditionTypeMessage] je enumerace obsahuj\'{\i}c\'{\i} typy post-condition pravidla
-    \item [BusinessContextMessage] obsahuje identifikátor, seznam rožš\'{\i}řen\'ych kontextů, seznam preconditions a post-conditions byznys kontextu
-    \item [BusinessContextsMessage] obaluje v\'{\i}ce byznys kontextů
-\end{description}
-
-\subsection{gRPC}
-
-%\goal{Proč jsme použili gRPC}
-Síťovou komunikaci potřebnou pro distribuci byznysových kontextů realizuje
-open-source framework gRPC\footnote{\url{https://grpc.io/}}, kter\'y stav\'{\i}
-na technologii Protocol Buffers. Tento framework poskytuje v\'yvojáři
-možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i} protokolu \textit{\gls{RPC}}.
-Zdrojov\'y kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
-kter\'y umožňuje klientovi volat procedury \code{FetchContexts},
-\code{FetchAllContexts} a \code{UpdateOrSaveContext}.
+%\goal{Popis formátu}
+Ve zdrojovém kódu~\ref{lst:business-context-xml} je znázorněn
+př\'{\i}klad zápisu jednoduchého byznys kontextu s jednou precondition.
+Samotn\'y zápis byznys kontextu je obsažen v kořenovém elementu
+\code{<businessContext>} a jeho název je popsán atributy
+\code{prefix} a \code{name}. Identifikátory rozš\'{\i}řených kontextů jsou
+vypsány v entitě \code{<includedContexts>}. Preconditions jsou
+definovány uvnitř entity \code{<preconditions>} a podobně
+jsou definovány \code{<postconditions>}. Obsažená data odpov\'{\i}daj\'{\i}
+navrženému metamodelu byznysového kontextu v sekci~\ref{sec:metamodel}.
+Pro zápis podm\'{\i}nek jednotliv\'ych preconditions a post-conditions byl zvolen
+opis derivačního stromu logických výrazů, který bude vysvětlen v následujícím textu.
+Vzhledem k povaze prototypu byla relaxována podm\'{\i}nka
+na čitelnost zápisu pravidel ve prospěch jednodušš\'{\i}ho zpracován\'{\i}.
 
 \lstinputlisting[
-caption={Definice služby pro komunikaci byznys kontextů pro gRPC},
-label={lst:grpc-example},
-language=protobuf2,
-style=protobuf,
+caption={Př\'{\i}klad zápisu byznys kontextu v jazyce \gls{XML}},
+label={lst:business-context-xml},
+language=XML,
 %frame=single,
 %float,
-%floatplacement=H
+%floatplacement=T
 ]
-{code/grpc_example.proto}
+{code/business_context.xml}
 
-\paragraph{FetchContexts()} je procedura, která umožňuje klientovi
-z\'{\i}skat kontexty, jejichž identifikátory zašle jako argument
-typu \code{BusinessContextRequestMessage}.
-V odpovědi pak obdrž\'{\i} dotazované kontexty a nebo chybovou hlášku,
-pokud kontexty s dan\'ymi identifikátory nemá server k dispozici.
+\subsection{Gramatika logických podmínek byznysových pravidel}
 
-\paragraph{FetchAllContexts()} dovoluje klientovi z\'{\i}skat všechny
-dostupné kontexty serveru. Tato metoda je využ\'{\i}vána pro administraci
-kontextů, kdy je potřeba z\'{\i}skat všechny kontexty všech služeb, aby
-nad nimi mohly prob\'{\i}hat úpravy a anal\'yzy.
-
-\paragraph{SaveOrUpdateContext()} slouž\'{\i} pro uložen\'{\i} nového či
-editovaného pravidla, které je zasláno v serializované podobě
-jako argument typu \code{BusinessContextUpdateRequestMessage}.
-Tato procedura může být volána pouze pokud byla nejprve spuštěna transakce.
-
-\section{Logické výrazy byznysových pravidel}
-
+Podmínky byznysových pravidel jsou součástí \gls{DSL} pro popis byznysových kontextů.
 Návrh frameworku vyžaduje, aby logické výrazy byznysových pravidel byly reprezentovány
 v paměti jako strom objektů, jak je popsáno v sekci~\ref{sec:expressions-design}.
 V rámci implementace byla specifikována konkrétní podoba logických výrazů, která je společná
 pro jednotlivé knihovny.
-
-\begin{figure}
-    \centering
-    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression.pdf}
-    \caption{Použití vzoru Intepreter pro vyhodnocování logických výrazů}
-    \label{fig:expression}
-\end{figure}
 
 Podmínky byznysových pravidel se skládají z jednotlivých výrazů, které tvoří
 orientovaný acyklický graf, tzv. \textit{derivační strom}.
@@ -134,6 +81,13 @@ Výrazy se dělí na \textit{terminály} a \textit{neterminály}~\cite{melichar2
 Terminál znamená, že z daného výrazu již nevychází žádná hrana do jiného výrazu.
 Neterminál je opak terminálu. Použití návrhového vzoru \textit{Interpreter}~\cite{fowler2002patterns}
 je demonstrováno na obrázku~\ref{fig:expression}.
+
+\begin{figure}
+    \centering
+    \includegraphics[keepaspectratio=true, width=1\linewidth]{figures/expression.pdf}
+    \caption{Použití vzoru Intepreter pro vyhodnocování logických výrazů}
+    \label{fig:expression}
+\end{figure}
 
 Prototypy knihoven disponují základní sadou výrazů pro zápis byznysových pravidel.
 Mezi ně patří logické operace \code{and}, \code{or}, \code{equals} a \code{negate}.
@@ -181,7 +135,7 @@ Přehled všech výrazů, které knihovny podporují, je v tabulce~\ref{tbl:expr
 }
 
 %\goal{Typované výrazy}
-Pro snažší implementaci na více platformách a prevenci sémantických chyb v pravidlech výrazy
+Pro snazší implementaci na více platformách a prevenci sémantických chyb v pravidlech výrazy
 obsahují i explicitní definici svého návratového typu. Výraz byznysového pravidla může nabývat logických hodnot,
 může vracet číslo, textový řetězec a také objekt. Je potřeba počítat také s tím, že výraz nevrací žádnou
 hodnotu.
@@ -216,54 +170,24 @@ jsou spojeny pomocí binárních výrazu \code{LogicalAnd} odpovídajících log
     \label{fig:simple-rule}
 \end{figure}
 
-\section{Doménově specifick\'y jazyk pro popis byznys kontextů}\label{sec:dsl-impl}
+\subsection{Převod byznysových kontextů mezi DSL a metamodelem}
 
-%\goal{Popsat proč a jak jsme tvořili DSL}
-Ačkoliv nen\'{\i} specifikace a implementace \gls{DSL} pro popis byznysových kontextů
-úkolem této práce, pro ověřen\'{\i} konceptu je nutné nadefinovat alespoň jeho zjednodušenou
-verzi a implementovat část knihovny, která bude umět jazyk zpracovat a sestavit metamodel popsaného
-kontextu. Pro popis kontextů byl zvolen univerzáln\'{\i} formát Extensible
-Markup Language (\gls{XML}) doplněný o definici schématu dat pomocí \textit{XML Schema Definition}.
-D\'{\i}ky formálně definovanému schématu lze popis byznys kontextu automaticky validovat a vyvarovat se tak
-př\'{\i}padn\'ych chyb. Tento jazyk bude možno v produkční verzi knihovny nahradit komplexnejším.
+Pro načtení byznysového kontextu z \gls{DSL} využívají knihovny
+\gls{XML} parsery implementující rozhraní \textit{Document Object Model},
+které je nezávislé na platformě a umožňuje přistupovat k dokumentu
+jako ke stromu jednotlivých elementů.
 
-%\goal{Popis formátu}
-Ve zdrojovém kódu~\ref{lst:business-context-xml} je znázorněn
-př\'{\i}klad zápisu jednoduchého byznys kontextu s jednou precondition.
-Samotn\'y zápis byznys kontextu je obsažen v kořenovém elementu
-\code{<businessContext>} a jeho název je popsán atributy
-\code{prefix} a \code{name}. Identifikátory rozš\'{\i}řených kontextů jsou
-vypsány v entitě \code{<includedContexts>}. Preconditions jsou
-definovány uvnitř entity \code{<preconditions>} a podobně
-jsou definovány \code{<postconditions>}. Obsažená data odpov\'{\i}daj\'{\i}
-navrženému metamodelu byznysového kontextu v sekci~\ref{sec:metamodel}.
-Pro zápis podm\'{\i}nek jednotliv\'ych preconditions a post-conditions byl zvolen
-opis derivačního stromu. Vzhledem k povaze prototypu byla relaxována podm\'{\i}nka
-na čitelnost zápisu pravidel ve prospěch jednodušš\'{\i}ho zpracován\'{\i}.
-
-\lstinputlisting[
-caption={Př\'{\i}klad zápisu byznys kontextu v jazyce \gls{XML}},
-label={lst:business-context-xml},
-language=XML,
-%frame=single,
-%float,
-%floatplacement=T
-]
-{code/business_context.xml}
-
-% TODO: toto někam upíchnout
-Pro uložení kontextu z metamodelu do \gls{DSL}, aby ho mohl vývojář či administrátor
-systému upravovat, je vzhledem k reprezentaci logických výrazů vhodný návrhový vzor
-\textit{Visitor}~\cite{fowler2002patterns}. Ten umožní převádět libovolně složité logické
-výrazy pomocí metody \textit{double-dispatch}. Jeho volbou je zároveň zajištěna rozšiřitelnost
-frameworku pro libovolné \gls{DSL} -- bude stačit implementovat konkrétní
-visitor pro zvolený jazyk, aniž by bylo nutno zasahovat přímo do implementace frameworku.
+Pro uložení kontextu z metamodelu do \gls{DSL} je vzhledem k reprezentaci logických výrazů vhodný
+návrhový vzor \textit{Visitor}~\cite{fowler2002patterns}. Ten umožňuje převádět libovolně složité
+logické výrazy pomocí metody \textit{double-dispatch}. Jeho volbou je zároveň zajištěna rozšiřitelnost
+knihoven pro komplexnější \gls{DSL} -- bude stačit implementovat konkrétní
+visitor pro zvolený jazyk, aniž by bylo nutno dále zasahovat do implementace knihoven.
 
 Princip použití vzoru Visitor je znázorněn na obrázku~\ref{fig:expression-visitor}.
-Rozhraní \code{Expression} je implementováno dvěma výrazy -- \code{VariableReferece}
-a \code{IsNotNull} -- které po zavolání metody \code{accept()} zavolají na visitorovi
-příslušnou metodu \code{visit()}. Visitor tak může oddělit logiku, která obstarává
-převod jednotlivých výrazů do \gls{DSL}.
+Rozhraní \code{Expression} je implementováno konkrétními logickými výrazy (pro ilustraci
+jsou zobrazeny konkrétní výrazy \code{IsNotNull} a \code{VariableReference}), které
+po zavolání metody \code{accept()} zavolají na visitorovi příslušnou metodu \code{visit()}.
+Visitor tak může oddělit logiku, která obstarává převod jednotlivých výrazů do \gls{DSL}.
 
 \begin{figure}
     \centering
@@ -271,6 +195,94 @@ převod jednotlivých výrazů do \gls{DSL}.
     \caption{Využití vzoru Visitor pro převod logických výrazů do doménově specifického jazyka}
     \label{fig:expression-visitor}
 \end{figure}
+
+\section{Distribuce byznysových kontextů mezi službami}
+
+%\goal{Formát pro přenos pravidel po s\'{\i}ti a jeho v\'yhody}
+Pro sd\'{\i}lení byznysových kontextů a jejich pravidel
+mezi jednotliv\'ymi službami framework navrhuje využití s\'{\i}ťové komunikace.
+Ta musí probíhat ve formátu nezávislém na platformě, ideálně s vysokou
+efektivitou přenosu. Návrh frameworku však pro implementaci nevynucuje
+použití konkrétní technologie.
+
+\subsection{Protocol Buffers}
+
+%\goal{Proč jsme použili Protobuf}
+Pro prototypy knihoven byl pro přenos byznysových kontextů zvolen open-source formát
+\textit{Protocol Buffers}\footnote{\url{https://developers.google.com/protocol-buffers/}}\cite{varda2008protocol}
+vyvinut\'y společnost\'{\i} Google\footnote{\url{https://www.google.com/}}.
+Ten umožňuje explicitně definovat a vynucovat schéma dat,
+která jsou přenášena po s\'{\i}ti, bez vazby na konkrétn\'{\i} programovac\'{\i}
+jazyk. Zároveň poskytuje obslužné knihovny pro vybrané platformy.
+D\'{\i}ky binárn\'{\i} reprezentaci dat je v přenosu velmi efektivn\'{\i},
+oproti formátům jako je \gls{JSON} nebo \gls{XML}~\cite{maeda2012performance}.
+Na rozdíl od protokolů \textit{Apache Thrift}\footnote{\url{https://thrift.apache.org/}}
+a \textit{Apache Avro}\footnote{\url{https://avro.apache.org/}}, které poskytuj\'{\i}
+velmi srovnatelnou funkcionalitu, má zvolený protokol kvalitnějš\'{\i} a lépe
+srozumitelnou dokumentaci.
+
+\lstinputlisting[
+caption={Část definice schématu zpráv byznys kontextů ve formátu Protocol Buffers},
+label={lst:protobuf-example},
+language=protobuf2,
+style=protobuf,
+%frame=single,
+%float,
+%floatplacement=H
+]{code/protobuffer_example.proto}
+
+Zdrojov\'y kód~\ref{lst:protobuf-example} znázorňuje zápis schématu
+síťových zpráv pro distribuci byznys kontexty ve formátu Protobuffer.
+Schéma zpráv pro v\'yměnu kontextů dodržuje strukturu metamodelu navrženého
+v sekci~\ref{sec:metamodel}.
+
+\begin{description}
+    \item [ExpressionMessage] obsahuje jméno, atributy a argumenty \code{Expression}.
+    \item [ExpressionPropertyMessage] je enumerace obsahuj\'{\i}c\'{\i} typy atributu \code{Expression}.
+    \item [PreconditionMessage] obsahuje název a podm\'{\i}nku precondition pravidla.
+    \item [PostConditionMessage] obsahuje název, typ, název odkazovaného pole a podm\'{\i}nku post-condition pravidla.
+    \item [PostConditionTypeMessage] je enumerace obsahuj\'{\i}c\'{\i} typy post-condition pravidla.
+    \item [BusinessContextMessage] obsahuje identifikátor, seznam rožš\'{\i}řen\'ych kontextů, seznam preconditions a post-conditions byznys kontextu.
+    \item [BusinessContextsMessage] obaluje v\'{\i}ce byznys kontextů.
+\end{description}
+
+\subsection{gRPC}
+
+%\goal{Proč jsme použili gRPC}
+Síťovou komunikaci potřebnou pro distribuci byznysových kontextů realizuje
+open-source framework gRPC\footnote{\url{https://grpc.io/}}, kter\'y stav\'{\i}
+na technologii Protocol Buffers. Tento framework poskytuje v\'yvojáři
+možnost definovat detailn\'{\i} schéma komunikace pomoc\'{\i} protokolu \textit{\gls{RPC}}.
+Zdrojov\'y kód~\ref{lst:grpc-example} znázorňuje zápis serveru,
+kter\'y umožňuje klientovi volat procedury \code{FetchContexts},
+\code{FetchAllContexts} a \code{UpdateOrSaveContext}.
+
+\lstinputlisting[
+caption={Definice služby pro komunikaci byznys kontextů pro gRPC},
+label={lst:grpc-example},
+language=protobuf2,
+style=protobuf,
+%frame=single,
+%float,
+%floatplacement=H
+]
+{code/grpc_example.proto}
+
+\paragraph{FetchContexts()} je procedura, která umožňuje klientovi
+z\'{\i}skat kontexty, jejichž identifikátory zašle jako argument
+typu \code{BusinessContextRequestMessage}.
+V odpovědi pak obdrž\'{\i} dotazované kontexty anebo chybovou hlášku,
+pokud kontexty s dan\'ymi identifikátory nemá server k dispozici.
+
+\paragraph{FetchAllContexts()} dovoluje klientovi z\'{\i}skat všechny
+dostupné kontexty serveru. Tato metoda je využ\'{\i}vána pro administraci
+kontextů, kdy je potřeba z\'{\i}skat všechny kontexty všech služeb, aby
+nad nimi mohly prob\'{\i}hat úpravy a anal\'yzy.
+
+\paragraph{SaveOrUpdateContext()} slouž\'{\i} pro uložen\'{\i} nového či
+editovaného pravidla, které je zasláno v serializované podobě
+jako argument typu \code{BusinessContextUpdateRequestMessage}.
+Tato procedura může být volána pouze pokud byla nejprve spuštěna transakce.
 
 \section{Knihovna pro platformu Java}
 
@@ -326,7 +338,7 @@ Weaver byznysových pravidel musí být schopen extrahovat informace o kontextu 
 operace, aby mohl správně zvolit příslušný byznysový kontext. V knihovně pro jazyk Java
 byla pro tento účel zvolena anotace \code{BusinessOperation}, která umožňuje uživateli
 knihovny označit metodu vykonávající byznysovou operaci. Parametry této metody mohou být
-označeny anotací \code{BusinessContextParameter}. Weaver takto oanotované parametry vloží
+označeny anotací \code{BusinessContextParameter}. Weaver takto anotované parametry vloží
 jako proměnné do operačního kontextu a podmínky byznysových pravidel se na ně mohou odkazovat.
 Ukázka použití těchto anotací je ve zdrojovém kódu~\ref{lst:business-operation-aspectj}.
 Pomocí knihovny AspectJ\footnote{\url{https://www.eclipse.org/aspectj/}}, která poskytuje sadu nástrojů pro použití principů \gls{AOP},
@@ -348,7 +360,7 @@ language=Java,
 Pro serializaci a deserializaci \gls{DSL} byznysových kontextů byly implementovány třídy
 \code{BusinessContextXmlWriter} a \code{BusinessContextXmlLoader}. Ty využívají knihovnu
 JDOM~2\footnote{\url{http://www.jdom.org/}}, která poskytuje
-kompletn\'{\i} sadu nástroju pro čten\'{\i} a zápis \gls{XML} dokumentů.
+kompletn\'{\i} sadu nástrojů pro čten\'{\i} a zápis \gls{XML} dokumentů.
 Implementuje specifikaci \textit{Document Object Model},
 pomoc\'{\i} které lze automaticky sestavovat a č\'{\i}st \gls{XML} dokumenty.
 
@@ -379,8 +391,9 @@ Jazyk Python totiž d\'{\i}ky své dynamické povaze a vestavěnému
 systému dekorátorů umožňuje aplikovat principy aspektově orientovaného
 programován\'{\i} bez potřeby dodatečn\'ych knihoven či technologi\'{\i}.
 Zdrojov\'y kód~\ref{lst:python-weaving-example} znázorňuje
-definici a použit\'{\i} dekorátoru \code{business\textunderscore operation}.
-Dekorátoru je potřeba předat samotn\'y weaver, narozd\'{\i}l
+definici a použit\'{\i} dekorátoru \code{business\textunderscore operation},
+který je využit pro anotaci funkce, která implementuje byznysovou operaci.
+Dekorátoru je potřeba předat samotn\'y weaver, na rozd\'{\i}l
 od implementace v Javě, kdy se o předán\'{\i} weaveru postará dependency
 injection container.
 
@@ -439,7 +452,7 @@ preconditions a po zavolán\'{\i} aplikovat post-conditions.
 D\'{\i}ky tomu bude každ\'y kód, kter\'y využije modul definuj\'{\i}c\'{\i} funkci
 pro registraci uživatele, pracovat s dekorovanou funkc\'{\i}.
 
-\paragraph{Využit\'{\i} gRPC} Narozd\'{\i}l od implementac\'{\i} knihovny
+\paragraph{Využit\'{\i} gRPC} Na rozd\'{\i}l od implementac\'{\i} knihovny
 v jazyc\'{\i}ch Java a Python um\'{\i} knihovna obsluhuj\'{\i}c\'{\i} gRPC
 fungovat i bez předgenerovaného kódu. To usnadnilo
 práci při serializaci byznys kontextů do přenosového formátu
@@ -468,13 +481,15 @@ a v základn\'{\i}m nastaven\'{\i} nen\'{\i} ani př\'{\i}liš efektivn\'{\i} pr
 Proto bylo nutné využ\'{\i}t dodatečné knihovny, jmenovitě
 \textit{Yarn}\footnote{\url{https://yarnpkg.com/en/}}, \textit{Babel}\footnote{\url{https://babeljs.io/}} a
 \textit{Rimraf}\footnote{\url{https://github.com/isaacs/rimraf}}.
-Platforma Node.js neposkytuje nástroje pro práci s XML, pro převod reprezentace byznysových pravidel z \gls{DSL}
-proto byla využita knihovna \code{xmldom}\footnote{\url{https://www.npmjs.com/package/xmldom}}.
+Platforma Node.js neposkytuje nástroje pro práci s XML, proto byla využita knihovna
+\code{xmldom}\footnote{\url{https://www.npmjs.com/package/xmldom}}.
 
 \section{Systém pro centráln\'{\i} správu byznys pravidel}\label{sec:central-administration}
 
-Součástí této práce je i implementace nástroje, který umožní centrální správu byznysových
-pravidel. Ta vychází z návrhu popsaného v sekci~\ref{sec:central-administration-design}
+Cílem této práce je i centrální správa byznysových pravidel. V sekci~\ref{sec:central-administration-design}
+framework navrhuje využít speciální samostatný nástroj, který umožní administrátorům upravovat či vytvářet
+byznysové kontexty z jednoho místa za běhu systému. Návrh frameworku však neomezuje konkrétní implementaci
+nástroje, ani využité technologie.
 
 \subsection{Popis implementace}
 
@@ -500,9 +515,11 @@ na sn\'{\i}mku~\ref{fig:screenshot-context-edit}.
 \subsection{Detekce a prevence potenciáln\'{\i}ch problémů}
 
 %\goal{Problémy způsobené rozšiřován\'{\i}m kontextů}
-Sekce~\ref{sec:context-inheritance} identifikuje problémy, které
+Systém pro centrální správu byznysových pravidel musí být schopen předejít případným
+chybám a zabránit tak nekonzistencím v systému, či jeho výpadku.
+Návrh frameworku v sekci~\ref{sec:context-inheritance} identifikuje problémy, které
 mohou nastat při úpravě nebo vytvářen\'{\i} nového byznysového kontextu.
-Kromě syntaktick\'ych chyb, které jsou detekovány automaticky pomoc\'{\i} definovaného schématu,
+Kromě syntaktick\'ych chyb, které jsou detekovány automaticky pomoc\'{\i} definovaného schématu \gls{DSL},
 je potřeba detekovat následující sémantické chyby, které mohou b\'yt způsobeny rozšiřován\'{\i}m kontextů:
 \begin{enumerate}[label=\alph*)]
     \item Neunikátní identifikátory byznysových pravidel
@@ -541,7 +558,7 @@ použit\'{\i} aspektově orientovaného př\'{\i}stupu.
 V rámci této kapitoly byl specifikován \gls{DSL}, kter\'ym lze popsat
 byznys kontext nezávisle na platformě.
 Implementované prototypy knihoven lze využ\'{\i}t k implementaci služeb a k sestaven\'{\i}
-funkčn\'{\i}ho systému, jak je popisáno v následuj\'{\i}c\'{\i} kapitole.
+funkčn\'{\i}ho systému, jak je popsáno v následuj\'{\i}c\'{\i} kapitole.
 
 %\goal{Hostován\'{\i} na GitHubu + licence}
 Vešker\'y kód implementace je hostován v centráln\'{\i}m repozitáři
