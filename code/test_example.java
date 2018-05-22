@@ -14,10 +14,9 @@ public class BusinessContextWeaverTest {
             "John Doe",
             "john.doe@example.com"
         ));
-
         evaluator.applyPostConditions(context);
-
         User user = (User) context.getOutput();
+
         Assert.assertEquals("John Doe", user.getName());
         Assert.assertNull(user.getEmail());
     }

@@ -6,8 +6,7 @@
 \chapter{Testování a validace frameworku}\label{ch:testovani}
 
 Tato kapitola popisuje, jak\'ym způsobem bylo provedeno
-testování naprogramovan\'ych knihoven pomoc\'{\i}
-jednotkov\'ych a integračn\'{\i}ch testů.
+testování naprogramovan\'ych knihoven.
 Kapitola se dále věnuje popisu ukázkového systému, na kterém
 byla demonstrována správná funkčnost navrženého frameworku
 a provedena analýza vlivu jeho nasazení na duplikaci
@@ -15,39 +14,42 @@ byznysových pravidel.
 
 \section{Techniky testování}
 
-Pro testování prototypů knihoven bylo využito několik technik testování
-a vývoje, které pomáhají odhalit chyby a zvýšit kvalitu výsledného software.
+Pro testování prototypů knihoven bylo využito několik technik testování,
+které pomáhají odhalit chyby a zvýšit kvalitu výsledného software.
 
 \subsection{Jednotkové testy}
 
 Jednotkové testy jsou nejnižší úrovní testování, která má za úkol ověřit správnou
-funkčnost dílčích částí systémů -- tzv. \textit{jednotek}. Jejich důležitou vlastností je
-izolace testované jednotky od ostatních částí systémů. Jednotkové testy umožňují
-odhalit chyby v dřívějších fázích vývoje, snáze refaktorovat kód a usnadňují
-integraci komponent~\cite{luo2001software}.
+funkčnost dílčích částí systémů -- tzv. \textit{jednotek}. Tato technika se
+soustředí na odhalení chyb v implementaci dané jednotky.
+Jednotkové testy umožňují odhalit chyby v dřívějších fázích vývoje~\cite{luo2001software}.
+Usnadňují také následnou integraci jednotek, při které lze využít předpokladu, že jednotky fungují
+správně.
 
 \subsection{Integrační testy}
 
-Integrační testy se soustřeďují na ověření správné kompozice jednotek systému. Testují chování celku
-složeného z jednotlivých komponent a mají za úkol odhalit nekonzistence v jejich spolupráci, komunikaci
-a v jejich rozhraních. Existuje více strategií integračního testování. Při integraci
-lze inkrementálně postupovat od nejmenších jednotek směrem vzhůru, tzv. \textit{bottom-up}, nebo směrem od
-celku k jednotkám, tzv. \textit{top-down}~\cite{graham2008foundations}. Integrovat lze i celý systém najednou,
-tato metoda se nazývá \textit{big-bang}. V tomto případě je ale těžké detekovat původ nalezených chyb.
+Integrační testy ověřují správnou spolupráci jednotlivých komponent programu a mají za úkol
+odhalit chyby v jejich komunikaci a nekonzistence v jejich rozhraních. Existuje více
+strategií integračního testování. Při integraci lze inkrementálně postupovat od implementovaných
+jednotek směrem k celku, tzv. \textit{bottom-up}, nebo směrem od celku k jednotkám, tzv.
+\textit{top-down}, kdy je chování dosud neimplementovaných jednotek simulováno~\cite{graham2008foundations}.
+Integrovat lze i celý systém najednou, tato metoda se nazývá \textit{big-bang}. V tomto případě je ale těžké
+detekovat původ nalezených chyb.
 
 \subsection{Systémové testy}
 
-Systémové testy jsou poslední fází testování software a mají za úkol ověřit, že výsledný
-software splňuje specifikaci a funguje jako celek. Tato metoda se věnuje jak funkčním,
-tak nefunkčním vlastnostem~\cite{graham2008foundations}.
+Systémové testy mají za úkol ověřit, že výsledný program splňuje specifikaci a funguje jako celek.
+Tato metoda se věnuje jak funkčním, tak nefunkčním vlastnostem software~\cite{graham2008foundations}.
+Systémové testy patří narozdíl od výše uvedených technik do kategorie \textit{black-box}, tzn. neznají
+vnitřní strukturu testovaného programu.
 
 \subsection{Průběžná integrace}
 
-Průběžné integrace (z anglického \textit{continuous integration} -- \gls{CI})~\cite{fowler2006continuous}
+Průběžná integrace (z anglického \textit{continuous integration} -- \gls{CI})~\cite{fowler2006continuous}
 slouží k urychlení nalezení defektů software ve fázi vývoje. Nové verze zdrojového kódu jsou do projektu pravidelně
 integrovány v krátkých časových intervalech a jejich funkčnost je ověřována automatickými testy. K tomu je
-zpravidla využíván tzv. \textit{integrační server}. Díky \gls{CI} je sn\'{\i}žena pravděpodobnost regrese
-a dlouhodobě zv\'yšena celková kvalita kódu.
+zpravidla využíván tzv. \textit{integrační server}, na kterém jsou testy spouštěny. Díky \gls{CI} je
+sn\'{\i}žena pravděpodobnost regrese a dlouhodobě zv\'yšena celková kvalita kódu.
 
 \section{Testován\'{\i} prototypů knihoven}
 
@@ -61,7 +63,7 @@ V rámci \gls{CI} byl kód knihoven po celou dobu v\'yvoje verzován systémem
 Git\footnote{\url{https://git-scm.com/}}, zas\'{\i}lán do centráln\'{\i}ho repozitáře a
 s pomoc\'{\i} nástroje Travis \gls{CI}\footnote{\url{https://travis-ci.org/}}
 bylo automaticky spouštěno jeho sestaven\'{\i} a testován\'{\i}.
-Tento nástroj zároveň okamžitě informoval o v\'ysledc\'{\i}ch tohoto procesu.
+Tento nástroj zároveň vývojáře okamžitě informoval o v\'ysledc\'{\i}ch tohoto procesu.
 
 \subsection{Testovací scénáře}
 
@@ -174,7 +176,7 @@ jako \code{true}.
 
 \section{Ukázkový příklad: e-commerce systém}\label{sec:casestudy}
 
-Pro akceptační testování a validaci navrženého frameworku bylo nutné vyzkoušet
+Pro systémové testování a validaci navrženého frameworku bylo nutné vyzkoušet
 jeho nasazen\'{\i} při v\'yvoji aplikace. Pro tento účel vznikl v rámci
 této práce ukázkový příklad na fiktivn\'{\i}m e-commerce systému využ\'{\i}vaj\'{\i}c\'{\i}m
 architekturu orientovanou na služby.
@@ -239,12 +241,12 @@ kompletn\'{\i} doménov\'y model ukázkového systému.
     \label{fig:example-model}
 \end{figure}
 
-Tento model je využ\'{\i}ván v každé ze služeb. Nicméně, ne každá služba využije všechny jeho entity,
-ale pouze jejich podmnožinu, kterou potřebuje ke svoj\'{\i} práci.
+Tento model je využ\'{\i}ván v každé ze služeb. Nicméně, jednotlivé služby využívají
+pouze jeho podmnožinu, kterou potřebují ke svoj\'{\i} práci.
 
 \subsection{Byznysová pravidla a kontexty}
 
-V tabulce~\ref{tbl:business-rules} je v\'yčet všech dvaceti byznysov\'ych pravidel, která byla
+V tabulce~\ref{tbl:business-rules} je v\'yčet všech byznysov\'ych pravidel, která byla
 vymodelována pro ukázkovou aplikaci. V tabulce kromě identifikátoru a popisu byznysového pravidla
 vid\'{\i}me, na které užitné př\'{\i}pady se pravidlo aplikuje, a jak\'y je typ pravidla
 (\textit{pre} pro precondition, \textit{post} pro post-condition).
@@ -419,31 +421,29 @@ Docker~\cite{merkel2014docker}, která umožňuje vytvořit virtuáln\'{\i} běh
 pro aplikaci pomoc\'{\i} kontejnerizace využ\'{\i}vaj\'{\i}c\'{\i} virtualizaci nad operačn\'{\i}m systémem.
 Uživatel si nadefinuje tzv. \textit{image}, kter\'y se skládá z jednotliv\'ych vrstev.
 Základn\'{\i} vrstvou je operačn\'{\i} systém, dalš\'{\i}mi mohou b\'yt jednotlivé knihovny instalované do systému.
-Př\'{\i}klad definice image pomoc\'{\i} technologie Docker je znázorněn ve zdrojovém
-kódu~\ref{lst:docker-image}. Konkrétně se jedná o definici image, kter\'y
-rozšiřuje oficiáln\'{\i} image \code{library/node:9.11.1}\footnote{\url{https://hub.docker.com/\_/node/}}
-stavěj\'{\i}c\'{\i} nad operačn\'{\i}m systémem \textit{Linux}\footnote{\url{https://www.linuxfoundation.org/projects/linux/}},
-a přidává vrstvy s prototypem knihovny pro platformu Node.js.
+%Př\'{\i}klad definice image pomoc\'{\i} technologie Docker je znázorněn ve zdrojovém
+%kódu~\ref{lst:docker-image}. Konkrétně se jedná o definici image, kter\'y
+%rozšiřuje oficiáln\'{\i} image \code{library/node:9.11.1}\footnote{\url{https://hub.docker.com/\_/node/}}
+%stavěj\'{\i}c\'{\i} nad operačn\'{\i}m systémem \textit{Linux}\footnote{\url{https://www.linuxfoundation.org/projects/linux/}},
+%a přidává vrstvy s prototypem knihovny pro platformu Node.js.
 
-\lstinputlisting[
-caption={Ukázka zápisu Docker image obsahuj\'{\i}c\'{\i} knihovnu pro platformu Node.js},
-label={lst:docker-image},
-language=Dockerfile,
-%frame=single,
-]
-{code/dockerfile_nodejs.txt}
+%\lstinputlisting[
+%caption={Ukázka zápisu Docker image obsahuj\'{\i}c\'{\i} knihovnu pro platformu Node.js},
+%label={lst:docker-image},
+%language=Dockerfile,
+%%frame=single,
+%]
+%{code/dockerfile_nodejs.txt}
 
 \paragraph{Spouštěn\'{\i} služeb}
-Pro samotné spuštěn\'{\i} byla využita funkce \textit{Compose}, která umožňuje
+Pro samotné spuštěn\'{\i} byla využita funkce \textit{Docker Compose}, která umožňuje
 definovat a spouštět aplikace s více kontejnery. Ve zdrojovém kódu~\ref{lst:docker-compose}
-můžeme vidět zápis Order service. Pro jej\'{\i} image je použit \code{filipklimes-diploma/example-order-service}.
-V sekci \code{ports} deklarujeme, že služba má m\'{\i}t z vnějšku př\'{\i}stupn\'y port \code{5501}, na kterém poskytuje své
-\gls{REST} \gls{API}, a port \code{5551}, na kterém poskytuje své gRPC \gls{API} pro sd\'{\i}lené byznysov\'ych kontextů. Order service je závislá
-na Product, Billing, Shipping a User service, což explicitně specifikujeme v sekci \code{depends\_on},
-aby Docker Compose mohl spustit služby ve správném pořad\'{\i}. Nakonec pomoc\'{\i} \code{links} deklarujeme,
-že pro kontejner, ve kterém Order Service poběž\'{\i}, maj\'{\i} b\'yt na s\'{\i}ti př\'{\i}stupné služby \code{product}, \code{user},
-\code{billing} a \code{shipping}. Vše je popsáno ve formátu \gls{YAML}, kter\'y je vhodný
-pro konfiguračn\'{\i} soubory díky jeho snadné čitelnosti pro člověka a jednoduchému použ\'{\i}ván\'{\i}.
+je příklad zápisu Order service. Pro jej\'{\i} image je použit \code{filipklimes-diploma/example-order-service}.
+V sekci \code{ports} je deklarováno, že služba má m\'{\i}t z vnějšku př\'{\i}stupn\'y port \code{5501}, na kterém poskytuje své
+\gls{REST} \gls{API}, a port \code{5551}, na kterém poskytuje své gRPC \gls{API} pro sd\'{\i}lené byznysov\'ych kontextů.
+V sekci \code{links} je deklarováno, že pro kontejner, ve kterém Order Service poběž\'{\i}, maj\'{\i} b\'yt na s\'{\i}ti
+př\'{\i}stupné služby \code{product}, \code{user}, \code{billing} a \code{shipping}. Vše je popsáno ve formátu \gls{YAML},
+kter\'y je vhodný pro konfiguračn\'{\i} soubory díky jeho snadné čitelnosti pro člověka a jednoduchému použ\'{\i}ván\'{\i}.
 
 \lstinputlisting[
 caption={Ukázka zápisu aplikace s více kontejnery pro Docker Compose},
@@ -456,13 +456,12 @@ language=Yaml,
 \section{Srovnán\'{\i} s konvenčn\'{\i}m př\'{\i}stupem}
 
 %\goal{Ukázka na konkrétn\'{\i}m př\'{\i}kladě}
-Z tabulky~\ref{tbl:business-contexts} plyne, že 55 \% byznysov\'ych pravidel v ukázkovém systému je
-využ\'{\i}váno ve v\'{\i}ce kontextech, a polovina je využ\'{\i}vána např\'{\i}č v\'{\i}ce službami.
-V tabulce~\ref{tbl:duplication} je přehledně shrnuto, která pravidla jsou využ\'{\i}vána ve kter\'ych službách.
-Při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu by tato pravidla bylo nutné implementovat alespoň
-jednou pro každou ze služeb, za předpokladu, že by nedocházelo k duplikac\'{\i}m ve službách samotn\'ych.
-Manuáln\'{\i} duplikace nav\'{\i}c přináš\'{\i} nutnost synchronizovat podobu pravidla při každém změnovém
-ř\'{\i}zen\'{\i}, což zvyšuje náklady na v\'yvoj a riziko lidské chyby.
+Z tabulky~\ref{tbl:business-contexts} plyne, že čtrnáct z devatenácti byznysových pravidel je využito ve více
+byznysových kontextech a devět pravidel je sdíleno mezi v\'{\i}ce službami. V tabulce~\ref{tbl:duplication}
+je přehledně shrnuto, která pravidla jsou využ\'{\i}vána ve kter\'ych službách. Při použit\'{\i} konvenčn\'{\i}ho př\'{\i}stupu
+by tato pravidla bylo nutné implementovat alespoň jednou pro každou ze služeb, za předpokladu, že by nedocházelo k duplikac\'{\i}m
+ve službách samotn\'ych. Manuáln\'{\i} duplikace nav\'{\i}c přináš\'{\i} nutnost synchronizovat podobu pravidla
+při každém změnovém ř\'{\i}zen\'{\i}, což zvyšuje náklady na v\'yvoj a riziko lidské chyby.
 
 \begin{table}
     \centering
@@ -494,24 +493,21 @@ sn\'{\i}žen\'{\i} nároků na v\'yvoj a sn\'{\i}žené riziko lidské chyby.
 
 %\goal{Nev\'yhody použit\'{\i}}
 Jako nev\'yhodu použit\'{\i} frameworku lze považovat počátečn\'{\i} investici v podobě integrace knihoven do služeb systému.
-Zvážit mus\'{\i}me i cenu popisu byznysov\'ych pravidel v \gls{DSL}, kter\'y se musej\'{\i} v\'yvojáři systému naučit nav\'{\i}c
+a cena popisu byznysov\'ych pravidel v \gls{DSL}, kter\'y se musej\'{\i} v\'yvojáři systému naučit nav\'{\i}c
 oproti programovac\'{\i}mu jazyku, ve kterém popisuj\'{\i} služby. Tento jazyk však mohou používat i doménoví experti, a tak
-ulehčit práci vývojářů.
+ulehčit práci vývojářů. Framework také není vhodné nasazovat v systémech, jejichž doména nemá tendenci sdílet byznysová pravidla.
 
 %\goal{Závěr}
 Navržen\'y framework tedy oproti konvenčn\'{\i}mu př\'{\i}stupu nab\'{\i}z\'{\i} možnost z\'{\i}skat dlouhodobě
-nižš\'{\i} náklady na v\'yvoj za cenu počátečn\'{\i} investice. Architekt softwarového systému mus\'{\i} př\'{\i}padné nasazen\'{\i}
-frameworku zvážit z několika úhlů pohledu a posoudit, zda bude životnost systému dostatečně dlouhá a systém
-dostatečně velk\'y. Dalš\'{\i}m podstatn\'ym bodem ke zvážen\'{\i} je reálná m\'{\i}ra znovupoužit\'{\i} byznysov\'ych pravidel.
-Mohou existovat domény, ve kter\'ych bude nasazen\'{\i} frameworku mnohem vhodnějš\'{\i} než v jin\'ych.
-D\'{\i}ky provedené př\'{\i}padové studii bylo ukázáno, že v \gls{SOA} lze efektivně řešit sdílení byznysov\'ych pravidel
+nižš\'{\i} náklady na v\'yvoj za cenu počátečn\'{\i} investice. D\'{\i}ky provedené
+př\'{\i}padové studii bylo ukázáno, že v \gls{SOA} lze efektivně řešit sdílení byznysov\'ych pravidel
 navržen\'ym způsobem.
 
 \section{Shrnut\'{\i}}
 
 Tato kapitola popisuje, jak\'ym způsobem byly testovány prototypy knihoven
-pro platformy jazyků Java a Python a pro platformu Node.js. T\'{\i}m byla otestována
-jejich správná funkcionalita. Dále kapitola specifikuje ukázkový systém, na kterém byla
+pro platformy jazyků Java a Python a pro platformu Node.js. Dále kapitola
+specifikuje ukázkový systém, na kterém byla
 provedena demonstrace použit\'{\i} frameworku, a popisuje jeho implementaci.
 Tím bylo otestováno, že navržen\'y framework je funkčn\'{\i},
 splňuje požadavky identifikované v sekci~\ref{sec:implementation-requirements}

@@ -244,18 +244,18 @@ který slouží pro verifikaci jejich správnosti.
 
 \subsection{Výhody a nevýhody}
 
+Využití přístupu \gls{ADDA} umožňuje splnění požadavků této práce,
+které jsou identifikovány v sekci~\ref{sec:implementation-requirements}.
 \gls{ADDA} poskytuje vývojářům způsob jakým výrazně snížit náklady na vývoj a údržbu
 systému díky snížení duplikace byznysové logiky, které je dosaženo extrakcí aspektů
 do \textit{single focal point} a jejich automatickou distribucí do příslušných komponent
-systému. Tento přístup však nese vysokou počáteční investici v podobě vývoje specializovaných
+systému.
+
+Tento přístup však nese vysokou počáteční investici v podobě vývoje specializovaných
 \gls{DSL} a dynamických aspect weaverů. Ačkoliv autoři tohoto přístupu implementovali prototypy
 knihoven poskytující zmiňovanou funkcionalitu, pro nasazení do reálného systému nejsou tyto
 knihovny připraveny. Pro popis byznysových pravidel využívá \gls{ADDA} nástroj \textit{Drools},
-který je popsán v následující sekci.
-
-Využití přístupu \gls{ADDA} však umožňuje splnění požadavků této práce, které jsou identifikovány
-v sekci~\ref{sec:implementation-requirements}.
-
+který však není pro tento úkol optimální, jak bude popsáno v sekci~\ref{sec:drools}.
 
 \section{Stávaj\'{\i}c\'{\i} řešen\'{\i} správy a reprezentace business pravidel}\label{sec:business-rule-dsl}
 
@@ -353,12 +353,6 @@ administraci. S tím je spojena i snažší škálovatelnost systému. Model kli
 přináší díky centralizaci i lepší zabezpečení, kdy server může snadno definovat a
 vynucovat přístupová pravidla.
 
-Hlavní nevýhodu této architektury je vytvoření jednoho centrálního bodu,
-jehož výpadek ochromí funkci celého systému (v angličtině
-\textit{single point of failure}) -- tímto bodem je server.
-Pokud na serveru nastane chyba či výpadek, žádný z klientů není schopen využívat
-jeho služeb.
-
 \subsection{Remote procedure call}\label{sec:rpc}
 
 Architektura \gls{RPC} staví na modelu klient-server a umožňuje jednomu procesu (klientovi)
@@ -371,9 +365,9 @@ síťovou komunikaci a serializaci či deserializaci argumentů, resp. návratov
 
 \subsection{Representational state transfer}\label{sec:rest}
 
-Representational state transfer (\gls{REST}) je architektura
-webových služeb, která staví na protokolu \gls{HTTP}, a klade na systém
-několik architektonických omezení, díky kterým může systém dosáhnout
+Alternativou k \gls{RPC} je architektura Representational state transfer
+(\gls{REST}). Ta je využívána pro webové služby a staví na protokolu \gls{HTTP}.
+\gls{REST} klade na systém několik architektonických omezení, díky kterým může systém dosáhnout
 lepšího výkonu, vyšší škálovatelnosti, jednoduchému používání
 a lepší odolnosti vůči chybám~\cite{fielding2000rest}. Principy architektury
 \gls{REST} zahrnují využití architektury klient-server, bezestavovost a kešování požadavků,

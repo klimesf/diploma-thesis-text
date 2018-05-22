@@ -5,11 +5,6 @@
     %%ports:%%
       - "5501:5501"
       - "5551:5551"
-    %%depends_on:%%
-      - product
-      - billing
-      - shipping
-      - user
     %%links:%%
       - product
       - user
